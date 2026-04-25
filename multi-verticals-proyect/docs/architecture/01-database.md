@@ -1,13 +1,13 @@
 # 01 · Base de datos
 
-> Stack: **PostgreSQL 16** + **PostGIS** + **pgcrypto** + **Drizzle ORM**
-> Sin Redis. Sin Elasticsearch. Sin licencias. Todo en un solo motor hasta que el volumen exija otra cosa.
+> Stack: **PostgreSQL 16** + **PostGIS** + **pgcrypto** + **pgvector** + **Drizzle ORM**
+> Sin Redis. Sin Elasticsearch. Sin Pinecone. Sin licencias. Todo en un solo motor hasta que el volumen exija otra cosa.
 
 ---
 
 ## Principio rector
 
-PostgreSQL hace el trabajo de cinco herramientas: base de datos relacional, cola de jobs (SKIP LOCKED), búsqueda full-text (tsvector + GIN), geolocalización (PostGIS), y cifrado de columnas (pgcrypto). Cada una de estas capacidades se abstrae detrás de un puerto (interfaz TypeScript) para poder sustituirla sin tocar el dominio.
+PostgreSQL hace el trabajo de seis herramientas: base de datos relacional, cola de jobs (SKIP LOCKED), búsqueda full-text (tsvector + GIN), geolocalización (PostGIS), cifrado de columnas (pgcrypto), y base de datos vectorial para búsqueda semántica (pgvector). Cada una de estas capacidades se abstrae detrás de un puerto (interfaz TypeScript) para poder sustituirla sin tocar el dominio.
 
 ---
 
@@ -18,7 +18,11 @@ CREATE EXTENSION IF NOT EXISTS postgis;       -- geo queries
 CREATE EXTENSION IF NOT EXISTS pgcrypto;      -- cifrado AES-256-GCM por columna
 CREATE EXTENSION IF NOT EXISTS pg_trgm;       -- similaridad de texto para fuzzy search
 CREATE EXTENSION IF NOT EXISTS unaccent;      -- búsquedas sin tildes
+CREATE EXTENSION IF NOT EXISTS vector;        -- pgvector: embeddings y búsqueda semántica
 ```
+
+> `pgvector` se instala desde el inicio aunque no se use todavía. Coste cero en instalación,
+> y evita una migración disruptiva cuando se active la búsqueda semántica (ver sección final).
 
 ---
 
@@ -236,6 +240,116 @@ LIMIT 20 OFFSET $offset;
 Las consultas más frecuentes son búsqueda por vertical + geo. El índice GIST en `location` con filtro por `vertical_id` es el más crítico. En tablas de customers por provider, el índice más usado es `consumer_hash` para lookups de trust signals.
 
 Regla: **ningún endpoint de lectura puede hacer un sequential scan en producción**. Toda query nueva requiere un `EXPLAIN ANALYZE` antes de mergear.
+
+---
+
+## Tabla de eventos / actividad (BRIN index)
+
+Las tablas de eventos crecen de forma append-only y secuencial — exactamente el caso donde el índice BRIN supera al B-tree estándar en varios órdenes de magnitud. Un BRIN sólo almacena el valor mínimo y máximo de `created_at` por bloque físico de disco, lo que lo hace microscópico comparado con un B-tree sobre los mismos datos.
+
+```sql
+-- Tabla de eventos de actividad (logins, contactos, views de ficha...)
+-- Nunca se actualiza — sólo INSERT
+CREATE TABLE activity_events (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  event_type  TEXT NOT NULL,      -- 'provider.viewed' | 'contact.initiated' | 'login' ...
+  actor_id    UUID,               -- provider_id o consumer_hash (nunca PII directo)
+  actor_role  TEXT,               -- 'provider' | 'consumer'
+  vertical    TEXT,
+  metadata    JSONB DEFAULT '{}', -- datos adicionales sin PII
+  created_at  TIMESTAMPTZ DEFAULT now()  -- siempre creciente — clave para BRIN
+) PARTITION BY RANGE (created_at);  -- partición mensual
+
+-- Partición mensual: PostgreSQL sólo toca la partición del mes consultado
+CREATE TABLE activity_events_2025_01
+  PARTITION OF activity_events
+  FOR VALUES FROM ('2025-01-01') TO ('2025-02-01');
+
+-- Índice BRIN: almacena sólo min/max de created_at por bloque físico
+-- Ocupa ~100x menos espacio que un B-tree equivalente
+-- Eficiente porque los datos se insertan en orden cronológico
+CREATE INDEX idx_activity_brin ON activity_events
+  USING BRIN(created_at) WITH (pages_per_range = 128);
+
+-- Para queries de rango temporal (dashboards, analytics)
+-- PostgreSQL descarta particiones y bloques enteros sin leerlos
+SELECT event_type, count(*)
+FROM activity_events
+WHERE created_at >= now() - INTERVAL '7 days'
+  AND vertical = 'hairdresser'
+GROUP BY event_type;
+```
+
+---
+
+## pgvector — Embeddings para búsqueda semántica (preparado, no activo)
+
+La extensión `vector` está instalada desde el inicio. La columna `embedding` en providers se añade en la migración inicial pero permanece vacía (`NULL`) hasta que se active el pipeline de generación de embeddings.
+
+```sql
+-- Añadir columna de embedding a providers (migración inicial, datos NULL)
+ALTER TABLE providers
+  ADD COLUMN embedding vector(384);  -- 384 dims: modelo all-MiniLM-L6-v2 (open source, 80MB)
+
+-- Índice HNSW — sólo se crea cuando haya datos suficientes (>1000 providers)
+-- HNSW: grafo multicapa que permite approximate nearest neighbor en milisegundos
+-- Se comenta en la migración inicial y se descomenta cuando sea necesario
+-- CREATE INDEX idx_providers_embedding ON providers
+--   USING hnsw(embedding vector_cosine_ops)
+--   WITH (m = 16, ef_construction = 64);
+```
+
+```typescript
+// packages/kernel/src/search/embedding.port.ts
+
+// Puerto para generación de embeddings — implementable con modelo local o API
+export interface EmbeddingPort {
+  embed(text: string): Promise<number[]>;
+  embedBatch(texts: string[]): Promise<number[][]>;
+}
+
+// Adapter con modelo local (all-MiniLM-L6-v2 via ONNX — sin llamadas a red)
+// 80MB, corre en CPU, latencia ~20ms por embedding
+export class LocalEmbeddingAdapter implements EmbeddingPort {
+  private session: InferenceSession;
+
+  async embed(text: string): Promise<number[]> {
+    // Tokenizar + inferencia ONNX → vector de 384 dimensiones
+    const output = await this.session.run(tokenize(text));
+    return Array.from(output.embeddings.data as Float32Array);
+  }
+}
+```
+
+```sql
+-- Cuando se active: búsqueda híbrida (semántica + texto + geo en una sola query)
+-- Esto resuelve el "hybrid search problem" sin necesidad de Pinecone ni servicio externo
+SELECT
+  p.id,
+  p.display_name,
+  -- Similitud coseno con el embedding de la query del usuario
+  1 - (p.embedding <=> $query_embedding::vector) AS semantic_score,
+  ts_rank(p.search_vector, to_tsquery('spanish', $text_query))  AS text_score,
+  ST_Distance(p.location, ST_MakePoint($lng, $lat)::GEOGRAPHY)  AS distance_meters
+FROM providers p
+WHERE
+  p.vertical_id   = $vertical_id
+  AND p.is_active = true
+  AND p.embedding IS NOT NULL
+  -- Filtro geográfico (relacional) combinado con búsqueda vectorial — en una sola query
+  AND ST_DWithin(p.location, ST_MakePoint($lng, $lat)::GEOGRAPHY, $radius_meters)
+ORDER BY
+  -- Puntuación combinada: 40% semántica + 30% texto + 30% proximidad
+  (  (1 - (p.embedding <=> $query_embedding::vector)) * 0.4
+   + ts_rank(p.search_vector, to_tsquery('spanish', $text_query)) * 0.3
+  ) DESC,
+  distance_meters ASC NULLS LAST
+LIMIT $limit;
+```
+
+> **Cuándo activar**: cuando los usuarios expresen que no encuentran lo que buscan con la búsqueda
+> actual. El modelo `all-MiniLM-L6-v2` es MIT, pesa 80MB y corre en CPU sin GPU. Los embeddings
+> se generan una vez por provider y se actualizan sólo cuando cambia `bio` o `display_name`.
 
 ---
 

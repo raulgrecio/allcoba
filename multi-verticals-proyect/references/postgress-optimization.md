@@ -1,8 +1,20 @@
 ---
-# transcribe: https://www.youtube.com/watch?v=TdondBmyNXc&list=PLm2_5ZtdgU_BEHhYwt0eEYKj5ohbPzAXP&index=3
-# analyze: https://www.youtube.com/watch?v=TdondBmyNXc&t=0s
-# notes:  optimize-your-architecture-with-the-postgress-data-platform
-# prompt:
+title: "I replaced my entire stack with Postgres: Architecture Optimization"
+source: "https://www.youtube.com/watch?v=TdondBmyNXc"
+author: "Fireship"
+date: 2026-04-25
+category: Database Architecture
+tags: [postgres, sql, optimization, system-design, backend, scalability]
+summary: "Una guía profunda sobre cómo consolidar una infraestructura técnica compleja utilizando PostgreSQL como plataforma única, reemplazando servicios especializados como Redis, MongoDB, Elasticsearch y bases de datos vectoriales."
+technologies:
+  - JSONB (NoSQL Replacement)
+  - SKIP LOCKED (Message Queues)
+  - TSVector/TSQuery (Full-Text Search)
+  - pgvector (AI/Vector Database)
+  - PostGIS (Spatial Data)
+  - BRIN/Partitioning (Time Series)
+  - Materialized Views (Analytics)
+  - PostgREST/RLS (Backend-as-a-Service)
 ---
 
 I just replaced my entire tech stack

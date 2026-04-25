@@ -25,9 +25,11 @@ Conecta providers (vendedores/negocios) con consumers (compradores/clientes) en 
 2. **Vertical slicing**. Cada vertical del negocio (peluquería, inmobiliaria…) es un módulo independiente en `src/modules/<vertical>/`. Comparten un kernel (`src/kernel/`) pero nunca se importan entre sí.
 
 3. **Dependency rule**: las dependencias apuntan siempre hacia el centro.
+
    ```
    Infrastructure → Application → Domain
    ```
+
    El dominio no sabe que existe una base de datos.
 
 4. **Tenant isolation total**. Nunca construyas una query que pueda devolver datos de otro provider. El `provider_id` siempre viene del JWT verificado, nunca del body/query string.
@@ -40,24 +42,25 @@ Conecta providers (vendedores/negocios) con consumers (compradores/clientes) en 
 
 ## Stack tecnológico
 
-| Capa | Tecnología | Alternativa futura |
-|------|-----------|-------------------|
-| API | Node.js 22 + Fastify + TypeScript | — |
-| ORM | Drizzle ORM | — |
-| Base de datos | PostgreSQL 16 + PostGIS + pgcrypto | — |
-| Cola de jobs | pg-boss (PostgreSQL) | BullMQ + Redis |
-| Full-text search | PostgreSQL tsvector + GIN | Typesense / Meilisearch |
-| Cache | LRU in-process + Materialized views | Redis |
-| Web frontend | Astro + React islands + Tailwind v4 | — |
-| App móvil | Flutter + Riverpod | — |
-| Mapas | MapLibre GL (web) + flutter_map (app) | — |
-| Storage de media | Cloudflare R2 | Backblaze B2 |
-| IA local | Llama 3.2 3B / ONNX Runtime | — |
-| Logger | Pino con wrapper propio | — |
-| Testing | Vitest + Testcontainers + Supertest | — |
-| CI/CD | GitHub Actions | — |
+| Capa               | Tecnología                                     | Alternativa futura      |
+| ------------------ | ---------------------------------------------- | ----------------------- |
+| API                | Node.js 22 + Fastify + TypeScript              | —                       |
+| ORM                | Drizzle ORM                                    | —                       |
+| Base de datos      | PostgreSQL 16 + PostGIS + pgcrypto + pgvector  | —                       |
+| Cola de jobs       | pg-boss (PostgreSQL SKIP LOCKED)               | BullMQ + Redis          |
+| Full-text search   | PostgreSQL tsvector + GIN + pg_trgm            | Typesense / Meilisearch |
+| Búsqueda semántica | pgvector + HNSW (preparado, no activo)         | Pinecone (nunca)        |
+| Cache              | LRU in-process + Materialized views            | Redis                   |
+| Web frontend       | Astro + React islands + Tailwind v4            | —                       |
+| App móvil          | Flutter + Riverpod                             | —                       |
+| Mapas              | MapLibre GL (web) + flutter_map (app)          | —                       |
+| Storage de media   | Cloudflare R2                                  | Backblaze B2            |
+| IA local           | Llama 3.2 3B / ONNX Runtime / all-MiniLM-L6-v2 | —                       |
+| Logger             | Pino con wrapper propio                        | —                       |
+| Testing            | Vitest + Testcontainers + Supertest            | —                       |
+| CI/CD              | GitHub Actions                                 | —                       |
 
-**Sin Firebase. Sin Prisma. Sin Next.js. Sin licencias de pago.**
+**Sin Firebase. Sin Prisma. Sin Next.js. Sin Pinecone. Sin licencias de pago.**
 
 ---
 
@@ -99,6 +102,7 @@ Conecta providers (vendedores/negocios) con consumers (compradores/clientes) en 
 ## Convenciones de código
 
 ### Nombrado
+
 - **Use cases**: verbo en infinitivo — `SearchProviders`, `PublishListing`, `RateInteraction`
 - **Ports**: sufijo `Port` — `ProviderRepositoryPort`, `StoragePort`, `QueuePort`
 - **Adapters**: sufijo `Adapter` — `DrizzleProviderAdapter`, `R2StorageAdapter`
@@ -106,6 +110,7 @@ Conecta providers (vendedores/negocios) con consumers (compradores/clientes) en 
 - **Errores de dominio**: sufijo `Error` — `ProviderNotFoundError`, `TenantViolationError`
 
 ### Estructura de un módulo vertical
+
 ```
 src/modules/hairdresser/
 ├── domain/
@@ -122,6 +127,7 @@ src/modules/hairdresser/
 ```
 
 ### Testing
+
 - **Unit** (dominio y use cases): Vitest, sin IO real, sin base de datos
 - **Integration**: Testcontainers lanza PostgreSQL real en Docker
 - **E2E**: Supertest contra la API completa con DB de test
@@ -129,6 +135,7 @@ src/modules/hairdresser/
 - Los tests de integración usan la variable `TEST_DATABASE_URL`
 
 ### Errores y respuestas HTTP
+
 - Los errores de dominio son clases tipadas, nunca strings sueltos
 - El handler de errores de Fastify los mapea a HTTP — este mapeo está en `apps/api/src/error-handler.ts`
 - Nunca lanzar errores HTTP desde el dominio
