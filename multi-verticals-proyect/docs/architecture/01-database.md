@@ -104,6 +104,78 @@ CREATE TABLE agencies (
   updated_at    TIMESTAMPTZ DEFAULT now()
 );
 
+-- Señales de swipe del consumer (discovery social)
+-- El provider nunca ve estas señales — son internas de la plataforma
+CREATE TABLE swipe_signals (
+  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  consumer_id       UUID NOT NULL,
+  provider_id       UUID NOT NULL REFERENCES providers(id),
+  vertical          TEXT NOT NULL,
+  signal            TEXT NOT NULL CHECK (signal IN ('like', 'pass', 'super_like')),
+  position_in_deck  INTEGER,
+  session_id        TEXT,
+  created_at        TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX idx_swipe_consumer_vertical
+  ON swipe_signals(consumer_id, vertical, created_at DESC);
+
+-- Preferencias aprendidas por consumer y vertical (motor de recomendación)
+CREATE TABLE consumer_preferences (
+  consumer_id        UUID NOT NULL,
+  vertical           TEXT NOT NULL,
+  attribute_weights  JSONB NOT NULL DEFAULT '{}',
+  seen_provider_ids  UUID[] NOT NULL DEFAULT '{}',
+  liked_provider_ids UUID[] NOT NULL DEFAULT '{}',
+  last_updated       TIMESTAMPTZ DEFAULT now(),
+  PRIMARY KEY (consumer_id, vertical)
+);
+
+-- Plantilla semanal del provider (genera slots automáticamente)
+CREATE TABLE provider_schedule_templates (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  provider_id UUID NOT NULL REFERENCES providers(id),
+  day_of_week INTEGER NOT NULL CHECK (day_of_week BETWEEN 0 AND 6),
+  start_time  TIME NOT NULL,
+  end_time    TIME NOT NULL,
+  is_active   BOOLEAN DEFAULT true,
+  created_at  TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (provider_id, day_of_week, start_time)
+);
+
+-- Configuración de descanso por servicio
+-- buffer_after_min DEFAULT = duration_min (el provider puede cambiarlo)
+CREATE TABLE provider_service_config (
+  provider_id      UUID NOT NULL REFERENCES providers(id),
+  service_id       UUID NOT NULL,
+  duration_min     INTEGER NOT NULL,
+  buffer_after_min INTEGER NOT NULL,  -- descanso tras el servicio
+  max_per_day      INTEGER,           -- NULL = sin límite
+  created_at       TIMESTAMPTZ DEFAULT now(),
+  updated_at       TIMESTAMPTZ DEFAULT now(),
+  PRIMARY KEY (provider_id, service_id)
+);
+
+-- Slots de disponibilidad publicados por el provider
+CREATE TABLE appointment_slots (
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  provider_id      UUID NOT NULL REFERENCES providers(id),
+  service_id       UUID,
+  starts_at        TIMESTAMPTZ NOT NULL,
+  ends_at          TIMESTAMPTZ NOT NULL,
+  buffer_after_min INTEGER NOT NULL DEFAULT 0,  -- descanso tras el slot (no ocupa slot)
+  status           TEXT NOT NULL DEFAULT 'available'
+                   CHECK (status IN ('available', 'booked', 'blocked', 'cancelled')),
+  origin           TEXT NOT NULL DEFAULT 'template'
+                   CHECK (origin IN ('template', 'manual')),
+  notes            TEXT,
+  created_at       TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX idx_slots_provider_time
+  ON appointment_slots(provider_id, starts_at)
+  WHERE status = 'available';
+
 -- Trust signals globales (anonimizados, cross-tenant)
 -- Nunca contienen datos personales del consumer
 CREATE TABLE trust_signal_contributions (
@@ -165,12 +237,51 @@ CREATE TABLE provider_{id}.services (
   id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name         TEXT NOT NULL,
   description  TEXT,
-  price_cents  INTEGER,          -- NULL si precio variable
-  duration_min INTEGER,          -- duración estimada en minutos
+  price_cents  INTEGER,
+  duration_min INTEGER,
   is_package   BOOLEAN DEFAULT false,
   is_active    BOOLEAN DEFAULT true,
-  attributes   JSONB DEFAULT '{}',  -- atributos específicos de la vertical
+  attributes   JSONB DEFAULT '{}',
   created_at   TIMESTAMPTZ DEFAULT now()
+);
+
+-- Citas (entidad central del CRM — cifradas con DEK del provider)
+CREATE TABLE provider_{id}.appointments (
+  id                      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slot_id                 UUID NOT NULL,
+  customer_id             UUID REFERENCES provider_{id}.customers(id),
+  consumer_hash           TEXT NOT NULL,
+  service_id              UUID,
+  status                  TEXT NOT NULL DEFAULT 'pending'
+                          CHECK (status IN ('pending','confirmed','completed','cancelled','no_show')),
+  cancelled_by            TEXT CHECK (cancelled_by IN ('provider','consumer','system')),
+  cancelled_at            TIMESTAMPTZ,
+  cancellation_reason_enc BYTEA,
+  notes_enc               BYTEA,
+  consumer_notes_enc      BYTEA,
+  reminder_24h_sent       BOOLEAN DEFAULT false,
+  reminder_2h_sent        BOOLEAN DEFAULT false,
+  price_cents             INTEGER,
+  duration_min            INTEGER,
+  booked_at               TIMESTAMPTZ DEFAULT now(),
+  updated_at              TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE INDEX idx_appt_upcoming ON provider_{id}.appointments(status, slot_id)
+  WHERE status IN ('pending', 'confirmed');
+
+-- Estadísticas CRM por cliente (en claro — consultas rápidas sin descifrar)
+CREATE TABLE provider_{id}.customer_stats (
+  customer_id          UUID PRIMARY KEY REFERENCES provider_{id}.customers(id),
+  total_appointments   INTEGER DEFAULT 0,
+  completed_count      INTEGER DEFAULT 0,
+  cancelled_count      INTEGER DEFAULT 0,
+  no_show_count        INTEGER DEFAULT 0,
+  total_spent_cents    INTEGER DEFAULT 0,
+  first_appointment_at TIMESTAMPTZ,
+  last_appointment_at  TIMESTAMPTZ,
+  next_appointment_at  TIMESTAMPTZ,
+  updated_at           TIMESTAMPTZ DEFAULT now()
 );
 ```
 
@@ -304,19 +415,19 @@ ALTER TABLE providers
 
 // Puerto para generación de embeddings — implementable con modelo local o API
 export interface EmbeddingPort {
-  embed(text: string): Promise<number[]>;
-  embedBatch(texts: string[]): Promise<number[][]>;
+  embed(text: string): Promise<number[]>
+  embedBatch(texts: string[]): Promise<number[][]>
 }
 
 // Adapter con modelo local (all-MiniLM-L6-v2 via ONNX — sin llamadas a red)
 // 80MB, corre en CPU, latencia ~20ms por embedding
 export class LocalEmbeddingAdapter implements EmbeddingPort {
-  private session: InferenceSession;
+  private session: InferenceSession
 
   async embed(text: string): Promise<number[]> {
     // Tokenizar + inferencia ONNX → vector de 384 dimensiones
-    const output = await this.session.run(tokenize(text));
-    return Array.from(output.embeddings.data as Float32Array);
+    const output = await this.session.run(tokenize(text))
+    return Array.from(output.embeddings.data as Float32Array)
   }
 }
 ```
