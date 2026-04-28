@@ -80,7 +80,7 @@ de ahora usa sólo los tokens — nunca valores hardcoded.
 **Objetivo:** Librería de componentes UI que usará toda la app.
 Diseñar en Figma primero, implementar después.
 
-**Componentes web (Astro + React + Tailwind):**
+**Componentes web (React + shadcn/ui + Tailwind):**
 
 ```
 Átomos:

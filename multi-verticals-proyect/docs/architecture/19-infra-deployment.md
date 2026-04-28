@@ -15,24 +15,24 @@ Cada servicio externo se usa a través de un adapter (ver arquitectura hexagonal
 
 Para validar el producto. Límites de free tier suficientes para primeros 100-500 providers.
 
-| Servicio | Proveedor | Free tier |
-|----------|-----------|-----------|
-| PostgreSQL | **Supabase** | 500MB, 2 proyectos |
-| API (Node.js) | **Railway** | 500h/mes, 512MB RAM |
-| Workers (IA, ETL) | **Railway** | segundo servicio en el mismo proyecto |
-| Web frontend | **Cloudflare Pages** | ilimitado, CDN global |
-| Imágenes (R2) | **Cloudflare R2** | 10GB, 0 egress fees |
-| Logs | **Grafana Cloud** | 50GB/mes |
-| Errores | **Sentry** | 5K errores/mes |
-| Push notifications | **FCM** (Firebase Cloud Messaging) | gratuito, sólo mensajería |
+| Servicio           | Proveedor                          | Free tier                             |
+| ------------------ | ---------------------------------- | ------------------------------------- |
+| PostgreSQL         | **Supabase**                       | 500MB, 2 proyectos                    |
+| API (Node.js)      | **Railway**                        | 500h/mes, 512MB RAM                   |
+| Workers (IA, ETL)  | **Railway**                        | segundo servicio en el mismo proyecto |
+| Web frontend       | **Cloudflare Pages**               | ilimitado, CDN global                 |
+| Imágenes (R2)      | **Cloudflare R2**                  | 10GB, 0 egress fees                   |
+| Logs               | **Grafana Cloud**                  | 50GB/mes                              |
+| Errores            | **Sentry**                         | 5K errores/mes                        |
+| Push notifications | **FCM** (Firebase Cloud Messaging) | gratuito, sólo mensajería             |
 
 **Importante sobre Supabase**: se usa únicamente como PostgreSQL gestionado. No se usa Supabase Auth, Supabase Storage, Supabase Realtime, ni ninguna API propietaria de Supabase. La conexión es un `DATABASE_URL` estándar de PostgreSQL.
 
 ```
 Arquitectura Fase 0:
 
-  [Cloudflare Pages]     [Railway: API]        [Supabase PostgreSQL]
-  Astro + React          Fastify + Node.js  ←→  marketplace DB
+  [Vercel Pages]         [Railway: API]        [Supabase PostgreSQL]
+  React + Nextjs         Fastify + Node.js  ←→  marketplace DB
                                             ←→  keymanagement DB
   [Flutter App]          [Railway: Workers]  →  [Cloudflare R2]
   iOS + Android          IA pipeline             imágenes
@@ -45,14 +45,14 @@ Arquitectura Fase 0:
 
 Cuando el free tier de Supabase/Railway se queda corto (~500 providers activos, ~10K requests/día).
 
-| Servicio | Proveedor | Coste aprox. |
-|----------|-----------|-------------|
-| PostgreSQL + PostGIS | **Hetzner VPS CX21** (2vCPU, 4GB) | ~6€/mes |
-| API + Workers | **Hetzner VPS CX21** | ~6€/mes (mismo VPS o segundo) |
-| Backups | **Backblaze B2** | ~0€ (10GB free, luego $0.006/GB) |
-| Exposición pública | **Cloudflare Tunnel** | gratuito |
-| Web frontend | **Cloudflare Pages** | gratuito |
-| R2 imágenes | **Cloudflare R2** | ~0€ hasta 10GB |
+| Servicio             | Proveedor                         | Coste aprox.                     |
+| -------------------- | --------------------------------- | -------------------------------- |
+| PostgreSQL + PostGIS | **Hetzner VPS CX21** (2vCPU, 4GB) | ~6€/mes                          |
+| API + Workers        | **Hetzner VPS CX21**              | ~6€/mes (mismo VPS o segundo)    |
+| Backups              | **Backblaze B2**                  | ~0€ (10GB free, luego $0.006/GB) |
+| Exposición pública   | **Cloudflare Tunnel**             | gratuito                         |
+| Web frontend         | **Cloudflare Pages**              | gratuito                         |
+| R2 imágenes          | **Cloudflare R2**                 | ~0€ hasta 10GB                   |
 
 ```
 Arquitectura Fase 1:
@@ -74,7 +74,7 @@ Arquitectura Fase 1:
 
 ```yaml
 # infra/docker-compose.yml
-version: '3.9'
+version: "3.9"
 
 services:
   postgres:
@@ -84,19 +84,19 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - '5432:5432'           # sólo en desarrollo — en prod sin puerto público
+      - "5432:5432" # sólo en desarrollo — en prod sin puerto público
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./infra/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-  postgres_keys:              # base de datos de claves — completamente separada
+  postgres_keys: # base de datos de claves — completamente separada
     image: postgres:16-alpine
     environment:
       POSTGRES_DB: keymanagement
       POSTGRES_USER: ${KM_DB_USER}
       POSTGRES_PASSWORD: ${KM_DB_PASSWORD}
     ports:
-      - '5433:5432'
+      - "5433:5432"
     volumes:
       - keys_data:/var/lib/postgresql/data
 
@@ -109,10 +109,10 @@ services:
       KEY_MGMT_DATABASE_URL: postgresql://${KM_DB_USER}:${KM_DB_PASSWORD}@postgres_keys:5432/keymanagement
       NODE_ENV: development
     ports:
-      - '3000:3000'
+      - "3000:3000"
     depends_on: [postgres, postgres_keys]
     volumes:
-      - ./apps/api/src:/app/src  # hot reload en desarrollo
+      - ./apps/api/src:/app/src # hot reload en desarrollo
 
   worker_ai:
     build:
@@ -121,7 +121,7 @@ services:
     environment:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/marketplace
     volumes:
-      - ./workers/ai-pipeline/models:/app/models  # modelos LLM en local
+      - ./workers/ai-pipeline/models:/app/models # modelos LLM en local
     depends_on: [postgres]
 
 volumes:
@@ -135,13 +135,13 @@ volumes:
 
 Cuando el VPS único no es suficiente (~5K providers activos, ~100K requests/día).
 
-| Componente | Migración |
-|-----------|-----------|
-| PostgreSQL | → **Neon** (serverless, branching) o **RDS PostgreSQL** |
-| Cola de jobs | → **BullMQ + Redis** (Upstash free tier o Redis Cloud) |
-| Search | → **Typesense** self-hosted o **Meilisearch Cloud** |
-| CDN media | → **Bunny.net** ($0.01/GB, más barato que R2 a escala) |
-| API | → múltiples instancias detrás de **Cloudflare Load Balancer** |
+| Componente   | Migración                                                     |
+| ------------ | ------------------------------------------------------------- |
+| PostgreSQL   | → **Neon** (serverless, branching) o **RDS PostgreSQL**       |
+| Cola de jobs | → **BullMQ + Redis** (Upstash free tier o Redis Cloud)        |
+| Search       | → **Typesense** self-hosted o **Meilisearch Cloud**           |
+| CDN media    | → **Bunny.net** ($0.01/GB, más barato que R2 a escala)        |
+| API          | → múltiples instancias detrás de **Cloudflare Load Balancer** |
 
 Cada migración es **independiente** — se puede migrar el search sin tocar la cola, o la cola sin tocar PostgreSQL. Esto es posible porque cada componente está detrás de un adapter.
 

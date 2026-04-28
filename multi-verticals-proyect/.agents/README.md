@@ -15,6 +15,7 @@ Incluir el contenido de la skill en el prompt del agente.
 | Skill | Ruta | Cuándo leerla |
 |-------|------|--------------|
 | TypeScript | `typescript/SKILL.md` | Antes de escribir cualquier fichero `.ts` |
+| Next.js | `nextjs/SKILL.md` | Antes de crear páginas, componentes o API routes en apps/web |
 | Hexagonal Architecture | `hexagonal-architecture/SKILL.md` | Antes de crear entidades, use cases, ports o adapters |
 | Fastify | `fastify/SKILL.md` | Antes de escribir routes, plugins o middleware |
 | Drizzle | `drizzle/SKILL.md` | Antes de definir schemas, queries o migrations |

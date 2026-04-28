@@ -72,7 +72,7 @@ solo ocurren en login, registro, refresh y logout.
 
 5. **Zero secrets en logs**. Pino redact cubre:
    `dek, kek, password, passwordHash, token, secret, authorization,
-   derivedKey, kekEnc, dekEnc, *.dek, *.kek, req.headers.authorization`
+derivedKey, kekEnc, dekEnc, *.dek, *.kek, req.headers.authorization`
 
 6. **Contratos entre servicios via shared-types**. Nunca strings mágicos.
    Cualquier cambio de contrato es un error de TypeScript antes de llegar a producción.
@@ -88,25 +88,25 @@ solo ocurren en login, registro, refresh y logout.
 
 ## Stack tecnológico
 
-| Capa | Tecnología | Alternativa futura |
-|------|-----------|-------------------|
-| Gateway + Servicios | Node.js 22 + Fastify + TypeScript | — |
-| ORM | Drizzle ORM | — |
-| Base de datos | PostgreSQL 16 + PostGIS + pgcrypto + pgvector | — |
-| Cola de jobs | pg-boss (SKIP LOCKED en PostgreSQL) | BullMQ + Redis |
-| Cache de sesiones | In-process Map con TTL | Redis (Upstash) |
-| Full-text search | PostgreSQL tsvector + GIN + pg_trgm | Typesense |
-| Búsqueda semántica | pgvector + HNSW (preparado, no activo) | — |
-| Web frontend | Astro + React islands + Tailwind v4 | — |
-| App móvil | Flutter + Riverpod | — |
-| Mapas | MapLibre GL (web) + flutter_map (app) | — |
-| Storage media | Cloudflare R2 | — |
-| IA local | Llama 3.2 3B + ONNX + all-MiniLM-L6-v2 | — |
-| Logger | Pino con wrapper propio | — |
-| Testing | Vitest + Testcontainers + Supertest | — |
-| CI/CD | GitHub Actions | — |
+| Capa                | Tecnología                                    | Alternativa futura |
+| ------------------- | --------------------------------------------- | ------------------ |
+| Gateway + Servicios | Node.js 22 + Fastify + TypeScript             | —                  |
+| ORM                 | Drizzle ORM                                   | —                  |
+| Base de datos       | PostgreSQL 16 + PostGIS + pgcrypto + pgvector | —                  |
+| Cola de jobs        | pg-boss (SKIP LOCKED en PostgreSQL)           | BullMQ + Redis     |
+| Cache de sesiones   | In-process Map con TTL                        | Redis (Upstash)    |
+| Full-text search    | PostgreSQL tsvector + GIN + pg_trgm           | Typesense          |
+| Búsqueda semántica  | pgvector + HNSW (preparado, no activo)        | —                  |
+| Web frontend        | Next.js 15 App Router + Tailwind v4           | —                  |
+| App móvil           | Flutter + Riverpod                            | —                  |
+| Mapas               | MapLibre GL (web) + flutter_map (app)         | —                  |
+| Storage media       | Cloudflare R2                                 | —                  |
+| IA local            | Llama 3.2 3B + ONNX + all-MiniLM-L6-v2        | —                  |
+| Logger              | Pino con wrapper propio                       | —                  |
+| Testing             | Vitest + Testcontainers + Supertest           | —                  |
+| CI/CD               | GitHub Actions                                | —                  |
 
-**Sin Firebase. Sin Prisma. Sin Next.js. Sin Pinecone. Sin licencias de pago.**
+**Sin Firebase. Sin Prisma. Sin Pinecone. Sin licencias de pago.**
 
 ---
 
@@ -146,7 +146,7 @@ allcoba/
 │   └── shared-types/                  ← contratos entre servicios (TypeScript)
 │
 ├── apps/
-│   ├── web/                           ← Astro frontend
+│   ├── web/                           ← Next.js 15 App Router
 │   │   └── CLAUDE.md
 │   └── mobile/                        ← Flutter app
 │       └── CLAUDE.md
@@ -166,18 +166,18 @@ allcoba/
 
 ## Servicios — responsabilidades y puertos
 
-| Servicio | Puerto | Responsabilidad única |
-|----------|--------|-----------------------|
-| api-gateway | 3000 | Enrutamiento, auth middleware, rate limiting |
-| auth-service | 3001 | JWT, MFA TOTP, KEK/DEK, sesiones, OTP |
-| media-service | 3002 | Upload, moderación IA, variants WebP, R2 |
-| notification-service | 3003 | Push FCM, email, in-app, reintentos |
-| search-service | 3004 | Geo + full-text + vectorial |
-| matching-service | 3005 | Deck, swipe, preferencias, matches |
-| conversation-service | 3006 | Chat, mensajes, historial |
-| appointment-service | 3007 | Citas, agenda, CRM, buffers |
-| reputation-service | 3008 | Trust scores, reviews, anti-manipulación |
-| scraper-service | 3009 | ETL, scraping, entity resolution |
+| Servicio             | Puerto | Responsabilidad única                        |
+| -------------------- | ------ | -------------------------------------------- |
+| api-gateway          | 3000   | Enrutamiento, auth middleware, rate limiting |
+| auth-service         | 3001   | JWT, MFA TOTP, KEK/DEK, sesiones, OTP        |
+| media-service        | 3002   | Upload, moderación IA, variants WebP, R2     |
+| notification-service | 3003   | Push FCM, email, in-app, reintentos          |
+| search-service       | 3004   | Geo + full-text + vectorial                  |
+| matching-service     | 3005   | Deck, swipe, preferencias, matches           |
+| conversation-service | 3006   | Chat, mensajes, historial                    |
+| appointment-service  | 3007   | Citas, agenda, CRM, buffers                  |
+| reputation-service   | 3008   | Trust scores, reviews, anti-manipulación     |
+| scraper-service      | 3009   | ETL, scraping, entity resolution             |
 
 ---
 
@@ -228,7 +228,7 @@ services/media-service/src/     ← código exclusivo de media
 packages/kernel/src/            ← código compartido entre servicios
 packages/domain/src/            ← entidades compartidas
 packages/shared-types/src/      ← contratos TypeScript entre servicios
-apps/web/src/                   ← frontend Astro
+apps/web/src/                   ← Next.js 15 App Router
 apps/mobile/lib/                ← Flutter usa lib/ por convención
 ```
 
@@ -241,12 +241,12 @@ y que cada servicio tenga solo las dependencias que necesita.
 
 ```typescript
 // ✅ CORRECTO — desde packages/ compartidos
-import { logger }           from '@allcoba/kernel'
-import { User }             from '@allcoba/domain'
-import { NotificationType } from '@allcoba/shared-types'
+import { logger } from "@allcoba/kernel";
+import { User } from "@allcoba/domain";
+import { NotificationType } from "@allcoba/shared-types";
 
 // ❌ INCORRECTO — nunca importar de otro servicio directamente
-import { something } from '../../auth-service/src/...'
+import { something } from "../../auth-service/src/...";
 ```
 
 **Gestión del monorepo con npm workspaces:**
@@ -270,6 +270,7 @@ npm run test --workspaces                            # tests de todo
 ## Convenciones de código
 
 ### Nombrado
+
 - **Use cases**: verbo infinitivo — `RegisterUser`, `LoginUser`, `ModerateImage`
 - **Ports**: sufijo `Port` — `UserRepositoryPort`, `StoragePort`, `QueuePort`
 - **Adapters**: sufijo `Adapter` — `DrizzleUserAdapter`, `R2StorageAdapter`
@@ -279,6 +280,7 @@ npm run test --workspaces                            # tests de todo
 - **Headers internos**: `X-` prefix + PascalCase — `X-User-Id`, `X-Session-Id`
 
 ### Estructura interna de cada servicio
+
 ```
 services/auth-service/src/
 ├── domain/
@@ -297,6 +299,7 @@ services/auth-service/src/
 ```
 
 ### Testing por servicio
+
 - **Unit**: Vitest, fakes in-memory, sin IO
 - **Integration**: Testcontainers (PostgreSQL real)
 - **Contract**: tests que verifican que los headers internos son correctos
