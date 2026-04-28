@@ -2,7 +2,7 @@
 
 > Documento de briefing para diseño UI/UX
 > Versión: 2.0
-> Verticales incluidas: Dating · Masajes
+> Verticales incluidas: Dating · Automoción
 > Canales: App móvil (iOS + Android) · Web
 
 ---
@@ -13,6 +13,7 @@ Este documento define **qué hace cada pantalla y cómo se conecta con las demá
 No define colores, tipografías, radios ni componentes visuales — eso es tu trabajo.
 
 El primer paso antes de diseñar pantallas es crear:
+
 1. **Style guide** — paleta, tipografía, iconografía, espaciado, elevación
 2. **Librería de componentes** — botones, inputs, cards, navegación, badges
 3. **Prototipo de flujos** — pantallas conectadas con transiciones
@@ -37,6 +38,7 @@ La vertical Dating tiene una atmósfera inmersiva y personal (fotos a pantalla c
 ## Mecánicas clave a entender antes de diseñar
 
 ### Roles — Presenter y Chooser
+
 Toda la app gira en torno a dos roles con experiencias radicalmente distintas:
 
 **Presenter** — publica su perfil o ficha. Espera. No puede iniciar contacto. Recibe mensajes filtrados por sus propias reglas. En Dating tiene foto obligatoria. En Masajes es un negocio con catálogo y agenda.
@@ -46,7 +48,9 @@ Toda la app gira en torno a dos roles con experiencias radicalmente distintas:
 El mismo usuario puede ser Presenter en una vertical y Chooser en otra.
 
 ### Privacidad por capas — solo Dating
+
 El perfil del Presenter en Dating se revela progresivamente:
+
 - **Capa 1** — visible para todos en el deck (foto, alias, edad, intereses básicos)
 - **Capa 2** — se desbloquea automáticamente cuando hay match (más fotos, más información personal)
 - **Capa 3** — el Presenter decide activamente compartirla con un match específico (contacto directo, info más íntima)
@@ -54,7 +58,9 @@ El perfil del Presenter en Dating se revela progresivamente:
 El Chooser siempre es anónimo. Los Presenters solo ven su reputación acumulada, nunca su identidad real.
 
 ### Plantilla de filtrado — solo Presenter
+
 El Presenter define reglas automáticas para gestionar quién le contacta:
+
 - **Aceptar** → llega a la bandeja principal con notificación
 - **Archivar** → se guarda sin notificación, el Presenter lo revisa cuando quiere
 - **Rechazar** → el Chooser recibe un mensaje genérico, nunca sabe que fue rechazado

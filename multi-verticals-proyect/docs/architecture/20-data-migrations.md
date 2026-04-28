@@ -18,7 +18,7 @@
 
 ## Estructura de ficheros
 
-```
+```text
 infra/
   migrations/
     0001_create_extensions.sql
@@ -59,7 +59,7 @@ npx drizzle-kit migrate
 # 5. Aplicar en CI/staging automáticamente (ver pipeline en 18-testing-strategy.md)
 
 # 6. Aplicar en producción — SIEMPRE con backup previo
-npm run backup:prod && npm run migrate:prod
+pnpm backup:prod && pnpm migrate:prod
 ```
 
 ---
@@ -68,7 +68,7 @@ npm run backup:prod && npm run migrate:prod
 
 Para cambios destructivos (renombrar columna, cambiar tipo) se sigue este patrón de tres fases:
 
-```
+```text
 Fase 1 — Expand (migración + deploy)
   Añadir la columna nueva manteniendo la antigua
   El código escribe en ambas columnas
@@ -183,7 +183,7 @@ Si una migración rompe producción y no hay tiempo para un fix hacia adelante:
 
 ```bash
 # 1. Restaurar el backup inmediatamente anterior
-npm run restore:prod --backup=marketplace_20240115_020000.dump.enc
+pnpm restore:prod --backup=marketplace_20240115_020000.dump.enc
 
 # 2. Desplegar la versión anterior de la aplicación
 git revert HEAD && git push

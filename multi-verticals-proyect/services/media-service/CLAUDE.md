@@ -27,7 +27,7 @@ Servicio Node.js con dos responsabilidades:
 
 ## Estructura de carpetas
 
-```
+```text
 services/media-service/
 ├── src/
 │   ├── index.ts                       ← entry point: carga modelos + suscribe a colas
@@ -76,7 +76,7 @@ services/media-service/
 
 ## Pipeline de moderación de imágenes
 
-```
+```text
 imagen recibida (upload o URL del scraper)
   → validación (formato JPG/PNG/WebP, tamaño, dimensiones mínimas)
   → subida a R2/temp/
@@ -192,13 +192,13 @@ async function main() {
 ## Modelos IA — tabla de referencia
 
 | Modelo | Uso | Tamaño | Licencia | RAM |
-|--------|-----|--------|----------|-----|
+| -------- | --- | ------ | -------- | --- |
 | Llama 3.2 3B Q4_K_M | Análisis conversaciones + extracción texto | ~2GB | Meta community | 3GB |
 | NSFWJS MobileNet | Detección contenido explícito | ~15MB | MIT | <1GB |
 | face-api SSD MobileNet | Detección de caras | ~6MB | MIT | <1GB |
 | all-MiniLM-L6-v2 ONNX | Embeddings semánticos (pgvector) | ~80MB | Apache 2.0 | <1GB |
 
-**RAM total recomendada: 6GB**
+### RAM total recomendada: 6GB
 
 ---
 
@@ -264,21 +264,21 @@ SERVICE_NAME=media-service
 
 ```bash
 # Setup inicial (descargar modelos — ejecutar una vez)
-npm run setup:models
+pnpm setup:models
 
 # Desarrollo
-npm run dev
+pnpm dev
 
 # Build
-npm run build
+pnpm build
 
 # Tests unitarios (modelos mockeados)
-npm run test:unit
+pnpm test:unit
 
 # Tests de integración (Testcontainers)
-npm run test:integration
+pnpm test:integration
 
 # Test de un job específico en local
-npm run test:job -- --job=analyze-conversation --fixture=fixtures/conversation.json
-npm run test:job -- --job=moderate-presenter-image --fixture=fixtures/test-image.jpg
+pnpm test:job -- --job=analyze-conversation --fixture=fixtures/conversation.json
+pnpm test:job -- --job=moderate-presenter-image --fixture=fixtures/test-image.jpg
 ```

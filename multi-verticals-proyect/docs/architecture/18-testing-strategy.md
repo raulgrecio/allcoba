@@ -1,16 +1,16 @@
 # 18 · Estrategia de testing
 
-> Stack: **Vitest** + **Testcontainers** + **Supertest** + **Playwright** (E2E web)
-> Sin Jest. Sin Mocha. Sin mocks de BD — se usa PostgreSQL real en contenedor.
+> Stack: **Vitest** + **Testcontainers** + **Playwright** (E2E web)
+> Sin Jest. Sin Mocha. Sin Supertest — Vitest tiene fetch nativo para tests HTTP.
 
 ---
 
 ## Pirámide de tests
 
-```
+```text
                     ┌─────────┐
                     │   E2E   │  ← pocos, lentos, alto valor
-                    │ (10-20) │     Playwright (web) + Supertest (API completa)
+                    │ (10-20) │     Playwright (web) + vitest fetch (API completa)
                   ┌─┴─────────┴─┐
                   │ Integration │  ← medios, PostgreSQL real via Testcontainers
                   │   (50-100)  │
@@ -55,7 +55,7 @@ describe('Provider entity', () => {
 // Fake in-memory del repositorio — implementa el port
 // apps/api/src/tests/fakes/provider.repository.fake.ts
 import type { ProviderRepositoryPort } from '../../application/ports'
-import type { Provider } from '@marketplace/domain'
+import type { Provider } from '@allcoba/domain'
 
 export class FakeProviderRepository implements ProviderRepositoryPort {
   private store = new Map<string, Provider>()
@@ -307,8 +307,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
       - run: npm ci
-      - run: npm run test:unit
-      - run: npm run test:coverage
+      - run: pnpm test:unit
+      - run: pnpm test:coverage
 
   integration:
     runs-on: ubuntu-latest
@@ -322,7 +322,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
       - run: npm ci
-      - run: npm run test:integration
+      - run: pnpm test:integration
         env:
           TESTCONTAINERS_RYUK_DISABLED: 'true'
 
@@ -331,6 +331,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci
-      - run: npm run test:security   # tests de tenant isolation
+      - run: pnpm test:security   # tests de tenant isolation
       - run: npm audit --audit-level=high  # 0 vulnerabilidades high/critical
 ```

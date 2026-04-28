@@ -12,6 +12,7 @@
 **Microservicios con BD compartida** — no microservicios puros (una BD por servicio).
 
 Razones:
+
 - Desarrollo en paralelo con agentes independientes sin coordinación de BD
 - Cada servicio puede deployarse y escalarse independientemente
 - La BD compartida evita la complejidad de consistencia eventual entre servicios
@@ -21,7 +22,7 @@ Razones:
 
 ## Mapa de servicios
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │                    INTERNET                              │
 └─────────────────────────┬───────────────────────────────┘
@@ -90,6 +91,7 @@ async function verifyToken(token: string): Promise<JWTPayload> {
 ```
 
 **Cuándo SÍ se llama al auth-service:**
+
 - `POST /auth/register` — crear cuenta
 - `POST /auth/login` — obtener tokens
 - `POST /auth/refresh` — renovar access token
@@ -98,6 +100,7 @@ async function verifyToken(token: string): Promise<JWTPayload> {
 - `POST /auth/mfa/verify` — verificar código MFA
 
 **Cuándo NO se llama al auth-service:**
+
 - Todos los demás requests — el JWT se verifica localmente
 
 ---
@@ -231,7 +234,7 @@ export class InternalHttpClient {
 
 **Llamadas síncronas permitidas entre servicios:**
 
-```
+```text
 gateway → auth-service:       login, registro, refresh, logout
 gateway → search-service:     GET /search (Chooser busca Presenters)
 gateway → matching-service:   GET /deck (Chooser pide su deck)
@@ -289,6 +292,7 @@ CREATE SCHEMA shared;       -- tablas que leen múltiples servicios (solo lectur
 ```
 
 **Regla de acceso:**
+
 - Cada servicio tiene credenciales de BD con permisos solo en su schema + lectura en `shared`
 - Ningún servicio escribe en el schema de otro
 - La consistencia entre schemas se mantiene via eventos en la cola, no via foreign keys entre schemas
@@ -428,7 +432,7 @@ docker compose up --scale search-service=3
 
 ### Fase 3 — Extraer un servicio a su propia BD
 
-```
+```text
 Ejemplo: search-service migra a Typesense
 
 1. Añadir adapter Typesense que implementa SearchPort
@@ -466,7 +470,7 @@ export function requestLogger(requestId: string, userId?: string) {
 }
 ```
 
-```
+```text
 Ejemplo de logs trazados:
   gateway         requestId=abc123 → enrutando a matching-service
   matching-service requestId=abc123 → generando deck para userId=xxx

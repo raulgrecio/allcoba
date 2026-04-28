@@ -23,7 +23,7 @@ pg-boss (scraping programado) o por jobs manuales desde el panel de admin.
 
 ## Estructura de carpetas
 
-```
+```text
 services/scraper-service/
 ├── src/
 │   ├── index.ts                        ← entry point: suscribe a colas de scraping
@@ -380,17 +380,17 @@ SERVICE_NAME=scraper-service
 
 ```bash
 # Desarrollo
-npm run dev
+pnpm dev
 
 # Scrapear una vertical manualmente (para pruebas)
-npm run scrape -- --vertical=massage --limit=5 --dry-run
+pnpm scrape -- --vertical=massage --limit=5 --dry-run
 
 # Tests unitarios (sin red, sin BD)
-npm run test:unit
+pnpm test:unit
 
 # Tests de integración (con Testcontainers)
-npm run test:integration
+pnpm test:integration
 
 # Verificar entity resolution sobre datos reales
-npm run test:resolution -- --vertical=massage
+pnpm test:resolution -- --vertical=massage
 ```

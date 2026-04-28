@@ -9,7 +9,7 @@
 
 Código de infraestructura reutilizable entre `apps/api`, `workers/ai-pipeline` y `workers/etl-scraper`. Todo lo que no es dominio pero se usa en más de un proceso.
 
-```
+```text
 packages/kernel/src/
 ├── logger/
 │   └── index.ts              ← wrapper de Pino con redact automático de secretos
@@ -41,7 +41,7 @@ packages/kernel/src/
 ## El logger — uso correcto
 
 ```typescript
-import { logger, requestLogger, jobLogger } from '@marketplace/kernel'
+import { logger, requestLogger, jobLogger } from '@allcoba/kernel'
 
 // En handlers de Fastify — siempre con requestId y tenantId
 const log = requestLogger(request.id, request.user.sub)
@@ -65,6 +65,7 @@ log.info({ conversationId }, 'processing conversation')
 // Store en memoria del proceso — la DEK vive aquí durante la sesión activa
 // TTL = 15 minutos (igual que el JWT access token)
 // Al expirar el JWT, la DEK también desaparece
+// ⚠️ MVP: single-instance. Migrar a Redis para multi-instancia.
 
 class SessionStore {
   private store = new Map<string, { dek: Uint8Array; expiresAt: number }>()
@@ -98,10 +99,10 @@ export const sessionStore = new SessionStore()
 // Importar siempre el port, nunca el adapter directamente
 // El adapter se inyecta en el contenedor de dependencias
 
-import type { QueuePort }    from '@marketplace/kernel'
-import type { SearchPort }   from '@marketplace/kernel'
-import type { StoragePort }  from '@marketplace/kernel'
-import type { EmbeddingPort } from '@marketplace/kernel'
+import type { QueuePort }    from '@allcoba/kernel'
+import type { SearchPort }   from '@allcoba/kernel'
+import type { StoragePort }  from '@allcoba/kernel'
+import type { EmbeddingPort } from '@allcoba/kernel'
 ```
 
 ---
@@ -111,6 +112,6 @@ import type { EmbeddingPort } from '@marketplace/kernel'
 Los adapters del kernel se testean con Testcontainers (PostgreSQL real, R2 mockeado con MinIO local). Los ports no necesitan tests — son interfaces TypeScript.
 
 ```bash
-npm run test:unit          # utils, crypto, session-store
-npm run test:integration   # adapters con contenedores reales
+pnpm test:unit          # utils, crypto, session-store
+pnpm test:integration   # adapters con contenedores reales
 ```

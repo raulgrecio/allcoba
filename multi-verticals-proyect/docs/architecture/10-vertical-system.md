@@ -211,7 +211,7 @@ export const VERTICALS: VerticalConfig[] = [
 ## Cómo añadir una nueva vertical
 
 1. Añadir la definición en `infra/seeds/verticals.ts` (sólo datos, sin código)
-2. Ejecutar `npm run seed:verticals` para insertar en BD
+2. Ejecutar `pnpm seed:verticals` para insertar en BD
 3. Si la vertical requiere etiquetas IA nuevas, actualizar el prompt base en `workers/ai-pipeline/src/prompts/`
 4. Si la vertical tiene reglas de imágenes específicas, configurar `imageRules`
 5. No se necesita código nuevo en la API — el sistema es genérico
