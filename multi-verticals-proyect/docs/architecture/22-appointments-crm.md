@@ -118,7 +118,6 @@ CREATE TABLE provider_{id}.appointments (
   consumer_notes_enc      BYTEA,      -- petición del consumer al reservar (cifrada)
   reminder_24h_sent       BOOLEAN DEFAULT false,
   reminder_2h_sent        BOOLEAN DEFAULT false,
-  price_cents             INTEGER,    -- precio acordado (en claro — para estadísticas)
   duration_min            INTEGER,    -- duración real del servicio
   buffer_after_min        INTEGER,    -- descanso planificado tras la cita
   booked_at               TIMESTAMPTZ DEFAULT now(),

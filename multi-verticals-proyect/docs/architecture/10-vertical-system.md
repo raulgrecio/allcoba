@@ -116,7 +116,6 @@ export const VERTICALS: VerticalConfig[] = [
       { key: 'quality',      label: 'Calidad',     forRole: 'provider' },
       { key: 'cleanliness',  label: 'Limpieza',    forRole: 'provider' },
       { key: 'price_fair',   label: 'Precio justo',forRole: 'provider' },
-      { key: 'payment',      label: 'Pago correcto',forRole: 'consumer' },
     ],
     imageRules: {
       facePolicy: 'optional',
@@ -189,7 +188,6 @@ export const VERTICALS: VerticalConfig[] = [
       { key: 'honesty',      label: 'Honestidad del anuncio', forRole: 'provider' },
       { key: 'price_fair',   label: 'Precio justo',           forRole: 'provider' },
       { key: 'seriousness',  label: 'Seriedad',               forRole: 'both' },
-      { key: 'payment',      label: 'Pago correcto',          forRole: 'consumer' },
     ],
     imageRules: {
       facePolicy: 'forbidden',
