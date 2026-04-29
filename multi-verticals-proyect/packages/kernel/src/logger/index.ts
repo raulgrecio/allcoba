@@ -1,5 +1,6 @@
 import pino from 'pino';
 import type { Logger as PinoLogger } from 'pino';
+import { config } from '../config/index.js';
 
 export type Logger = PinoLogger;
 
@@ -23,8 +24,8 @@ export function createRootLogger(opts?: {
   level?: string;
   pretty?: boolean;
 }): Logger {
-  const level = opts?.level ?? process.env['LOG_LEVEL'] ?? 'info';
-  const pretty = opts?.pretty ?? process.env['NODE_ENV'] !== 'production';
+  const level = opts?.level ?? config.logLevel;
+  const pretty = opts?.pretty ?? config.isDevelopment;
 
   return pino({
     level,
