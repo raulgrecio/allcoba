@@ -46,6 +46,25 @@ describe('createRootLogger', () => {
     const log2 = createRootLogger();
     expect(log1).not.toBe(log2);
   });
+
+  it('should not include service field when not provided', () => {
+    const log = createRootLogger({ pretty: false });
+    const b = log.bindings();
+    expect(b).not.toHaveProperty('service');
+  });
+
+  it('should include service field when provided', () => {
+    const log = createRootLogger({ pretty: false, service: 'auth-service' });
+    const b = log.bindings();
+    expect(b).toHaveProperty('service', 'auth-service');
+  });
+
+  it('should create distinct loggers per service', () => {
+    const auth = createRootLogger({ pretty: false, service: 'auth-service' });
+    const media = createRootLogger({ pretty: false, service: 'media-service' });
+    expect(auth.bindings().service).toBe('auth-service');
+    expect(media.bindings().service).toBe('media-service');
+  });
 });
 
 describe('createRequestLogger', () => {

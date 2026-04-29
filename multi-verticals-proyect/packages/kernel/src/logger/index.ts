@@ -23,11 +23,12 @@ const REDACT_PATHS = [
 export function createRootLogger(opts?: {
   level?: string;
   pretty?: boolean;
+  service?: string;
 }): Logger {
   const level = opts?.level ?? config.logLevel;
   const pretty = opts?.pretty ?? config.isDevelopment;
 
-  return pino({
+  const logger = pino({
     level,
     redact: {
       paths: REDACT_PATHS as unknown as string[],
@@ -37,6 +38,8 @@ export function createRootLogger(opts?: {
       ? { target: 'pino-pretty', options: { colorize: true } }
       : undefined,
   });
+
+  return opts?.service ? logger.child({ service: opts.service }) : logger;
 }
 
 export function createRequestLogger(
