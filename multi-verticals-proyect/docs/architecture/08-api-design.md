@@ -1,7 +1,7 @@
 # 08 · Diseño de la API
 
-> Stack: **Fastify** + **Zod** (validación) + **JSON Schema** (documentación automática)
-> REST estándar. Sin GraphQL. Sin tRPC. Contratos predecibles y versionados.
+> Stack: **OpenAPI (Schema-First)** + **Orval** + **Fastify** + **Zod** + **React Query**
+> REST estándar. Diseño API-First con contratos predecibles, generación de tipos estricta y validación automática.
 
 ---
 
@@ -163,29 +163,51 @@ function buildCursorQuery(cursor?: string) {
 
 ---
 
-## Validación de schemas con Zod + Fastify
+## Validación y Tipado End-to-End (OpenAPI + Orval + Zod)
 
+Utilizamos un enfoque **Schema-First**. Los esquemas no se escriben a mano en el backend, sino que se definen en un único archivo `openapi.yaml` y **Orval** genera el código tanto para el Frontend como para el Backend.
+
+### 1. Definición en OpenAPI
+```yaml
+# packages/api-spec/openapi.yaml
+paths:
+  /api/v1/search:
+    get:
+      parameters:
+        - name: radius
+          in: query
+          schema:
+            type: number
+            minimum: 100
+            maximum: 50000
+            default: 5000
+```
+
+### 2. Uso en el Backend (Fastify)
+Orval autogenera los esquemas de Zod (incluyendo soporte para coerción de tipos en query params).
 ```typescript
-// apps/api/src/modules/providers/http/search.route.ts
-
-const SearchQuerySchema = z.object({
-  vertical: z.string().min(1),
-  lat:      z.coerce.number().min(-90).max(90).optional(),
-  lng:      z.coerce.number().min(-180).max(180).optional(),
-  radius:   z.coerce.number().min(100).max(50000).default(5000),  // metros
-  q:        z.string().max(100).optional(),
-  cursor:   z.string().optional(),
-  limit:    z.coerce.number().min(1).max(50).default(20),
-})
+// services/search-service/src/http/search.route.ts
+import { getSearchQuerySchema } from '@allcoba/api-zod';
 
 fastify.get('/api/v1/search', {
   schema: {
-    querystring: zodToJsonSchema(SearchQuerySchema),  // documentación automática
+    querystring: getSearchQuerySchema // Generado automáticamente por Orval
   },
 }, async (request, reply) => {
-  const query = SearchQuerySchema.parse(request.query)
-  // ...
+  // request.query ya está 100% tipado y validado
 })
+```
+
+### 3. Uso en el Frontend (React)
+El Frontend consume el hook generado por Orval sin escribir llamadas fetch manuales.
+```tsx
+// apps/web/src/components/Search.tsx
+import { useGetSearch } from '@allcoba/api-client-react';
+
+function SearchComponent() {
+  const { data, isLoading } = useGetSearch({ vertical: 'dating', radius: 1000 });
+  // 'data' tiene tipado estricto basado en el openapi.yaml
+}
 ```
 
 ---

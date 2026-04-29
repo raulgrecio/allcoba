@@ -90,7 +90,8 @@ derivedKey, kekEnc, dekEnc, *.dek, *.kek, req.headers.authorization`
 
 | Capa                | Tecnología                                    | Alternativa futura |
 | ------------------- | --------------------------------------------- | ------------------ |
-| Gateway + Servicios | Node.js 22 + Fastify + TypeScript             | —                  |
+| Contrato API        | OpenAPI 3.0 + Orval (Schema-First)            | —                  |
+| Gateway + Servicios | Node.js 22 + Fastify + Zod + TypeScript       | —                  |
 | ORM                 | Drizzle ORM                                   | —                  |
 | Base de datos       | PostgreSQL 16 + PostGIS + pgcrypto + pgvector | —                  |
 | Cola de jobs        | pg-boss (SKIP LOCKED en PostgreSQL)           | BullMQ + Redis     |
