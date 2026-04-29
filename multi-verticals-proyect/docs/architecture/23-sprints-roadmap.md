@@ -1,7 +1,17 @@
 # 23 · Sprints y roadmap
 
+> **⚠️ Este es el plan original.** El documento vivo con el estado actual, decisiones y cambios de secuenciación está en [`docs/ROADMAP.md`](../ROADMAP.md). El registro de decisiones de arquitectura está en [`docs/DECISIONS.md`](../DECISIONS.md).
+>
+> Cambios principales respecto al plan original:
+>
+> - Añadido Sprint 0 (bootstrap del monorepo)
+> - Añadido Sprint de CI/CD + Tooling temprano
+> - Scraper adelantado (de Sprint 12 → tras BD)
+> - Flutter retrasado (a post-MVP)
+> - Vertical 1 cambiada de Masajes a Dating
+>
 > **Equipo:** 1 desarrollador
-> **Verticales MVP:** Masajes + Automoción
+> **Verticales MVP:** Dating + Automoción
 > **Canal prioritario:** Web + App + Scraper (en paralelo desde Sprint 3)
 > **Ritmo:** sprints de 1-2 semanas
 > **Principio:** design system y brand antes que código de producto
@@ -10,7 +20,7 @@
 
 ## Visión general de fases
 
-```
+```text
 FASE 0 — Fundamentos (Sprints 1-2)
   Brand · Design system · Tokens · Componentes base
   Sin una línea de código de producto hasta tener esto cerrado.
@@ -42,7 +52,7 @@ Sin esto, web y app serán inconsistentes y habrá que rehacer trabajo.
 
 **Entregables:**
 
-```
+```text
 Brand foundation:
   □ Naming y claim del proyecto
   □ Logo (versión principal + icono + versión monocroma)
@@ -82,7 +92,7 @@ Diseñar en Figma primero, implementar después.
 
 **Componentes web (React + shadcn/ui + Tailwind):**
 
-```
+```text
 Átomos:
   □ Button (primary, secondary, ghost, destructive) + estados
   □ Input (text, search, select, textarea) + estados + error
@@ -115,7 +125,7 @@ Layouts:
 
 **Componentes app (Flutter + tokens.dart):**
 
-```
+```text
   □ AppButton (equivalente al Button web)
   □ AppInput
   □ ProviderCard (adaptado a mobile)
@@ -146,7 +156,7 @@ Un diseñador (o tú mismo) puede revisar cada variante sin levantar la app comp
 **Objetivo:** PostgreSQL funcionando localmente con todas las extensiones,
 migraciones base aplicadas, y Docker Compose listo.
 
-```
+```text
 Infraestructura:
   □ docker-compose.yml completo (postgres + postgres_keys + api + workers)
   □ .env.example con todas las variables documentadas
@@ -163,7 +173,7 @@ Base de datos:
 Drizzle ORM:
   □ Schema TypeScript de todas las tablas globales
   □ drizzle.config.ts configurado
-  □ npm run migrate y npm run seed funcionando
+  □ pnpm migrate y pnpm seed funcionando
 
 Tests de infraestructura:
   □ Testcontainers: PostgreSQL real en tests
@@ -179,7 +189,7 @@ Tests de infraestructura:
 **Objetivo:** El sistema de auth y cifrado completo y testeado.
 Es el sprint más crítico de seguridad — hacerlo bien o no hacerlo.
 
-```
+```text
 Auth:
   □ RegisterProvider use case + adapter
   □ LoginProvider use case (con generación de DEK en sesión)
@@ -220,7 +230,7 @@ Tests de seguridad (obligatorios antes de continuar):
 **Objetivo:** Fastify con todos los plugins, pg-boss funcionando,
 y el esqueleto de módulos de la API.
 
-```
+```text
 API Fastify:
   □ app.ts con todos los plugins registrados (jwt, cors, helmet, rate-limit)
   □ error-handler.ts con todos los errores de dominio mapeados
@@ -244,12 +254,12 @@ Testing:
 
 ## FASE 2 — Verticales MVP
 
-### Sprint 6 · Vertical Masajes — Provider side (1-2 semanas)
+### Sprint 6 · Vertical Dating — Provider side (1-2 semanas)
 
 **Objetivo:** Un provider de masajes puede registrarse, completar su ficha,
 subir fotos y publicar su catálogo de servicios.
 
-```
+```text
 Dominio:
   □ Provider entity con value objects (Slug, GeoPoint, ServicePrice)
   □ Service entity con ServicePackage
@@ -285,11 +295,11 @@ Tests:
 
 ---
 
-### Sprint 7 · Vertical Masajes — Consumer side + Búsqueda (1-2 semanas)
+### Sprint 7 · Vertical Dating — Consumer side + Búsqueda (1-2 semanas)
 
 **Objetivo:** Un consumer puede buscar masajistas, ver su ficha y contactar.
 
-```
+```text
 Búsqueda:
   □ PostgresSearchAdapter con tsvector + PostGIS
   □ Índices verificados con EXPLAIN ANALYZE
@@ -328,7 +338,7 @@ Tests:
 **Objetivo:** Replicar el trabajo de los sprints 6-7 para automoción,
 validando que el sistema de verticales es realmente genérico.
 
-```
+```text
   □ VerticalConfig para automoción (atributos: tipo, marcas, financiación)
   □ Seed de datos de automoción
   □ Reglas de imágenes: sin caras, contexto de coches
@@ -348,7 +358,7 @@ Validación del sistema de verticales:
 
 **Objetivo:** El sistema de calificación mutua funcionando.
 
-```
+```text
   □ Review entity con validación anti-manipulación
   □ POST /api/v1/reviews (consumer → provider)
   □ Contribución al trust score (provider → consumer, anónima)
@@ -371,7 +381,7 @@ Tests:
 
 **Objetivo:** App funcionando con auth, navegación y los tokens de diseño.
 
-```
+```text
   □ Estructura de carpetas clean architecture + Riverpod
   □ tokens.dart desde los design tokens del Sprint 1
   □ Componentes Flutter equivalentes a los web (Sprint 2)
@@ -393,7 +403,7 @@ Tests Flutter:
 
 **Objetivo:** El consumer puede buscar y explorar providers en la app.
 
-```
+```text
   □ SearchScreen con filtros por vertical
   □ MapScreen con flutter_map + OSM tiles (sin licencia)
   □ Geolocalización del dispositivo
@@ -411,12 +421,12 @@ Tests:
 
 ---
 
-### Sprint 12 · ETL Scraper — Masajes (1-2 semanas)
+### Sprint 12 · ETL Scraper — Dating (1-2 semanas)
 
 **Objetivo:** Pipeline de scraping para la vertical masajes funcionando.
 Poblar la BD con providers reales para el lanzamiento.
 
-```
+```text
   □ Playwright crawler configurado para fuentes de masajes
   □ Cheerio crawler para páginas estáticas
   □ Normalizer para masajes: extraer nombre, teléfono, dirección, servicios
@@ -438,7 +448,7 @@ Tests:
 
 ### Sprint 13 · ETL Scraper — Automoción (1 semana)
 
-```
+```text
   □ Normalizer para automoción
   □ Fuentes de datos de concesionarios y talleres
   □ Reglas de imágenes específicas (sin caras, contexto de coches)
@@ -453,7 +463,7 @@ Tests:
 
 **Objetivo:** Un masajista puede publicar su agenda y un consumer puede reservar.
 
-```
+```text
   □ provider_schedule_templates: plantilla semanal
   □ provider_service_config: buffer por servicio (default = duración)
   □ GenerateSlotsFromTemplate use case
@@ -479,7 +489,7 @@ Tests:
 
 **Objetivo:** El consumer puede explorar providers con swipe y el sistema aprende.
 
-```
+```text
   □ swipe_signals tabla + consumer_preferences
   □ GenerateDeck use case con filtros de visibilidad
   □ POST /api/v1/discovery/:vertical/swipe
@@ -504,7 +514,7 @@ Tests:
 
 **Objetivo:** El provider tiene visibilidad completa de sus clientes y métricas.
 
-```
+```text
   □ customer_stats: tabla con contadores en claro
   □ GET /api/v1/me/customers — lista con stats y etiquetas IA
   □ GET /api/v1/me/customers/:id — ficha completa con historial de citas
@@ -525,7 +535,7 @@ Tests:
 
 **Objetivo:** Activar la búsqueda semántica con all-MiniLM-L6-v2.
 
-```
+```text
   □ all-MiniLM-L6-v2 ONNX en el worker de IA
   □ Job: generate-embedding para cada provider al crear/actualizar bio
   □ Columna providers.embedding poblada para todas las verticales
@@ -546,7 +556,7 @@ Tests:
 
 ### Sprint 18 · QA + Seguridad + Deploy producción (1-2 semanas)
 
-```
+```text
 Seguridad:
   □ npm audit — 0 vulnerabilidades high/critical
   □ Penetration test básico: OWASP Top 10 checklist manual
@@ -579,7 +589,7 @@ Contenido inicial:
 
 ## Resumen visual de sprints
 
-```
+```text
 Sprint  │ Semanas │ Entregable principal
 ────────┼─────────┼──────────────────────────────────────────────
   1     │  1-2    │ Brand + Design tokens
@@ -587,8 +597,8 @@ Sprint  │ Semanas │ Entregable principal
   3     │  1-2    │ Base de datos + Docker Compose
   4     │  1-2    │ Auth + Cifrado + Key Management
   5     │   1     │ API base + Cola de jobs
-  6     │  1-2    │ Masajes — panel del provider
-  7     │  1-2    │ Masajes — búsqueda + contacto web
+  6     │  1-2    │ Dating — panel del provider
+  7     │  1-2    │ Dating — búsqueda + contacto web
   8     │  1-2    │ Automoción — vertical completa
   9     │   1     │ Reputación + Trust signals
  10     │  1-2    │ Flutter app — estructura base
@@ -610,7 +620,7 @@ TOTAL   │ 20-30   │ semanas (5-7 meses a ritmo sostenible)
 
 Después del Sprint 9 ya tienes algo que puede llegar a usuarios reales:
 
-```
+```text
 ✓ Providers de masajes y automoción pueden registrarse y publicar ficha
 ✓ Consumers pueden buscar por ubicación y ver fichas
 ✓ Contacto anónimo entre provider y consumer
@@ -634,7 +644,7 @@ web es suficiente para validar. Para masajes el móvil importa más.
 
 ## Reglas del proceso
 
-```
+```text
 1. Ningún sprint empieza sin que el anterior tenga sus tests pasando en CI
 2. Ningún componente de producto se toca antes de cerrar el Sprint 2
 3. Cada endpoint nuevo requiere EXPLAIN ANALYZE antes de mergear
@@ -647,7 +657,7 @@ web es suficiente para validar. Para masajes el móvil importa más.
 
 ## Deuda técnica permitida (a resolver antes del Sprint 18)
 
-```
+```text
 Sprint 6-9:  consumerNote en citas no se cifra hasta que el provider la lee
              (lazy encryption — aceptable para MVP)
 Sprint 10:   FCM token se registra sin verificar propiedad del dispositivo

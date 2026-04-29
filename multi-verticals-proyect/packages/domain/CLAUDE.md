@@ -12,15 +12,16 @@
 No importa Fastify. No importa Drizzle. No importa PostgreSQL. No importa Node.js crypto directamente. Si un test de este package necesita levantar una base de datos o una instancia de Fastify, es un error de arquitectura — no un problema del test.
 
 Las únicas dependencias permitidas son:
+
 - `zod` — para value objects con validación
-- `@marketplace/shared-types` — tipos compartidos entre packages
+- `@allcoba/shared-types` — tipos compartidos entre packages
 - Nada más
 
 ---
 
 ## Qué vive aquí
 
-```
+```text
 packages/domain/src/
 ├── provider/
 │   ├── provider.entity.ts          ← entidad Provider con sus invariantes

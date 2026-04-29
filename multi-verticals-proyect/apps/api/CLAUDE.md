@@ -36,7 +36,7 @@ apps/api/src/
 │   ├── conversations/        ← contacto anónimo, mensajes, reveal identity
 │   ├── reviews/              ← calificaciones públicas de providers
 │   └── admin/                ← moderación (sólo platform_admin)
-└── kernel/                   ← re-exports del package @marketplace/kernel
+└── kernel/                   ← re-exports del package @allcoba/kernel
 ```
 
 ### Estructura interna de cada módulo
@@ -163,25 +163,25 @@ SERVICE_NAME=api
 
 ```bash
 # Desarrollo con hot reload
-npm run dev
+pnpm dev
 
 # Build de producción
-npm run build
+pnpm build
 
 # Tests unitarios (sin IO)
-npm run test:unit
+pnpm test:unit
 
 # Tests de integración (levanta PostgreSQL en Docker)
-npm run test:integration
+pnpm test:integration
 
 # Tests de seguridad (tenant isolation)
-npm run test:security
+pnpm test:security
 
 # Linting
-npm run lint
+pnpm lint
 
 # Chequear tipos TypeScript
-npm run typecheck
+pnpm typecheck
 ```
 
 ---
@@ -201,9 +201,9 @@ npm run typecheck
   "pino": "^8",
   "pg-boss": "^9",
   "@sentry/node": "^7",
-  "@marketplace/domain": "workspace:*",
-  "@marketplace/kernel": "workspace:*",
-  "@marketplace/shared-types": "workspace:*"
+  "@allcoba/domain": "workspace:*",
+  "@allcoba/kernel": "workspace:*",
+  "@allcoba/shared-types": "workspace:*"
 }
 ```
 

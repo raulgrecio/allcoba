@@ -57,7 +57,7 @@ interface PublicReview {
 
 interface TrustContribution {
   consumerHash: string
-  dimension: 'punctuality' | 'payment' | 'communication'
+  dimension: 'punctuality' | 'communication'
   rawScore: 1|2|3|4|5
   delta: number    // rawScore normalizado + laplaciano(ε=0.1)
 }

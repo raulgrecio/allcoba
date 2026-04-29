@@ -182,7 +182,7 @@ CREATE TABLE trust_signal_contributions (
   id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   consumer_hash   TEXT NOT NULL,    -- SHA-256(consumer_id || platform_salt) — no reversible
   delta           NUMERIC(5,4) NOT NULL,  -- contribución normalizada con ruido diferencial
-  dimension       TEXT NOT NULL,    -- 'punctuality' | 'payment' | 'communication'
+  dimension       TEXT NOT NULL,    -- 'punctuality' | 'communication'
   created_at      TIMESTAMPTZ DEFAULT now()
 );
 
@@ -192,7 +192,6 @@ CREATE INDEX idx_trust_consumer ON trust_signal_contributions(consumer_hash);
 CREATE TABLE trust_scores (
   consumer_hash     TEXT PRIMARY KEY,
   punctuality_score NUMERIC(3,2) DEFAULT 0,
-  payment_score     NUMERIC(3,2) DEFAULT 0,
   communication_score NUMERIC(3,2) DEFAULT 0,
   total_interactions INTEGER DEFAULT 0,
   last_updated      TIMESTAMPTZ DEFAULT now()

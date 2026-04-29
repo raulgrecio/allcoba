@@ -251,11 +251,11 @@ export function middleware(request: NextRequest) {
 
 ```bash
 # Desarrollo local
-npm run dev        # http://localhost:3001
+pnpm dev        # http://localhost:3001
 
 # Build de producción
-npm run build
-npm run start      # next start — servidor Node.js
+pnpm build
+pnpm start      # next start — servidor Node.js
 
 # Docker (self-hosted)
 # next.config.ts: output: 'standalone'

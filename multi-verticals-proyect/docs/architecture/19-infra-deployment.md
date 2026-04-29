@@ -28,7 +28,7 @@ Para validar el producto. Límites de free tier suficientes para primeros 100-50
 
 **Importante sobre Supabase**: se usa únicamente como PostgreSQL gestionado. No se usa Supabase Auth, Supabase Storage, Supabase Realtime, ni ninguna API propietaria de Supabase. La conexión es un `DATABASE_URL` estándar de PostgreSQL.
 
-```
+```text
 Arquitectura Fase 0:
 
   [Vercel Pages]         [Railway: API]        [Supabase PostgreSQL]
@@ -54,7 +54,7 @@ Cuando el free tier de Supabase/Railway se queda corto (~500 providers activos, 
 | Web frontend         | **Cloudflare Pages**              | gratuito                         |
 | R2 imágenes          | **Cloudflare R2**                 | ~0€ hasta 10GB                   |
 
-```
+```text
 Arquitectura Fase 1:
 
   [Cloudflare CDN]
@@ -149,7 +149,7 @@ Cada migración es **independiente** — se puede migrar el search sin tocar la 
 
 ## Gestión de secretos
 
-```
+```text
 Desarrollo:     .env.local (nunca en git — .gitignore lo excluye)
 Staging/Prod:   Variables de entorno del proveedor de hosting
                 (Railway env vars, Hetzner con vault propio)
@@ -206,7 +206,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 COPY . .
-RUN npm run build
+RUN pnpm build
 
 FROM node:22-alpine AS runner
 WORKDIR /app

@@ -10,7 +10,7 @@
 
 **Allcoba** — plataforma de conexión multi-vertical con privacidad reforzada.
 Conecta Presenters (quien ofrece) con Choosers (quien elige) en verticales independientes.
-Verticales MVP: **Dating · Masajes**.
+Verticales MVP: **Dating · Automoción**.
 
 - La plataforma **nunca gestiona pagos**
 - Los datos personales de cada usuario son **suyos** — cifrados con su propia clave
@@ -22,7 +22,7 @@ Verticales MVP: **Dating · Masajes**.
 
 ## Arquitectura — Microservicios con BD compartida
 
-```
+```text
 Internet
     │
     ▼
@@ -90,7 +90,8 @@ derivedKey, kekEnc, dekEnc, *.dek, *.kek, req.headers.authorization`
 
 | Capa                | Tecnología                                    | Alternativa futura |
 | ------------------- | --------------------------------------------- | ------------------ |
-| Gateway + Servicios | Node.js 22 + Fastify + TypeScript             | —                  |
+| Contrato API        | OpenAPI 3.0 + Orval (Schema-First)            | —                  |
+| Gateway + Servicios | Node.js 22 + Fastify + Zod + TypeScript       | —                  |
 | ORM                 | Drizzle ORM                                   | —                  |
 | Base de datos       | PostgreSQL 16 + PostGIS + pgcrypto + pgvector | —                  |
 | Cola de jobs        | pg-boss (SKIP LOCKED en PostgreSQL)           | BullMQ + Redis     |
@@ -112,7 +113,7 @@ derivedKey, kekEnc, dekEnc, *.dek, *.kek, req.headers.authorization`
 
 ## Estructura del monorepo
 
-```
+```text
 allcoba/
 ├── CLAUDE.md                          ← este fichero
 │
@@ -183,7 +184,7 @@ allcoba/
 
 ## Comunicación entre servicios
 
-```
+```text
 SÍNCRONA (HTTP interno — solo cuando el cliente espera respuesta):
   api-gateway → auth-service      solo en: login, registro, refresh, logout
   api-gateway → search-service    búsquedas en tiempo real
@@ -222,7 +223,7 @@ Estos headers los añade el gateway y los servicios internos los consumen.
 **Cada servicio, package y app tiene su propio `src/` independiente.**
 No existe un `src/` global compartido.
 
-```
+```text
 services/auth-service/src/      ← código exclusivo de auth
 services/media-service/src/     ← código exclusivo de media
 packages/kernel/src/            ← código compartido entre servicios
@@ -249,20 +250,34 @@ import { NotificationType } from "@allcoba/shared-types";
 import { something } from "../../auth-service/src/...";
 ```
 
-**Gestión del monorepo con npm workspaces:**
+**Gestión del monorepo con pnpm workspaces + Turborepo:**
 
 ```json
 // package.json raíz
 {
   "name": "allcoba",
-  "workspaces": ["services/*", "packages/*", "apps/*"]
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck"
+  }
 }
 ```
 
+```yaml
+# pnpm-workspace.yaml
+packages:
+  - "packages/*"
+  - "services/*"
+  - "apps/*"
+```
+
 ```bash
-npm install                                          # instala todas las deps
-npm run dev -w services/auth-service                 # dev de un servicio
-npm run test --workspaces                            # tests de todo
+pnpm install                                            # instala todas las deps
+pnpm --filter @allcoba/kernel test                      # test de un paquete
+pnpm test                                               # turbo test (todos los paquetes)
 ```
 
 ---
@@ -281,7 +296,7 @@ npm run test --workspaces                            # tests de todo
 
 ### Estructura interna de cada servicio
 
-```
+```text
 services/auth-service/src/
 ├── domain/
 │   ├── entities/        ← User, Session, MFASecret

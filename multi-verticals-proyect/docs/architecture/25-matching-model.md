@@ -163,7 +163,7 @@ CREATE TABLE presenter_filter_templates (
 -- Estructura de una regla dentro del JSONB:
 -- {
 --   "condition": {
---     "field":    "trust_score.payment",   -- campo del trust score del Chooser
+--     "field":    "trust_score.punctuality", -- campo del trust score del Chooser
 --     "operator": "lt",                    -- lt | gt | eq | gte | lte
 --     "value":    2.5
 --   },
@@ -182,7 +182,6 @@ interface FilterableChooserFields {
   // Trust signals (cross-platform, anonimizados)
   'trust_score.overall':       number   // 0-5
   'trust_score.punctuality':   number
-  'trust_score.payment':       number
   'trust_score.communication': number
 
   // Actividad en la plataforma
