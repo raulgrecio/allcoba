@@ -12,30 +12,30 @@ class Tokens {
   // --- Colors ---
 
   // Primary
-  static const primary50 = Color(0xFFeef2ff);
-  static const primary100 = Color(0xFFe0e7ff);
-  static const primary200 = Color(0xFFc7d2fe);
-  static const primary300 = Color(0xFFa5b4fc);
-  static const primary400 = Color(0xFF818cf8);
-  static const primary500 = Color(0xFF6366f1);
-  static const primary600 = Color(0xFF4f46e5);
-  static const primary700 = Color(0xFF4338ca);
-  static const primary800 = Color(0xFF3730a3);
-  static const primary900 = Color(0xFF312e81);
-  static const primary950 = Color(0xFF1e1b4b);
+  static const primary50 = Color(0xFFf0fdfa);
+  static const primary100 = Color(0xFFccfbf1);
+  static const primary200 = Color(0xFF99f6e4);
+  static const primary300 = Color(0xFF5eead4);
+  static const primary400 = Color(0xFF2dd4bf);
+  static const primary500 = Color(0xFF14b8a6);
+  static const primary600 = Color(0xFF0d9488);
+  static const primary700 = Color(0xFF0f766e);
+  static const primary800 = Color(0xFF115e59);
+  static const primary900 = Color(0xFF134e4a);
+  static const primary950 = Color(0xFF042f2e);
 
   // Secondary
-  static const secondary50 = Color(0xFFfdf4ff);
-  static const secondary100 = Color(0xFFfae8ff);
-  static const secondary200 = Color(0xFFf5d0fe);
-  static const secondary300 = Color(0xFFf0abfc);
-  static const secondary400 = Color(0xFFe879f9);
-  static const secondary500 = Color(0xFFd946ef);
-  static const secondary600 = Color(0xFFc026d3);
-  static const secondary700 = Color(0xFFa21caf);
-  static const secondary800 = Color(0xFF86198f);
-  static const secondary900 = Color(0xFF701a75);
-  static const secondary950 = Color(0xFF4a044e);
+  static const secondary50 = Color(0xFFfff7ed);
+  static const secondary100 = Color(0xFFffedd5);
+  static const secondary200 = Color(0xFFfed7aa);
+  static const secondary300 = Color(0xFFfdba74);
+  static const secondary400 = Color(0xFFfb923c);
+  static const secondary500 = Color(0xFFf97316);
+  static const secondary600 = Color(0xFFea6c0a);
+  static const secondary700 = Color(0xFFc2410c);
+  static const secondary800 = Color(0xFF9a3412);
+  static const secondary900 = Color(0xFF7c2d12);
+  static const secondary950 = Color(0xFF431407);
 
   // Neutral
   static const neutral0 = Color(0xFFffffff);
