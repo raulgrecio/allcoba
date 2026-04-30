@@ -4,7 +4,10 @@
       "Bash(npx create-next-app@latest . --typescript --eslint --tailwind --app --no-src-dir --import-alias \"@/*\" --use-pnpm --yes)",
       "Bash(npx shadcn@latest *)",
       "Bash(pnpm typecheck *)",
-      "Bash(pnpm build *)"
+      "Bash(pnpm build *)",
+      "Bash(pnpm --filter @allcoba/web build)",
+      "Bash(pnpm install *)",
+      "Bash(node *)"
     ]
   }
 }

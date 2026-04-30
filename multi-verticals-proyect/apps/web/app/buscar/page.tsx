@@ -16,7 +16,7 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ListingCard } from "@/components/cards/ListingCard";
+import { ListingGrid } from "@/components/patterns/ListingGrid";
 import { LISTINGS, CATEGORIES, CONDITION_LABELS } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 import type { Condition, Vertical } from "@/types";
@@ -70,15 +70,15 @@ function BuscarContent() {
 
   function FiltersPanel() {
     return (
-      <div className="space-y-6">
-        <div className="space-y-1">
-          <p className="text-sm font-semibold mb-2">Vertical</p>
+      <div className="space-y-[1.5rem]">
+        <div className="space-y-[0.25rem]">
+          <p className="text-[0.875rem] font-bold mb-[0.5rem] text-foreground">Vertical</p>
           {VERTICALS.map(({ value, label }) => (
             <button
               key={value}
               onClick={() => setVertical(value)}
               className={cn(
-                "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
+                "w-full text-left px-[0.75rem] py-[0.5rem] rounded-[0.5rem] text-[0.875rem] transition-colors",
                 vertical === value
                   ? "bg-primary text-primary-foreground font-medium"
                   : "hover:bg-muted text-foreground"
@@ -89,8 +89,8 @@ function BuscarContent() {
           ))}
         </div>
         <Separator />
-        <div className="space-y-1">
-          <p className="text-sm font-semibold mb-2">Estado</p>
+        <div className="space-y-[0.25rem]">
+          <p className="text-[0.875rem] font-bold mb-[0.5rem] text-foreground">Estado</p>
           {[
             { value: "all" as const, label: "Cualquier estado" },
             ...CONDITIONS.map(([v, l]) => ({ value: v as Condition | "all", label: l })),
@@ -99,7 +99,7 @@ function BuscarContent() {
               key={value}
               onClick={() => setCondition(value)}
               className={cn(
-                "w-full text-left px-3 py-2 rounded-lg text-sm transition-colors",
+                "w-full text-left px-[0.75rem] py-[0.5rem] rounded-[0.5rem] text-[0.875rem] transition-colors",
                 condition === value
                   ? "bg-primary text-primary-foreground font-medium"
                   : "hover:bg-muted text-foreground"
@@ -115,22 +115,22 @@ function BuscarContent() {
 
   return (
     <SiteLayout>
-      <div className="container mx-auto px-4 py-6">
+      <div className="max-w-[80rem] mx-auto px-[1rem] py-[1.5rem]">
         {/* Search bar */}
-        <form onSubmit={handleSearch} className="mb-4">
-          <div className="relative flex items-center max-w-xl">
-            <Search className="absolute left-3 w-4 h-4 text-muted-foreground pointer-events-none" />
+        <form onSubmit={handleSearch} className="mb-[1rem]">
+          <div className="relative flex items-center max-w-[32rem]">
+            <Search className="absolute left-[0.75rem] w-[1rem] h-[1rem] text-muted-foreground pointer-events-none" />
             <Input
               type="search"
               placeholder="Busca en Allcoba..."
               value={localQ}
               onChange={(e) => setLocalQ(e.target.value)}
-              className="pl-9 pr-24 rounded-full h-11"
+              className="pl-[2.25rem] pr-[6rem] rounded-full h-[2.75rem] text-[0.875rem]"
             />
             <Button
               type="submit"
               size="sm"
-              className="absolute right-1.5 rounded-full"
+              className="absolute right-[0.375rem] rounded-full h-[2rem]"
             >
               Buscar
             </Button>
@@ -139,12 +139,12 @@ function BuscarContent() {
 
         {/* Active filters */}
         {activeFilters.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-[0.5rem] mb-[1rem]">
             {activeFilters.map((f) => (
-              <Badge key={f} variant="secondary" className="gap-1">
+              <Badge key={f} variant="secondary" className="gap-[0.25rem] px-[0.625rem] py-[0.125rem]">
                 {f}
                 <X
-                  className="w-3 h-3 cursor-pointer"
+                  className="w-[0.75rem] h-[0.75rem] cursor-pointer"
                   onClick={() => {
                     setVertical("all");
                     setCondition("all");
@@ -155,11 +155,11 @@ function BuscarContent() {
           </div>
         )}
 
-        <div className="flex gap-6">
+        <div className="flex gap-[1.5rem]">
           {/* Sidebar — desktop */}
-          <aside className="hidden md:block w-56 flex-shrink-0">
-            <div className="sticky top-24 bg-card border border-border rounded-2xl p-4">
-              <p className="font-semibold mb-4">Filtros</p>
+          <aside className="hidden md:block w-[14rem] flex-shrink-0">
+            <div className="sticky top-[6rem] bg-card border border-border rounded-[1rem] p-[1rem]">
+              <p className="font-bold mb-[1rem] text-foreground">Filtros</p>
               <FiltersPanel />
             </div>
           </aside>
@@ -167,39 +167,39 @@ function BuscarContent() {
           {/* Results */}
           <div className="flex-1 min-w-0">
             {/* Toolbar */}
-            <div className="flex items-center justify-between mb-4 gap-3">
-              <p className="text-sm text-muted-foreground">
-                <span className="font-semibold text-foreground">{filtered.length}</span> resultados
+            <div className="flex items-center justify-between mb-[1rem] gap-[0.75rem]">
+              <p className="text-[0.875rem] text-muted-foreground">
+                <span className="font-bold text-foreground">{filtered.length}</span> resultados
                 {q && ` para "${q}"`}
               </p>
-              <div className="flex items-center gap-2">
-                {/* Mobile filter — Base UI SheetTrigger accepts className directly */}
+              <div className="flex items-center gap-[0.5rem]">
+                {/* Mobile filter */}
                 <Sheet>
                   <SheetTrigger
                     className={cn(
                       buttonVariants({ variant: "outline", size: "sm" }),
-                      "md:hidden gap-1.5 rounded-full"
+                      "md:hidden gap-[0.375rem] rounded-full h-[2.25rem]"
                     )}
                   >
-                    <SlidersHorizontal className="w-4 h-4" /> Filtros
+                    <SlidersHorizontal className="w-[1rem] h-[1rem]" /> Filtros
                     {activeFilters.length > 0 && (
-                      <Badge className="ml-1 h-4 w-4 p-0 flex items-center justify-center text-[10px] bg-primary text-primary-foreground">
+                      <Badge className="ml-[0.25rem] h-[1rem] w-[1rem] p-0 flex items-center justify-center text-[0.625rem] bg-primary text-primary-foreground">
                         {activeFilters.length}
                       </Badge>
                     )}
                   </SheetTrigger>
-                  <SheetContent side="bottom" className="h-[70vh] rounded-t-2xl">
+                  <SheetContent side="bottom" className="h-[70vh] rounded-t-[1rem]">
                     <SheetHeader>
                       <SheetTitle>Filtros</SheetTitle>
                     </SheetHeader>
-                    <div className="mt-4 overflow-y-auto px-4">
+                    <div className="mt-[1rem] overflow-y-auto px-[1rem]">
                       <FiltersPanel />
                     </div>
                   </SheetContent>
                 </Sheet>
 
                 <Select value={sort} onValueChange={(v) => v && setSort(v)}>
-                  <SelectTrigger className="w-36 h-9 rounded-full text-xs">
+                  <SelectTrigger className="w-[9rem] h-[2.25rem] rounded-full text-[0.75rem]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -212,38 +212,30 @@ function BuscarContent() {
                 <div className="hidden sm:flex border border-border rounded-full overflow-hidden">
                   <button
                     onClick={() => setView("grid")}
-                    className={cn("p-2 transition-colors", view === "grid" ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
+                    className={cn("p-[0.5rem] transition-colors", view === "grid" ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
                   >
-                    <Grid2X2 className="w-4 h-4" />
+                    <Grid2X2 className="w-[1rem] h-[1rem]" />
                   </button>
                   <button
                     onClick={() => setView("list")}
-                    className={cn("p-2 transition-colors", view === "list" ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
+                    className={cn("p-[0.5rem] transition-colors", view === "list" ? "bg-primary text-primary-foreground" : "hover:bg-muted")}
                   >
-                    <List className="w-4 h-4" />
+                    <List className="w-[1rem] h-[1rem]" />
                   </button>
                 </div>
               </div>
             </div>
 
             {filtered.length === 0 ? (
-              <div className="text-center py-20 text-muted-foreground">
-                <p className="text-lg font-semibold mb-2">Sin resultados</p>
-                <p className="text-sm">Prueba con otros términos o quita los filtros.</p>
+              <div className="text-center py-[5rem] text-muted-foreground">
+                <p className="text-[1.125rem] font-bold mb-[0.5rem] text-foreground">Sin resultados</p>
+                <p className="text-[0.875rem]">Prueba con otros términos o quita los filtros.</p>
               </div>
             ) : (
-              <div
-                className={cn(
-                  "grid gap-4",
-                  view === "grid"
-                    ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-                    : "grid-cols-1"
-                )}
-              >
-                {filtered.map((listing, i) => (
-                  <ListingCard key={listing.id} listing={listing} index={i} />
-                ))}
-              </div>
+              <ListingGrid
+                listings={filtered}
+                cols={view === "list" ? "grid-cols-1" : "grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"}
+              />
             )}
           </div>
         </div>
@@ -254,7 +246,7 @@ function BuscarContent() {
 
 export default function BuscarPage() {
   return (
-    <Suspense fallback={<div className="container mx-auto px-4 py-12 text-center text-muted-foreground">Cargando...</div>}>
+    <Suspense fallback={<div className="max-w-[80rem] mx-auto px-[1rem] py-[3rem] text-center text-muted-foreground">Cargando...</div>}>
       <BuscarContent />
     </Suspense>
   );

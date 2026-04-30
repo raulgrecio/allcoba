@@ -29,13 +29,13 @@ export function CategoryCard({ category }: CategoryCardProps) {
 
   return (
     <Link href={`/${category.vertical}?categoria=${category.slug}`}>
-      <div className="group flex flex-col items-center gap-2.5 p-4 rounded-2xl bg-card border border-border hover-elevate cursor-pointer text-center">
-        <div className="p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200">
-          <Icon className="w-6 h-6" />
+      <div className="group flex flex-col items-center gap-[0.625rem] p-[1rem] rounded-[1rem] bg-card border border-border hover-elevate cursor-pointer text-center transition-all duration-300">
+        <div className="p-[0.75rem] rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+          <Icon className="w-[1.5rem] h-[1.5rem]" />
         </div>
         <div>
-          <p className="text-xs font-semibold leading-tight">{category.name}</p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">
+          <p className="text-[0.75rem] font-bold leading-tight">{category.name}</p>
+          <p className="text-[0.625rem] text-muted-foreground mt-[0.125rem] font-medium">
             {category.count.toLocaleString("es-ES")} anuncios
           </p>
         </div>
