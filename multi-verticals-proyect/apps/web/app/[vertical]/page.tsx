@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ListingGrid } from "@/components/patterns/ListingGrid";
-import { CategoryCard } from "@/components/molecules/CategoryCard";
+import { ListingGrid } from "@allcoba/ui";
+import { CategoryCard } from "@allcoba/ui";
 import { LISTINGS, CATEGORIES } from "@/lib/mock-data";
-import type { Vertical } from "@/types";
+import type { Vertical } from "@allcoba/ui";
 
 const VERTICAL_META: Record<Vertical, { name: string; description: string }> = {
   automocion: {

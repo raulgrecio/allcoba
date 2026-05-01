@@ -3,15 +3,16 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin, Star, Shield, ChevronLeft, Truck } from "lucide-react";
 import type { Metadata } from "next";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import { Button, buttonVariants } from "@allcoba/ui";
+import { Badge } from "@allcoba/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@allcoba/ui";
+import { Separator } from "@allcoba/ui";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ListingCard } from "@/components/molecules/ListingCard";
-import { LISTINGS, formatPrice, CONDITION_LABELS } from "@/lib/mock-data";
-import type { Vertical, Seller } from "@/types";
-import { cn } from "@/lib/utils";
+import { ListingCard } from "@allcoba/ui";
+import { LISTINGS } from "@/lib/mock-data";
+import { formatPrice, CONDITION_LABELS } from "@allcoba/ui";
+import type { Vertical, Seller } from "@allcoba/ui";
+import { cn } from "@allcoba/ui";
 
 interface Props {
   params: Promise<{ vertical: Vertical; slug: string }>;

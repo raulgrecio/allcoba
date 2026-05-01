@@ -3,23 +3,24 @@
 import { useState, useMemo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Search, SlidersHorizontal, X, Grid2X2, List } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@allcoba/ui";
+import { Button, buttonVariants } from "@allcoba/ui";
+import { Badge } from "@allcoba/ui";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
+} from "@allcoba/ui";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@allcoba/ui";
+import { Separator } from "@allcoba/ui";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ListingGrid } from "@/components/patterns/ListingGrid";
-import { LISTINGS, CATEGORIES, CONDITION_LABELS } from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
-import type { Condition, Vertical } from "@/types";
+import { ListingGrid } from "@allcoba/ui";
+import { LISTINGS, CATEGORIES } from "@/lib/mock-data";
+import { CONDITION_LABELS } from "@allcoba/ui";
+import { cn } from "@allcoba/ui";
+import type { Condition, Vertical } from "@allcoba/ui";
 
 const VERTICALS: { value: Vertical | "all"; label: string }[] = [
   { value: "all", label: "Todo" },

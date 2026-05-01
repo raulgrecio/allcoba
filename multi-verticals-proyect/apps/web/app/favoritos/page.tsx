@@ -1,8 +1,8 @@
 import { Heart } from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@allcoba/ui";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ListingGrid } from "@/components/patterns/ListingGrid";
+import { ListingGrid } from "@allcoba/ui";
 import { LISTINGS } from "@/lib/mock-data";
 
 export const metadata = { title: "Mis favoritos" };

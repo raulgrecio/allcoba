@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, TrendingUp, Sparkles, MapPin, Clock } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@allcoba/ui";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { ListingCarousel } from "@/components/patterns/ListingCarousel";
-import { CategoryCard } from "@/components/molecules/CategoryCard";
+import { ListingCarousel } from "@allcoba/ui";
+import { CategoryCard } from "@allcoba/ui";
 import {
   CATEGORIES,
   FEATURED_LISTINGS,
@@ -11,7 +11,7 @@ import {
   NEAR_LISTINGS,
   STATS,
 } from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@allcoba/ui";
 
 export default function HomePage() {
   return (

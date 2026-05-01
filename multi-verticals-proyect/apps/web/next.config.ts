@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  transpilePackages: ["@allcoba/ui"],
   images: {
     remotePatterns: [
       {

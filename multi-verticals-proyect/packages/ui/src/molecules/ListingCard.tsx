@@ -1,20 +1,29 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { Heart, MapPin, Truck } from "lucide-react";
 import { motion } from "motion/react";
-import { cn } from "@/lib/utils";
-import { formatPrice, timeAgo, CONDITION_LABELS } from "@/lib/mock-data";
-import type { Listing } from "@/types";
+import { cn } from "../lib/utils";
+import { formatPrice, timeAgo } from "../lib/format";
+import type { Listing } from "../types";
+
+interface BaseLinkProps {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}
+
+const DefaultLink = ({ href, className, children }: BaseLinkProps) => (
+  <a href={href} className={className}>{children}</a>
+);
 
 interface ListingCardProps {
   listing: Listing;
   index?: number;
   variant?: "grid" | "carousel";
+  LinkComponent?: React.ComponentType<BaseLinkProps>;
 }
 
-export function ListingCard({ listing, index = 0, variant = "grid" }: ListingCardProps) {
+export function ListingCard({ listing, index = 0, variant = "grid", LinkComponent = DefaultLink }: ListingCardProps) {
   const isCarousel = variant === "carousel";
 
   return (
@@ -24,7 +33,7 @@ export function ListingCard({ listing, index = 0, variant = "grid" }: ListingCar
       transition={{ duration: 0.2, delay: index * 0.03 }}
       className="group"
     >
-      <Link href={`/${listing.vertical}/${listing.id}`} className={cn("block", !isCarousel && "h-full")}>
+      <LinkComponent href={`/${listing.vertical}/${listing.id}`} className={cn("block", !isCarousel && "h-full")}>
         <div
           className={cn(
             "flex flex-col overflow-hidden transition-all duration-300",
@@ -36,16 +45,10 @@ export function ListingCard({ listing, index = 0, variant = "grid" }: ListingCar
           {/* Image */}
           <div className="relative h-48 sm:h-[17rem] overflow-hidden bg-muted rounded-xl">
             {listing.images[0] ? (
-              <Image
+              <img
                 src={listing.images[0]}
                 alt={listing.title}
-                fill
-                sizes={
-                  isCarousel
-                    ? "200px"
-                    : "(max-width: 48rem) 50vw, (max-width: 80rem) 33vw, 25vw"
-                }
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 loading="lazy"
               />
             ) : (
@@ -136,7 +139,7 @@ export function ListingCard({ listing, index = 0, variant = "grid" }: ListingCar
             )}
           </div>
         </div>
-      </Link>
+      </LinkComponent>
     </motion.article>
   );
 }

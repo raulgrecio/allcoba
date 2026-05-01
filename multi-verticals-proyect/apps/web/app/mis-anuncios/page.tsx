@@ -2,10 +2,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Package, Plus, Eye, Pencil, Trash2 } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@allcoba/ui";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { LISTINGS, formatPrice, timeAgo } from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
+import { LISTINGS } from "@/lib/mock-data";
+import { formatPrice, timeAgo } from "@allcoba/ui";
+import { cn } from "@allcoba/ui";
 
 export const metadata = { title: "Mis anuncios" };
 

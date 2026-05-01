@@ -7,7 +7,8 @@
       "Bash(pnpm build *)",
       "Bash(pnpm --filter @allcoba/web build)",
       "Bash(pnpm install *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(pnpm --filter @allcoba/web typecheck)"
     ]
   }
 }

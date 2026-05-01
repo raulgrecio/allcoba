@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@allcoba/ui";
 
 const inter = Inter({
   variable: "--font-inter",

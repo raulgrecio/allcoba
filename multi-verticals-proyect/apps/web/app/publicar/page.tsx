@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ImagePlus, ArrowRight, ArrowLeft, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
+import { Button } from "@allcoba/ui";
+import { Input } from "@allcoba/ui";
+import { Label } from "@allcoba/ui";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@allcoba/ui";
+import { Badge } from "@allcoba/ui";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CATEGORIES } from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
+import { cn } from "@allcoba/ui";
 
 const STEPS = ["Fotos", "Detalles", "Precio", "Publicar"];
 

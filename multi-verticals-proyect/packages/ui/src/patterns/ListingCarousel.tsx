@@ -2,9 +2,9 @@
 
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ListingCard } from "@/components/molecules/ListingCard";
-import { cn } from "@/lib/utils";
-import type { Listing } from "@/types";
+import { ListingCard } from "../molecules/ListingCard";
+import { cn } from "../lib/utils";
+import type { Listing } from "../types";
 
 interface ListingCarouselProps {
   listings: Listing[];
@@ -33,7 +33,6 @@ export function ListingCarousel({ listings }: ListingCarouselProps) {
         ))}
       </div>
 
-      {/* Desktop nav arrows */}
       <button
         onClick={() => scroll("left")}
         aria-label="Anterior"
