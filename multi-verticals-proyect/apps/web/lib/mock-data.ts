@@ -49,7 +49,7 @@ export const LISTINGS: Listing[] = [
   {
     id: "l3", title: "Masaje relajante 60 min — Centro SpaValencia", price: 45,
     shippingAvailable: false, condition: "nuevo",
-    images: ["https://images.unsplash.com/photo-1600334089648-b0d3d966502e?w=600&h=600&fit=crop"],
+    images: ["https://images.unsplash.com/photo-1658118969652-d195850cf23c?w=600&h=600&fit=crop"],
     city: "Valencia", vertical: "masajes", categorySlug: "masaje-relajante",
     status: "active", isFavorite: false, createdAt: "2025-04-26T09:15:00Z", seller: S2,
     description: "Masaje relajante con aceites naturales. Camilla caliente. 60 minutos.",
@@ -109,7 +109,7 @@ export const LISTINGS: Listing[] = [
   {
     id: "l11", title: "Ford Mustang GT 2017 - 450CV", price: 32000,
     shippingAvailable: false, condition: "buen_estado",
-    images: ["https://images.unsplash.com/photo-1584345604476-8ec5f452d1f2?w=600&h=600&fit=crop"],
+    images: ["https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&h=600&fit=crop"],
     city: "Barcelona", vertical: "automocion", categorySlug: "coches",
     status: "active", isFavorite: false, createdAt: "2025-04-18T14:00:00Z", seller: S1,
   },

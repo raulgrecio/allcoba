@@ -34,7 +34,7 @@ export function ListingCard({ listing, index = 0, variant = "grid" }: ListingCar
           )}
         >
           {/* Image */}
-          <div className="relative aspect-[4/5] overflow-hidden bg-muted rounded-xl">
+          <div className="relative h-48 sm:h-[17rem] overflow-hidden bg-muted rounded-xl">
             {listing.images[0] ? (
               <Image
                 src={listing.images[0]}
@@ -104,26 +104,32 @@ export function ListingCard({ listing, index = 0, variant = "grid" }: ListingCar
             >
               {listing.title}
             </p>
-            <div className="flex items-center gap-1 text-[0.6875rem] text-muted-foreground mt-0.5">
-              {listing.shippingAvailable ? (
-                <span className="text-primary font-medium flex items-center gap-0.5">
-                  <Truck className="w-3 h-3" /> Envío disponible
-                </span>
-              ) : (
-                <span className="flex items-center gap-0.5">
-                  <MapPin className="w-3 h-3 flex-shrink-0" />
-                  {listing.city}
-                </span>
-              )}
-              {!isCarousel && (
-                <span className="ml-auto flex-shrink-0">{timeAgo(listing.createdAt)}</span>
-              )}
-            </div>
-            {!isCarousel && (
+            {isCarousel ? (
+              <div className="flex items-center gap-1 text-[0.6875rem] text-muted-foreground mt-0.5">
+                {listing.shippingAvailable ? (
+                  <span className="text-primary font-medium flex items-center gap-0.5">
+                    <Truck className="w-3 h-3" /> Envío disponible
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-0.5">
+                    <MapPin className="w-3 h-3 flex-shrink-0" />
+                    {listing.city}
+                  </span>
+                )}
+              </div>
+            ) : (
               <div className="mt-auto pt-2 flex items-center justify-between text-[0.6875rem] text-muted-foreground border-t border-border/50">
                 <span className="flex items-center gap-0.5 truncate max-w-[60%]">
-                  <MapPin className="w-3 h-3 flex-shrink-0" />
-                  <span className="truncate">{listing.city}</span>
+                  {listing.shippingAvailable ? (
+                    <span className="text-primary font-medium flex items-center gap-0.5">
+                      <Truck className="w-3 h-3" /> Envío
+                    </span>
+                  ) : (
+                    <>
+                      <MapPin className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">{listing.city}</span>
+                    </>
+                  )}
                 </span>
                 <span className="flex-shrink-0">{timeAgo(listing.createdAt)}</span>
               </div>
