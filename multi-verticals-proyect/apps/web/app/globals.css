@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+@source "../node_modules/@allcoba/ui";
+
 /* ─── Fuente de verdad: design-tokens ─── */
 @import "@allcoba/design-tokens/tokens.css";
 
