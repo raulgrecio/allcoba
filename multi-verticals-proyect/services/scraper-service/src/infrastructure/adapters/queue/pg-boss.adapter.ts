@@ -1,0 +1,53 @@
+import PgBoss from 'pg-boss';
+import type { QueuePort, JobOptions } from '../../../application/ports/queue.port.js';
+import { logger } from '@allcoba/kernel';
+
+export class PgBossQueueAdapter implements QueuePort {
+  private boss: PgBoss;
+
+  constructor(databaseUrl: string) {
+    this.boss = new PgBoss(databaseUrl);
+    
+    this.boss.on('error', (error) => {
+      logger().error({ error }, 'Error en pg-boss');
+    });
+  }
+
+  async start(): Promise<void> {
+    await this.boss.start();
+    logger().info('pg-boss adapter started');
+  }
+
+  async publish<T = any>(name: string, data: T, options?: JobOptions): Promise<string | null> {
+    try {
+      const id = await this.boss.send(name, data as any, {
+        priority: options?.priority,
+        retryLimit: options?.retryLimit,
+        startAfter: options?.startAfter as any,
+      });
+      return id;
+    } catch (error) {
+      logger().error({ error, jobName: name }, 'Error publicando job en pg-boss');
+      return null;
+    }
+  }
+
+  async subscribe<T = any>(name: string, handler: (data: T) => Promise<void>): Promise<void> {
+    await this.boss.work(name, async (job) => {
+      try {
+        await handler(job.data as T);
+      } catch (error) {
+        logger().error({ error, jobId: job.id, jobName: name }, 'Error procesando job en pg-boss');
+        throw error; // pg-boss gestionará el reintento
+      }
+    });
+  }
+
+  async schedule<T = any>(name: string, cron: string, data: T): Promise<void> {
+    await this.boss.schedule(name, cron, data as any);
+  }
+
+  async stop(): Promise<void> {
+    await this.boss.stop();
+  }
+}
