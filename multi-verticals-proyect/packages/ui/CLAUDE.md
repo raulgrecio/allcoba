@@ -159,6 +159,12 @@ cd packages/ui
 pnpm storybook
 ```
 
+Detectar componentes sin story (o crear stubs):
+```bash
+node scripts/gen-stories.mjs           # lista los que faltan
+node scripts/gen-stories.mjs --write   # crea stubs vacíos
+```
+
 ---
 
 ## Lo que NO debe estar en packages/ui
