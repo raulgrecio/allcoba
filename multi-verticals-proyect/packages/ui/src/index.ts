@@ -14,11 +14,11 @@ export { cn } from "./lib/utils";
 export { CONDITION_LABELS, formatPrice, timeAgo } from "./lib/format";
 
 // Primitives
-export { Button, buttonVariants } from "./primitives/button";
-export { Input } from "./primitives/input";
-export { Badge, badgeVariants } from "./primitives/badge";
-export { Avatar, AvatarImage, AvatarFallback } from "./primitives/avatar";
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "./primitives/card";
+export { Button, buttonVariants } from "./components/primitives/button";
+export { Input } from "./components/primitives/input";
+export { Badge, badgeVariants } from "./components/primitives/badge";
+export { Avatar, AvatarImage, AvatarFallback } from "./components/primitives/avatar";
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "./components/primitives/card";
 export {
   Dialog,
   DialogContent,
@@ -27,7 +27,7 @@ export {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./primitives/dialog";
+} from "./components/primitives/dialog";
 export {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,34 +35,34 @@ export {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./primitives/dropdown-menu";
-export { Label } from "./primitives/label";
-export { ScrollArea, ScrollBar } from "./primitives/scroll-area";
+} from "./components/primitives/dropdown-menu";
+export { Label } from "./components/primitives/label";
+export { ScrollArea, ScrollBar } from "./components/primitives/scroll-area";
 export {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./primitives/select";
-export { Separator } from "./primitives/separator";
-export { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./primitives/sheet";
-export { Skeleton } from "./primitives/skeleton";
-export { Toaster } from "./primitives/sonner";
-export { Tabs, TabsContent, TabsList, TabsTrigger } from "./primitives/tabs";
+} from "./components/primitives/select";
+export { Separator } from "./components/primitives/separator";
+export { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./components/primitives/sheet";
+export { Skeleton } from "./components/primitives/skeleton";
+export { Toaster } from "./components/primitives/sonner";
+export { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/primitives/tabs";
 
 // Molecules
-export { ListingCard } from "./molecules/ListingCard";
-export { CategoryCard } from "./molecules/CategoryCard";
+export { ListingCard } from "./components/molecules/ListingCard";
+export { CategoryCard } from "./components/molecules/CategoryCard";
 
 // Shells
-export { HeaderShell } from "./shells/HeaderShell";
-export type { HeaderShellProps, HeaderNavItem } from "./shells/HeaderShell";
-export { FooterShell } from "./shells/FooterShell";
-export type { FooterShellProps, FooterSection, FooterLink } from "./shells/FooterShell";
-export { MobileNavShell } from "./shells/MobileNavShell";
-export type { MobileNavShellProps, MobileNavItem } from "./shells/MobileNavShell";
+export { HeaderShell } from "./components/shells/HeaderShell";
+export type { HeaderShellProps, HeaderNavItem } from "./components/shells/HeaderShell";
+export { FooterShell } from "./components/shells/FooterShell";
+export type { FooterShellProps, FooterSection, FooterLink } from "./components/shells/FooterShell";
+export { MobileNavShell } from "./components/shells/MobileNavShell";
+export type { MobileNavShellProps, MobileNavItem } from "./components/shells/MobileNavShell";
 
 // Patterns
-export { ListingCarousel } from "./patterns/ListingCarousel";
-export { ListingGrid } from "./patterns/ListingGrid";
+export { ListingCarousel } from "./components/patterns/ListingCarousel";
+export { ListingGrid } from "./components/patterns/ListingGrid";

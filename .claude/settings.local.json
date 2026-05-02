@@ -8,7 +8,19 @@
       "Bash(pnpm --filter @allcoba/web build)",
       "Bash(pnpm install *)",
       "Bash(node *)",
-      "Bash(pnpm --filter @allcoba/web typecheck)"
+      "Bash(pnpm --filter @allcoba/web typecheck)",
+      "Bash(mkdir -p src/components)",
+      "Bash(mv src/primitives src/components/primitives)",
+      "Bash(mv src/molecules src/components/molecules)",
+      "Bash(mv src/patterns src/components/patterns)",
+      "Bash(mv src/shells src/components/shells)",
+      "Bash(pnpm --filter @allcoba/ui typecheck)",
+      "Bash(pnpm dlx *)",
+      "Bash(timeout 45 pnpm storybook)",
+      "Bash(timeout 40 pnpm storybook)",
+      "Bash(pnpm storybook *)",
+      "Read(//tmp/**)",
+      "Bash(pkill -f \"storybook dev\")"
     ]
   }
 }
