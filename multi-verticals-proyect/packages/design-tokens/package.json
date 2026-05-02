@@ -13,7 +13,8 @@
     "./preset": {
       "import": "./dist/tailwind-preset.js",
       "types": "./dist/tailwind-preset.d.ts"
-    }
+    },
+    "./tokens.css": "./tokens.css"
   },
   "scripts": {
     "build": "tsc",

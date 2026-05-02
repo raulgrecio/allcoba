@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --eslint --tailwind --app --no-src-dir --import-alias \"@/*\" --use-pnpm --yes)",
+      "Bash(npx shadcn@latest *)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm build *)",
+      "Bash(pnpm --filter @allcoba/web build)",
+      "Bash(pnpm install *)",
+      "Bash(node *)",
+      "Bash(pnpm --filter @allcoba/web typecheck)",
+      "Bash(mkdir -p src/components)",
+      "Bash(mv src/primitives src/components/primitives)",
+      "Bash(mv src/molecules src/components/molecules)",
+      "Bash(mv src/patterns src/components/patterns)",
+      "Bash(mv src/shells src/components/shells)",
+      "Bash(pnpm --filter @allcoba/ui typecheck)",
+      "Bash(pnpm dlx *)",
+      "Bash(timeout 45 pnpm storybook)",
+      "Bash(timeout 40 pnpm storybook)",
+      "Bash(pnpm storybook *)",
+      "Read(//tmp/**)",
+      "Bash(pkill -f \"storybook dev\")",
+      "Bash(/home/rgr/source/marketplace/multi-verticals-proyect/packages/ui/node_modules/.bin/tsc --version)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Bash(node_modules/.bin/tsc --noEmit --listFiles)",
+      "Bash(xargs ls *)"
+    ]
+  }
+}

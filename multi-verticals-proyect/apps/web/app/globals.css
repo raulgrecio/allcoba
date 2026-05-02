@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ─── Fuente de verdad: design-tokens ─── */
+@import "@allcoba/design-tokens/tokens.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── @theme: mapea tokens Allcoba → utilidades Tailwind ─── */
+@theme inline {
+  /* Colores semánticos shadcn */
+  --color-background:        var(--background);
+  --color-foreground:        var(--foreground);
+  --color-card:              var(--card);
+  --color-card-foreground:   var(--card-foreground);
+  --color-popover:           var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary:           var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:         var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:             var(--muted);
+  --color-muted-foreground:  var(--muted-foreground);
+  --color-accent:            var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive:       var(--destructive);
+  --color-border:            var(--border);
+  --color-input:             var(--input);
+  --color-ring:              var(--ring);
+
+  /* Paleta completa Allcoba expuesta como utilidades Tailwind */
+  --color-teal-50:  var(--color-primary-50);
+  --color-teal-100: var(--color-primary-100);
+  --color-teal-200: var(--color-primary-200);
+  --color-teal-300: var(--color-primary-300);
+  --color-teal-400: var(--color-primary-400);
+  --color-teal-500: var(--color-primary-500);
+  --color-teal-600: var(--color-primary-600);
+  --color-teal-700: var(--color-primary-700);
+  --color-teal-800: var(--color-primary-800);
+  --color-teal-900: var(--color-primary-900);
+  --color-teal-950: var(--color-primary-950);
+
+  --color-coral-50:  var(--color-secondary-50);
+  --color-coral-100: var(--color-secondary-100);
+  --color-coral-200: var(--color-secondary-200);
+  --color-coral-300: var(--color-secondary-300);
+  --color-coral-400: var(--color-secondary-400);
+  --color-coral-500: var(--color-secondary-500);
+  --color-coral-600: var(--color-secondary-600);
+  --color-coral-700: var(--color-secondary-700);
+  --color-coral-800: var(--color-secondary-800);
+  --color-coral-900: var(--color-secondary-900);
+  --color-coral-950: var(--color-secondary-950);
+
+  /* Radii */
+  --radius-sm:  calc(var(--radius) * 0.6);
+  --radius-md:  calc(var(--radius) * 0.8);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.6);
+
+  /* Fuentes */
+  --font-sans:    var(--font-inter);
+  --font-display: var(--font-plus-jakarta-sans);
+  --font-mono:    var(--font-geist-mono);
+}
+
+/* ─── Tema claro — referencias a tokens.css ─── */
+:root {
+  /* Primario: teal (#14b8a6) */
+  --primary:            var(--color-primary-500);
+  --primary-foreground: var(--color-neutral-0);
+
+  /* Secundario shadcn: gris neutro suave (para badges, tags) */
+  --secondary:            var(--color-neutral-100);
+  --secondary-foreground: var(--color-neutral-700);
+
+  /* Acento: coral-orange (#f97316) — CTA "Publicar" */
+  --accent:            var(--color-secondary-500);
+  --accent-foreground: var(--color-neutral-0);
+
+  /* Superficies */
+  --background:      var(--color-neutral-50);
+  --foreground:      var(--color-neutral-900);
+  --card:            var(--color-neutral-0);
+  --card-foreground: var(--color-neutral-900);
+  --popover:         var(--color-neutral-0);
+  --popover-foreground: var(--color-neutral-900);
+
+  /* Neutros */
+  --muted:            var(--color-neutral-100);
+  --muted-foreground: var(--color-neutral-500);
+  --border:           var(--color-neutral-200);
+  --input:            var(--color-neutral-200);
+  --ring:             var(--color-primary-500);
+
+  /* Semántico */
+  --destructive: var(--color-error-500);
+
+  /* Radio base */
+  --radius: 0.625rem;
+}
+
+/* ─── Tema oscuro ─── */
+.dark {
+  --primary:            var(--color-primary-400);
+  --primary-foreground: var(--color-neutral-950);
+
+  --secondary:            var(--color-neutral-800);
+  --secondary-foreground: var(--color-neutral-100);
+
+  --accent:            var(--color-secondary-400);
+  --accent-foreground: var(--color-neutral-950);
+
+  --background:      var(--color-neutral-950);
+  --foreground:      var(--color-neutral-50);
+  --card:            var(--color-neutral-900);
+  --card-foreground: var(--color-neutral-50);
+  --popover:         var(--color-neutral-900);
+  --popover-foreground: var(--color-neutral-50);
+
+  --muted:            var(--color-neutral-800);
+  --muted-foreground: var(--color-neutral-400);
+  --border:           rgba(255 255 255 / 0.1);
+  --input:            rgba(255 255 255 / 0.12);
+  --ring:             var(--color-primary-400);
+
+  --destructive: var(--color-error-500);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* ─── Utilidades ─── */
+@layer utilities {
+  .hover-elevate {
+    transition: box-shadow var(--duration-fast, 150ms) ease,
+                transform var(--duration-fast, 150ms) ease;
+  }
+  .hover-elevate:hover {
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgb(0 0 0 / 0.1));
+    transform: translateY(-2px);
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
