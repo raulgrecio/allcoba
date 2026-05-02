@@ -52,12 +52,13 @@ export { Toaster } from "./components/primitives/sonner";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/primitives/tabs";
 
 // Molecules
+export { AppLogo } from "./components/molecules/AppLogo";
 export { ListingCard } from "./components/molecules/ListingCard";
 export { CategoryCard } from "./components/molecules/CategoryCard";
 
 // Shells
 export { HeaderShell } from "./components/shells/HeaderShell";
-export type { HeaderShellProps, HeaderNavItem } from "./components/shells/HeaderShell";
+export type { HeaderShellProps, HeaderNavItem, HeaderUser } from "./components/shells/HeaderShell";
 export { FooterShell } from "./components/shells/FooterShell";
 export type { FooterShellProps, FooterSection, FooterLink } from "./components/shells/FooterShell";
 export { MobileNavShell } from "./components/shells/MobileNavShell";

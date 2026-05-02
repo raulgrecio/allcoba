@@ -1,3 +1,5 @@
+import { AppLogo } from "../molecules/AppLogo";
+
 interface BaseLinkProps {
   href: string;
   className?: string;
@@ -50,12 +52,7 @@ export function FooterShell({
         </div>
 
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-black text-xs leading-none">A</span>
-            </div>
-            <span className="font-display font-bold text-foreground">{brandName}</span>
-          </div>
+          <AppLogo size="sm" />
           <p className="text-xs">
             © {year} {brandName}. {tagline}
           </p>

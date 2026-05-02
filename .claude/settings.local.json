@@ -24,7 +24,14 @@
       "Bash(/home/rgr/source/marketplace/multi-verticals-proyect/packages/ui/node_modules/.bin/tsc --version)",
       "Bash(node_modules/.bin/tsc --noEmit)",
       "Bash(node_modules/.bin/tsc --noEmit --listFiles)",
-      "Bash(xargs ls *)"
+      "Bash(xargs ls *)",
+      "WebFetch(domain:es.wallapop.com)",
+      "Bash(curl -s \"https://es.wallapop.com/\")",
+      "Bash(curl -s \"https://es.wallapop.com/coches-segunda-mano\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(curl -s \"https://web-static.wallapop.com/nextjs/_next/static/css/bbee6f167573340f.css\")",
+      "Bash(curl -s \"https://web-static.wallapop.com/nextjs/_next/static/css/de91cdee11995e7e.css\")",
+      "Bash(curl -s \"https://web-static.wallapop.com/nextjs/_next/static/css/a5f3395acee50c8f.css\")"
     ]
   }
 }
