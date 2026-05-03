@@ -1,8 +1,12 @@
-import { PlaywrightCrawler } from '../../crawler/playwright-crawler.js';
-import type { SourcePort, RawExtraction } from '../../../application/ports/source.port.js';
-import { Vertical } from '../../../domain/entities/vertical.js';
-import { RobotsChecker } from '../../crawler/robots-checker.js';
-import type { CheerioAPI } from 'cheerio';
+import { PlaywrightCrawler } from "../../crawler/playwright-crawler.js";
+import type {
+  SourcePort,
+  RawExtraction,
+} from "../../../application/ports/source.port.js";
+import { Vertical } from "../../../domain/entities/vertical.js";
+import { RobotsChecker } from "../../crawler/robots-checker.js";
+import type { CheerioAPI } from "cheerio";
+import * as cheerio from "cheerio";
 
 export abstract class BaseSourceAdapter implements SourcePort {
   abstract readonly identifier: string;
@@ -15,9 +19,48 @@ export abstract class BaseSourceAdapter implements SourcePort {
   }
 
   abstract canHandle(url: string): boolean;
-  abstract extract(url: string): Promise<RawExtraction>;
 
-  protected detectVertical(url: string): Vertical {
+  /**
+   * EL TEMPLATE METHOD: Define el algoritmo de extracción.
+   */
+  async extract(url: string): Promise<RawExtraction> {
+    const html = await this.browser.fetch(url);
+    const $ = cheerio.load(html);
+
+    return {
+      source: this.identifier,
+      externalId: this.extractId(url, $),
+      url,
+      name: this.extractTitle($),
+      description: this.extractDescription($),
+      address: this.extractAddress($),
+      price: this.extractPrice($), // precio base de referencia
+      phones: await this.extractPhones($, url),
+      imageUrls: this.extractImagesFromDom($, this.getImageSelectors($)),
+      vertical: this.detectVertical(url),
+      attributes: this.extractAttributes($),
+      extractedAt: new Date(),
+    };
+  }
+
+  // Métodos que CADA vertical u obrero debe decidir cómo implementar
+  protected abstract extractId(url: string, $: CheerioAPI): string;
+  protected abstract extractTitle($: CheerioAPI): string;
+  protected abstract extractDescription($: CheerioAPI): string;
+  protected abstract extractAddress($: CheerioAPI): string;
+  protected abstract extractPrice($: CheerioAPI): number | undefined;
+  protected abstract extractAttributes($: CheerioAPI): any;
+  protected abstract getImageSelectors($: CheerioAPI): string[];
+
+  // Opcional: El teléfono puede requerir lógica compleja (clics)
+  protected async extractPhones(
+    _$: CheerioAPI,
+    _url: string,
+  ): Promise<string[]> {
+    return [];
+  }
+
+  protected detectVertical(_url: string): Vertical {
     return this.defaultVertical;
   }
 
@@ -26,51 +69,37 @@ export abstract class BaseSourceAdapter implements SourcePort {
   }
 
   /**
-   * Método de utilidad para extraer imágenes del DOM.
-   * 
-   * ESTRATEGIA:
-   * 1. Si se pasan 'customSelectors', se usan EN EXCLUSIVA (Modo estricto).
-   * 2. Si no se pasan o fallan, se usan los selectores genéricos (Modo emergencia/descubrimiento).
+   * Extracción de imágenes con prioridad a los selectores específicos
    */
-  protected extractImagesFromDom($: CheerioAPI, customSelectors: string[] = []): string[] {
+  protected extractImagesFromDom(
+    $: CheerioAPI,
+    customSelectors: string[] = [],
+  ): string[] {
     const imageUrls: string[] = [];
-    
-    // Función interna para procesar una lista de selectores
     const runSelectors = (selectors: string[]) => {
-      $(selectors.join(',')).each((_: number, el: any) => {
+      $(selectors.join(",")).each((_: number, el: any) => {
         const $el = $(el);
-        const src = $el.attr('src') || $el.attr('data-src') || $el.attr('data-lazy') || $el.attr('data-original');
-        
-        if (src && src.startsWith('http') && !imageUrls.includes(src)) {
-          // Filtro básico anti-ruido (opcional pero recomendado)
-          const isNoise = /logo|icon|avatar|pixel|spinner|gif/i.test(src);
-          if (!isNoise) {
+        const src =
+          $el.attr("src") ||
+          $el.attr("data-src") ||
+          $el.attr("data-lazy") ||
+          $el.attr("data-original");
+        if (src && src.startsWith("http") && !imageUrls.includes(src)) {
+          if (!/logo|icon|avatar|pixel|spinner|gif/i.test(src))
             imageUrls.push(src);
-          }
         }
       });
     };
 
-    // 1. Intentar con los selectores específicos si existen
-    if (customSelectors.length > 0) {
-      runSelectors(customSelectors);
-    }
-
-    // 2. Si no hay resultados o no había selectores, usar la "aspiradora" genérica
+    if (customSelectors.length > 0) runSelectors(customSelectors);
     if (imageUrls.length === 0) {
-      const genericSelectors = [
+      runSelectors([
         'img[src*="static"]',
         'img[src*="images"]',
-        'img[src*="photo"]',
-        'img[class*="image"]',
-        'img[class*="photo"]',
-        'img[class*="gallery"]',
         '[class*="Multimedia"] img',
-        '[class*="Photos"] img'
-      ];
-      runSelectors(genericSelectors);
+        '[class*="Photos"] img',
+      ]);
     }
-
     return imageUrls;
   }
 }

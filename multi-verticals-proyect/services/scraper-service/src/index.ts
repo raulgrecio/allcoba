@@ -1,6 +1,6 @@
 import { ScrapeUrlUseCase } from './application/use-cases/scrape-url.use-case.js';
-import { IdealistaAdapter } from './infrastructure/adapters/sources/idealista.adapter.js';
-import { FotocasaAdapter } from './infrastructure/adapters/sources/fotocasa.adapter.js';
+import { IdealistaAdapter } from './infrastructure/adapters/sources/real-estate/idealista.adapter.js';
+import { FotocasaAdapter } from './infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
 import { JsonFileProviderRepository } from './infrastructure/adapters/persistence/json-file-provider.repository.js';
 import { ConsolidationService } from './domain/services/consolidation.service.js';
 import { SharpHasherAdapter } from './infrastructure/adapters/images/sharp-hasher.adapter.js';
@@ -15,6 +15,8 @@ async function main() {
   const consolidationService = new ConsolidationService();
   const imageHasher = new SharpHasherAdapter();
   const storage = new LocalStorageAdapter();
+  
+  // Adaptadores organizados por su nueva ruta
   const sources = [
     new IdealistaAdapter(),
     new FotocasaAdapter(),
@@ -22,7 +24,7 @@ async function main() {
 
   const scrapeUrlUseCase = new ScrapeUrlUseCase(sources, repository, consolidationService, imageHasher, storage);
 
-  // 2. Procesar argumentos de CLI (para pruebas manuales)
+  // 2. Procesar argumentos de CLI
   const urlArg = process.argv.find((arg: string) => arg.startsWith('--url='));
   if (urlArg) {
     const url = urlArg.split('=')[1];
