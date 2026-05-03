@@ -6,6 +6,7 @@ import type { Provider } from '../../domain/entities/provider.js';
 import type { ImageHasherPort } from '../ports/image-hasher.port.js';
 import type { StoragePort } from '../ports/storage.port.js';
 import { Buffer } from 'buffer';
+import crypto from 'crypto';
 
 export interface ScraperConfig {
   maxImagesToProcess: number;
@@ -41,7 +42,7 @@ export class ScrapeUrlUseCase {
     // 3. Extraer datos crudos
     const raw = await source.extract(url);
     logger().info({ imageUrlsCount: raw.imageUrls.length }, 'HTML extraído, iniciando hashing de imágenes...');
-    
+
     // 3.5. Procesar imágenes: Hash + Almacenamiento
     const processedImages = await Promise.all(
       raw.imageUrls.slice(0, this.config.maxImagesToProcess).map(async (imgUrl, i) => {
@@ -52,20 +53,19 @@ export class ScrapeUrlUseCase {
           const nodeBuffer = Buffer.from(buffer);
 
           // 2. Generar Hash
-          const hash = await this.imageHasher.generateHash(imgUrl); 
+          const hash = await this.imageHasher.generateHash(nodeBuffer);
 
-          // 3. ¿Ya tenemos este hash? (Ahorro de Tráfico OUT y Disco)
+          // 3. ¿Ya tenemos este hash?
           const existingProviders = await this.repository.find({ imageHash: hash });
           if (existingProviders.length > 0) {
-            // Buscamos la URL que ya teníamos para este hash
             const existingProvider = existingProviders[0]!;
             const existingImg = existingProvider.images.find(img => img.hash === hash);
             const existingUrl = existingImg?.url || existingProvider.images[0]?.url;
-            
+
             logger().info({ hash }, 'pHash detectado en otro proveedor, reutilizando imagen existente');
             return { hash, storedUrl: existingUrl!, originalUrl: imgUrl };
           }
-          
+
           // 4. Si es nuevo, guardar en nuestro storage
           const sanitizedId = raw.externalId.replace(/[^a-z0-9]/gi, '_');
           const fileName = `${raw.source}_${sanitizedId}_${i}.jpg`;
@@ -79,20 +79,20 @@ export class ScrapeUrlUseCase {
       })
     );
 
-    const validImages = processedImages.filter(img => img !== null);
-    const rawWithImages = { 
-      ...raw, 
+    const validImages = (processedImages.filter(img => img !== null) as any[]);
+    const rawWithImages = {
+      ...raw,
       processedImages: validImages.map(img => ({
-        url: img!.storedUrl,
-        originalUrl: img!.originalUrl,
-        hash: img!.hash
+        url: img.storedUrl,
+        originalUrl: img.originalUrl,
+        hash: img.hash
       }))
     };
 
-    logger().info({ 
+    logger().info({
       source: raw.source,
       name: raw.name,
-      price: raw.attributes.price,
+      price: raw.price,
       imagesStored: rawWithImages.processedImages.length
     }, 'Procesamiento completo, buscando candidatos...');
 
@@ -109,29 +109,24 @@ export class ScrapeUrlUseCase {
     // 6. Ejecutar acción
     switch (result.action) {
       case 'CREATE':
-        await this.repository.save(this.createProvider(result.mergedData));
+        await this.repository.create(this.createProvider(result.mergedData));
         break;
-      
+
       case 'MERGE':
+      case 'FLAG_FOR_REVIEW':
         if (result.targetProviderId) {
-          await this.repository.update(result.targetProviderId, {
-            ...result.mergedData,
-            confidenceScore: result.confidenceScore,
-            // Aquí añadiríamos las nuevas señales
-          });
+          const existing = await this.repository.findById(result.targetProviderId);
+          if (existing) {
+             await this.repository.update({
+               ...existing,
+               ...result.mergedData,
+               confidenceScore: result.confidenceScore,
+               updatedAt: new Date()
+             });
+          }
         }
         break;
 
-      case 'FLAG_FOR_REVIEW':
-        if (result.targetProviderId) {
-          await this.repository.update(result.targetProviderId, {
-            ...result.mergedData,
-            confidenceScore: result.confidenceScore,
-            // Marcar estado como pendiente de revisión
-          });
-        }
-        break;
-      
       case 'IGNORE':
         break;
     }
@@ -140,7 +135,7 @@ export class ScrapeUrlUseCase {
   private createProvider(data: Partial<Provider>): Provider {
     return {
       id: crypto.randomUUID(),
-      displayName: data.displayName,
+      displayName: data.displayName || 'Sin nombre',
       phones: data.phones || [],
       telegram: data.telegram,
       email: data.email,
@@ -149,7 +144,7 @@ export class ScrapeUrlUseCase {
       images: (data as any).processedImages || [],
       vertical: data.vertical || 'unknown',
       externalIds: data.externalIds || {},
-      verificationStatus: data.verificationStatus!,
+      verificationStatus: data.verificationStatus || 'unverified',
       confidenceScore: data.confidenceScore || 1.0,
       signals: [],
       metadata: data.metadata || {},

@@ -8,8 +8,8 @@ import type { ProviderRepositoryPort } from '../../../application/ports/reposito
 export class JsonFileProviderRepository implements ProviderRepositoryPort {
   private readonly filePath: string;
 
-  constructor(fileName: string = 'providers.json') {
-    this.filePath = path.resolve(process.cwd(), 'storage', fileName);
+  constructor({ fileName = 'providers.json', basePath = 'storage' }: { fileName?: string; basePath?: string; } = {}) {
+    this.filePath = path.resolve(process.cwd(), basePath, fileName);
   }
 
   private async load(): Promise<Map<string, Provider>> {

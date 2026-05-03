@@ -6,7 +6,7 @@ import { logger } from '@allcoba/kernel';
 export class LocalStorageAdapter implements StoragePort {
   private readonly storageDir: string;
 
-  constructor(baseDir: string = 'storage') {
+  constructor({ baseDir = 'storage' }: { baseDir?: string; } = {}) {
     this.storageDir = path.resolve(process.cwd(), baseDir);
   }
 
@@ -22,9 +22,9 @@ export class LocalStorageAdapter implements StoragePort {
   async upload(buffer: Buffer, fileName: string, _mimeType: string): Promise<string> {
     await this.init();
     const filePath = path.join(this.storageDir, fileName);
-    
+
     await fs.writeFile(filePath, buffer);
-    
+
     // Devolvemos la ruta absoluta como URL simulada
     return `file://${filePath}`;
   }
