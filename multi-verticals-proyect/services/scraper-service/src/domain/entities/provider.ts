@@ -1,3 +1,5 @@
+import { Vertical } from './vertical.js';
+
 export enum VerificationStatus {
   AUTOMATIC_MATCH = 'AUTOMATIC_MATCH',
   PENDING_REVIEW = 'PENDING_REVIEW',
@@ -36,7 +38,7 @@ export interface Provider<T = Record<string, any>> {
   };
   description?: string;
   images: ProviderImage[]; // Cambiado a array de objetos enriquecidos
-  vertical: string; // 'REAL_ESTATE', 'MOTOR', etc.
+  vertical: Vertical; // Usando el Enum tipado
   externalIds: Record<string, string>;
   verificationStatus: VerificationStatus;
   confidenceScore: number;

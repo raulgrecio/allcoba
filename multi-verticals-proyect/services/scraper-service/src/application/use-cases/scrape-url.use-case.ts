@@ -7,13 +7,22 @@ import type { ImageHasherPort } from '../ports/image-hasher.port.js';
 import type { StoragePort } from '../ports/storage.port.js';
 import { Buffer } from 'buffer';
 
+export interface ScraperConfig {
+  maxImagesToProcess: number;
+}
+
+const DEFAULT_CONFIG: ScraperConfig = {
+  maxImagesToProcess: 5
+};
+
 export class ScrapeUrlUseCase {
   constructor(
     private readonly sources: SourcePort[],
     private readonly repository: ProviderRepositoryPort,
     private readonly consolidationService: ConsolidationService,
     private readonly imageHasher: ImageHasherPort,
-    private readonly storage: StoragePort
+    private readonly storage: StoragePort,
+    private readonly config: ScraperConfig = DEFAULT_CONFIG
   ) {}
 
   async execute(url: string): Promise<void> {
@@ -35,7 +44,7 @@ export class ScrapeUrlUseCase {
     
     // 3.5. Procesar imágenes: Hash + Almacenamiento
     const processedImages = await Promise.all(
-      raw.imageUrls.slice(0, 5).map(async (imgUrl, i) => {
+      raw.imageUrls.slice(0, this.config.maxImagesToProcess).map(async (imgUrl, i) => {
         try {
           // 1. Descargar (Necesario para el Hash)
           const response = await fetch(imgUrl);

@@ -1,9 +1,11 @@
 import { BaseSourceAdapter } from './base-source.adapter.js';
 import type { RawExtraction } from '../../../application/ports/source.port.js';
+import { Vertical } from '../../../domain/entities/vertical.js';
 import { logger } from '@allcoba/kernel';
 
 export class FotocasaAdapter extends BaseSourceAdapter {
   readonly identifier = 'fotocasa';
+  readonly defaultVertical = Vertical.REAL_ESTATE;
 
   canHandle(url: string): boolean {
     return url.includes('fotocasa.es');
@@ -21,30 +23,13 @@ export class FotocasaAdapter extends BaseSourceAdapter {
     const description = $('.re-DetailDescription-text, [class*="Description"]').text().trim();
     const address = $('.re-DetailMap-address, [class*="Map-address"]').text().trim();
     
-    // Extraer imágenes (más agresivo con múltiples selectores)
-    const imageUrls: string[] = [];
-    const imageSelectors = [
+    // Extraer imágenes usando el método genérico de la clase base con selectores específicos
+    const imageUrls = this.extractImagesFromDom($, [
       '.re-DetailPhotos-image',
       '.re-DetailMultimedia-image',
       '.re-DetailMultimedia-slider img',
       'img[src*="fotocasa.es/images"]'
-    ];
-
-    $(imageSelectors.join(',')).each((_, el) => {
-      const src = $(el).attr('src') || $(el).attr('data-src') || $(el).attr('data-lazy');
-      if (src && !imageUrls.includes(src)) {
-        // Limpiar URLs relativas o raras
-        if (src.startsWith('http')) imageUrls.push(src);
-      }
-    });
-
-    // Si no encuentra nada, probar a buscar todas las imágenes dentro del bloque multimedia
-    if (imageUrls.length === 0) {
-      $('[class*="Multimedia"], [class*="Photos"]').find('img').each((_, el) => {
-        const src = $(el).attr('src') || $(el).attr('data-src');
-        if (src && src.startsWith('http') && !imageUrls.includes(src)) imageUrls.push(src);
-      });
-    }
+    ]);
 
     return {
       source: this.identifier,
@@ -55,7 +40,7 @@ export class FotocasaAdapter extends BaseSourceAdapter {
       address,
       phones: [], 
       imageUrls,
-      vertical: 'REAL_ESTATE',
+      vertical: this.detectVertical(url),
       attributes: {
         price: this.parsePrice(priceText),
         rawPrice: priceText,

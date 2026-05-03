@@ -1,9 +1,11 @@
 import { BaseSourceAdapter } from './base-source.adapter.js';
 import type { RawExtraction } from '../../../application/ports/source.port.js';
+import { Vertical } from '../../../domain/entities/vertical.js';
 import { logger } from '@allcoba/kernel';
 
 export class IdealistaAdapter extends BaseSourceAdapter {
   readonly identifier = 'idealista';
+  readonly defaultVertical = Vertical.REAL_ESTATE;
 
   canHandle(url: string): boolean {
     return url.includes('idealista.com');
@@ -20,12 +22,8 @@ export class IdealistaAdapter extends BaseSourceAdapter {
     const description = $('.adCommentsLanguageSelector').text().trim();
     const address = $('.main-info__title-minor').text().trim();
     
-    // Extraer imágenes
-    const imageUrls: string[] = [];
-    $('#main-multimedia img').each((_, el) => {
-      const src = $(el).attr('src');
-      if (src) imageUrls.push(src);
-    });
+    // Extraer imágenes usando el método genérico de la clase base
+    const imageUrls = this.extractImagesFromDom($);
 
     return {
       source: this.identifier,
@@ -36,7 +34,7 @@ export class IdealistaAdapter extends BaseSourceAdapter {
       address,
       phones: [], // El teléfono requiere un clic, lo veremos en el siguiente paso
       imageUrls,
-      vertical: 'REAL_ESTATE',
+      vertical: this.detectVertical(url),
       attributes: {
         price: this.parsePrice(priceText),
         rawPrice: priceText,
@@ -46,8 +44,8 @@ export class IdealistaAdapter extends BaseSourceAdapter {
   }
 
   private extractId(url: string): string {
-    const match = url.match(/\/inmueble\/(\d+)/);
-    return match ? match[1] : url;
+    const match = url.match(/\/(inmueble|pro|motor)\/(\d+)/);
+    return match ? match[2] : url.split('/').pop() || url;
   }
 
   private parsePrice(priceText: string): number | undefined {

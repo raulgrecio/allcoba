@@ -1,3 +1,5 @@
+import type { Vertical } from '../../domain/entities/vertical.js';
+
 export interface RawExtraction<T = Record<string, any>> {
   source: string;
   externalId: string;
@@ -10,7 +12,7 @@ export interface RawExtraction<T = Record<string, any>> {
   address?: string;
   coordinates?: { lat: number; lng: number };
   imageUrls: string[];
-  vertical: string;
+  vertical: Vertical;
   price?: number;
   currency?: string;
   attributes: T;
