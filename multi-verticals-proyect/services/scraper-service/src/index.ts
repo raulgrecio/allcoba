@@ -2,9 +2,11 @@ import 'dotenv/config';
 import { logger } from '@allcoba/kernel';
 import { ScrapeUrlUseCase } from './application/use-cases/scrape-url.use-case.js';
 import { IdealistaAdapter } from './infrastructure/adapters/sources/idealista.adapter.js';
+import { FotocasaAdapter } from './infrastructure/adapters/sources/fotocasa.adapter.js';
 import { InMemoryProviderRepository } from './infrastructure/adapters/persistence/in-memory-provider.repository.js';
 import { ConsolidationService } from './domain/services/consolidation.service.js';
 import { SharpHasherAdapter } from './infrastructure/adapters/images/sharp-hasher.adapter.js';
+import { LocalStorageAdapter } from './infrastructure/adapters/storage/local-storage.adapter.js';
 
 async function main() {
   logger().info('Iniciando scraper-service...');
@@ -13,12 +15,13 @@ async function main() {
   const repository = new InMemoryProviderRepository();
   const consolidationService = new ConsolidationService();
   const imageHasher = new SharpHasherAdapter();
+  const storage = new LocalStorageAdapter();
   const sources = [
     new IdealistaAdapter(),
-    // Añadir más fuentes aquí
+    new FotocasaAdapter(),
   ];
 
-  const scrapeUrlUseCase = new ScrapeUrlUseCase(sources, repository, consolidationService, imageHasher);
+  const scrapeUrlUseCase = new ScrapeUrlUseCase(sources, repository, consolidationService, imageHasher, storage);
 
   // 2. Procesar argumentos de CLI (para pruebas manuales)
   const urlArg = process.argv.find((arg: string) => arg.startsWith('--url='));

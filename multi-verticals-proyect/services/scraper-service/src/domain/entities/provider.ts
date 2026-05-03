@@ -15,6 +15,12 @@ export interface ScraperSignal {
   createdAt: Date;
 }
 
+export interface ProviderImage {
+  url: string;        // Nuestra URL (S3 o Local)
+  originalUrl: string; // URL de la fuente original
+  hash: string;       // pHash para deduplicación
+}
+
 export interface Provider<T = Record<string, any>> {
   id: string;
   displayName?: string;
@@ -29,8 +35,7 @@ export interface Provider<T = Record<string, any>> {
     };
   };
   description?: string;
-  images: string[];
-  imageHashes: string[]; // Hashes perceptuales (pHash) para deduplicación visual
+  images: ProviderImage[]; // Cambiado a array de objetos enriquecidos
   vertical: string; // 'REAL_ESTATE', 'MOTOR', etc.
   externalIds: Record<string, string>;
   verificationStatus: VerificationStatus;

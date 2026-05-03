@@ -5,7 +5,12 @@ import { logger } from '@allcoba/kernel';
 export class SharpHasherAdapter implements ImageHasherPort {
   async generateHash(url: string): Promise<string> {
     try {
-      const response = await fetch(url);
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(id);
+      
       const buffer = await response.arrayBuffer();
       
       // El pHash simplificado: Reducir a 8x8 en escala de grises

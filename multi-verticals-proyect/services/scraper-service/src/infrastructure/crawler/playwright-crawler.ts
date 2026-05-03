@@ -89,10 +89,7 @@ export class PlaywrightCrawler {
 
       const content = await page.content();
       
-      // ESPERAR PARA QUE PUEDAS VER LA VENTANA (No se cerrará)
-      logger().info('Extracción terminada. Manteniendo ventana abierta para inspección...');
-      await page.waitForTimeout(3600000); // 1 hora de espera
-
+      logger().info('HTML capturado, devolviendo al adaptador...');
       return content;
     } catch (error: any) {
       logger().error({ 

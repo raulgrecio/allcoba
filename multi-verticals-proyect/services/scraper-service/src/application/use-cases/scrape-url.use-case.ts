@@ -4,13 +4,16 @@ import type { ProviderRepositoryPort } from '../ports/repository.port.js';
 import { ConsolidationService } from '../../domain/services/consolidation.service.js';
 import type { Provider } from '../../domain/entities/provider.js';
 import type { ImageHasherPort } from '../ports/image-hasher.port.js';
+import type { StoragePort } from '../ports/storage.port.js';
+import { Buffer } from 'buffer';
 
 export class ScrapeUrlUseCase {
   constructor(
     private readonly sources: SourcePort[],
     private readonly repository: ProviderRepositoryPort,
     private readonly consolidationService: ConsolidationService,
-    private readonly imageHasher: ImageHasherPort
+    private readonly imageHasher: ImageHasherPort,
+    private readonly storage: StoragePort
   ) {}
 
   async execute(url: string): Promise<void> {
@@ -28,20 +31,61 @@ export class ScrapeUrlUseCase {
 
     // 3. Extraer datos crudos
     const raw = await source.extract(url);
+    logger().info({ imageUrlsCount: raw.imageUrls.length }, 'HTML extraído, iniciando hashing de imágenes...');
     
-    // 3.5. Generar hashes de imágenes (opcional/paralelo)
-    const imageHashes = await Promise.all(
-      raw.imageUrls.slice(0, 5).map(imgUrl => this.imageHasher.generateHash(imgUrl))
+    // 3.5. Procesar imágenes: Hash + Almacenamiento
+    const processedImages = await Promise.all(
+      raw.imageUrls.slice(0, 5).map(async (imgUrl, i) => {
+        try {
+          // 1. Descargar (Necesario para el Hash)
+          const response = await fetch(imgUrl);
+          const buffer = await response.arrayBuffer();
+          const nodeBuffer = Buffer.from(buffer);
+
+          // 2. Generar Hash
+          const hash = await this.imageHasher.generateHash(imgUrl); 
+
+          // 3. ¿Ya tenemos este hash? (Ahorro de Tráfico OUT y Disco)
+          const existingProviders = await this.repository.find({ imageHash: hash });
+          if (existingProviders.length > 0) {
+            // Buscamos la URL que ya teníamos para este hash
+            const existingProvider = existingProviders[0]!;
+            const existingImg = existingProvider.images.find(img => img.hash === hash);
+            const existingUrl = existingImg?.url || existingProvider.images[0]?.url;
+            
+            logger().info({ hash }, 'pHash detectado en otro proveedor, reutilizando imagen existente');
+            return { hash, storedUrl: existingUrl!, originalUrl: imgUrl };
+          }
+          
+          // 4. Si es nuevo, guardar en nuestro storage
+          const sanitizedId = raw.externalId.replace(/[^a-z0-9]/gi, '_');
+          const fileName = `${raw.source}_${sanitizedId}_${i}.jpg`;
+          const storedUrl = await this.storage.upload(nodeBuffer, fileName, 'image/jpeg');
+
+          return { hash, storedUrl, originalUrl: imgUrl };
+        } catch (error) {
+          logger().error({ imgUrl, error }, 'Error procesando imagen');
+          return null;
+        }
+      })
     );
-    const rawWithHashes = { ...raw, imageHashes: imageHashes.filter(h => h !== '') };
+
+    const validImages = processedImages.filter(img => img !== null);
+    const rawWithImages = { 
+      ...raw, 
+      processedImages: validImages.map(img => ({
+        url: img!.storedUrl,
+        originalUrl: img!.originalUrl,
+        hash: img!.hash
+      }))
+    };
 
     logger().info({ 
       source: raw.source,
       name: raw.name,
       price: raw.attributes.price,
-      imagesCount: raw.imageUrls.length,
-      hashesGenerated: rawWithHashes.imageHashes.length
-    }, 'Datos extraídos y procesados correctamente');
+      imagesStored: rawWithImages.processedImages.length
+    }, 'Procesamiento completo, buscando candidatos...');
 
     // 4. Buscar candidatos para consolidación
     const candidates = await this.repository.find({
@@ -51,7 +95,7 @@ export class ScrapeUrlUseCase {
     });
 
     // 5. Consolidar
-    const result = this.consolidationService.consolidate(rawWithHashes as any, candidates);
+    const result = this.consolidationService.consolidate(rawWithImages as any, candidates);
 
     // 6. Ejecutar acción
     switch (result.action) {
@@ -93,8 +137,7 @@ export class ScrapeUrlUseCase {
       email: data.email,
       address: data.address,
       description: data.description,
-      images: data.images || [],
-      imageHashes: (data as any).imageHashes || [],
+      images: (data as any).processedImages || [],
       vertical: data.vertical || 'unknown',
       externalIds: data.externalIds || {},
       verificationStatus: data.verificationStatus!,

@@ -6,13 +6,13 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
 
   async find(criteria: ProviderCriteria): Promise<Provider[]> {
     return Array.from(this.providers.values()).filter(p => {
-      if (criteria.phone && p.phones.includes(criteria.phone)) return true;
-      if (criteria.telegram && p.telegram === criteria.telegram) return true;
-      if (criteria.externalId) {
-        const { source, id } = criteria.externalId;
-        if (p.externalIds[source] === id) return true;
-      }
-      return false;
+      let match = false;
+      if (criteria.phone && p.phones.includes(criteria.phone)) match = true;
+      if (criteria.telegram && p.telegram === criteria.telegram) match = true;
+      if (criteria.externalId && p.externalIds[criteria.externalId.source] === criteria.externalId.id) match = true;
+      if (criteria.imageHash && p.images.some(img => img.hash === criteria.imageHash)) match = true;
+
+      return match;
     });
   }
 
