@@ -1,15 +1,22 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vitest/config';
 
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+
 export default defineConfig({
+  resolve: {
+    alias: { '@domain': path.resolve(__dirname, 'src') },
+  },
   test: {
     globals: true,
     environment: 'node',
-    include: ['src/**/*.test.ts'],
+    include: ['__tests__/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
       include: ['src/**/*.ts'],
-      exclude: ['src/**/*.test.ts', 'src/**/index.ts'],
+      exclude: ['src/**/index.ts'],
       thresholds: {
         lines: 80,
         functions: 80,

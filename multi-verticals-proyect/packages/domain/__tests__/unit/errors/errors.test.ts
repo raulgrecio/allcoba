@@ -6,11 +6,10 @@ import {
   NotFoundError,
   UnauthorizedError,
   ValidationError,
-} from '../errors/base.errors.js';
+} from '@domain/errors/base.errors.js';
 
 describe('DomainError', () => {
   it('should be abstract and have code property', () => {
-    // DomainError is abstract, so we test through concrete subclasses
     const error = new ValidationError('test');
     expect(error).toBeInstanceOf(DomainError);
     expect(error).toBeInstanceOf(Error);
@@ -56,8 +55,7 @@ describe('ValidationError', () => {
   });
 
   it('should be catchable as DomainError', () => {
-    const error = new ValidationError('test');
-    expect(error instanceof DomainError).toBe(true);
+    expect(new ValidationError('test') instanceof DomainError).toBe(true);
   });
 });
 
@@ -86,42 +84,33 @@ describe('NotFoundError', () => {
 
 describe('UnauthorizedError', () => {
   it('should have UNAUTHORIZED code', () => {
-    const error = new UnauthorizedError();
-    expect(error.code).toBe('UNAUTHORIZED');
+    expect(new UnauthorizedError().code).toBe('UNAUTHORIZED');
   });
 
   it('should have default message', () => {
-    const error = new UnauthorizedError();
-    expect(error.message).toBe('Not authorized to perform this action');
+    expect(new UnauthorizedError().message).toBe('Not authorized to perform this action');
   });
 
   it('should accept custom message', () => {
-    const error = new UnauthorizedError('access denied');
-    expect(error.message).toBe('access denied');
+    expect(new UnauthorizedError('access denied').message).toBe('access denied');
   });
 
   it('should be instance of DomainError', () => {
-    const error = new UnauthorizedError();
-    expect(error).toBeInstanceOf(DomainError);
-    expect(error).toBeInstanceOf(Error);
+    expect(new UnauthorizedError()).toBeInstanceOf(DomainError);
   });
 });
 
 describe('ConflictError', () => {
   it('should have CONFLICT code', () => {
-    const error = new ConflictError('already exists');
-    expect(error.code).toBe('CONFLICT');
+    expect(new ConflictError('already exists').code).toBe('CONFLICT');
   });
 
   it('should set custom message', () => {
-    const error = new ConflictError('duplicate entry');
-    expect(error.message).toBe('duplicate entry');
+    expect(new ConflictError('duplicate entry').message).toBe('duplicate entry');
   });
 
   it('should be instance of DomainError', () => {
-    const error = new ConflictError('test');
-    expect(error).toBeInstanceOf(DomainError);
-    expect(error).toBeInstanceOf(Error);
+    expect(new ConflictError('test')).toBeInstanceOf(DomainError);
   });
 });
 
@@ -133,7 +122,6 @@ describe('Error hierarchy', () => {
       new UnauthorizedError(),
       new ConflictError('c'),
     ];
-
     for (const error of errors) {
       expect(error instanceof DomainError).toBe(true);
       expect(error instanceof Error).toBe(true);

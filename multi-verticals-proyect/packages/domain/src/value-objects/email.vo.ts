@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { ValidationError } from '../errors/base.errors.js';
+import type { ValidationResult } from '../shared/validation-result.js';
+import { failOne, ok } from '../shared/validation-result.js';
 import { ValueObject } from './value-object.base.js';
 
 const emailSchema = z.string().email().max(254);
@@ -10,12 +11,12 @@ export class Email extends ValueObject {
     super();
   }
 
-  static create(candidate: string): Email {
+  static create(candidate: string): ValidationResult<Email> {
     const result = emailSchema.safeParse(candidate);
     if (!result.success) {
-      throw new ValidationError(result.error.issues[0]!.message, 'email');
+      return failOne('EMAIL_INVALID', result.error.issues[0]!.message, ['email']);
     }
-    return new Email(result.data);
+    return ok(new Email(result.data));
   }
 
   equals(other: ValueObject): boolean {
