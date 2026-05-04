@@ -25,6 +25,14 @@ const USER_AGENTS = [
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15",
 ];
 
+export interface CrawlResult {
+  html: string;
+  userAgent: string;
+  serverIp?: string;
+  outboundIp?: string;
+  status: number;
+}
+
 export class PlaywrightCrawler {
   private browser: Browser | null = null;
 
@@ -45,7 +53,7 @@ export class PlaywrightCrawler {
     }
   }
 
-  async fetch(url: string, options: PlaywrightOptions = {}): Promise<string> {
+  async fetch(url: string, options: PlaywrightOptions = {}): Promise<CrawlResult> {
     await this.init(options);
 
     const userAgent =
@@ -87,27 +95,45 @@ export class PlaywrightCrawler {
 
       // 3. Ir al destino real
       logger().info({ url }, "Navegando al destino final");
-      await page.goto(url, {
+      const response = await page.goto(url, {
         timeout,
         waitUntil: options.waitUntil || "load",
         referer: origin,
       });
 
+      const serverAddr = await response?.serverAddr();
+      const status = response?.status() || 0;
+
       // 4. Scroll humano
       await this.simulateHumanScroll(page);
 
-      // 5. Hook de interacción (¡Aquí es donde hacemos magia!)
+      // 5. Hook de interacción
       if (options.onBeforeCapture) {
         logger().info("Ejecutando acciones pre-captura...");
         await options.onBeforeCapture(page);
-        // Esperamos un poco tras la interacción por si se carga contenido nuevo
         await page.waitForTimeout(1000);
       }
 
       const content = await page.content();
       logger().info("HTML capturado con éxito");
 
-      return content;
+      // Obtener nuestra IP de salida (desde Node.js para evitar bloqueos de CSP)
+      let outboundIp: string | undefined;
+      try {
+        const ipRes = await fetch("https://api.ipify.org?format=json");
+        const ipData = (await ipRes.json()) as any;
+        outboundIp = ipData.ip;
+      } catch (e) {
+        logger().warn("No se pudo obtener la IP de salida");
+      }
+
+      return {
+        html: content,
+        userAgent,
+        serverIp: serverAddr?.ipAddress,
+        outboundIp,
+        status,
+      };
     } catch (error: any) {
       logger().error(
         { error: error.message, url },

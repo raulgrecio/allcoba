@@ -22,12 +22,43 @@ export abstract class BaseSourceAdapter implements SourcePort {
   abstract canHandle(url: string): boolean;
 
   /**
-   * EL TEMPLATE METHOD: Define el algoritmo de extracción.
+   * EL TEMPLATE METHOD: Define el algoritmo de extracción y recoge metadatos técnicos.
    */
   async extract(url: string): Promise<RawExtraction> {
-    const html = await this.browser.fetch(url, this.getCrawlerOptions(url));
-    const $ = cheerio.load(html);
+    const startTime = Date.now();
 
+    // 1. Crawling técnico
+    const result = await this.browser.fetch(url, this.getCrawlerOptions(url));
+
+    const durationMs = Date.now() - startTime;
+    const $ = cheerio.load(result.html);
+
+    // 2. Extracción de dominio (delegada)
+    const data = await this.performExtraction($, url);
+
+    // 3. Enriquecimiento con metadatos técnicos globales
+    return {
+      ...data,
+      metadata: {
+        ...data.metadata,
+        timestamp: new Date().toISOString(),
+        durationMs,
+        sourceUrl: url,
+        userAgent: result.userAgent,
+        serverIp: result.serverIp,
+        outboundIp: result.outboundIp,
+        statusCode: result.status,
+      },
+    };
+  }
+
+  /**
+   * Lógica interna de extracción que utiliza Cheerio.
+   */
+  protected async performExtraction(
+    $: CheerioAPI,
+    url: string,
+  ): Promise<RawExtraction> {
     return {
       source: this.identifier,
       externalId: this.extractId(url, $),
@@ -35,7 +66,7 @@ export abstract class BaseSourceAdapter implements SourcePort {
       name: this.extractTitle($),
       description: this.extractDescription($),
       address: this.extractAddress($),
-      price: this.extractPrice($), // precio base de referencia
+      price: this.extractPrice($),
       phones: await this.extractPhones($, url),
       imageUrls: this.extractImagesFromDom($, this.getImageSelectors($)),
       vertical: this.detectVertical(url),

@@ -22,7 +22,7 @@ export class ConsolidationService {
 
     for (const candidate of candidates) {
       const matchDetails = this.calculateMatch(raw, candidate);
-      
+
       if (matchDetails.confidence > maxConfidence) {
         maxConfidence = matchDetails.confidence;
         bestMatch = candidate;
@@ -135,7 +135,7 @@ export class ConsolidationService {
       description: existing.description || raw.description,
       images: this.deduplicateImages(existing.images, (raw as any).processedImages || []),
       attributes: { ...existing.attributes, ...raw.attributes },
-      metadata: { ...existing.metadata, lastMergedAt: new Date() }
+      metadata: { ...existing.metadata, ...raw.metadata, lastMergedAt: new Date() }
     };
   }
 
@@ -165,7 +165,7 @@ export class ConsolidationService {
       verificationStatus: VerificationStatus.PENDING_REVIEW,
       confidenceScore: 1.0,
       attributes: raw.attributes,
-      metadata: {}
+      metadata: raw.metadata || {}
     };
   }
 
@@ -173,9 +173,9 @@ export class ConsolidationService {
     const R = 6371; // Radio de la Tierra en km
     const dLat = (p2.lat - p1.lat) * Math.PI / 180;
     const dLon = (p2.lng - p1.lng) * Math.PI / 180;
-    const a = 
+    const a =
       Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(p1.lat * Math.PI / 180) * Math.cos(p2.lat * Math.PI / 180) * 
+      Math.cos(p1.lat * Math.PI / 180) * Math.cos(p2.lat * Math.PI / 180) *
       Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     return R * c;

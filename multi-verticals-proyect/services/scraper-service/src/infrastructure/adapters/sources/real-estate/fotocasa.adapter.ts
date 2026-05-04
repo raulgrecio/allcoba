@@ -32,10 +32,11 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
   protected async onBeforeCapture(page: any): Promise<void> {
     // Intentar ver el teléfono si hay un botón de "Llamar" o "Contactar"
     try {
-      const contactBtn = page.locator('button:has-text("Llamar"), button:has-text("Ver teléfono")').first();
+      const contactBtn = page.locator('[data-testid="view-phone-button"], button:has-text("Llamar"), button:has-text("Ver teléfono")').first();
       if (await contactBtn.isVisible({ timeout: 3000 })) {
         await contactBtn.click();
-        await page.waitForTimeout(1000); // Esperar a que aparezca el número
+        // Esperamos 2 segundos para asegurar que el componente del teléfono se cargue
+        await page.waitForTimeout(2000); 
       }
     } catch (e) {
       // No pasa nada si no hay botón
@@ -57,7 +58,8 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
 
   protected async extractPhones($: CheerioAPI): Promise<string[]> {
     const phones: string[] = [];
-    const phoneText = $('.re-DetailContact-phone, [class*="Contact-phone"]').text().trim();
+    // Selector ultra-específico basado en el data-testid revelado
+    const phoneText = $('[data-testid="view-phone-button"] strong, .re-DetailContact-phone, [href^="tel:"]').first().text().trim();
     if (phoneText) {
       phones.push(phoneText.replace(/\s/g, ''));
     }
