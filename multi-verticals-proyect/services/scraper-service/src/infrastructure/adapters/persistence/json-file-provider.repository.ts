@@ -1,14 +1,19 @@
 import fs from 'fs/promises';
 import path from 'path';
+
 import { logger } from '@allcoba/kernel';
 
-import type { Provider, ProviderCriteria } from '../../../domain/entities/provider.js';
 import type { ProviderRepositoryPort } from '../../../application/ports/repository.port.js';
+import type { Provider, ProviderCriteria } from '../../../domain/entities/provider.js';
 
 export class JsonFileProviderRepository implements ProviderRepositoryPort {
   private readonly filePath: string;
+  private readonly logger = logger().child({ component: JsonFileProviderRepository.name });
 
-  constructor({ fileName = 'providers.json', basePath = 'storage' }: { fileName?: string; basePath?: string; } = {}) {
+  constructor({
+    fileName = 'providers.json',
+    basePath = 'storage',
+  }: { fileName?: string; basePath?: string } = {}) {
     this.filePath = path.resolve(process.cwd(), basePath, fileName);
   }
 
@@ -34,12 +39,17 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
 
   async find(criteria: ProviderCriteria): Promise<Provider[]> {
     const providers = await this.load();
-    return Array.from(providers.values()).filter(p => {
+    return Array.from(providers.values()).filter((p) => {
       let match = false;
       if (criteria.phone && p.phones.includes(criteria.phone)) match = true;
       if (criteria.telegram && p.telegram === criteria.telegram) match = true;
-      if (criteria.externalId && p.externalIds[criteria.externalId.source] === criteria.externalId.id) match = true;
-      if (criteria.imageHash && p.images.some(img => img.hash === criteria.imageHash)) match = true;
+      if (
+        criteria.externalId &&
+        p.externalIds[criteria.externalId.source] === criteria.externalId.id
+      )
+        match = true;
+      if (criteria.imageHash && p.images.some((img) => img.hash === criteria.imageHash))
+        match = true;
       if (criteria.vertical && p.vertical === criteria.vertical) match = true;
 
       return match;

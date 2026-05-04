@@ -6,7 +6,7 @@ export interface ImageHasherPort {
   generateHash(input: string | Buffer): Promise<string>;
 
   /**
-   * Calcula la distancia de Hamming entre dos hashes. 
+   * Calcula la distancia de Hamming entre dos hashes.
    * Una distancia baja (ej: < 5) indica que las imágenes son casi idénticas.
    */
   calculateDistance(hash1: string, hash2: string): number;

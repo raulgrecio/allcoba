@@ -1,13 +1,15 @@
 import PgBoss from 'pg-boss';
-import type { QueuePort, JobOptions } from '../../../application/ports/queue.port.js';
+
 import { logger } from '@allcoba/kernel';
+
+import type { JobOptions, QueuePort } from '../../../application/ports/queue.port.js';
 
 export class PgBossQueueAdapter implements QueuePort {
   private boss: PgBoss;
 
   constructor(databaseUrl: string) {
     this.boss = new PgBoss(databaseUrl);
-    
+
     this.boss.on('error', (error) => {
       logger().error({ error }, 'Error en pg-boss');
     });
@@ -33,7 +35,7 @@ export class PgBossQueueAdapter implements QueuePort {
   }
 
   async subscribe<T = any>(name: string, handler: (data: T) => Promise<void>): Promise<void> {
-    await this.boss.work(name, async (job) => {
+    await this.boss.work(name, async (job: any) => {
       try {
         await handler(job.data as T);
       } catch (error) {

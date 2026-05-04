@@ -16,7 +16,7 @@
   "dependencies": {
     "@allcoba/domain": "workspace:*",
     "@allcoba/kernel": "workspace:*",
-    "cheerio": "^1.0.0-rc.12",
+    "cheerio": "^1.2.0",
     "dotenv": "^16.4.7",
     "pg-boss": "^10.1.0",
     "pino": "^9.5.0",

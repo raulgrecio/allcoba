@@ -3,11 +3,12 @@ import crypto from 'crypto';
 
 import { logger } from '@allcoba/kernel';
 
-import type { SourcePort, RawExtraction } from '../ports/source.port.js';
-import type { ProviderRepositoryPort } from '../ports/repository.port.js';
+import { VerificationStatus, type Provider } from '../../domain/entities/provider.js';
+import { Vertical } from '../../domain/entities/vertical.js';
 import { ConsolidationService } from '../../domain/services/consolidation.service.js';
-import type { Provider } from '../../domain/entities/provider.js';
 import type { ImageHasherPort } from '../ports/image-hasher.port.js';
+import type { ProviderRepositoryPort } from '../ports/repository.port.js';
+import type { SourcePort } from '../ports/source.port.js';
 import type { StoragePort } from '../ports/storage.port.js';
 
 export interface ScraperConfig {
@@ -18,11 +19,11 @@ export interface ScraperConfig {
 
 const DEFAULT_CONFIG: ScraperConfig = {
   maxImagesToProcess: 5,
-  saveRawHtml: true
+  saveRawHtml: true,
 };
 
 export class ScrapeUrlUseCase {
-  private readonly logger = logger().child({ component: 'ScrapeUrlUseCase' });
+  private readonly logger = logger().child({ component: ScrapeUrlUseCase.name });
 
   constructor(
     private readonly sources: SourcePort[],
@@ -30,12 +31,12 @@ export class ScrapeUrlUseCase {
     private readonly consolidationService: ConsolidationService,
     private readonly imageHasher: ImageHasherPort,
     private readonly storage: StoragePort,
-    private readonly config: ScraperConfig = DEFAULT_CONFIG
+    private readonly config: ScraperConfig = DEFAULT_CONFIG,
   ) {}
 
   async execute(url: string): Promise<void> {
     // 1. Encontrar adaptador de fuente
-    const source = this.sources.find(s => s.canHandle(url));
+    const source = this.sources.find((s) => s.canHandle(url));
     if (!source) {
       throw new Error(`No se encontró un adaptador para la URL: ${url}`);
     }
@@ -51,21 +52,26 @@ export class ScrapeUrlUseCase {
       headless: this.config.headless,
       onSnapshot: async (snapshotHtml, stage) => {
         if (this.config.saveRawHtml) {
-          const sanitizedId = url.split('/').filter(Boolean).pop()?.replace(/[^a-z0-9]/gi, '_') || 'unknown';
+          const sanitizedId =
+            url
+              .split('/')
+              .filter(Boolean)
+              .pop()
+              ?.replace(/[^a-z0-9]/gi, '_') || 'unknown';
           const fileName = `debug_${stage}_${source.identifier}_${sanitizedId}.html`;
           await this.storage.upload(Buffer.from(snapshotHtml), `raw/${fileName}`, 'text/html');
           this.logger.debug({ stage, fileName }, 'Instantánea de depuración guardada');
         }
-      }
+      },
     });
-    
+
     // 3.5. Persistir HTML crudo para análisis (Debug) si está activado
     if (this.config.saveRawHtml) {
       try {
         const sanitizedId = raw.externalId.replace(/[^a-z0-9]/gi, '_');
         const fileName = `${raw.source}_${sanitizedId}.html`;
         await this.storage.upload(Buffer.from(html), `raw/${fileName}`, 'text/html');
-        
+
         // Guardamos solo el nombre del archivo en los metadatos para la BBDD
         raw.metadata.debugFile = fileName;
         this.logger.info({ fileName }, 'HTML crudo persistido para análisis');
@@ -74,11 +80,14 @@ export class ScrapeUrlUseCase {
       }
     }
 
-    this.logger.info({ 
-      imageUrlsCount: raw.imageUrls.length,
-      source: raw.source,
-      externalId: raw.externalId 
-    }, 'Iniciando procesamiento de imágenes...');
+    this.logger.info(
+      {
+        imageUrlsCount: raw.imageUrls.length,
+        source: raw.source,
+        externalId: raw.externalId,
+      },
+      'Iniciando procesamiento de imágenes...',
+    );
 
     // 3.5. Procesar imágenes: Hash + Almacenamiento
     const processedImages = await Promise.all(
@@ -96,10 +105,13 @@ export class ScrapeUrlUseCase {
           const existingProviders = await this.repository.find({ imageHash: hash });
           if (existingProviders.length > 0) {
             const existingProvider = existingProviders[0]!;
-            const existingImg = existingProvider.images.find(img => img.hash === hash);
+            const existingImg = existingProvider.images.find((img) => img.hash === hash);
             const existingUrl = existingImg?.url || existingProvider.images[0]?.url;
 
-            this.logger.info({ hash }, 'pHash detectado en otro proveedor, reutilizando imagen existente');
+            this.logger.info(
+              { hash },
+              'pHash detectado en otro proveedor, reutilizando imagen existente',
+            );
             return { hash, storedUrl: existingUrl!, originalUrl: imgUrl };
           }
 
@@ -113,42 +125,48 @@ export class ScrapeUrlUseCase {
           this.logger.error({ imgUrl, error }, 'Error procesando imagen');
           return null;
         }
-      })
+      }),
     );
 
-    const validImages = (processedImages.filter(img => img !== null) as any[]);
+    const validImages = processedImages.filter((img) => img !== null) as any[];
     const rawWithImages = {
       ...raw,
-      processedImages: validImages.map(img => ({
+      processedImages: validImages.map((img) => ({
         url: img.storedUrl,
         originalUrl: img.originalUrl,
-        hash: img.hash
-      }))
+        hash: img.hash,
+      })),
     };
 
-    this.logger.info({
-      source: raw.source,
-      name: raw.name,
-      price: raw.price,
-      imagesStored: rawWithImages.processedImages.length
-    }, 'Procesamiento completo, buscando candidatos...');
+    this.logger.info(
+      {
+        source: raw.source,
+        name: raw.name,
+        price: raw.price,
+        imagesStored: rawWithImages.processedImages.length,
+      },
+      'Procesamiento completo, buscando candidatos...',
+    );
 
     // 4. Buscar candidatos para consolidación
     const candidates = await this.repository.find({
       phone: raw.phones[0],
       telegram: raw.telegram,
-      externalId: { source: source.identifier, id: raw.externalId }
+      externalId: { source: source.identifier, id: raw.externalId },
     });
 
     // 5. Consolidar
     this.logger.info('Iniciando proceso de consolidación...');
     const result = this.consolidationService.consolidate(rawWithImages as any, candidates);
 
-    this.logger.info({ 
-      action: result.action, 
-      confidence: result.confidenceScore,
-      signals: result.newSignals.map(s => s.type)
-    }, 'Resultado de la consolidación');
+    this.logger.info(
+      {
+        action: result.action,
+        confidence: result.confidenceScore,
+        signals: result.newSignals.map((s) => s.type),
+      },
+      'Resultado de la consolidación',
+    );
 
     // 6. Ejecutar acción
     switch (result.action) {
@@ -162,13 +180,12 @@ export class ScrapeUrlUseCase {
         if (result.targetProviderId) {
           const existing = await this.repository.findById(result.targetProviderId);
           if (existing) {
-             await this.repository.update({
-               ...existing,
-               ...result.mergedData,
-               confidenceScore: result.confidenceScore,
-               updatedAt: new Date()
-             });
-             this.logger.info({ id: result.targetProviderId }, 'Proveedor actualizado (MERGE)');
+            await this.repository.update(result.targetProviderId, {
+              ...result.mergedData,
+              confidenceScore: result.confidenceScore,
+              updatedAt: new Date(),
+            });
+            this.logger.info({ id: result.targetProviderId }, 'Proveedor actualizado (MERGE)');
           }
         }
         break;
@@ -190,9 +207,9 @@ export class ScrapeUrlUseCase {
       description: data.description,
       price: data.price,
       images: data.images || (data as any).processedImages || [],
-      vertical: data.vertical || 'unknown',
+      vertical: data.vertical || Vertical.GENERAL,
       externalIds: data.externalIds || {},
-      verificationStatus: data.verificationStatus || 'unverified',
+      verificationStatus: data.verificationStatus || VerificationStatus.PENDING_REVIEW,
       confidenceScore: data.confidenceScore || 1.0,
       signals: [],
       metadata: data.metadata || {},

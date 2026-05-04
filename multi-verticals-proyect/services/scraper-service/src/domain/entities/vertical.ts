@@ -3,5 +3,5 @@ export enum Vertical {
   MOTOR = 'MOTOR',
   JOBS = 'JOBS',
   SERVICES = 'SERVICES',
-  GENERAL = 'GENERAL'
+  GENERAL = 'GENERAL',
 }

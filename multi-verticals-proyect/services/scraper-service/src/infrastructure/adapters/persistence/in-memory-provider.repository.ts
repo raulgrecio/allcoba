@@ -5,12 +5,17 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
   private providers: Map<string, Provider> = new Map();
 
   async find(criteria: ProviderCriteria): Promise<Provider[]> {
-    return Array.from(this.providers.values()).filter(p => {
+    return Array.from(this.providers.values()).filter((p) => {
       let match = false;
       if (criteria.phone && p.phones.includes(criteria.phone)) match = true;
       if (criteria.telegram && p.telegram === criteria.telegram) match = true;
-      if (criteria.externalId && p.externalIds[criteria.externalId.source] === criteria.externalId.id) match = true;
-      if (criteria.imageHash && p.images.some(img => img.hash === criteria.imageHash)) match = true;
+      if (
+        criteria.externalId &&
+        p.externalIds[criteria.externalId.source] === criteria.externalId.id
+      )
+        match = true;
+      if (criteria.imageHash && p.images.some((img) => img.hash === criteria.imageHash))
+        match = true;
 
       return match;
     });

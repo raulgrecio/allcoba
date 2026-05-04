@@ -21,6 +21,7 @@ export interface RawExtraction<T = Record<string, any>> {
     timestamp: string;
     durationMs: number;
     sourceUrl: string;
+    userAgent: string;
     serverIp?: string;
     outboundIp?: string;
     statusCode: number;
@@ -36,10 +37,13 @@ export interface SourcePort {
   canHandle(url: string): boolean;
 
   /** Extrae los datos crudos de la página y devuelve también el HTML original */
-  extract(url: string, options?: { 
-    onSnapshot?: (html: string, stage: string) => Promise<void>,
-    headless?: boolean 
-  }): Promise<{ data: RawExtraction; html: string }>;
+  extract(
+    url: string,
+    options?: {
+      onSnapshot?: (html: string, stage: string) => Promise<void>;
+      headless?: boolean;
+    },
+  ): Promise<{ data: RawExtraction; html: string }>;
 
   /** Verifica robots.txt para esta fuente */
   isAllowed(url: string): Promise<boolean>;

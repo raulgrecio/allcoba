@@ -1,7 +1,7 @@
 import { logger } from '@allcoba/kernel';
 
-import { type Provider, type ScraperSignal, VerificationStatus } from '../entities/provider.js';
 import type { RawExtraction } from '../../application/ports/source.port.js';
+import { VerificationStatus, type Provider, type ScraperSignal } from '../entities/provider.js';
 
 export type ConsolidationAction = 'CREATE' | 'MERGE' | 'FLAG_FOR_REVIEW' | 'IGNORE';
 
@@ -14,12 +14,15 @@ export interface ConsolidationResult {
 }
 
 export class ConsolidationService {
-  private readonly logger = logger().child({ component: 'ConsolidationService' });
+  private readonly logger = logger().child({ component: ConsolidationService.name });
   /**
    * Analiza una extracción cruda contra los candidatos existentes para decidir qué acción tomar.
    */
   consolidate(raw: RawExtraction, candidates: Provider[]): ConsolidationResult {
-    this.logger.debug({ source: raw.source, externalId: raw.externalId, candidatesCount: candidates.length }, 'Iniciando consolidación');
+    this.logger.debug(
+      { source: raw.source, externalId: raw.externalId, candidatesCount: candidates.length },
+      'Iniciando consolidación',
+    );
     const signals: ScraperSignal[] = [];
     let bestMatch: Provider | null = null;
     let maxConfidence = 0;
@@ -41,7 +44,7 @@ export class ConsolidationService {
         targetProviderId: bestMatch.id,
         confidenceScore: maxConfidence,
         newSignals: signals,
-        mergedData: this.mergeData(bestMatch, raw)
+        mergedData: this.mergeData(bestMatch, raw),
       };
     }
 
@@ -52,7 +55,7 @@ export class ConsolidationService {
         targetProviderId: bestMatch.id,
         confidenceScore: maxConfidence,
         newSignals: signals,
-        mergedData: this.mergeData(bestMatch, raw)
+        mergedData: this.mergeData(bestMatch, raw),
       };
     }
 
@@ -61,16 +64,19 @@ export class ConsolidationService {
       action: 'CREATE',
       confidenceScore: 1.0,
       newSignals: signals,
-      mergedData: this.mapToProvider(raw)
+      mergedData: this.mapToProvider(raw),
     };
   }
 
-  private calculateMatch(raw: RawExtraction, candidate: Provider): { confidence: number, signals: ScraperSignal[] } {
+  private calculateMatch(
+    raw: RawExtraction,
+    candidate: Provider,
+  ): { confidence: number; signals: ScraperSignal[] } {
     let score = 0;
     const signals: ScraperSignal[] = [];
 
     // Match por teléfono
-    const commonPhones = raw.phones.filter(p => candidate.phones.includes(p));
+    const commonPhones = raw.phones.filter((p) => candidate.phones.includes(p));
     if (commonPhones.length > 0) {
       score += 0.9;
       signals.push({
@@ -78,7 +84,7 @@ export class ConsolidationService {
         sourceId: raw.externalId,
         confidence: 0.9,
         metadata: { commonPhones },
-        createdAt: new Date()
+        createdAt: new Date(),
       });
     }
 
@@ -90,21 +96,22 @@ export class ConsolidationService {
         sourceId: raw.externalId,
         confidence: 0.8,
         metadata: { telegram: raw.telegram },
-        createdAt: new Date()
+        createdAt: new Date(),
       });
     }
 
     // Match por ubicación (si están muy cerca)
     if (raw.coordinates && candidate.address?.coordinates) {
       const distance = this.calculateDistance(raw.coordinates, candidate.address.coordinates);
-      if (distance < 0.1) { // Menos de 100 metros
+      if (distance < 0.1) {
+        // Menos de 100 metros
         score += 0.3;
         const signal: ScraperSignal = {
           type: 'LOCATION_MATCH',
           sourceId: raw.externalId,
           confidence: 0.3,
           metadata: { distanceKm: distance },
-          createdAt: new Date()
+          createdAt: new Date(),
         };
         signals.push(signal);
         this.logger.debug({ distanceKm: distance }, 'Señal LOCATION_MATCH detectada');
@@ -120,13 +127,13 @@ export class ConsolidationService {
         sourceId: raw.externalId,
         confidence: 1.0,
         metadata: { source, externalId: raw.externalId },
-        createdAt: new Date()
+        createdAt: new Date(),
       });
     }
 
     return {
       confidence: Math.min(score, 1.0),
-      signals
+      signals,
     };
   }
 
@@ -141,14 +148,14 @@ export class ConsolidationService {
       description: existing.description || raw.description,
       images: this.deduplicateImages(existing.images, (raw as any).processedImages || []),
       attributes: { ...existing.attributes, ...raw.attributes },
-      metadata: { ...existing.metadata, ...raw.metadata, lastMergedAt: new Date() }
+      metadata: { ...existing.metadata, ...raw.metadata, lastMergedAt: new Date() },
     };
   }
 
   private deduplicateImages(existing: any[], incoming: any[]): any[] {
     const combined = [...existing, ...incoming];
     const seen = new Set();
-    return combined.filter(img => {
+    return combined.filter((img) => {
       if (!img.hash) return true; // Si no tiene hash (raro), lo dejamos
       if (seen.has(img.hash)) return false;
       seen.add(img.hash);
@@ -171,19 +178,24 @@ export class ConsolidationService {
       verificationStatus: VerificationStatus.PENDING_REVIEW,
       confidenceScore: 1.0,
       attributes: raw.attributes,
-      metadata: raw.metadata || {}
+      metadata: raw.metadata || {},
     };
   }
 
-  private calculateDistance(p1: { lat: number, lng: number }, p2: { lat: number, lng: number }): number {
+  private calculateDistance(
+    p1: { lat: number; lng: number },
+    p2: { lat: number; lng: number },
+  ): number {
     const R = 6371; // Radio de la Tierra en km
-    const dLat = (p2.lat - p1.lat) * Math.PI / 180;
-    const dLon = (p2.lng - p1.lng) * Math.PI / 180;
+    const dLat = ((p2.lat - p1.lat) * Math.PI) / 180;
+    const dLon = ((p2.lng - p1.lng) * Math.PI) / 180;
     const a =
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(p1.lat * Math.PI / 180) * Math.cos(p2.lat * Math.PI / 180) *
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((p1.lat * Math.PI) / 180) *
+        Math.cos((p2.lat * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }
 }

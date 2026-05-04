@@ -1,5 +1,6 @@
-import { MotorBaseAdapter } from './motor.base.js';
 import type { CheerioAPI } from 'cheerio';
+
+import { MotorBaseAdapter } from './motor.base.js';
 
 export class CochesNetAdapter extends MotorBaseAdapter {
   readonly identifier = 'coches.net';
@@ -32,9 +33,19 @@ export class CochesNetAdapter extends MotorBaseAdapter {
     return $('.mt-Price').text().trim();
   }
 
-  protected extractYear($: CheerioAPI): number | undefined { return undefined; }
-  protected extractKilometers($: CheerioAPI): number | undefined { return undefined; }
-  protected extractFuel($: CheerioAPI): string | undefined { return undefined; }
-  protected extractTransmission($: CheerioAPI): string | undefined { return undefined; }
-  protected extractPower($: CheerioAPI): number | undefined { return undefined; }
+  protected extractYear($: CheerioAPI): number | undefined {
+    return undefined;
+  }
+  protected extractKilometers($: CheerioAPI): number | undefined {
+    return undefined;
+  }
+  protected extractFuel($: CheerioAPI): string | undefined {
+    return undefined;
+  }
+  protected extractTransmission($: CheerioAPI): string | undefined {
+    return undefined;
+  }
+  protected extractPower($: CheerioAPI): number | undefined {
+    return undefined;
+  }
 }

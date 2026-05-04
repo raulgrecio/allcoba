@@ -256,7 +256,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/kernel
       cheerio:
-        specifier: ^1.0.0-rc.12
+        specifier: ^1.2.0
         version: 1.2.0
       dotenv:
         specifier: ^16.4.7

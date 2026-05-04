@@ -7,7 +7,13 @@ export enum VerificationStatus {
   VERIFIED_MANUAL = 'VERIFIED_MANUAL',
 }
 
-type SignalType = 'IMAGE_MATCH' | 'TEXT_SIMILARITY' | 'PHONE_MATCH' | 'LOCATION_MATCH' | 'TELEGRAM_MATCH' | 'EXTERNAL_ID_MATCH';
+type SignalType =
+  | 'IMAGE_MATCH'
+  | 'TEXT_SIMILARITY'
+  | 'PHONE_MATCH'
+  | 'LOCATION_MATCH'
+  | 'TELEGRAM_MATCH'
+  | 'EXTERNAL_ID_MATCH';
 
 export interface ScraperSignal {
   type: SignalType;
@@ -18,9 +24,9 @@ export interface ScraperSignal {
 }
 
 export interface ProviderImage {
-  url: string;        // Nuestra URL (S3 o Local)
+  url: string; // Nuestra URL (S3 o Local)
   originalUrl: string; // URL de la fuente original
-  hash: string;       // pHash para deduplicación
+  hash: string; // pHash para deduplicación
 }
 
 export interface Provider<T = Record<string, any>> {
@@ -59,6 +65,7 @@ export interface ProviderCriteria {
     source: string;
     id: string;
   };
+  imageHash?: string;
   vertical?: string;
   location?: {
     lat: number;

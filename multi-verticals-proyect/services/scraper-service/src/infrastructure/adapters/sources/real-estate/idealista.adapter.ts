@@ -1,5 +1,6 @@
-import { RealEstateBaseAdapter } from './real-estate.base.js';
 import type { CheerioAPI } from 'cheerio';
+
+import { RealEstateBaseAdapter } from './real-estate.base.js';
 
 export class IdealistaAdapter extends RealEstateBaseAdapter {
   readonly identifier = 'idealista';
@@ -10,7 +11,7 @@ export class IdealistaAdapter extends RealEstateBaseAdapter {
 
   protected extractId(url: string): string {
     const match = url.match(/\/(inmueble|pro|motor)\/(\d+)/);
-    return match ? match[2] : url.split('/').pop() || url;
+    return match && match[2] ? match[2] : url.split('/').pop() || url;
   }
 
   protected extractTitle($: CheerioAPI): string {
@@ -58,8 +59,16 @@ export class IdealistaAdapter extends RealEstateBaseAdapter {
     return phones;
   }
 
-  protected extractRooms($: CheerioAPI): number | undefined { return undefined; }
-  protected extractBathrooms($: CheerioAPI): number | undefined { return undefined; }
-  protected extractSurface($: CheerioAPI): number | undefined { return undefined; }
-  protected extractHasAscensor($: CheerioAPI): boolean | undefined { return undefined; }
+  protected extractRooms($: CheerioAPI): number | undefined {
+    return undefined;
+  }
+  protected extractBathrooms($: CheerioAPI): number | undefined {
+    return undefined;
+  }
+  protected extractSurface($: CheerioAPI): number | undefined {
+    return undefined;
+  }
+  protected extractHasAscensor($: CheerioAPI): boolean | undefined {
+    return undefined;
+  }
 }
