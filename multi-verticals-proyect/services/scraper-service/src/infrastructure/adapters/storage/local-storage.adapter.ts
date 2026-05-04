@@ -22,6 +22,9 @@ export class LocalStorageAdapter implements StoragePort {
   async upload(buffer: Buffer, fileName: string, _mimeType: string): Promise<string> {
     await this.init();
     const filePath = path.join(this.storageDir, fileName);
+    
+    // Asegurar que el directorio del archivo (ej: raw/, images/) existe
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
 
     await fs.writeFile(filePath, buffer);
 

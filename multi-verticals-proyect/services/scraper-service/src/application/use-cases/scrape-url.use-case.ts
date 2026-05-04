@@ -12,13 +12,17 @@ import type { StoragePort } from '../ports/storage.port.js';
 
 export interface ScraperConfig {
   maxImagesToProcess: number;
+  saveRawHtml: boolean;
 }
 
 const DEFAULT_CONFIG: ScraperConfig = {
-  maxImagesToProcess: 5
+  maxImagesToProcess: 5,
+  saveRawHtml: true
 };
 
 export class ScrapeUrlUseCase {
+  private readonly logger = logger().child({ component: 'ScrapeUrlUseCase' });
+
   constructor(
     private readonly sources: SourcePort[],
     private readonly repository: ProviderRepositoryPort,
@@ -42,8 +46,28 @@ export class ScrapeUrlUseCase {
     }
 
     // 3. Extraer datos crudos
-    const raw = await source.extract(url);
-    logger().info({ imageUrlsCount: raw.imageUrls.length }, 'HTML extraído, iniciando hashing de imágenes...');
+    const { data: raw, html } = await source.extract(url);
+    
+    // 3.5. Persistir HTML crudo para análisis (Debug) si está activado
+    if (this.config.saveRawHtml) {
+      try {
+        const sanitizedId = raw.externalId.replace(/[^a-z0-9]/gi, '_');
+        const fileName = `${raw.source}_${sanitizedId}.html`;
+        await this.storage.upload(Buffer.from(html), `raw/${fileName}`, 'text/html');
+        
+        // Guardamos solo el nombre del archivo en los metadatos para la BBDD
+        raw.metadata.debugFile = fileName;
+        this.logger.info({ fileName }, 'HTML crudo persistido para análisis');
+      } catch (e) {
+        this.logger.warn('No se pudo persistir el HTML de debug');
+      }
+    }
+
+    this.logger.info({ 
+      imageUrlsCount: raw.imageUrls.length,
+      source: raw.source,
+      externalId: raw.externalId 
+    }, 'Iniciando procesamiento de imágenes...');
 
     // 3.5. Procesar imágenes: Hash + Almacenamiento
     const processedImages = await Promise.all(
@@ -64,7 +88,7 @@ export class ScrapeUrlUseCase {
             const existingImg = existingProvider.images.find(img => img.hash === hash);
             const existingUrl = existingImg?.url || existingProvider.images[0]?.url;
 
-            logger().info({ hash }, 'pHash detectado en otro proveedor, reutilizando imagen existente');
+            this.logger.info({ hash }, 'pHash detectado en otro proveedor, reutilizando imagen existente');
             return { hash, storedUrl: existingUrl!, originalUrl: imgUrl };
           }
 
@@ -75,7 +99,7 @@ export class ScrapeUrlUseCase {
 
           return { hash, storedUrl, originalUrl: imgUrl };
         } catch (error) {
-          logger().error({ imgUrl, error }, 'Error procesando imagen');
+          this.logger.error({ imgUrl, error }, 'Error procesando imagen');
           return null;
         }
       })
@@ -91,7 +115,7 @@ export class ScrapeUrlUseCase {
       }))
     };
 
-    logger().info({
+    this.logger.info({
       source: raw.source,
       name: raw.name,
       price: raw.price,
@@ -106,12 +130,20 @@ export class ScrapeUrlUseCase {
     });
 
     // 5. Consolidar
+    this.logger.info('Iniciando proceso de consolidación...');
     const result = this.consolidationService.consolidate(rawWithImages as any, candidates);
+
+    this.logger.info({ 
+      action: result.action, 
+      confidence: result.confidenceScore,
+      signals: result.newSignals.map(s => s.type)
+    }, 'Resultado de la consolidación');
 
     // 6. Ejecutar acción
     switch (result.action) {
       case 'CREATE':
         await this.repository.create(this.createProvider(result.mergedData));
+        this.logger.info('Nuevo proveedor creado con éxito');
         break;
 
       case 'MERGE':
@@ -125,11 +157,13 @@ export class ScrapeUrlUseCase {
                confidenceScore: result.confidenceScore,
                updatedAt: new Date()
              });
+             this.logger.info({ id: result.targetProviderId }, 'Proveedor actualizado (MERGE)');
           }
         }
         break;
 
       case 'IGNORE':
+        this.logger.info('Extracción ignorada por baja confianza o duplicado exacto');
         break;
     }
   }

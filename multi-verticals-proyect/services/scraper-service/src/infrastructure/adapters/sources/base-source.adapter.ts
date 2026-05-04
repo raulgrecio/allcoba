@@ -24,7 +24,7 @@ export abstract class BaseSourceAdapter implements SourcePort {
   /**
    * EL TEMPLATE METHOD: Define el algoritmo de extracción y recoge metadatos técnicos.
    */
-  async extract(url: string): Promise<RawExtraction> {
+  async extract(url: string): Promise<{ data: RawExtraction; html: string }> {
     const startTime = Date.now();
 
     // 1. Crawling técnico
@@ -38,17 +38,20 @@ export abstract class BaseSourceAdapter implements SourcePort {
 
     // 3. Enriquecimiento con metadatos técnicos globales
     return {
-      ...data,
-      metadata: {
-        ...data.metadata,
-        timestamp: new Date().toISOString(),
-        durationMs,
-        sourceUrl: url,
-        userAgent: result.userAgent,
-        serverIp: result.serverIp,
-        outboundIp: result.outboundIp,
-        statusCode: result.status,
+      data: {
+        ...data,
+        metadata: {
+          timestamp: new Date().toISOString(),
+          durationMs,
+          sourceUrl: url,
+          userAgent: result.userAgent,
+          serverIp: result.serverIp,
+          outboundIp: result.outboundIp,
+          statusCode: result.status,
+          // El campo debugFile lo rellenará el caso de uso si guarda el archivo
+        },
       },
+      html: result.html,
     };
   }
 
