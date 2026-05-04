@@ -6,7 +6,6 @@ import importPlugin from 'eslint-plugin-import';
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  prettier,
   {
     plugins: {
       import: importPlugin,
@@ -16,16 +15,12 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
-      'import/order': [
-        'error',
-        {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
+      // Desactivamos import/order porque ahora Prettier se encarga de esto
+      'import/order': 'off',
     },
   },
+  // Ponemos prettier al final para que desactive cualquier regla de ESLint que choque con el formato
+  prettier,
   {
     ignores: [
       '**/node_modules/**',
