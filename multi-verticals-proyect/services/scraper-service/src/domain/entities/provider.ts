@@ -7,7 +7,7 @@ export enum VerificationStatus {
   VERIFIED_MANUAL = 'VERIFIED_MANUAL',
 }
 
-type SignalType = 'IMAGE_MATCH' | 'TEXT_SIMILARITY' | 'PHONE_MATCH' | 'LOCATION_MATCH' | 'TELEGRAM_MATCH';
+type SignalType = 'IMAGE_MATCH' | 'TEXT_SIMILARITY' | 'PHONE_MATCH' | 'LOCATION_MATCH' | 'TELEGRAM_MATCH' | 'EXTERNAL_ID_MATCH';
 
 export interface ScraperSignal {
   type: SignalType;
@@ -37,6 +37,7 @@ export interface Provider<T = Record<string, any>> {
     };
   };
   description?: string;
+  price?: number; // Precio de referencia, NO es el precio final, undefined significa a consultar
   images: ProviderImage[]; // Cambiado a array de objetos enriquecidos
   vertical: Vertical; // Usando el Enum tipado
   externalIds: Record<string, string>;

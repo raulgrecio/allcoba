@@ -25,12 +25,37 @@ export class IdealistaAdapter extends RealEstateBaseAdapter {
     return $('.main-info__title-minor').text().trim();
   }
 
+  protected getCookieSelectors(): string[] {
+    return ['#didomi-notice-agree-button'];
+  }
+
+  protected async onBeforeCapture(page: any): Promise<void> {
+    try {
+      const phoneBtn = page.locator('button:has-text("Ver teléfono")').first();
+      if (await phoneBtn.isVisible({ timeout: 3000 })) {
+        await phoneBtn.click();
+        await page.waitForTimeout(1000);
+      }
+    } catch (e) {
+      // No pasa nada
+    }
+  }
+
   protected getImageSelectors(): string[] {
     return ['#main-multimedia img'];
   }
 
   protected extractRawPrice($: CheerioAPI): string {
     return $('.info-data-price').text().trim();
+  }
+
+  protected async extractPhones($: CheerioAPI): Promise<string[]> {
+    const phones: string[] = [];
+    const phoneText = $('.phone-number, .contact-phone').text().trim();
+    if (phoneText) {
+      phones.push(phoneText.replace(/\s/g, ''));
+    }
+    return phones;
   }
 
   protected extractRooms($: CheerioAPI): number | undefined { return undefined; }

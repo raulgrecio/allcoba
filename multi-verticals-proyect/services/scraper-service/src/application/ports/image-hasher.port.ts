@@ -3,7 +3,7 @@ export interface ImageHasherPort {
    * Genera un perceptual hash (pHash) de una imagen a partir de su URL o buffer.
    * El pHash permite comparar imágenes similares aunque cambien de tamaño o formato.
    */
-  generateHash(url: string): Promise<string>;
+  generateHash(input: string | Buffer): Promise<string>;
 
   /**
    * Calcula la distancia de Hamming entre dos hashes. 

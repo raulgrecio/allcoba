@@ -105,8 +105,18 @@ export class ConsolidationService {
       }
     }
 
-    // Nota: El match por imagen se haría fuera si requiere descargar y hashear
-    // Aquí recibimos señales ya pre-calculadas si fuera necesario
+    // Match por externalId (¡El más fuerte!)
+    const source = raw.source;
+    if (candidate.externalIds[source] === raw.externalId) {
+      score += 1.0;
+      signals.push({
+        type: 'EXTERNAL_ID_MATCH',
+        sourceId: raw.externalId,
+        confidence: 1.0,
+        metadata: { source, externalId: raw.externalId },
+        createdAt: new Date()
+      });
+    }
 
     return {
       confidence: Math.min(score, 1.0),
@@ -121,11 +131,23 @@ export class ConsolidationService {
       phones: Array.from(new Set([...existing.phones, ...raw.phones])),
       telegram: existing.telegram || raw.telegram,
       email: existing.email || raw.email,
+      price: raw.price || existing.price,
       description: existing.description || raw.description,
-      images: Array.from(new Set([...existing.images, ...raw.imageUrls])),
+      images: this.deduplicateImages(existing.images, (raw as any).processedImages || []),
       attributes: { ...existing.attributes, ...raw.attributes },
       metadata: { ...existing.metadata, lastMergedAt: new Date() }
     };
+  }
+
+  private deduplicateImages(existing: any[], incoming: any[]): any[] {
+    const combined = [...existing, ...incoming];
+    const seen = new Set();
+    return combined.filter(img => {
+      if (!img.hash) return true; // Si no tiene hash (raro), lo dejamos
+      if (seen.has(img.hash)) return false;
+      seen.add(img.hash);
+      return true;
+    });
   }
 
   private mapToProvider(raw: RawExtraction): Partial<Provider> {
@@ -134,9 +156,11 @@ export class ConsolidationService {
       phones: raw.phones,
       telegram: raw.telegram,
       email: raw.email,
+      price: raw.price,
       address: raw.address ? { text: raw.address, coordinates: raw.coordinates } : undefined,
       description: raw.description,
-      images: raw.imageUrls,
+      images: (raw as any).processedImages || [],
+      vertical: raw.vertical,
       externalIds: { [raw.source]: raw.externalId },
       verificationStatus: VerificationStatus.PENDING_REVIEW,
       confidenceScore: 1.0,

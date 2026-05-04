@@ -1,20 +1,27 @@
 import sharp from 'sharp';
-import type { ImageHasherPort } from '../../../application/ports/image-hasher.port.js';
+
 import { logger } from '@allcoba/kernel';
 
-export class SharpHasherAdapter implements ImageHasherPort {
-  async generateHash(url: string): Promise<string> {
-    try {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 10000); // 10s timeout
+import type { ImageHasherPort } from '../../../application/ports/image-hasher.port.js';
 
-      const response = await fetch(url, { signal: controller.signal });
-      clearTimeout(id);
-      
-      const buffer = await response.arrayBuffer();
-      
+export class SharpHasherAdapter implements ImageHasherPort {
+  async generateHash(input: string | Buffer): Promise<string> {
+    try {
+      let buffer: Buffer;
+
+      if (Buffer.isBuffer(input)) {
+        buffer = input;
+      } else {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const response = await fetch(input, { signal: controller.signal });
+        clearTimeout(id);
+        const arrayBuffer = await response.arrayBuffer();
+        buffer = Buffer.from(arrayBuffer);
+      }
+
       // El pHash simplificado: Reducir a 8x8 en escala de grises
-      const { data } = await sharp(Buffer.from(buffer))
+      const { data } = await sharp(buffer)
         .greyscale()
         .resize(8, 8, { fit: 'fill' })
         .raw()
@@ -36,7 +43,8 @@ export class SharpHasherAdapter implements ImageHasherPort {
       // Convertir binario a hexadecimal para almacenamiento compacto
       return this.binaryToHex(hash);
     } catch (error: any) {
-      logger().error({ error: error.message, url }, 'Error generando pHash de imagen');
+      const context = typeof input === 'string' ? input : 'Buffer';
+      logger().error({ error: error.message, context }, 'Error generando pHash de imagen');
       return '';
     }
   }
@@ -44,7 +52,7 @@ export class SharpHasherAdapter implements ImageHasherPort {
   calculateDistance(hash1: string, hash2: string): number {
     const hex1 = this.hexToBinary(hash1);
     const hex2 = this.hexToBinary(hash2);
-    
+
     let distance = 0;
     for (let i = 0; i < hex1.length; i++) {
       if (hex1[i] !== hex2[i]) distance++;

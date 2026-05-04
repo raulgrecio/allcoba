@@ -1,12 +1,14 @@
+import { Buffer } from 'buffer';
+import crypto from 'crypto';
+
 import { logger } from '@allcoba/kernel';
+
 import type { SourcePort, RawExtraction } from '../ports/source.port.js';
 import type { ProviderRepositoryPort } from '../ports/repository.port.js';
 import { ConsolidationService } from '../../domain/services/consolidation.service.js';
 import type { Provider } from '../../domain/entities/provider.js';
 import type { ImageHasherPort } from '../ports/image-hasher.port.js';
 import type { StoragePort } from '../ports/storage.port.js';
-import { Buffer } from 'buffer';
-import crypto from 'crypto';
 
 export interface ScraperConfig {
   maxImagesToProcess: number;
@@ -141,13 +143,15 @@ export class ScrapeUrlUseCase {
       email: data.email,
       address: data.address,
       description: data.description,
-      images: (data as any).processedImages || [],
+      price: data.price,
+      images: data.images || (data as any).processedImages || [],
       vertical: data.vertical || 'unknown',
       externalIds: data.externalIds || {},
       verificationStatus: data.verificationStatus || 'unverified',
       confidenceScore: data.confidenceScore || 1.0,
       signals: [],
       metadata: data.metadata || {},
+      attributes: data.attributes || {},
       lastScrapedAt: new Date(),
       createdAt: new Date(),
       updatedAt: new Date(),

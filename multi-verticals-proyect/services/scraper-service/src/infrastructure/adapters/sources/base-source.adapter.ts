@@ -1,3 +1,6 @@
+import type { CheerioAPI, AnyNode, Element } from "cheerio";
+import * as cheerio from "cheerio";
+
 import { PlaywrightCrawler } from "../../crawler/playwright-crawler.js";
 import type {
   SourcePort,
@@ -5,8 +8,6 @@ import type {
 } from "../../../application/ports/source.port.js";
 import { Vertical } from "../../../domain/entities/vertical.js";
 import { RobotsChecker } from "../../crawler/robots-checker.js";
-import type { CheerioAPI } from "cheerio";
-import * as cheerio from "cheerio";
 
 export abstract class BaseSourceAdapter implements SourcePort {
   abstract readonly identifier: string;
@@ -24,7 +25,7 @@ export abstract class BaseSourceAdapter implements SourcePort {
    * EL TEMPLATE METHOD: Define el algoritmo de extracción.
    */
   async extract(url: string): Promise<RawExtraction> {
-    const html = await this.browser.fetch(url);
+    const html = await this.browser.fetch(url, this.getCrawlerOptions(url));
     const $ = cheerio.load(html);
 
     return {
@@ -41,6 +42,24 @@ export abstract class BaseSourceAdapter implements SourcePort {
       attributes: this.extractAttributes($),
       extractedAt: new Date(),
     };
+  }
+
+  /**
+   * Configuración específica para el Crawler de este portal
+   */
+  protected getCrawlerOptions(_url: string): any {
+    return {
+      cookieSelectors: this.getCookieSelectors(),
+      onBeforeCapture: this.onBeforeCapture.bind(this)
+    };
+  }
+
+  protected getCookieSelectors(): string[] {
+    return [];
+  }
+
+  protected async onBeforeCapture(_page: any): Promise<void> {
+    // Por defecto no hace nada, los hijos lo sobreescriben
   }
 
   // Métodos que CADA vertical u obrero debe decidir cómo implementar
@@ -101,5 +120,64 @@ export abstract class BaseSourceAdapter implements SourcePort {
       ]);
     }
     return imageUrls;
+  }
+
+  /**
+   * Utilidad global para extraer números mediante Regex de un bloque de texto.
+   */
+  protected parseFromText(text: string, patterns: RegExp[]): number | undefined {
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match && match[1]) return parseInt(match[1], 10);
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Extrae todos los nodos de texto de forma recursiva para evitar concatenaciones.
+   */
+  private extractDeepText(el: AnyNode, $: CheerioAPI): string[] {
+    const textNodes: string[] = [];
+
+    const collect = (node: AnyNode) => {
+      // Usamos 'type' para identificar nodos de texto de forma segura
+      if ('data' in node && node.type === 'text') {
+        const t = node.data.trim();
+        if (t) textNodes.push(t);
+      } else if ('children' in node && node.children) {
+        node.children.forEach((child: AnyNode) => collect(child));
+      }
+    };
+    collect(el);
+    return textNodes;
+  }
+
+  /**
+   * Recolecta pares de Clave: Valor de una lista de elementos (li, div, etc).
+   */
+  protected collectRawFeatures($: CheerioAPI, selector: string): Record<string, string> {
+    const rawFeatures: Record<string, string> = {};
+    $(selector).each((_, el: Element) => {
+      const textNodes = this.extractDeepText(el, $);
+
+      if (textNodes.length >= 2 && textNodes[0]) {
+        const label = textNodes[0].replace(/:$/, '').trim();
+        const value = textNodes.slice(1).join(' ').trim();
+        rawFeatures[label] = value;
+      } else if (textNodes.length === 1 && textNodes[0]) {
+        rawFeatures[textNodes[0]] = "Sí";
+      }
+    });
+
+    // Limpieza de claves que contienen ":" (como Energía: G)
+    Object.keys(rawFeatures).forEach(key => {
+      if (key.includes(':') && rawFeatures[key] === "Sí") {
+        const [newKey, ...rest] = key.split(':');
+        rawFeatures[newKey!.trim()] = rest.join(':').trim();
+        delete rawFeatures[key];
+      }
+    });
+    return rawFeatures;
   }
 }

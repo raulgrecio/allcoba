@@ -1,6 +1,7 @@
-import { BaseSourceAdapter } from '../base-source.adapter.js';
-import { Vertical } from '../../../../domain/entities/vertical.js';
 import type { CheerioAPI } from 'cheerio';
+
+import { Vertical } from '../../../../domain/entities/vertical.js';
+import { BaseSourceAdapter } from '../base-source.adapter.js';
 
 export abstract class RealEstateBaseAdapter extends BaseSourceAdapter {
   readonly defaultVertical = Vertical.REAL_ESTATE;
