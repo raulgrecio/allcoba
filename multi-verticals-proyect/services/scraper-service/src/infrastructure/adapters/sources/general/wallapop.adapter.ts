@@ -37,9 +37,9 @@ export class WallapopAdapter extends BaseSourceAdapter {
   }
 
   protected detectVertical(url: string): Vertical {
-    if (url.includes('/c11545-coches/')) return Vertical.MOTOR;
-    if (url.includes('/c11098-inmobiliaria/')) return Vertical.REAL_ESTATE;
-    if (url.includes('/c12485-servicios/')) return Vertical.SERVICES;
+    if (url.includes('c11545-coches')) return Vertical.MOTOR;
+    if (url.includes('c11098-inmobiliaria')) return Vertical.REAL_ESTATE;
+    if (url.includes('c12485-servicios')) return Vertical.SERVICES;
     return Vertical.GENERAL;
   }
 

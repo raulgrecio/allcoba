@@ -8,9 +8,9 @@ export interface ProviderRepositoryPort {
   find(criteria: ProviderCriteria): Promise<Provider[]>;
 
   /**
-   * Guarda un nuevo proveedor o actualiza uno existente.
+   * Crea un nuevo proveedor.
    */
-  save(provider: Provider): Promise<void>;
+  create(provider: Provider): Promise<void>;
 
   /**
    * Actualiza campos específicos de un proveedor.

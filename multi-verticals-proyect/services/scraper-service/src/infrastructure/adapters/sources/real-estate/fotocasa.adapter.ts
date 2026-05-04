@@ -67,9 +67,9 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
   }
 
 protected extractRooms($: CheerioAPI): number | undefined {
-  // 1. Intento por DOM/Aria
-  const element = $('[aria-label*="habitaciones"], [aria-label*="dormitorios"], [aria-labelledby*="rooms"]').first();
-  const text = element.text() || element.parent().text();
+  // 1. Intento por Clase específica (Fotocasa)
+  const element = $('.re-DetailHeader-rooms, .re-DetailHeader-featuresItem:contains("hab")').first();
+  const text = element.text();
   const match = text.match(/(\d+)/);
   if (match) return parseInt(match[1], 10);
 
@@ -77,9 +77,9 @@ protected extractRooms($: CheerioAPI): number | undefined {
   return this.parseFromText(this.extractDescription($), [/(\d+)\s*hab/i, /(\d+)\s*dormitorio/i, /(\d+)\s*studi/i]);
 }
 protected extractBathrooms($: CheerioAPI): number | undefined {
-  // 1. Intento por DOM/Aria
-  const element = $('[aria-label*="baño"], [aria-labelledby*="bathrooms"]').first();
-  const text = element.text() || element.parent().text();
+  // 1. Intento por Clase específica (Fotocasa)
+  const element = $('.re-DetailHeader-bathrooms, .re-DetailHeader-featuresItem:contains("baño")').first();
+  const text = element.text();
   const match = text.match(/(\d+)/);
   if (match) return parseInt(match[1], 10);
 
@@ -87,9 +87,9 @@ protected extractBathrooms($: CheerioAPI): number | undefined {
   return this.parseFromText(this.extractDescription($), [/(\d+)\s*baño/i, /(\d+)\s*aseo/i]);
 }
 protected extractSurface($: CheerioAPI): number | undefined {
-  // 1. Intento por DOM/Aria
-  const element = $('[aria-label*="superficie"], [aria-label*="m²"], [aria-labelledby*="surface"]').first();
-  const text = element.text() || element.parent().text();
+  // 1. Intento por Clase específica (Fotocasa)
+  const element = $('.re-DetailHeader-surface, .re-DetailHeader-featuresItem:contains("m²")').first();
+  const text = element.text();
   const match = text.match(/(\d+)/);
   if (match) return parseInt(match[1], 10);
 

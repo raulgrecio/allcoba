@@ -12,7 +12,8 @@ import type { StoragePort } from '../ports/storage.port.js';
 
 export interface ScraperConfig {
   maxImagesToProcess: number;
-  saveRawHtml: boolean;
+  saveRawHtml?: boolean;
+  headless?: boolean;
 }
 
 const DEFAULT_CONFIG: ScraperConfig = {
@@ -45,8 +46,18 @@ export class ScrapeUrlUseCase {
       throw new Error(`El acceso a la URL está restringido por robots.txt: ${url}`);
     }
 
-    // 3. Extraer datos crudos
-    const { data: raw, html } = await source.extract(url);
+    // 3. Extraer datos crudos (Con soporte para instantáneas de depuración)
+    const { data: raw, html } = await source.extract(url, {
+      headless: this.config.headless,
+      onSnapshot: async (snapshotHtml, stage) => {
+        if (this.config.saveRawHtml) {
+          const sanitizedId = url.split('/').filter(Boolean).pop()?.replace(/[^a-z0-9]/gi, '_') || 'unknown';
+          const fileName = `debug_${stage}_${source.identifier}_${sanitizedId}.html`;
+          await this.storage.upload(Buffer.from(snapshotHtml), `raw/${fileName}`, 'text/html');
+          this.logger.debug({ stage, fileName }, 'Instantánea de depuración guardada');
+        }
+      }
+    });
     
     // 3.5. Persistir HTML crudo para análisis (Debug) si está activado
     if (this.config.saveRawHtml) {

@@ -1,3 +1,5 @@
+import { logger } from '@allcoba/kernel';
+
 import { type Provider, type ScraperSignal, VerificationStatus } from '../entities/provider.js';
 import type { RawExtraction } from '../../application/ports/source.port.js';
 
@@ -12,10 +14,12 @@ export interface ConsolidationResult {
 }
 
 export class ConsolidationService {
+  private readonly logger = logger().child({ component: 'ConsolidationService' });
   /**
    * Analiza una extracción cruda contra los candidatos existentes para decidir qué acción tomar.
    */
   consolidate(raw: RawExtraction, candidates: Provider[]): ConsolidationResult {
+    this.logger.debug({ source: raw.source, externalId: raw.externalId, candidatesCount: candidates.length }, 'Iniciando consolidación');
     const signals: ScraperSignal[] = [];
     let bestMatch: Provider | null = null;
     let maxConfidence = 0;
@@ -56,7 +60,7 @@ export class ConsolidationService {
     return {
       action: 'CREATE',
       confidenceScore: 1.0,
-      newSignals: [],
+      newSignals: signals,
       mergedData: this.mapToProvider(raw)
     };
   }
@@ -95,13 +99,15 @@ export class ConsolidationService {
       const distance = this.calculateDistance(raw.coordinates, candidate.address.coordinates);
       if (distance < 0.1) { // Menos de 100 metros
         score += 0.3;
-        signals.push({
+        const signal: ScraperSignal = {
           type: 'LOCATION_MATCH',
           sourceId: raw.externalId,
           confidence: 0.3,
           metadata: { distanceKm: distance },
           createdAt: new Date()
-        });
+        };
+        signals.push(signal);
+        this.logger.debug({ distanceKm: distance }, 'Señal LOCATION_MATCH detectada');
       }
     }
 

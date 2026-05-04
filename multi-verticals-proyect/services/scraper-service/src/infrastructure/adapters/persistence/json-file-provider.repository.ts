@@ -57,9 +57,12 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
     await this.save(providers);
   }
 
-  async update(provider: Provider): Promise<void> {
+  async update(id: string, provider: Partial<Provider>): Promise<void> {
     const providers = await this.load();
-    providers.set(provider.id, provider);
-    await this.save(providers);
+    const existing = providers.get(id);
+    if (existing) {
+      providers.set(id, { ...existing, ...provider, updatedAt: new Date() });
+      await this.save(providers);
+    }
   }
 }

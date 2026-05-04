@@ -16,7 +16,7 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
     });
   }
 
-  async save(provider: Provider): Promise<void> {
+  async create(provider: Provider): Promise<void> {
     this.providers.set(provider.id, provider);
   }
 

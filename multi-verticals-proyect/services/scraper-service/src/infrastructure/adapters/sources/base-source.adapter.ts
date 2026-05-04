@@ -15,8 +15,8 @@ export abstract class BaseSourceAdapter implements SourcePort {
   protected robotsChecker = new RobotsChecker();
   protected readonly browser: PlaywrightCrawler;
 
-  constructor() {
-    this.browser = new PlaywrightCrawler();
+  constructor(crawler?: PlaywrightCrawler) {
+    this.browser = crawler || new PlaywrightCrawler();
   }
 
   abstract canHandle(url: string): boolean;
@@ -24,11 +24,15 @@ export abstract class BaseSourceAdapter implements SourcePort {
   /**
    * EL TEMPLATE METHOD: Define el algoritmo de extracción y recoge metadatos técnicos.
    */
-  async extract(url: string): Promise<{ data: RawExtraction; html: string }> {
+  async extract(url: string, options?: { onSnapshot?: (html: string, stage: string) => Promise<void>, headless?: boolean }): Promise<{ data: RawExtraction; html: string }> {
     const startTime = Date.now();
 
     // 1. Crawling técnico
-    const result = await this.browser.fetch(url, this.getCrawlerOptions(url));
+    const result = await this.browser.fetch(url, {
+      ...this.getCrawlerOptions(url),
+      onSnapshot: options?.onSnapshot,
+      headless: options?.headless
+    });
 
     const durationMs = Date.now() - startTime;
     const $ = cheerio.load(result.html);

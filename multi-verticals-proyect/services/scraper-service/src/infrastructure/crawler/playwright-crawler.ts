@@ -1,6 +1,10 @@
-import { chromium } from "playwright";
+import { chromium } from "playwright-extra";
+import stealth from "puppeteer-extra-plugin-stealth";
 import type { Browser, Page, BrowserContext } from "playwright";
 import { logger } from "@allcoba/kernel";
+
+// Activar el modo sigilo globalmente
+chromium.use(stealth());
 
 export interface PlaywrightOptions {
   timeout?: number;
@@ -15,15 +19,11 @@ export interface PlaywrightOptions {
    * Hook para realizar acciones antes de capturar el HTML (ej: clics)
    */
   onBeforeCapture?: (page: Page) => Promise<void>;
+  /**
+   * Callback para capturar instantáneas del HTML en diferentes etapas
+   */
+  onSnapshot?: (html: string, stage: string) => Promise<void>;
 }
-
-const USER_AGENTS = [
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0",
-  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15",
-];
 
 export interface CrawlResult {
   html: string;
@@ -39,15 +39,9 @@ export class PlaywrightCrawler {
   async init(options: PlaywrightOptions = {}) {
     if (!this.browser) {
       this.browser = await chromium.launch({
-        headless: options.headless ?? false,
+        headless: options.headless ?? true,
         args: [
-          "--disable-blink-features=AutomationControlled",
           "--no-sandbox",
-          "--disable-setuid-sandbox",
-          "--disable-infobars",
-          "--window-position=0,0",
-          "--ignore-certifcate-errors",
-          "--ignore-certifcate-errors-spki-list",
         ],
       });
     }
@@ -56,27 +50,16 @@ export class PlaywrightCrawler {
   async fetch(url: string, options: PlaywrightOptions = {}): Promise<CrawlResult> {
     await this.init(options);
 
-    const userAgent =
-      options.userAgent ||
-      USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
-
+    // 0. Crear contexto limpio
     const context: BrowserContext = await this.browser!.newContext({
-      userAgent,
-      viewport: { width: 1920, height: 1080 },
+      viewport: { width: 1366, height: 768 },
       deviceScaleFactor: 1,
       locale: "es-ES",
       timezoneId: "Europe/Madrid",
       permissions: ["geolocation"],
-      extraHTTPHeaders: {
-        "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
-        "Upgrade-Insecure-Requests": "1",
-      },
     });
 
-    // 0. Scripts de sigilo avanzados
     const page: Page = await context.newPage();
-    await this.applyStealth(page);
-
     const timeout = options.timeout || 30000;
 
     try {
@@ -88,10 +71,21 @@ export class PlaywrightCrawler {
         waitUntil: "domcontentloaded",
         timeout: 15000,
       });
+      
+      // Snapshot INICIAL (nada más entrar)
+      if (options.onSnapshot) {
+        await options.onSnapshot(await page.content(), "initial");
+      }
+
       await page.waitForTimeout(1000 + Math.random() * 2000);
 
       // 2. Gestionar Cookies
       await this.handleCookies(page, options.cookieSelectors || []);
+
+      // Snapshot tras COOKIES
+      if (options.onSnapshot) {
+        await options.onSnapshot(await page.content(), "after_cookies");
+      }
 
       // 3. Ir al destino real
       logger().info({ url }, "Navegando al destino final");
@@ -129,7 +123,7 @@ export class PlaywrightCrawler {
 
       return {
         html: content,
-        userAgent,
+        userAgent: await page.evaluate(() => navigator.userAgent),
         serverIp: serverAddr?.ipAddress,
         outboundIp,
         status,
@@ -148,25 +142,6 @@ export class PlaywrightCrawler {
     }
   }
 
-  private async applyStealth(page: Page) {
-    await page.addInitScript(() => {
-      // 1. Borrar rastro de WebDriver
-      Object.defineProperty(navigator, "webdriver", { get: () => undefined });
-
-      // 2. Simular lenguajes
-      Object.defineProperty(navigator, "languages", {
-        get: () => ["es-ES", "es", "en"],
-      });
-
-      // 3. Simular Plugins
-      Object.defineProperty(navigator, "plugins", {
-        get: () => [1, 2, 3, 4, 5],
-      });
-
-      // 4. Mock de Chrome runtime
-      (window as any).chrome = { runtime: {} };
-    });
-  }
 
   private async handleCookies(page: Page, customSelectors: string[]) {
     const genericSelectors = [

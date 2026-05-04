@@ -22,7 +22,14 @@ async function main() {
     new FotocasaAdapter(),
   ];
 
-  const scrapeUrlUseCase = new ScrapeUrlUseCase(sources, repository, consolidationService, imageHasher, storage);
+  const scrapeUrlUseCase = new ScrapeUrlUseCase(
+    sources, 
+    repository, 
+    consolidationService, 
+    imageHasher, 
+    storage,
+    { maxImagesToProcess: 5, saveRawHtml: true, headless: false }
+  );
 
   // 2. Procesar argumentos de CLI
   const urlArg = process.argv.find((arg: string) => arg.startsWith('--url='));
@@ -38,6 +45,10 @@ async function main() {
 }
 
 main().catch((error) => {
-  logger().error({ error }, 'Error fatal en el servicio');
+  logger().error({ 
+    msg: error.message, 
+    stack: error.stack,
+    name: error.name 
+  }, 'Error fatal en el servicio');
   process.exit(1);
 });
