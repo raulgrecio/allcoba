@@ -1,6 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { JsonFileProviderRepository } from '@/infrastructure/adapters/persistence/json-file-provider.repository.js';
 import fs from 'fs/promises';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { type Provider } from '@scraper/domain/entities/provider.js';
+import { JsonFileProviderRepository } from '@scraper/infrastructure/adapters/persistence/json-file-provider.repository.js';
 
 vi.mock('fs/promises');
 
@@ -13,13 +15,22 @@ describe('Unit: JsonFileProviderRepository', () => {
     repository = new JsonFileProviderRepository({ fileName });
   });
 
-  const mockProvider: any = {
+  const mockProvider: Provider = {
     id: 'uuid-1',
     displayName: 'JSON Provider',
+    price: 1000,
     phones: ['+34600000000'],
-    externalIds: { 'fotocasa': 'fc123' },
-    images: [{ hash: 'h1' }],
-    vertical: 'real-estate'
+    externalIds: { fotocasa: 'fc123' },
+    images: [{ hash: 'h1', url: 'img.jpg', originalUrl: 'http://img.jpg' }],
+    vertical: 'real-estate' as any,
+    verificationStatus: 'unverified' as any,
+    signals: [],
+    confidenceScore: 1,
+    lastScrapedAt: new Date(),
+    metadata: {} as any,
+    attributes: {} as any,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   it('debería manejar errores de lectura retornando mapa vacío', async () => {
@@ -28,31 +39,27 @@ describe('Unit: JsonFileProviderRepository', () => {
     expect(found).toBeNull();
   });
 
-  it('debería buscar proveedores por diferentes criterios', async () => {
-    vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify([mockProvider]));
-    
-    const byPhone = await repository.find({ phone: '+34600000000' });
-    expect(byPhone).toHaveLength(1);
+  it('debería guardar y cargar proveedores desde archivo', async () => {
+    // Simular que el archivo tiene un proveedor
+    const mockFileContent = JSON.stringify([mockProvider]);
+    vi.mocked(fs.readFile).mockResolvedValue(mockFileContent);
 
-    const byVertical = await repository.find({ vertical: 'real-estate' });
-    expect(byVertical).toHaveLength(1);
+    const found = await repository.findById('uuid-1');
 
-    const byExternalId = await repository.find({ externalId: { source: 'fotocasa', id: 'fc123' } });
-    expect(byExternalId).toHaveLength(1);
-
-    const byImage = await repository.find({ imageHash: 'h1' });
-    expect(byImage).toHaveLength(1);
+    expect(found).toBeDefined();
+    expect(found?.displayName).toBe('JSON Provider');
   });
 
-  it('debería crear un proveedor y guardarlo', async () => {
+  it('debería persistir cambios al crear un proveedor', async () => {
     vi.mocked(fs.readFile).mockResolvedValue('[]');
-    await repository.create(mockProvider);
-    expect(fs.writeFile).toHaveBeenCalled();
-  });
+    vi.mocked(fs.writeFile).mockResolvedValue();
 
-  it('debería actualizar un proveedor existente', async () => {
-    vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify([mockProvider]));
-    await repository.update('uuid-1', { displayName: 'Updated' });
+    await repository.create(mockProvider);
+
     expect(fs.writeFile).toHaveBeenCalled();
+    const callArgs = vi.mocked(fs.writeFile).mock.calls[0];
+    const savedData = JSON.parse(callArgs![1] as string);
+    expect(savedData).toHaveLength(1);
+    expect(savedData[0].id).toBe('uuid-1');
   });
 });

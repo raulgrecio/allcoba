@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { ConsolidationService } from '@/domain/services/consolidation.service.js';
-import { VerificationStatus } from '@/domain/entities/provider.js';
-import { RawExtraction } from '@/application/ports/source.port.js';
+import { describe, expect, it } from 'vitest';
+
+import type { RawExtraction } from '@scraper/application/ports/source.port.js';
+import { Vertical } from '@scraper/domain/entities/vertical';
+import { ConsolidationService } from '@scraper/domain/services/consolidation.service.js';
 
 describe('Unit: ConsolidationService', () => {
   const service = new ConsolidationService();
@@ -12,14 +13,23 @@ describe('Unit: ConsolidationService', () => {
     name: 'Piso de lujo',
     price: 500000,
     phones: ['+34919032747'],
-    vertical: 'real-estate',
+    vertical: Vertical.REAL_ESTATE,
     attributes: { rooms: 3, surface: 100 },
-    metadata: { sourceUrl: 'http://test.com', timestamp: new Date().toISOString(), durationMs: 100 }
+    url: '',
+    imageUrls: [],
+    extractedAt: new Date(),
+    metadata: {
+      sourceUrl: 'http://test.com',
+      timestamp: new Date().toISOString(),
+      durationMs: 100,
+      userAgent: '',
+      statusCode: 0,
+    },
   };
 
   it('debería proponer CREATE si no hay candidatos', () => {
     const result = service.consolidate(mockRaw, []);
-    
+
     expect(result.action).toBe('CREATE');
     expect(result.confidenceScore).toBe(1.0);
     expect(result.mergedData.displayName).toBe(mockRaw.name);
@@ -31,7 +41,7 @@ describe('Unit: ConsolidationService', () => {
       externalId: '123',
       phones: [],
       telegram: '@testuser',
-      name: 'Piso Telegram'
+      name: 'Piso Telegram',
     };
 
     const candidate: any = {
@@ -39,13 +49,13 @@ describe('Unit: ConsolidationService', () => {
       phones: [],
       telegram: '@testuser',
       images: [],
-      externalIds: {}
+      externalIds: {},
     };
 
     const result = service.consolidate(raw, [candidate]);
     expect(result.action).toBe('FLAG_FOR_REVIEW');
     expect(result.confidenceScore).toBe(0.8);
-    expect(result.newSignals.some(s => s.type === 'TELEGRAM_MATCH')).toBe(true);
+    expect(result.newSignals.some((s) => s.type === 'TELEGRAM_MATCH')).toBe(true);
   });
 
   it('debería detectar coincidencia por ubicación cercana', () => {
@@ -54,7 +64,7 @@ describe('Unit: ConsolidationService', () => {
       externalId: '123',
       phones: [],
       coordinates: { lat: 40.4167, lng: -3.7033 }, // Madrid Sol
-      name: 'Piso Sol'
+      name: 'Piso Sol',
     };
 
     const candidate: any = {
@@ -62,23 +72,23 @@ describe('Unit: ConsolidationService', () => {
       phones: [],
       images: [],
       address: {
-        coordinates: { lat: 40.4168, lng: -3.7034 } // A pocos metros
+        coordinates: { lat: 40.4168, lng: -3.7034 }, // A pocos metros
       },
-      externalIds: {}
+      externalIds: {},
     };
 
     const result = service.consolidate(raw, [candidate]);
     // Con 0.3 de confianza (solo ubicación), la acción es CREATE pero con señales
     expect(result.action).toBe('CREATE');
-    expect(result.newSignals.some(s => s.type === 'LOCATION_MATCH')).toBe(true);
+    expect(result.newSignals.some((s) => s.type === 'LOCATION_MATCH')).toBe(true);
   });
 
   it('debería proponer MERGE si coincide el externalId (Confianza 1.0)', () => {
     const existingProvider: any = {
       id: 'uuid-1',
-      externalIds: { 'fotocasa': '123' },
+      externalIds: { fotocasa: '123' },
       phones: ['+34919032747'],
-      images: []
+      images: [],
     };
 
     const result = service.consolidate(mockRaw, [existingProvider]);
@@ -86,37 +96,37 @@ describe('Unit: ConsolidationService', () => {
     expect(result.action).toBe('MERGE');
     expect(result.targetProviderId).toBe('uuid-1');
     expect(result.confidenceScore).toBe(1.0);
-    expect(result.newSignals.some(s => s.type === 'EXTERNAL_ID_MATCH')).toBe(true);
+    expect(result.newSignals.some((s) => s.type === 'EXTERNAL_ID_MATCH')).toBe(true);
   });
 
   it('debería proponer FLAG_FOR_REVIEW si coincide el teléfono', () => {
     const existingProvider: any = {
       id: 'uuid-2',
-      externalIds: { 'fotocasa': '999' },
+      externalIds: { fotocasa: '999' },
       phones: ['+34919032747'],
-      images: []
+      images: [],
     };
 
     const result = service.consolidate(mockRaw, [existingProvider]);
 
     expect(result.action).toBe('FLAG_FOR_REVIEW');
-    expect(result.newSignals.some(s => s.type === 'PHONE_MATCH')).toBe(true);
+    expect(result.newSignals.some((s) => s.type === 'PHONE_MATCH')).toBe(true);
   });
 
   it('debería deduplicar imágenes por hash durante el merge', () => {
     const existingProvider: any = {
       id: 'uuid-1',
-      externalIds: { 'fotocasa': '123' },
+      externalIds: { fotocasa: '123' },
       phones: [],
-      images: [{ url: 'old.jpg', hash: 'hash1' }]
+      images: [{ url: 'old.jpg', hash: 'hash1' }],
     };
 
     const rawWithImages = {
       ...mockRaw,
       processedImages: [
         { url: 'new.jpg', hash: 'hash1' },
-        { url: 'fresh.jpg', hash: 'hash2' }
-      ]
+        { url: 'fresh.jpg', hash: 'hash2' },
+      ],
     } as any;
 
     const result = service.consolidate(rawWithImages, [existingProvider]);

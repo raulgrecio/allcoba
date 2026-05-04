@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { ScrapeUrlUseCase } from '@/application/use-cases/scrape-url.use-case.js';
-import { Vertical } from '@/domain/entities/vertical.js';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { ScrapeUrlUseCase } from '@scraper/application/use-cases/scrape-url.use-case.js';
+import { Vertical } from '@scraper/domain/entities/vertical.js';
 
 describe('Unit: ScrapeUrlUseCase', () => {
   let mockSource: any;
@@ -22,17 +23,17 @@ describe('Unit: ScrapeUrlUseCase', () => {
           phones: ['+34600000000'],
           imageUrls: ['http://example.com/img1.jpg'],
           metadata: {},
-          attributes: {}
+          attributes: {},
         },
-        html: '<html></html>'
-      })
+        html: '<html></html>',
+      }),
     };
 
     mockRepository = {
       find: vi.fn().mockResolvedValue([]),
       create: vi.fn().mockResolvedValue({}),
       findById: vi.fn(),
-      update: vi.fn()
+      update: vi.fn(),
     };
 
     mockConsolidationService = {
@@ -40,21 +41,21 @@ describe('Unit: ScrapeUrlUseCase', () => {
         action: 'CREATE',
         mergedData: { displayName: 'Test Property' },
         newSignals: [],
-        confidenceScore: 1.0
-      })
+        confidenceScore: 1.0,
+      }),
     };
 
     mockImageHasher = {
-      generateHash: vi.fn().mockResolvedValue('fake-hash')
+      generateHash: vi.fn().mockResolvedValue('fake-hash'),
     };
 
     mockStorage = {
-      upload: vi.fn().mockResolvedValue('http://storage.com/img1.jpg')
+      upload: vi.fn().mockResolvedValue('http://storage.com/img1.jpg'),
     };
 
     // Mock fetch global
     global.fetch = vi.fn().mockResolvedValue({
-      arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8))
+      arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
     });
 
     useCase = new ScrapeUrlUseCase(
@@ -62,7 +63,7 @@ describe('Unit: ScrapeUrlUseCase', () => {
       mockRepository,
       mockConsolidationService,
       mockImageHasher,
-      mockStorage
+      mockStorage,
     );
   });
 
@@ -85,7 +86,7 @@ describe('Unit: ScrapeUrlUseCase', () => {
       targetProviderId: 'existing-uuid',
       mergedData: { phones: ['+34600000000'] },
       newSignals: [],
-      confidenceScore: 0.98
+      confidenceScore: 0.98,
     });
 
     mockRepository.findById.mockResolvedValue({ id: 'existing-uuid', images: [] });
@@ -101,7 +102,7 @@ describe('Unit: ScrapeUrlUseCase', () => {
       action: 'IGNORE',
       confidenceScore: 0.1,
       newSignals: [],
-      mergedData: {}
+      mergedData: {},
     });
 
     await useCase.execute('https://example.com/property/123');
@@ -113,14 +114,16 @@ describe('Unit: ScrapeUrlUseCase', () => {
   it('debería lanzar error si no hay adaptador para la URL', async () => {
     mockSource.canHandle.mockReturnValue(false);
 
-    await expect(useCase.execute('https://unknown.com'))
-      .rejects.toThrow('No se encontró un adaptador');
+    await expect(useCase.execute('https://unknown.com')).rejects.toThrow(
+      'No se encontró un adaptador',
+    );
   });
 
   it('debería lanzar error si robots.txt lo prohíbe', async () => {
     mockSource.isAllowed.mockResolvedValue(false);
 
-    await expect(useCase.execute('https://example.com/forbidden'))
-      .rejects.toThrow('restringido por robots.txt');
+    await expect(useCase.execute('https://example.com/forbidden')).rejects.toThrow(
+      'restringido por robots.txt',
+    );
   });
 });

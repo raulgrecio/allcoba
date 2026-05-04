@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { CheerioCrawler } from '@/infrastructure/crawler/cheerio-crawler.js';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { CheerioCrawler } from '@scraper/infrastructure/crawler/cheerio-crawler.js';
 
 describe('Unit: CheerioCrawler', () => {
   let crawler: CheerioCrawler;
@@ -12,7 +13,7 @@ describe('Unit: CheerioCrawler', () => {
   it('debería descargar y cargar HTML con cheerio', async () => {
     vi.mocked(fetch).mockResolvedValue({
       ok: true,
-      text: vi.fn().mockResolvedValue('<html><body><h1>Test</h1></body></html>')
+      text: vi.fn().mockResolvedValue('<html><body><h1>Test</h1></body></html>'),
     } as any);
 
     const $ = await crawler.fetch('https://example.com');
@@ -22,10 +23,9 @@ describe('Unit: CheerioCrawler', () => {
   it('debería lanzar error si la respuesta no es ok', async () => {
     vi.mocked(fetch).mockResolvedValue({
       ok: false,
-      statusText: 'Not Found'
+      statusText: 'Not Found',
     } as any);
 
-    await expect(crawler.fetch('https://example.com'))
-      .rejects.toThrow('Error al descargar');
+    await expect(crawler.fetch('https://example.com')).rejects.toThrow('Error al descargar');
   });
 });

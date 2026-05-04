@@ -1,14 +1,14 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { chromium } from 'playwright-extra';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { PlaywrightCrawler } from '@/infrastructure/crawler/playwright-crawler.js';
+import { PlaywrightCrawler } from '@scraper/infrastructure/crawler/playwright-crawler.js';
 
 // Mock playwright-extra chromium
 vi.mock('playwright-extra', () => {
   const mockPage = {
     goto: vi.fn().mockResolvedValue({
       status: () => 200,
-      serverAddr: () => Promise.resolve({ ipAddress: '1.2.3.4' })
+      serverAddr: () => Promise.resolve({ ipAddress: '1.2.3.4' }),
     }),
     content: vi.fn().mockResolvedValue('<html></html>'),
     waitForTimeout: vi.fn().mockResolvedValue({}),
@@ -16,26 +16,26 @@ vi.mock('playwright-extra', () => {
     locator: vi.fn().mockReturnValue({
       first: vi.fn().mockReturnThis(),
       isVisible: vi.fn().mockResolvedValue(false),
-      click: vi.fn().mockResolvedValue({})
+      click: vi.fn().mockResolvedValue({}),
     }),
-    close: vi.fn()
+    close: vi.fn(),
   };
 
   const mockContext = {
     newPage: vi.fn().mockResolvedValue(mockPage),
-    close: vi.fn()
+    close: vi.fn(),
   };
 
   const mockBrowser = {
     newContext: vi.fn().mockResolvedValue(mockContext),
-    close: vi.fn()
+    close: vi.fn(),
   };
 
   return {
     chromium: {
       use: vi.fn(),
-      launch: vi.fn().mockResolvedValue(mockBrowser)
-    }
+      launch: vi.fn().mockResolvedValue(mockBrowser),
+    },
   };
 });
 
@@ -46,7 +46,7 @@ describe('Unit: PlaywrightCrawler', () => {
     vi.clearAllMocks();
     crawler = new PlaywrightCrawler();
     global.fetch = vi.fn().mockResolvedValue({
-      json: vi.fn().mockResolvedValue({ ip: '5.6.7.8' })
+      json: vi.fn().mockResolvedValue({ ip: '5.6.7.8' }),
     });
   });
 
@@ -66,7 +66,7 @@ describe('Unit: PlaywrightCrawler', () => {
 
     await crawler.fetch('https://example.com/ad/123', {
       onSnapshot,
-      onBeforeCapture
+      onBeforeCapture,
     });
 
     expect(onSnapshot).toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('Unit: PlaywrightCrawler', () => {
 
   it('debería intentar gestionar cookies si se detectan', async () => {
     // Re-mock para que el botón de cookies sea visible
-    const mockPage = await (await (await chromium.launch() as any).newContext()).newPage();
+    const mockPage = await (await ((await chromium.launch()) as any).newContext()).newPage();
     mockPage.locator().isVisible.mockResolvedValueOnce(true);
 
     await crawler.fetch('https://example.com');

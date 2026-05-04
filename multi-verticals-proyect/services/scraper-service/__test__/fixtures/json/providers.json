@@ -1,0 +1,73 @@
+[
+  {
+    "id": "8073d7f8-513b-45b5-862b-cc2ee38c256b",
+    "displayName": "Piso en venta en C. de Antonio Acuña, Ibiza de Madrid",
+    "phones": ["+34919174740"],
+    "description": "Huspy presenta este impecable piso de 80 m², ubicado en una finca moderna del año 2006. Situado en la exclusiva calle Antonio Acuña, este hogar combina la tranquilidad de una zona residencial de lujo con la funcionalidad de una construcción contemporánea en el corazón de Madrid.\n\nCaracterísticas Principales:\nEspacio y Diseño: La vivienda cuenta con 67 m² útiles perfectamente distribuidos para maximizar la sensación de amplitud y luz.\n\nZona de Noche: Dispone de 2 dormitorios luminosos con armarios empotrados de alta calidad, diseñados para ofrecer un almacenamiento óptimo.\n\nConfort Moderno: Equipado con aire acondicionado y calefacción para garantizar la temperatura ideal durante todo el año.\n\nFinca de Calidad: Edificio con ascensor, portero físico y una calidad de construcción excelente, lo que garantiza seguridad y un mantenimiento impecable.\n\nInversión Inteligente: Con certificación energética eficiente y ubicado en una de las zonas con mayor demanda y revalorización de la capital.\n\nUna oportunidad única para quienes buscan exclusividad y proximidad al pulmón verde de Madrid. Contacta con Adriana para concertar una visita y descubrir el potencial de este magnífico inmueble.\n\nUbicada a solo unos pasos del Parque del Retiro, la calle Antonio Acuña es una de las vías más codiciadas de Madrid por su serenidad y su cercanía a la mejor oferta gastronómica y comercial de la ciudad.Leer másHuspy presenta este impecable piso de 80 m², ubicado en una finca moderna del año 2006. Situado en la exclusiva calle Antonio Acuña, este hogar combina la tranquilidad de una zona residencial de lujo con la funcionalidad de una construcción contemporánea en el corazón de Madrid.\n\nCaracterísticas Principales:\nEspacio y Diseño: La vivienda cuenta con 67 m² útiles perfectamente distribuidos para maximizar la sensación de amplitud y luz.\n\nZona de Noche: Dispone de 2 dormitorios luminosos con armarios empotrados de alta calidad, diseñados para ofrecer un almacenamiento óptimo.\n\nConfort Moderno: Equipado con aire acondicionado y calefacción para garantizar la temperatura ideal durante todo el año.\n\nFinca de Calidad: Edificio con ascensor, portero físico y una calidad de construcción excelente, lo que garantiza seguridad y un mantenimiento impecable.\n\nInversión Inteligente: Con certificación energética eficiente y ubicado en una de las zonas con mayor demanda y revalorización de la capital.\n\nUna oportunidad única para quienes buscan exclusividad y proximidad al pulmón verde de Madrid. Contacta con Adriana para concertar una visita y descubrir el potencial de este magnífico inmueble.\n\nUbicada a solo unos pasos del Parque del Retiro, la calle Antonio Acuña es una de las vías más codiciadas de Madrid por su serenidad y su cercanía a la mejor oferta gastronómica y comercial de la ciudad.",
+    "price": 1180000,
+    "images": [
+      {
+        "url": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/storage/fotocasa_188764809_0.jpg",
+        "originalUrl": "https://static.fotocasa.es/images/ads/26aa9e7a-3849-4a8c-87fa-0d2412ad07e3?rule=web_948x542_ar",
+        "hash": "0f07077f7f070303"
+      },
+      {
+        "url": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/storage/fotocasa_188764809_1.jpg",
+        "originalUrl": "https://static.fotocasa.es/images/ads/72fd7a01-af5b-46e4-b168-334d43a614d3?rule=web_482x269_ar",
+        "hash": "7d7d496969697979"
+      },
+      {
+        "url": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/storage/fotocasa_188764809_2.jpg",
+        "originalUrl": "https://static.fotocasa.es/images/ads/c4d82382-fa98-4815-8c11-684a0e43d302?rule=web_482x269_ar",
+        "hash": "3c3c2f3b3f2f0b01"
+      },
+      {
+        "url": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/storage/fotocasa_188764809_3.jpg",
+        "originalUrl": "https://static.fotocasa.es/images/ads/ade5445d-7d76-468d-b4ff-1073a956ec48?rule=web_482x269_ar",
+        "hash": "6363636363630243"
+      },
+      {
+        "url": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/storage/fotocasa_188764809_4.jpg",
+        "originalUrl": "https://static.fotocasa.es/images/ads/120e58f4-5a0d-455e-bcdb-e73d6b2b3742?rule=web_482x269_ar",
+        "hash": "9e9f9f9f870598db"
+      }
+    ],
+    "vertical": "REAL_ESTATE",
+    "externalIds": {
+      "fotocasa": "188764809"
+    },
+    "verificationStatus": "PENDING_REVIEW",
+    "confidenceScore": 1,
+    "signals": [],
+    "metadata": {
+      "timestamp": "2026-05-04T13:03:23.821Z",
+      "durationMs": 11730,
+      "sourceUrl": "https://www.fotocasa.es/es/comprar/vivienda/madrid-capital/aire-acondicionado-calefaccion-ascensor-amueblado/188764809/d",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+      "serverIp": "52.222.132.67",
+      "outboundIp": "188.26.198.204",
+      "statusCode": 200,
+      "debugFile": "fotocasa_188764809.html"
+    },
+    "attributes": {
+      "rooms": 2,
+      "bathrooms": 2,
+      "surface": 80,
+      "hasAscensor": true,
+      "rawFeatures": {
+        "Tipo de inmueble": "Piso",
+        "Disponibilidad": "Sin restricciones",
+        "Planta": "1ª Planta",
+        "Ascensor": "Sí",
+        "Amueblado": "Sí",
+        "Energía": "Etiqueta de calificación energética: G Emisiones: 999 kg CO₂ m² / año",
+        "Emisiones": "Etiqueta de calificación energética: G Emisiones: 999 kg CO₂ m² / año",
+        "Aire acondicionado": "Sí",
+        "Calefacción": "Sí"
+      }
+    },
+    "lastScrapedAt": "2026-05-04T13:03:23.896Z",
+    "createdAt": "2026-05-04T13:03:23.896Z",
+    "updatedAt": "2026-05-04T13:03:23.896Z"
+  }
+]

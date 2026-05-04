@@ -1,7 +1,7 @@
 packages:
-  - "packages/*"
-  - "services/*"
-  - "apps/*"
+  - 'packages/*'
+  - 'services/*'
+  - 'apps/*'
 allowBuilds:
   '"': true
   '[': true

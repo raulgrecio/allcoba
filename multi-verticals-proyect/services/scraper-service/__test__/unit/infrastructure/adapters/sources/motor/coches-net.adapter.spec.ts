@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
-import { CochesNetAdapter } from '@/infrastructure/adapters/sources/motor/coches-net.adapter.js';
+import { describe, expect, it, vi } from 'vitest';
+
+import { CochesNetAdapter } from '@scraper/infrastructure/adapters/sources/motor/coches-net.adapter.js';
 
 describe('Unit: CochesNetAdapter', () => {
   const adapter = new CochesNetAdapter({} as any);
@@ -16,15 +17,15 @@ describe('Unit: CochesNetAdapter', () => {
         <div class="mt-Description">En perfecto estado...</div>
       </html>
     `;
-    
+
     const mockCrawler: any = {
       fetch: vi.fn().mockResolvedValue({ html: mockHtml, url: 'url', status: 200 }),
-      close: vi.fn()
+      close: vi.fn(),
     };
-    
+
     const adapterWithCrawler = new CochesNetAdapter(mockCrawler);
     const result = await adapterWithCrawler.extract('https://www.coches.net/test-123');
-    
+
     expect(result.data.name).toBe('Coche fantástico');
     expect(result.data.price).toBe(25000);
   });

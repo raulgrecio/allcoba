@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
-import { IdealistaAdapter } from '@/infrastructure/adapters/sources/real-estate/idealista.adapter.js';
+import { describe, expect, it, vi } from 'vitest';
+
+import { IdealistaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/idealista.adapter.js';
 
 describe('Unit: IdealistaAdapter', () => {
   const adapter = new IdealistaAdapter({} as any);
@@ -19,20 +20,20 @@ describe('Unit: IdealistaAdapter', () => {
         <div class="phone-number">600111222</div>
       </html>
     `;
-    
+
     // Mock crawler
     const mockCrawler: any = {
       fetch: vi.fn().mockResolvedValue({
         html: mockHtml,
         url: 'https://www.idealista.com/inmueble/123/',
-        status: 200
+        status: 200,
       }),
-      close: vi.fn()
+      close: vi.fn(),
     };
     const adapterWithCrawler = new IdealistaAdapter(mockCrawler);
-    
+
     const result = await adapterWithCrawler.extract('https://www.idealista.com/inmueble/123/');
-    
+
     expect(result.data.name).toBe('Piso en venta');
     expect(result.data.price).toBe(450000);
     expect(result.data.address).toBe('Calle Mayor, Madrid');

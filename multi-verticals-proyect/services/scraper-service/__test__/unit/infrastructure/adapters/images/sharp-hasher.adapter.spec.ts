@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
-import { SharpHasherAdapter } from '@/infrastructure/adapters/images/sharp-hasher.adapter.js';
+import { describe, expect, it, vi } from 'vitest';
+
+import { SharpHasherAdapter } from '@scraper/infrastructure/adapters/images/sharp-hasher.adapter.js';
 
 // Mock sharp
 vi.mock('sharp', () => {
@@ -9,9 +10,9 @@ vi.mock('sharp', () => {
       resize: vi.fn().mockReturnThis(),
       raw: vi.fn().mockReturnThis(),
       toBuffer: vi.fn().mockResolvedValue({
-        data: Buffer.alloc(64, 128) // 64 pixels with value 128
-      })
-    })
+        data: Buffer.alloc(64, 128), // 64 pixels with value 128
+      }),
+    }),
   };
 });
 
@@ -20,7 +21,7 @@ describe('Unit: SharpHasherAdapter', () => {
 
   it('debería calcular la distancia de Hamming entre dos hashes hex', () => {
     // 0000... vs 1111... en binario
-    const hash1 = '0000000000000000'; 
+    const hash1 = '0000000000000000';
     const hash2 = 'ffffffffffffffff';
     const distance = adapter.calculateDistance(hash1, hash2);
     expect(distance).toBe(64);

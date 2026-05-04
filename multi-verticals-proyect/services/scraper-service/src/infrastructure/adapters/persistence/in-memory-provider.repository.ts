@@ -9,11 +9,11 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
       let match = false;
       if (criteria.phone && p.phones.includes(criteria.phone)) match = true;
       if (criteria.telegram && p.telegram === criteria.telegram) match = true;
-      if (
-        criteria.externalId &&
-        p.externalIds[criteria.externalId.source] === criteria.externalId.id
-      )
-        match = true;
+      if (criteria.externalId && criteria.externalId.source && criteria.externalId.id) {
+        if (p.externalIds[criteria.externalId.source] === criteria.externalId.id) {
+          match = true;
+        }
+      }
       if (criteria.imageHash && p.images.some((img) => img.hash === criteria.imageHash))
         match = true;
 

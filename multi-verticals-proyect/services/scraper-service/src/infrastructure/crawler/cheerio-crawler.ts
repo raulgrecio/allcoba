@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+
 import { logger } from '@allcoba/kernel';
 
 export interface CrawlerOptions {
@@ -15,7 +16,8 @@ export class CheerioCrawler {
     try {
       const response = await fetch(url, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           ...options.headers,
         },
         signal: controller.signal,
@@ -28,14 +30,17 @@ export class CheerioCrawler {
       const html = await response.text();
       return cheerio.load(html);
     } catch (error: any) {
-      logger().error({ 
-        error: {
-          message: error.message,
-          stack: error.stack,
-          cause: error.cause
-        }, 
-        url 
-      }, 'Error en CheerioCrawler');
+      logger().error(
+        {
+          error: {
+            message: error.message,
+            stack: error.stack,
+            cause: error.cause,
+          },
+          url,
+        },
+        'Error en CheerioCrawler',
+      );
       throw error;
     } finally {
       clearTimeout(id);
