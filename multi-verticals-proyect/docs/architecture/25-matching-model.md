@@ -37,61 +37,61 @@ quién es Chooser) lo define el mercado y, en algunos casos, el propio usuario.
 ```typescript
 // packages/domain/src/matching/roles.ts
 
-type MatchRole = 'presenter' | 'chooser'
+type MatchRole = 'presenter' | 'chooser';
 
 // Configuración de roles por mercado y vertical
 // El sistema sabe en qué contexto opera y asigna el rol por defecto
 // El usuario puede cambiarlo si el mercado lo permite
 
 interface MarketRoleConfig {
-  market:          string     // código de país o región: 'ES', 'AE', 'LATAM'...
-  vertical:        string
-  defaultPresenter: 'male' | 'female' | 'any'   // quién es Presenter por defecto
-  defaultChooser:   'male' | 'female' | 'any'
-  allowRoleSwap:   boolean   // ¿puede el usuario cambiar su rol?
-  symmetric:       boolean   // si true: ambos son Presenter y Chooser a la vez
+  market: string; // código de país o región: 'ES', 'AE', 'LATAM'...
+  vertical: string;
+  defaultPresenter: 'male' | 'female' | 'any'; // quién es Presenter por defecto
+  defaultChooser: 'male' | 'female' | 'any';
+  allowRoleSwap: boolean; // ¿puede el usuario cambiar su rol?
+  symmetric: boolean; // si true: ambos son Presenter y Chooser a la vez
 }
 
 // Ejemplos de configuración
 const MARKET_ROLE_CONFIGS: MarketRoleConfig[] = [
   // España / Europa occidental — simétrico
   {
-    market:          'ES',
-    vertical:        'dating',
+    market: 'ES',
+    vertical: 'dating',
     defaultPresenter: 'any',
-    defaultChooser:   'any',
-    allowRoleSwap:   true,
-    symmetric:       true,
+    defaultChooser: 'any',
+    allowRoleSwap: true,
+    symmetric: true,
   },
   // Latinoamérica — hombre Presenter, mujer Chooser por defecto
   // pero intercambiable
   {
-    market:          'LATAM',
-    vertical:        'dating',
+    market: 'LATAM',
+    vertical: 'dating',
     defaultPresenter: 'male',
-    defaultChooser:   'female',
-    allowRoleSwap:   true,
-    symmetric:       false,
+    defaultChooser: 'female',
+    allowRoleSwap: true,
+    symmetric: false,
   },
   // Países árabes — asimétrico, no intercambiable en MVP
   {
-    market:          'AE',
-    vertical:        'dating',
+    market: 'AE',
+    vertical: 'dating',
     defaultPresenter: 'male',
-    defaultChooser:   'female',
-    allowRoleSwap:   false,
-    symmetric:       false,
+    defaultChooser: 'female',
+    allowRoleSwap: false,
+    symmetric: false,
   },
   // Comunidades LGBTQ+ — siempre simétrico
   {
-    market:          'LGBTQ',
-    vertical:        'dating',
+    market: 'LGBTQ',
+    vertical: 'dating',
     defaultPresenter: 'any',
-    defaultChooser:   'any',
-    allowRoleSwap:   true,
-    symmetric:       true,
+    defaultChooser: 'any',
+    allowRoleSwap: true,
+    symmetric: true,
   },
-]
+];
 ```
 
 ---
@@ -104,30 +104,31 @@ Determina qué perfiles aparecen en el deck de cada usuario.
 ```typescript
 // packages/domain/src/matching/orientation-filter.ts
 
-type Orientation = 'straight' | 'gay' | 'lesbian' | 'bisexual'
-type Gender      = 'male' | 'female' | 'non_binary' | 'prefer_not_to_say'
+type Orientation = 'straight' | 'gay' | 'lesbian' | 'bisexual';
+type Gender = 'male' | 'female' | 'non_binary' | 'prefer_not_to_say';
 
 // Matriz de visibilidad: quién ve a quién en el deck
 function canSeeInDeck(
   viewer: { gender: Gender; orientation: Orientation },
-  target: { gender: Gender; orientation: Orientation }
+  target: { gender: Gender; orientation: Orientation },
 ): boolean {
   // Un usuario sólo aparece en el deck de otro si habría interés potencial mutuo
-  const viewerInterestedIn = getInterestedIn(viewer.orientation, viewer.gender)
-  const targetInterestedIn = getInterestedIn(target.orientation, target.gender)
+  const viewerInterestedIn = getInterestedIn(viewer.orientation, viewer.gender);
+  const targetInterestedIn = getInterestedIn(target.orientation, target.gender);
 
-  return (
-    viewerInterestedIn.includes(target.gender) &&
-    targetInterestedIn.includes(viewer.gender)
-  )
+  return viewerInterestedIn.includes(target.gender) && targetInterestedIn.includes(viewer.gender);
 }
 
 function getInterestedIn(orientation: Orientation, gender: Gender): Gender[] {
   switch (orientation) {
-    case 'straight':  return gender === 'male' ? ['female'] : ['male']
-    case 'gay':       return gender === 'male' ? ['male']   : ['female']
-    case 'lesbian':   return ['female']
-    case 'bisexual':  return ['male', 'female', 'non_binary']
+    case 'straight':
+      return gender === 'male' ? ['female'] : ['male'];
+    case 'gay':
+      return gender === 'male' ? ['male'] : ['female'];
+    case 'lesbian':
+      return ['female'];
+    case 'bisexual':
+      return ['male', 'female', 'non_binary'];
   }
 }
 ```
@@ -180,18 +181,18 @@ CREATE TABLE presenter_filter_templates (
 
 interface FilterableChooserFields {
   // Trust signals (cross-platform, anonimizados)
-  'trust_score.overall':       number   // 0-5
-  'trust_score.punctuality':   number
-  'trust_score.communication': number
+  'trust_score.overall': number; // 0-5
+  'trust_score.punctuality': number;
+  'trust_score.communication': number;
 
   // Actividad en la plataforma
-  'total_interactions':        number   // cuántas interacciones verificadas tiene
-  'is_verified':               boolean  // ha verificado identidad
+  total_interactions: number; // cuántas interacciones verificadas tiene
+  is_verified: boolean; // ha verificado identidad
 
   // En vertical dating: datos de Capa 1 (públicos)
-  'age':                       number
-  'has_profile_photo':         boolean
-  'profile_completeness':      number   // 0-100%
+  age: number;
+  has_profile_photo: boolean;
+  profile_completeness: number; // 0-100%
 }
 
 // Ejemplo de plantilla real para un masajista:
@@ -201,39 +202,39 @@ const massageTemplate = {
     {
       // Rechazar usuarios con trust score muy bajo
       condition: { field: 'trust_score.overall', operator: 'lt', value: 2.0 },
-      action:    'reject',
-      reason:    'reputación insuficiente',
+      action: 'reject',
+      reason: 'reputación insuficiente',
     },
     {
       // Archivar usuarios sin interacciones verificadas
       condition: { field: 'total_interactions', operator: 'lt', value: 1 },
-      action:    'archive',
-      reason:    'usuario sin historial',
+      action: 'archive',
+      reason: 'usuario sin historial',
     },
   ],
-}
+};
 
 // Ejemplo de plantilla para dating (mercado LATAM):
 const datingTemplate = {
-  defaultAction: 'archive',   // por defecto archivar — sólo llegan los que superan filtros
+  defaultAction: 'archive', // por defecto archivar — sólo llegan los que superan filtros
   rules: [
     {
       // Aceptar directamente usuarios verificados con buen score
       condition: { field: 'is_verified', operator: 'eq', value: true },
-      action:    'accept',
+      action: 'accept',
     },
     {
       // Archivar usuarios sin foto de perfil
       condition: { field: 'has_profile_photo', operator: 'eq', value: false },
-      action:    'archive',
+      action: 'archive',
     },
     {
       // Rechazar usuarios con muy mala reputación
       condition: { field: 'trust_score.overall', operator: 'lt', value: 1.5 },
-      action:    'reject',
+      action: 'reject',
     },
   ],
-}
+};
 ```
 
 ### Motor de evaluación de plantillas
@@ -242,47 +243,45 @@ const datingTemplate = {
 // apps/api/src/modules/matching/application/use-cases/EvaluateFilterTemplate.ts
 
 export class EvaluateFilterTemplateUseCase {
-  async execute(
-    presenterId: string,
-    chooserHash: string,
-    vertical: string
-  ): Promise<FilterAction> {
+  async execute(presenterId: string, chooserHash: string, vertical: string): Promise<FilterAction> {
     // 1. Cargar plantilla del Presenter
-    const template = await templateRepo.find(presenterId, vertical)
+    const template = await templateRepo.find(presenterId, vertical);
     if (!template || !template.isActive) {
-      return 'accept'   // sin plantilla: aceptar todo
+      return 'accept'; // sin plantilla: aceptar todo
     }
 
     // 2. Cargar trust signals públicos del Chooser (sin PII)
-    const chooserSignals = await trustScoreRepo.getPublicSignals(chooserHash)
-    const chooserProfile = await profileRepo.getLayer1Public(chooserHash, vertical)
+    const chooserSignals = await trustScoreRepo.getPublicSignals(chooserHash);
+    const chooserProfile = await profileRepo.getLayer1Public(chooserHash, vertical);
 
     // 3. Evaluar reglas en orden — primera que coincide gana
     for (const rule of template.rules) {
       if (evaluateCondition(rule.condition, { ...chooserSignals, ...chooserProfile })) {
-        return rule.action
+        return rule.action;
       }
     }
 
-    return template.defaultAction
+    return template.defaultAction;
   }
 }
 
-function evaluateCondition(
-  condition: FilterCondition,
-  data: Record<string, unknown>
-): boolean {
-  const value = getNestedValue(data, condition.field)
+function evaluateCondition(condition: FilterCondition, data: Record<string, unknown>): boolean {
+  const value = getNestedValue(data, condition.field);
   switch (condition.operator) {
-    case 'lt':  return (value as number) <  condition.value
-    case 'gt':  return (value as number) >  condition.value
-    case 'gte': return (value as number) >= condition.value
-    case 'lte': return (value as number) <= condition.value
-    case 'eq':  return value === condition.value
+    case 'lt':
+      return (value as number) < condition.value;
+    case 'gt':
+      return (value as number) > condition.value;
+    case 'gte':
+      return (value as number) >= condition.value;
+    case 'lte':
+      return (value as number) <= condition.value;
+    case 'eq':
+      return value === condition.value;
   }
 }
 
-type FilterAction = 'accept' | 'archive' | 'reject'
+type FilterAction = 'accept' | 'archive' | 'reject';
 ```
 
 ### Qué significa cada acción
@@ -340,23 +339,23 @@ CHOOSER da like a un Presenter
 // packages/domain/src/matching/match.entity.ts
 
 interface Match {
-  id:           string
-  vertical:     string
-  presenterId:  string
-  chooserId:    string
-  status:       MatchStatus
+  id: string;
+  vertical: string;
+  presenterId: string;
+  chooserId: string;
+  status: MatchStatus;
   // Cuándo se desbloqueó cada capa
-  layer2UnlockedAt: Date | null
-  layer3UnlockedAt: Date | null   // sólo si alguno compartió capa 3
-  createdAt:    Date
-  lastActivityAt: Date
+  layer2UnlockedAt: Date | null;
+  layer3UnlockedAt: Date | null; // sólo si alguno compartió capa 3
+  createdAt: Date;
+  lastActivityAt: Date;
 }
 
 type MatchStatus =
-  | 'pending'     // Chooser ha dado like, Presenter aún no ha visto
-  | 'active'      // match confirmado, chat abierto
-  | 'expired'     // sin actividad en 30 días
-  | 'unmatched'   // uno de los dos deshizo el match
+  | 'pending' // Chooser ha dado like, Presenter aún no ha visto
+  | 'active' // match confirmado, chat abierto
+  | 'expired' // sin actividad en 30 días
+  | 'unmatched'; // uno de los dos deshizo el match
 ```
 
 ```sql

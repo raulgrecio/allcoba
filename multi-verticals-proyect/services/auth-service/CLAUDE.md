@@ -63,6 +63,7 @@ auth.otp_codes           -- id, phone_hash, code_hash, expires_at, used_at
 ```
 
 Key Management DB (instancia PostgreSQL separada):
+
 ```sql
 provider_keys  -- provider_id, kek_enc, dek_enc, kdf_salt, kdf_iterations
 ```

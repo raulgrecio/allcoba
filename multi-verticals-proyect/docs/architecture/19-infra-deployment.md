@@ -74,7 +74,7 @@ Arquitectura Fase 1:
 
 ```yaml
 # infra/docker-compose.yml
-version: "3.9"
+version: '3.9'
 
 services:
   postgres:
@@ -84,7 +84,7 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5432:5432" # sólo en desarrollo — en prod sin puerto público
+      - '5432:5432' # sólo en desarrollo — en prod sin puerto público
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./infra/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -96,7 +96,7 @@ services:
       POSTGRES_USER: ${KM_DB_USER}
       POSTGRES_PASSWORD: ${KM_DB_PASSWORD}
     ports:
-      - "5433:5432"
+      - '5433:5432'
     volumes:
       - keys_data:/var/lib/postgresql/data
 
@@ -109,7 +109,7 @@ services:
       KEY_MGMT_DATABASE_URL: postgresql://${KM_DB_USER}:${KM_DB_PASSWORD}@postgres_keys:5432/keymanagement
       NODE_ENV: development
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on: [postgres, postgres_keys]
     volumes:
       - ./apps/api/src:/app/src # hot reload en desarrollo

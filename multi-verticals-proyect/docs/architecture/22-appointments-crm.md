@@ -155,16 +155,16 @@ El provider define su plantilla semanal una vez. El sistema genera los slots par
 
 export class GenerateSlotsFromTemplateUseCase {
   async execute(providerId: string, weeksAhead = 4): Promise<void> {
-    const templates  = await scheduleRepo.findByProvider(providerId)
-    const services   = await serviceConfigRepo.findByProvider(providerId)
-    const now        = new Date()
-    const endDate    = addWeeks(now, weeksAhead)
+    const templates = await scheduleRepo.findByProvider(providerId);
+    const services = await serviceConfigRepo.findByProvider(providerId);
+    const now = new Date();
+    const endDate = addWeeks(now, weeksAhead);
 
-    const slotsToCreate: NewSlot[] = []
+    const slotsToCreate: NewSlot[] = [];
 
     for (let day = new Date(now); day < endDate; day = addDays(day, 1)) {
-      const dayOfWeek = day.getDay()
-      const dayTemplates = templates.filter(t => t.dayOfWeek === dayOfWeek && t.isActive)
+      const dayOfWeek = day.getDay();
+      const dayTemplates = templates.filter((t) => t.dayOfWeek === dayOfWeek && t.isActive);
 
       for (const template of dayTemplates) {
         // Generar slots dentro de la franja horaria del template
@@ -173,48 +173,48 @@ export class GenerateSlotsFromTemplateUseCase {
           day,
           template.startTime,
           template.endTime,
-          services,    // cada servicio tiene su duration_min y buffer_after_min
-        )
-        slotsToCreate.push(...slots)
+          services, // cada servicio tiene su duration_min y buffer_after_min
+        );
+        slotsToCreate.push(...slots);
       }
     }
 
     // Insertar sólo los slots que no existen ya (idempotente)
-    await slotRepo.insertMany(slotsToCreate, { onConflict: 'ignore' })
+    await slotRepo.insertMany(slotsToCreate, { onConflict: 'ignore' });
   }
 }
 
 function generateSlotsForTimeRange(
   date: Date,
-  startTime: string,    // 'HH:MM'
+  startTime: string, // 'HH:MM'
   endTime: string,
-  services: ServiceConfig[]
+  services: ServiceConfig[],
 ): NewSlot[] {
-  const slots: NewSlot[] = []
+  const slots: NewSlot[] = [];
 
   // Generar slots para el servicio de menor duración disponible
   // para maximizar la flexibilidad (el consumer elige el servicio al reservar)
-  const minDuration = Math.min(...services.map(s => s.durationMin))
-  const maxBuffer   = Math.max(...services.map(s => s.bufferAfterMin))
+  const minDuration = Math.min(...services.map((s) => s.durationMin));
+  const maxBuffer = Math.max(...services.map((s) => s.bufferAfterMin));
 
-  let cursor = parseTime(date, startTime)
-  const end  = parseTime(date, endTime)
+  let cursor = parseTime(date, startTime);
+  const end = parseTime(date, endTime);
 
   while (addMinutes(cursor, minDuration) <= end) {
     slots.push({
-      providerId:     services[0].providerId,
-      serviceId:      null,                  // cualquier servicio
-      startsAt:       cursor,
-      endsAt:         addMinutes(cursor, minDuration),
+      providerId: services[0].providerId,
+      serviceId: null, // cualquier servicio
+      startsAt: cursor,
+      endsAt: addMinutes(cursor, minDuration),
       bufferAfterMin: maxBuffer,
-      status:         'available',
-      origin:         'template',
-    })
+      status: 'available',
+      origin: 'template',
+    });
     // El siguiente slot empieza después del servicio + su buffer
-    cursor = addMinutes(cursor, minDuration + maxBuffer)
+    cursor = addMinutes(cursor, minDuration + maxBuffer);
   }
 
-  return slots
+  return slots;
 }
 ```
 
@@ -247,27 +247,24 @@ Ejemplo: peluquería con corte de 45 min y 0 min de descanso
 // Cuando el provider crea un servicio, el buffer se inicializa = duración
 // El provider puede cambiarlo después desde su panel
 
-async function createService(
-  providerId: string,
-  dto: CreateServiceDTO
-): Promise<Service> {
+async function createService(providerId: string, dto: CreateServiceDTO): Promise<Service> {
   const service = await serviceRepo.create({
     providerId,
-    name:        dto.name,
+    name: dto.name,
     durationMin: dto.durationMin,
-    priceCents:  dto.priceCents,
-  })
+    priceCents: dto.priceCents,
+  });
 
   // Buffer por defecto = duración del servicio
   await serviceConfigRepo.create({
     providerId,
-    serviceId:      service.id,
-    durationMin:    dto.durationMin,
-    bufferAfterMin: dto.durationMin,   // ← defecto: igual que la duración
-    maxPerDay:      null,
-  })
+    serviceId: service.id,
+    durationMin: dto.durationMin,
+    bufferAfterMin: dto.durationMin, // ← defecto: igual que la duración
+    maxPerDay: null,
+  });
 
-  return service
+  return service;
 }
 ```
 
@@ -289,45 +286,45 @@ export class BookAppointmentUseCase {
         WHERE id      = ${dto.slotId}
           AND status  = 'available'
         FOR UPDATE
-      `)
+      `);
 
-      if (!slot.rows[0]) throw new SlotNotAvailableError(dto.slotId)
+      if (!slot.rows[0]) throw new SlotNotAvailableError(dto.slotId);
 
       // Verificar que el consumer no está bloqueado por este provider
-      const relation = await relationRepo.find(slot.rows[0].provider_id, dto.consumerHash)
+      const relation = await relationRepo.find(slot.rows[0].provider_id, dto.consumerHash);
       if (relation?.status === 'blocked') {
-        throw new ContactNotAllowedError()
+        throw new ContactNotAllowedError();
       }
 
       // Marcar slot como reservado
       await tx.execute(sql`
         UPDATE appointment_slots SET status = 'booked' WHERE id = ${dto.slotId}
-      `)
+      `);
 
       // Crear cita en el schema del provider
       const appointment = await appointmentRepo.create(tx, {
-        slotId:          dto.slotId,
-        providerId:      slot.rows[0].provider_id,
-        consumerHash:    dto.consumerHash,
-        serviceId:       dto.serviceId,
-        status:          'pending',
-        durationMin:     slot.rows[0].ends_at - slot.rows[0].starts_at,
-        bufferAfterMin:  slot.rows[0].buffer_after_min,
+        slotId: dto.slotId,
+        providerId: slot.rows[0].provider_id,
+        consumerHash: dto.consumerHash,
+        serviceId: dto.serviceId,
+        status: 'pending',
+        durationMin: slot.rows[0].ends_at - slot.rows[0].starts_at,
+        bufferAfterMin: slot.rows[0].buffer_after_min,
         // consumerNote se cifra cuando el provider la descifra en su sesión
-      })
+      });
 
       // Notificar al provider (sin datos del consumer — sólo fecha/servicio)
       await queue.publishInTransaction(tx, 'send-notification', {
-        type:        'new_appointment',
+        type: 'new_appointment',
         recipientId: slot.rows[0].provider_id,
         data: {
           appointmentId: appointment.id,
-          startsAt:      slot.rows[0].starts_at,
+          startsAt: slot.rows[0].starts_at,
         },
-      })
+      });
 
-      return appointment
-    })
+      return appointment;
+    });
   }
 }
 ```
@@ -368,7 +365,7 @@ Consumer reserva
 // Cron cada 15 minutos — busca citas que necesitan recordatorio
 
 export async function sendAppointmentReminders(): Promise<void> {
-  const now = new Date()
+  const now = new Date();
 
   // Recordatorio 24h antes
   const for24h = await db.execute(sql`
@@ -378,14 +375,15 @@ export async function sendAppointmentReminders(): Promise<void> {
     WHERE a.status = 'confirmed'
       AND a.reminder_24h_sent = false
       AND s.starts_at BETWEEN ${addHours(now, 23)} AND ${addHours(now, 25)}
-  `)
+  `);
   for (const appt of for24h.rows) {
     await queue.publish('send-notification', {
-      type: 'appointment_reminder_24h', appointmentId: appt.id,
-    })
+      type: 'appointment_reminder_24h',
+      appointmentId: appt.id,
+    });
     await db.execute(sql`
       UPDATE appointments SET reminder_24h_sent = true WHERE id = ${appt.id}
-    `)
+    `);
   }
 
   // Recordatorio 2h antes — mismo patrón con ventana 1.5h-2.5h
@@ -393,20 +391,22 @@ export async function sendAppointmentReminders(): Promise<void> {
 
 // Cancelación automática de citas sin confirmar tras 24h
 export async function cancelUnconfirmedAppointments(): Promise<void> {
-  const cutoff = subHours(new Date(), 24)
+  const cutoff = subHours(new Date(), 24);
   const stale = await db.execute(sql`
     SELECT id, provider_id FROM appointments
     WHERE status = 'pending' AND booked_at < ${cutoff}
-  `)
+  `);
   for (const appt of stale.rows) {
     await db.execute(sql`
       UPDATE appointments
       SET status = 'cancelled', cancelled_by = 'system', cancelled_at = now()
       WHERE id = ${appt.id}
-    `)
+    `);
     await queue.publish('send-notification', {
-      type: 'appointment_cancelled', appointmentId: appt.id, cancelledBy: 'system',
-    })
+      type: 'appointment_cancelled',
+      appointmentId: appt.id,
+      cancelledBy: 'system',
+    });
   }
 }
 ```
@@ -419,42 +419,42 @@ export async function cancelUnconfirmedAppointments(): Promise<void> {
 // GET /api/v1/me/stats/appointments?period=month
 
 interface AppointmentStats {
-  period: 'week' | 'month' | 'quarter' | 'year'
+  period: 'week' | 'month' | 'quarter' | 'year';
 
   // Volumen
-  totalAppointments:     number
-  completedAppointments: number
-  cancelledAppointments: number
-  noShowCount:           number
-  noShowRate:            number   // % — métrica clave de calidad del cliente
+  totalAppointments: number;
+  completedAppointments: number;
+  cancelledAppointments: number;
+  noShowCount: number;
+  noShowRate: number; // % — métrica clave de calidad del cliente
 
   // Económico
-  totalRevenueCents:     number
-  avgTicketCents:        number
+  totalRevenueCents: number;
+  avgTicketCents: number;
 
   // Clientes
-  uniqueCustomers:       number
-  returningCustomers:    number
-  retentionRate:         number
+  uniqueCustomers: number;
+  returningCustomers: number;
+  retentionRate: number;
 
   // Ocupación (para optimizar la plantilla)
-  occupancyRate:         number   // % de slots disponibles que se reservaron
-  avgBufferUsedMin:      number   // tiempo de descanso real promedio
+  occupancyRate: number; // % de slots disponibles que se reservaron
+  avgBufferUsedMin: number; // tiempo de descanso real promedio
 
   // Top servicios
   byService: {
-    serviceId:   string
-    serviceName: string
-    count:       number
-    revenueCents: number
-  }[]
+    serviceId: string;
+    serviceName: string;
+    count: number;
+    revenueCents: number;
+  }[];
 
   // Por día de semana (para ajustar la plantilla semanal)
   byDayOfWeek: {
-    day:   0|1|2|3|4|5|6
-    count: number
-    occupancyRate: number
-  }[]
+    day: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    count: number;
+    occupancyRate: number;
+  }[];
 }
 ```
 
@@ -467,41 +467,41 @@ interface AppointmentStats {
 // Requiere DEK activa en sesión del provider
 
 interface CustomerCRMProfile {
-  id:    string
+  id: string;
   // PII descifrados con DEK del provider
-  name:  string
-  phone: string
-  email: string | null
-  notes: string | null    // notas privadas del provider
+  name: string;
+  phone: string;
+  email: string | null;
+  notes: string | null; // notas privadas del provider
 
   // Estadísticas en claro — consulta rápida sin descifrar
   stats: {
-    totalAppointments:  number
-    completedCount:     number
-    cancelledCount:     number
-    noShowCount:        number   // ← alerta si es alto
-    totalSpentCents:    number
-    firstAppointmentAt: string | null
-    lastAppointmentAt:  string | null
-    nextAppointmentAt:  string | null
-  }
+    totalAppointments: number;
+    completedCount: number;
+    cancelledCount: number;
+    noShowCount: number; // ← alerta si es alto
+    totalSpentCents: number;
+    firstAppointmentAt: string | null;
+    lastAppointmentAt: string | null;
+    nextAppointmentAt: string | null;
+  };
 
   // Etiquetas IA (sin PII)
-  tags: CustomerTags
+  tags: CustomerTags;
 
   // Historial de citas (descifrado)
   appointments: {
-    id:          string
-    startsAt:    string
-    serviceName: string
-    status:      AppointmentStatus
-    priceCents:  number | null
-    notes:       string | null
-    bufferMin:   number
-  }[]
+    id: string;
+    startsAt: string;
+    serviceName: string;
+    status: AppointmentStatus;
+    priceCents: number | null;
+    notes: string | null;
+    bufferMin: number;
+  }[];
 
   // Trust signals públicos del consumer (cross-provider, anónimos)
-  trustSignals: PublicConsumerSignals
+  trustSignals: PublicConsumerSignals;
 }
 ```
 

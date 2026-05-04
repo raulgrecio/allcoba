@@ -1,1 +1,7 @@
-export { DomainError, ValidationError, NotFoundError, UnauthorizedError, ConflictError } from './base.errors.js';
+export {
+  DomainError,
+  ValidationError,
+  NotFoundError,
+  UnauthorizedError,
+  ConflictError,
+} from './base.errors.js';

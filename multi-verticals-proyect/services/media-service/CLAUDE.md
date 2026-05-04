@@ -103,20 +103,18 @@ imagen recibida (upload o URL del scraper)
 ### El texto en claro NUNCA toca disco
 
 ```typescript
+// ❌ INCORRECTO — escribe texto descifrado a disco
+import { writeFileSync } from 'fs';
+
 // ✅ CORRECTO — todo en memoria, GC limpia al salir del scope
-async function processConversation(
-  encryptedContent: Buffer,
-  dek: Uint8Array
-) {
-  const plaintext = await decryptField(encryptedContent, dek)  // en memoria
-  const tags      = await analyzer.analyze(plaintext)           // en memoria
-  return tags
+async function processConversation(encryptedContent: Buffer, dek: Uint8Array) {
+  const plaintext = await decryptField(encryptedContent, dek); // en memoria
+  const tags = await analyzer.analyze(plaintext); // en memoria
+  return tags;
   // plaintext se GC al salir de la función
 }
 
-// ❌ INCORRECTO — escribe texto descifrado a disco
-import { writeFileSync } from 'fs'
-writeFileSync('/tmp/conversation.txt', plaintext)
+writeFileSync('/tmp/conversation.txt', plaintext);
 ```
 
 ### Los modelos NO hacen llamadas a red durante inferencia
@@ -135,19 +133,19 @@ const response = await openai.chat.completions.create({ ... })
 ### Inputs siempre sanitizados y truncados antes del modelo
 
 ```typescript
-const safe      = sanitizeInput(text)       // elimina tokens de control
-const truncated = safe.slice(0, 2000)       // límite duro — nunca negociable
+const safe = sanitizeInput(text); // elimina tokens de control
+const truncated = safe.slice(0, 2000); // límite duro — nunca negociable
 ```
 
 ### Output del modelo siempre validado con Zod
 
 ```typescript
-const result = CustomerTagsSchema.safeParse(parsed)
+const result = CustomerTagsSchema.safeParse(parsed);
 if (!result.success) {
-  logger.warn({ conversationId }, 'ai.output.invalid — discarded')
-  return null  // nunca guardar output inválido
+  logger.warn({ conversationId }, 'ai.output.invalid — discarded');
+  return null; // nunca guardar output inválido
 }
-return result.data
+return result.data;
 ```
 
 ---
@@ -158,32 +156,32 @@ return result.data
 // src/index.ts
 
 async function main() {
-  logger.info('Loading AI models...')
+  logger.info('Loading AI models...');
 
   // Modelos cargados UNA SOLA VEZ al arrancar (10-30 segundos — normal)
-  await analyzer.initialize(process.env.AI_MODEL_PATH!)
-  await moderator.initialize()
-  await embeddingGenerator.initialize()
+  await analyzer.initialize(process.env.AI_MODEL_PATH!);
+  await moderator.initialize();
+  await embeddingGenerator.initialize();
 
-  logger.info('Models loaded. Starting HTTP server and subscribing to queues...')
+  logger.info('Models loaded. Starting HTTP server and subscribing to queues...');
 
   // Servidor HTTP para recibir uploads directos
-  await fastify.listen({ port: Number(process.env.PORT ?? 3002), host: '0.0.0.0' })
+  await fastify.listen({ port: Number(process.env.PORT ?? 3002), host: '0.0.0.0' });
 
   // Colas con prioridades distintas
-  await queue.work('moderate-presenter-image', { teamSize: 4 }, moderatePresenterImageJob)
-  await queue.work('moderate-scraper-image',   { teamSize: 4 }, moderateScraperImageJob)
-  await queue.work('analyze-conversation',     { teamSize: 2 }, analyzeConversationJob)
-  await queue.work('generate-embedding',       { teamSize: 1 }, generateEmbeddingJob)
-  await queue.work('extract-services-text',    { teamSize: 2 }, extractServicesTextJob)
+  await queue.work('moderate-presenter-image', { teamSize: 4 }, moderatePresenterImageJob);
+  await queue.work('moderate-scraper-image', { teamSize: 4 }, moderateScraperImageJob);
+  await queue.work('analyze-conversation', { teamSize: 2 }, analyzeConversationJob);
+  await queue.work('generate-embedding', { teamSize: 1 }, generateEmbeddingJob);
+  await queue.work('extract-services-text', { teamSize: 2 }, extractServicesTextJob);
 
-  logger.info('media-service ready')
+  logger.info('media-service ready');
 
   process.on('SIGTERM', async () => {
-    await queue.stop()
-    await fastify.close()
-    process.exit(0)
-  })
+    await queue.stop();
+    await fastify.close();
+    process.exit(0);
+  });
 }
 ```
 
@@ -191,12 +189,12 @@ async function main() {
 
 ## Modelos IA — tabla de referencia
 
-| Modelo | Uso | Tamaño | Licencia | RAM |
-| -------- | --- | ------ | -------- | --- |
-| Llama 3.2 3B Q4_K_M | Análisis conversaciones + extracción texto | ~2GB | Meta community | 3GB |
-| NSFWJS MobileNet | Detección contenido explícito | ~15MB | MIT | <1GB |
-| face-api SSD MobileNet | Detección de caras | ~6MB | MIT | <1GB |
-| all-MiniLM-L6-v2 ONNX | Embeddings semánticos (pgvector) | ~80MB | Apache 2.0 | <1GB |
+| Modelo                 | Uso                                        | Tamaño | Licencia       | RAM  |
+| ---------------------- | ------------------------------------------ | ------ | -------------- | ---- |
+| Llama 3.2 3B Q4_K_M    | Análisis conversaciones + extracción texto | ~2GB   | Meta community | 3GB  |
+| NSFWJS MobileNet       | Detección contenido explícito              | ~15MB  | MIT            | <1GB |
+| face-api SSD MobileNet | Detección de caras                         | ~6MB   | MIT            | <1GB |
+| all-MiniLM-L6-v2 ONNX  | Embeddings semánticos (pgvector)           | ~80MB  | Apache 2.0     | <1GB |
 
 ### RAM total recomendada: 6GB
 

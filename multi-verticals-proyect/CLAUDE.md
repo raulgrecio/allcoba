@@ -242,12 +242,12 @@ y que cada servicio tenga solo las dependencias que necesita.
 
 ```typescript
 // ✅ CORRECTO — desde packages/ compartidos
-import { logger } from "@allcoba/kernel";
-import { User } from "@allcoba/domain";
-import { NotificationType } from "@allcoba/shared-types";
+import { User } from '@allcoba/domain';
+import { logger } from '@allcoba/kernel';
+import { NotificationType } from '@allcoba/shared-types';
 
 // ❌ INCORRECTO — nunca importar de otro servicio directamente
-import { something } from "../../auth-service/src/...";
+import { something } from '../../auth-service/src/...';
 ```
 
 **Gestión del monorepo con pnpm workspaces + Turborepo:**
@@ -269,9 +269,9 @@ import { something } from "../../auth-service/src/...";
 ```yaml
 # pnpm-workspace.yaml
 packages:
-  - "packages/*"
-  - "services/*"
-  - "apps/*"
+  - 'packages/*'
+  - 'services/*'
+  - 'apps/*'
 ```
 
 ```bash

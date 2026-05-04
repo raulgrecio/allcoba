@@ -1,5 +1,5 @@
-import pino from 'pino';
-import type { Logger as PinoLogger } from 'pino';
+import pino, { type Logger as PinoLogger } from 'pino';
+
 import { config } from '../config/index.js';
 
 export type Logger = PinoLogger;
@@ -34,29 +34,17 @@ export function createRootLogger(opts?: {
       paths: REDACT_PATHS as unknown as string[],
       censor: '[REDACTED]',
     },
-    transport: pretty
-      ? { target: 'pino-pretty', options: { colorize: true } }
-      : undefined,
+    transport: pretty ? { target: 'pino-pretty', options: { colorize: true } } : undefined,
   });
 
   return opts?.service ? logger.child({ service: opts.service }) : logger;
 }
 
-export function createRequestLogger(
-  base: Logger,
-  requestId: string,
-  tenantId?: string,
-): Logger {
-  return tenantId
-    ? base.child({ requestId, tenantId })
-    : base.child({ requestId });
+export function createRequestLogger(base: Logger, requestId: string, tenantId?: string): Logger {
+  return tenantId ? base.child({ requestId, tenantId }) : base.child({ requestId });
 }
 
-export function createJobLogger(
-  base: Logger,
-  jobId: string,
-  queueName: string,
-): Logger {
+export function createJobLogger(base: Logger, jobId: string, queueName: string): Logger {
   return base.child({ jobId, queueName });
 }
 

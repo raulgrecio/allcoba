@@ -42,51 +42,50 @@ El mismo negocio puede aparecer en 3 webs distintas con datos diferentes. El ún
 // workers/etl-scraper/src/entity-resolution.ts
 
 interface RawProvider {
-  source: string          // URL de origen
-  name?: string
-  phone?: string
-  address?: string
-  description?: string
-  imageUrls: string[]
-  attributes: Record<string, unknown>
+  source: string; // URL de origen
+  name?: string;
+  phone?: string;
+  address?: string;
+  description?: string;
+  imageUrls: string[];
+  attributes: Record<string, unknown>;
 }
 
 async function resolveEntity(
   raw: RawProvider,
-  vertical: string
+  vertical: string,
 ): Promise<{ provider: Provider | null; isNew: boolean; confidence: number }> {
-
   // 1. Normalizar teléfono (eliminar espacios, prefijos, etc.)
-  const normalizedPhone = normalizePhone(raw.phone)
+  const normalizedPhone = normalizePhone(raw.phone);
 
   // 2. Buscar por teléfono (alta confianza si coincide)
   if (normalizedPhone) {
-    const byPhone = await providerRepo.findByPhone(normalizedPhone, vertical)
-    if (byPhone) return { provider: byPhone, isNew: false, confidence: 0.95 }
+    const byPhone = await providerRepo.findByPhone(normalizedPhone, vertical);
+    if (byPhone) return { provider: byPhone, isNew: false, confidence: 0.95 };
   }
 
   // 3. Buscar por dirección normalizada (confianza media)
   if (raw.address) {
-    const normalizedAddress = normalizeAddress(raw.address)
-    const byAddress = await providerRepo.findByAddress(normalizedAddress, vertical)
+    const normalizedAddress = normalizeAddress(raw.address);
+    const byAddress = await providerRepo.findByAddress(normalizedAddress, vertical);
     if (byAddress) {
       // Verificar nombre similar con Levenshtein
-      const nameSim = levenshteinSimilarity(raw.name ?? '', byAddress.displayName)
-      if (nameSim > 0.7) return { provider: byAddress, isNew: false, confidence: 0.8 }
+      const nameSim = levenshteinSimilarity(raw.name ?? '', byAddress.displayName);
+      if (nameSim > 0.7) return { provider: byAddress, isNew: false, confidence: 0.8 };
     }
   }
 
   // 4. No encontrado → es un provider nuevo
-  return { provider: null, isNew: true, confidence: 1.0 }
+  return { provider: null, isNew: true, confidence: 1.0 };
 }
 
 function normalizePhone(phone?: string): string | null {
-  if (!phone) return null
+  if (!phone) return null;
   // Eliminar todo excepto dígitos, normalizar prefijo español
-  const digits = phone.replace(/\D/g, '')
-  if (digits.startsWith('34') && digits.length === 11) return digits.slice(2)
-  if (digits.length === 9) return digits
-  return null
+  const digits = phone.replace(/\D/g, '');
+  if (digits.startsWith('34') && digits.length === 11) return digits.slice(2);
+  if (digits.length === 9) return digits;
+  return null;
 }
 ```
 
@@ -101,7 +100,7 @@ Para extraer servicios y precios de texto libre sin estructura:
 
 async function extractServicesFromText(
   rawText: string,
-  vertical: string
+  vertical: string,
 ): Promise<ExtractedService[]> {
   const prompt = `
 Eres un extractor de datos estructurados para la vertical: ${vertical}.
@@ -113,9 +112,9 @@ ${rawText.slice(0, 1000)}
 
 Responde con array de: [{name, price_eur, duration_min}]
 Si no hay precio, pon null. Si no hay duración, pon null.
-`
-  const response = await llamaWorker.complete(prompt, { maxTokens: 400, temperature: 0 })
-  return parseServicesJSON(response)
+`;
+  const response = await llamaWorker.complete(prompt, { maxTokens: 400, temperature: 0 });
+  return parseServicesJSON(response);
 }
 ```
 
@@ -127,20 +126,21 @@ Si no hay precio, pon null. Si no hay duración, pon null.
 // workers/etl-scraper/src/scheduler.ts
 
 // Re-scrapear providers con datos desactualizados (>30 días sin actualizar)
-await queue.schedule('scrape-stale-providers', '0 2 * * *', {  // cada día a las 2am
+await queue.schedule('scrape-stale-providers', '0 2 * * *', {
+  // cada día a las 2am
   verticals: ['hairdresser', 'real-estate', 'car'],
   staleDays: 30,
-  limit: 100,   // máximo 100 providers por ejecución
-})
+  limit: 100, // máximo 100 providers por ejecución
+});
 
 // Prioridad: providers con pocas fotos o sin descripción
 async function getScrapingPriority(providerId: string): Promise<number> {
-  const p = await providerRepo.findById(providerId)
-  let score = 0
-  if (p.mediaIds.length < 2) score += 3
-  if (!p.bio || p.bio.length < 50) score += 2
-  if (!p.attributes.phone) score += 5  // teléfono es crítico para entity resolution
-  return score
+  const p = await providerRepo.findById(providerId);
+  let score = 0;
+  if (p.mediaIds.length < 2) score += 3;
+  if (!p.bio || p.bio.length < 50) score += 2;
+  if (!p.attributes.phone) score += 5; // teléfono es crítico para entity resolution
+  return score;
 }
 ```
 
@@ -153,21 +153,25 @@ async function getScrapingPriority(providerId: string): Promise<number> {
 
 const CRAWLER_CONFIG = {
   respectRobotsTxt: true,
-  defaultDelayMs: 2000,     // 2 segundos entre requests al mismo dominio
-  maxConcurrentDomains: 3,  // nunca más de 3 dominios en paralelo
+  defaultDelayMs: 2000, // 2 segundos entre requests al mismo dominio
+  maxConcurrentDomains: 3, // nunca más de 3 dominios en paralelo
   userAgent: 'MarketplaceBot/1.0 (+https://tudominio.com/bot)',
   timeoutMs: 10000,
-}
+};
 
 // SSRF protection — nunca seguir URLs que apunten a red interna
 const BLOCKED_HOSTS = [
-  'localhost', '127.0.0.1', '0.0.0.0',
-  '169.254.169.254',  // AWS metadata
-  '10.', '192.168.', '172.16.',
-]
+  'localhost',
+  '127.0.0.1',
+  '0.0.0.0',
+  '169.254.169.254', // AWS metadata
+  '10.',
+  '192.168.',
+  '172.16.',
+];
 
 function isSafeUrl(url: string): boolean {
-  const parsed = new URL(url)
-  return !BLOCKED_HOSTS.some(h => parsed.hostname.startsWith(h))
+  const parsed = new URL(url);
+  return !BLOCKED_HOSTS.some((h) => parsed.hostname.startsWith(h));
 }
 ```

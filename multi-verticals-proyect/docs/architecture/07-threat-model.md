@@ -8,31 +8,31 @@
 
 ### CRÍTICO
 
-| Amenaza | Vector | Contramedida |
-|---------|--------|-------------|
-| Robo de sesión del provider | XSS, MITM | JWT en memoria (no localStorage), HTTPS forzado, SameSite=Strict |
-| Credential stuffing | Brechas externas | Argon2id, MFA obligatorio, rate limiting por IP + usuario |
-| Acceso a Key Management DB | Credenciales filtradas | DB separada, acceso sólo desde key-service, firewall por IP |
-| IDOR entre providers | Bug en query | Middleware tenant isolation + RLS PostgreSQL (doble barrera) |
+| Amenaza                     | Vector                 | Contramedida                                                     |
+| --------------------------- | ---------------------- | ---------------------------------------------------------------- |
+| Robo de sesión del provider | XSS, MITM              | JWT en memoria (no localStorage), HTTPS forzado, SameSite=Strict |
+| Credential stuffing         | Brechas externas       | Argon2id, MFA obligatorio, rate limiting por IP + usuario        |
+| Acceso a Key Management DB  | Credenciales filtradas | DB separada, acceso sólo desde key-service, firewall por IP      |
+| IDOR entre providers        | Bug en query           | Middleware tenant isolation + RLS PostgreSQL (doble barrera)     |
 
 ### ALTO
 
-| Amenaza | Vector | Contramedida |
-|---------|--------|-------------|
-| SQL Injection | Input malicioso | Drizzle ORM con queries parametrizadas, nunca string interpolation |
-| Prompt injection en IA | Input del consumer | Sanitización, delimitadores en prompt, validación estricta del output |
-| Mass assignment | Payload malicioso | Zod schema en cada endpoint, lista blanca de campos permitidos |
-| Insider threat (dev) | Acceso root al servidor | DEK nunca en disco, logs redactados, audit log de accesos |
-| Envenenamiento ETL | Fuentes scrapeadas | Validación de schema, score de confianza, revisión humana |
+| Amenaza                | Vector                  | Contramedida                                                          |
+| ---------------------- | ----------------------- | --------------------------------------------------------------------- |
+| SQL Injection          | Input malicioso         | Drizzle ORM con queries parametrizadas, nunca string interpolation    |
+| Prompt injection en IA | Input del consumer      | Sanitización, delimitadores en prompt, validación estricta del output |
+| Mass assignment        | Payload malicioso       | Zod schema en cada endpoint, lista blanca de campos permitidos        |
+| Insider threat (dev)   | Acceso root al servidor | DEK nunca en disco, logs redactados, audit log de accesos             |
+| Envenenamiento ETL     | Fuentes scrapeadas      | Validación de schema, score de confianza, revisión humana             |
 
 ### MEDIO
 
-| Amenaza | Vector | Contramedida |
-|---------|--------|-------------|
-| SSRF en scraper | URL controlada por atacante | Validar URLs contra allowlist de dominios, sin acceso a red interna |
-| Exposición de puertos internos | Mala configuración | PostgreSQL y key-service sin puerto público, Cloudflare Tunnel |
-| Secrets en logs | Log de objetos completos | Pino redact lista, tests que verifican ausencia de campos sensibles |
-| DoS en worker IA | Input muy largo | Truncar a 2000 chars antes de pasar al modelo |
+| Amenaza                        | Vector                      | Contramedida                                                        |
+| ------------------------------ | --------------------------- | ------------------------------------------------------------------- |
+| SSRF en scraper                | URL controlada por atacante | Validar URLs contra allowlist de dominios, sin acceso a red interna |
+| Exposición de puertos internos | Mala configuración          | PostgreSQL y key-service sin puerto público, Cloudflare Tunnel      |
+| Secrets en logs                | Log de objetos completos    | Pino redact lista, tests que verifican ausencia de campos sensibles |
+| DoS en worker IA               | Input muy largo             | Truncar a 2000 chars antes de pasar al modelo                       |
 
 ---
 

@@ -139,83 +139,73 @@ NIVEL 3 — BANEADO DE PLATAFORMA
 // packages/kernel/src/visibility/visibility-checker.ts
 
 export class VisibilityChecker {
-
-  async canConsumerSeeProvider(
-    consumerHash: string,
-    providerId: string
-  ): Promise<boolean> {
+  async canConsumerSeeProvider(consumerHash: string, providerId: string): Promise<boolean> {
     // Ban de plataforma → provider invisible para este consumer
-    const ban = await banRepo.findActive(consumerHash)
-    if (ban) return false
+    const ban = await banRepo.findActive(consumerHash);
+    if (ban) return false;
 
     // Bloqueo del provider → el consumer PUEDE seguir viendo la ficha
     // (sólo pierde la capacidad de contactar)
-    return true
+    return true;
   }
 
-  async canConsumerContact(
-    consumerHash: string,
-    providerId: string
-  ): Promise<ContactPermission> {
-    const ban = await banRepo.findActive(consumerHash)
-    if (ban) return { allowed: false, reason: 'platform_banned' }
+  async canConsumerContact(consumerHash: string, providerId: string): Promise<ContactPermission> {
+    const ban = await banRepo.findActive(consumerHash);
+    if (ban) return { allowed: false, reason: 'platform_banned' };
 
-    const relation = await relationRepo.find(providerId, consumerHash)
+    const relation = await relationRepo.find(providerId, consumerHash);
 
     if (!relation || relation.status === 'normal' || relation.status === 'preferred') {
-      return { allowed: true }
+      return { allowed: true };
     }
 
     if (relation.status === 'silenced') {
       // Comprobar si el silencio ha expirado
       if (relation.silencedUntil && relation.silencedUntil < new Date()) {
-        await relationRepo.resetToNormal(providerId, consumerHash)
-        return { allowed: true }
+        await relationRepo.resetToNormal(providerId, consumerHash);
+        return { allowed: true };
       }
       // Silenciado: el mensaje se envía pero sin notificación al provider
-      return { allowed: true, silenced: true }
+      return { allowed: true, silenced: true };
     }
 
     if (relation.status === 'blocked') {
       return {
         allowed: false,
-        reason:  'provider_unavailable',
+        reason: 'provider_unavailable',
         // Mensaje genérico — no revelar que es un bloqueo personal
         message: 'Este profesional no está disponible para nuevas reservas en este momento',
-      }
+      };
     }
 
-    return { allowed: true }
+    return { allowed: true };
   }
 
-  async routeIncomingMessage(
-    consumerHash: string,
-    providerId: string
-  ): Promise<MessageRoute> {
-    const permission = await this.canConsumerContact(consumerHash, providerId)
+  async routeIncomingMessage(consumerHash: string, providerId: string): Promise<MessageRoute> {
+    const permission = await this.canConsumerContact(consumerHash, providerId);
 
     if (!permission.allowed) {
-      throw new ContactNotAllowedError(permission.message)
+      throw new ContactNotAllowedError(permission.message);
     }
 
     if (permission.silenced) {
-      return { destination: 'archived', notify: false }
+      return { destination: 'archived', notify: false };
     }
 
-    return { destination: 'inbox', notify: true }
+    return { destination: 'inbox', notify: true };
   }
 }
 
 interface ContactPermission {
-  allowed:   boolean
-  silenced?: boolean
-  reason?:   string
-  message?:  string
+  allowed: boolean;
+  silenced?: boolean;
+  reason?: string;
+  message?: string;
 }
 
 interface MessageRoute {
-  destination: 'inbox' | 'archived'
-  notify:      boolean
+  destination: 'inbox' | 'archived';
+  notify: boolean;
 }
 ```
 
@@ -228,51 +218,49 @@ interface MessageRoute {
 
 export class GenerateDeckUseCase {
   async execute(params: GenerateDeckParams): Promise<Provider[]> {
-    const { consumerId, consumerHash, vertical, location, limit = 10 } = params
+    const { consumerId, consumerHash, vertical, location, limit = 10 } = params;
 
     // Consumer baneado → deck vacío
-    const ban = await banRepo.findActive(consumerHash)
-    if (ban) return []
+    const ban = await banRepo.findActive(consumerHash);
+    if (ban) return [];
 
-    const prefs = await prefsRepo.findByConsumerAndVertical(consumerId, vertical)
+    const prefs = await prefsRepo.findByConsumerAndVertical(consumerId, vertical);
 
     // Providers que han bloqueado a este consumer → excluir del deck
-    const blockedByProviders = await relationRepo.findProvidersWhoBlocked(consumerHash)
+    const blockedByProviders = await relationRepo.findProvidersWhoBlocked(consumerHash);
 
     const candidates = await providerRepo.findForDeck({
       vertical,
       location,
       radiusMeters: 10_000,
-      excludeIds:   [...(prefs?.seenProviderIds ?? []), ...blockedByProviders],
-      limit:        limit * 3,
-    })
+      excludeIds: [...(prefs?.seenProviderIds ?? []), ...blockedByProviders],
+      limit: limit * 3,
+    });
 
     const scored = candidates
-      .map(p => ({ provider: p, score: computeAffinityScore(p, prefs) }))
-      .sort((a, b) => b.score - a.score + (Math.random() - 0.5) * 0.1)
+      .map((p) => ({ provider: p, score: computeAffinityScore(p, prefs) }))
+      .sort((a, b) => b.score - a.score + (Math.random() - 0.5) * 0.1);
 
-    return scored.slice(0, limit).map(s => s.provider)
+    return scored.slice(0, limit).map((s) => s.provider);
   }
 }
 
-function computeAffinityScore(
-  provider: Provider,
-  prefs: ConsumerPreferences | null
-): number {
+function computeAffinityScore(provider: Provider, prefs: ConsumerPreferences | null): number {
   if (!prefs || Object.keys(prefs.attributeWeights).length === 0) {
-    return provider.trustScore.overall / 5
+    return provider.trustScore.overall / 5;
   }
-  let score = 0, total = 0
+  let score = 0,
+    total = 0;
   for (const [attr, weights] of Object.entries(prefs.attributeWeights)) {
-    const val    = provider.attributes[attr] as string
-    const weight = (weights as Record<string, number>)[val] ?? 0.5
-    score += weight
-    total += 1
+    const val = provider.attributes[attr] as string;
+    const weight = (weights as Record<string, number>)[val] ?? 0.5;
+    score += weight;
+    total += 1;
   }
-  const attrScore  = total > 0 ? score / total : 0.5
-  const trustBoost = provider.isVerified ? 0.10 : 0
-  const freshBoost = provider.isNew      ? 0.05 : 0
-  return attrScore + trustBoost + freshBoost
+  const attrScore = total > 0 ? score / total : 0.5;
+  const trustBoost = provider.isVerified ? 0.1 : 0;
+  const freshBoost = provider.isNew ? 0.05 : 0;
+  return attrScore + trustBoost + freshBoost;
 }
 ```
 
@@ -284,33 +272,32 @@ function computeAffinityScore(
 // workers/ai-pipeline/src/jobs/update-consumer-preferences.ts
 
 export async function updateConsumerPreferences(job: Job): Promise<void> {
-  const { consumerId, providerId, signal, vertical } = job.data
+  const { consumerId, providerId, signal, vertical } = job.data;
 
-  const provider = await providerRepo.findById(providerId)
-  const prefs    = await prefsRepo.findOrCreate(consumerId, vertical)
+  const provider = await providerRepo.findById(providerId);
+  const prefs = await prefsRepo.findOrCreate(consumerId, vertical);
 
-  const learningRate =
-    signal === 'super_like' ?  0.30 :
-    signal === 'like'       ?  0.15 :
-                              -0.10   // pass
+  const learningRate = signal === 'super_like' ? 0.3 : signal === 'like' ? 0.15 : -0.1; // pass
 
-  const newWeights = { ...prefs.attributeWeights }
+  const newWeights = { ...prefs.attributeWeights };
   for (const [attr, value] of Object.entries(provider.attributes)) {
-    if (typeof value !== 'string') continue
-    if (!newWeights[attr]) newWeights[attr] = {}
-    const current = (newWeights[attr] as Record<string, number>)[value] ?? 0.5
-    ;(newWeights[attr] as Record<string, number>)[value] =
-      Math.max(0, Math.min(1, current + learningRate))
+    if (typeof value !== 'string') continue;
+    if (!newWeights[attr]) newWeights[attr] = {};
+    const current = (newWeights[attr] as Record<string, number>)[value] ?? 0.5;
+    (newWeights[attr] as Record<string, number>)[value] = Math.max(
+      0,
+      Math.min(1, current + learningRate),
+    );
   }
 
-  const isPositive = signal === 'like' || signal === 'super_like'
+  const isPositive = signal === 'like' || signal === 'super_like';
   await prefsRepo.update(consumerId, vertical, {
-    attributeWeights:  newWeights,
-    seenProviderIds:   [...new Set([...prefs.seenProviderIds, providerId])],
-    likedProviderIds:  isPositive
+    attributeWeights: newWeights,
+    seenProviderIds: [...new Set([...prefs.seenProviderIds, providerId])],
+    likedProviderIds: isPositive
       ? [...new Set([...prefs.likedProviderIds, providerId])]
-      : prefs.likedProviderIds.filter(id => id !== providerId),
-  })
+      : prefs.likedProviderIds.filter((id) => id !== providerId),
+  });
 }
 ```
 
@@ -323,23 +310,21 @@ async function blockConsumer(
   providerId: string,
   consumerHash: string,
   dek: Uint8Array,
-  options: { reason?: string; contributeToTrustScore: boolean }
+  options: { reason?: string; contributeToTrustScore: boolean },
 ): Promise<void> {
   await relationRepo.upsert({
     providerId,
     consumerHash,
-    status:     'blocked',
-    reasonEnc:  options.reason
-                  ? await encryptField(options.reason, dek)
-                  : null,
-  })
+    status: 'blocked',
+    reasonEnc: options.reason ? await encryptField(options.reason, dek) : null,
+  });
 
   if (options.contributeToTrustScore) {
     // Contribución anónima — no revela quién bloqueó
     await trustScoreService.contribute(consumerHash, {
       dimension: 'communication',
-      rawScore:  1,   // puntuación mínima
-    })
+      rawScore: 1, // puntuación mínima
+    });
   }
 }
 ```
@@ -373,12 +358,12 @@ GET    /api/v1/admin/bans
 
 ## Tabla de privacidad y asimetría de información
 
-| Acción | Lo sabe el provider | Lo sabe el consumer | Lo sabe la plataforma |
-|--------|--------------------|--------------------|----------------------|
-| Consumer da like/pass | NO | SÍ | SÍ |
-| Consumer da super_like | NO | SÍ | SÍ |
-| Provider silencia | SÍ | NO | SÍ |
-| Provider bloquea | SÍ | Ve que no puede contactar, no el motivo | SÍ |
-| Ban de plataforma | NO | Notificación genérica opcional | SÍ |
+| Acción                 | Lo sabe el provider | Lo sabe el consumer                     | Lo sabe la plataforma |
+| ---------------------- | ------------------- | --------------------------------------- | --------------------- |
+| Consumer da like/pass  | NO                  | SÍ                                      | SÍ                    |
+| Consumer da super_like | NO                  | SÍ                                      | SÍ                    |
+| Provider silencia      | SÍ                  | NO                                      | SÍ                    |
+| Provider bloquea       | SÍ                  | Ve que no puede contactar, no el motivo | SÍ                    |
+| Ban de plataforma      | NO                  | Notificación genérica opcional          | SÍ                    |
 
 La asimetría es intencional: protege al provider de confrontaciones y al consumer de comportamientos reactivos.

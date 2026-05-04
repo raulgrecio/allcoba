@@ -6,7 +6,7 @@ Bienvenido al repositorio principal del marketplace multi-vertical.
 
 ## Configuración del Entorno de Desarrollo (IA)
 
-Para mantener el repositorio limpio y evitar la contaminación con cientos de archivos de configuración locales, te recomendamos instalar las *skills* de inteligencia artificial de forma **global** en tu máquina.
+Para mantener el repositorio limpio y evitar la contaminación con cientos de archivos de configuración locales, te recomendamos instalar las _skills_ de inteligencia artificial de forma **global** en tu máquina.
 
 Abre tu terminal (WSL/Linux o macOS) y ejecuta:
 

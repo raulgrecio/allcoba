@@ -76,17 +76,17 @@ La verificación es local — cero llamadas HTTP.
 // packages/kernel/src/auth/jwt-verify.ts
 // Usado por el gateway Y por cada servicio interno
 
-import jwt from '@fastify/jwt'
+import jwt from '@fastify/jwt';
 
 // Cada servicio registra esto con su JWT_PUBLIC_KEY
 fastify.register(jwt, {
-  secret: { public: process.env.JWT_PUBLIC_KEY },  // solo clave pública
+  secret: { public: process.env.JWT_PUBLIC_KEY }, // solo clave pública
   verify: { algorithms: ['RS256'] },
-})
+});
 
 // Verificación local — ~0.1ms, sin red
 async function verifyToken(token: string): Promise<JWTPayload> {
-  return fastify.jwt.verify<JWTPayload>(token)
+  return fastify.jwt.verify<JWTPayload>(token);
 }
 ```
 
@@ -113,28 +113,25 @@ Los servicios internos confían en los headers del gateway sin re-verificar.
 ```typescript
 // services/api-gateway/src/middleware/auth-propagation.ts
 
-export async function propagateAuth(
-  request: FastifyRequest,
-  reply: FastifyReply
-): Promise<void> {
+export async function propagateAuth(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   // 1. Verificar JWT localmente
-  const payload = await verifyTokenLocally(request.headers.authorization)
+  const payload = await verifyTokenLocally(request.headers.authorization);
 
   // 2. Recuperar DEK del sessionStore (si existe)
-  const dekAvailable = sessionStore.has(payload.sessionId)
+  const dekAvailable = sessionStore.has(payload.sessionId);
 
   // 3. Inyectar headers internos — sobreescribir SIEMPRE
   //    (nunca confiar en headers que vengan del cliente)
-  request.headers['x-user-id']      = payload.sub
-  request.headers['x-user-role']    = payload.role
-  request.headers['x-session-id']   = payload.sessionId
-  request.headers['x-vertical']     = payload.verticalId ?? ''
-  request.headers['x-request-id']   = request.id
-  request.headers['x-dek-available'] = dekAvailable ? 'true' : 'false'
+  request.headers['x-user-id'] = payload.sub;
+  request.headers['x-user-role'] = payload.role;
+  request.headers['x-session-id'] = payload.sessionId;
+  request.headers['x-vertical'] = payload.verticalId ?? '';
+  request.headers['x-request-id'] = request.id;
+  request.headers['x-dek-available'] = dekAvailable ? 'true' : 'false';
 
   // Eliminar el header Authorization antes de reenviar internamente
   // Los servicios internos no necesitan el JWT — ya tienen los headers
-  delete request.headers['authorization']
+  delete request.headers['authorization'];
 }
 ```
 
@@ -144,13 +141,13 @@ export async function propagateAuth(
 
 export function extractUserContext(request: FastifyRequest): UserContext {
   return {
-    userId:       request.headers['x-user-id'] as string,
-    role:         request.headers['x-user-role'] as UserRole,
-    sessionId:    request.headers['x-session-id'] as string,
-    vertical:     request.headers['x-vertical'] as string,
-    requestId:    request.headers['x-request-id'] as string,
+    userId: request.headers['x-user-id'] as string,
+    role: request.headers['x-user-role'] as UserRole,
+    sessionId: request.headers['x-session-id'] as string,
+    vertical: request.headers['x-vertical'] as string,
+    requestId: request.headers['x-request-id'] as string,
     dekAvailable: request.headers['x-dek-available'] === 'true',
-  }
+  };
 }
 ```
 
@@ -167,36 +164,36 @@ no al auth-service.
 // En MVP: Map en memoria. En escala: Redis.
 
 class SessionStore {
-  private store = new Map<string, SessionEntry>()
+  private store = new Map<string, SessionEntry>();
 
   set(sessionId: string, dek: Uint8Array, ttlMs = 15 * 60 * 1000): void {
     this.store.set(sessionId, {
       dek,
       expiresAt: Date.now() + ttlMs,
-    })
+    });
   }
 
   get(sessionId: string): Uint8Array | null {
-    const entry = this.store.get(sessionId)
+    const entry = this.store.get(sessionId);
     if (!entry || entry.expiresAt < Date.now()) {
-      this.store.delete(sessionId)
-      return null
+      this.store.delete(sessionId);
+      return null;
     }
-    return entry.dek
+    return entry.dek;
   }
 
   has(sessionId: string): boolean {
-    return this.get(sessionId) !== null
+    return this.get(sessionId) !== null;
   }
 }
 
 // Migración futura a Redis — solo cambia este adapter
 // El gateway no sabe si usa Map o Redis
 export interface SessionStorePort {
-  set(sessionId: string, dek: Uint8Array, ttlMs: number): Promise<void>
-  get(sessionId: string): Promise<Uint8Array | null>
-  has(sessionId: string): Promise<boolean>
-  delete(sessionId: string): Promise<void>
+  set(sessionId: string, dek: Uint8Array, ttlMs: number): Promise<void>;
+  get(sessionId: string): Promise<Uint8Array | null>;
+  has(sessionId: string): Promise<boolean>;
+  delete(sessionId: string): Promise<void>;
 }
 ```
 
@@ -219,15 +216,15 @@ export class InternalHttpClient {
   async get<T>(path: string, context: UserContext): Promise<T> {
     const response = await fetch(`${this.baseUrl}${path}`, {
       headers: {
-        'x-user-id':    context.userId,
-        'x-user-role':  context.role,
+        'x-user-id': context.userId,
+        'x-user-role': context.role,
         'x-session-id': context.sessionId,
         'x-request-id': context.requestId,
-        'x-internal':   'true',  // marca la llamada como interna
+        'x-internal': 'true', // marca la llamada como interna
       },
-    })
-    if (!response.ok) throw new InternalServiceError(this.serviceName, response.status)
-    return response.json()
+    });
+    if (!response.ok) throw new InternalServiceError(this.serviceName, response.status);
+    return response.json();
   }
 }
 ```
@@ -250,23 +247,23 @@ gateway → conversation-service: GET /conversations, POST /messages
 // Ejemplos de jobs cross-service:
 const JOBS = {
   // gateway → media-service
-  'moderate-image':           { imageId, userId, vertical, tempR2Path },
+  'moderate-image': { imageId, userId, vertical, tempR2Path },
 
   // gateway → notification-service
-  'send-notification':        { type, recipientId, data },
+  'send-notification': { type, recipientId, data },
 
   // matching-service → notification-service
-  'notify-match':             { matchId, presenterId, chooserHash },
+  'notify-match': { matchId, presenterId, chooserHash },
 
   // appointment-service → notification-service
-  'appointment-reminder':     { appointmentId, startsAt },
+  'appointment-reminder': { appointmentId, startsAt },
 
   // reputation-service → matching-service (actualizar deck)
-  'score-updated':            { userHash, newScore },
+  'score-updated': { userHash, newScore },
 
   // scraper-service → media-service
-  'moderate-scraped-image':   { imageUrl, providerId, vertical },
-}
+  'moderate-scraped-image': { imageUrl, providerId, vertical },
+};
 ```
 
 ---
@@ -466,7 +463,7 @@ export function requestLogger(requestId: string, userId?: string) {
     requestId,
     userId,
     // No incluir DEK, sessionId ni ningún dato sensible aquí
-  })
+  });
 }
 ```
 

@@ -1,10 +1,11 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import {
+  ConflictError,
   DomainError,
-  ValidationError,
   NotFoundError,
   UnauthorizedError,
-  ConflictError,
+  ValidationError,
 } from '../errors/base.errors.js';
 
 describe('DomainError', () => {

@@ -1,11 +1,11 @@
 ---
-title: "I replaced my entire stack with Postgres: Architecture Optimization"
-source: "https://www.youtube.com/watch?v=TdondBmyNXc"
-author: "Fireship"
+title: 'I replaced my entire stack with Postgres: Architecture Optimization'
+source: 'https://www.youtube.com/watch?v=TdondBmyNXc'
+author: 'Fireship'
 date: 2026-04-25
 category: Database Architecture
 tags: [postgres, sql, optimization, system-design, backend, scalability]
-summary: "Una guía profunda sobre cómo consolidar una infraestructura técnica compleja utilizando PostgreSQL como plataforma única, reemplazando servicios especializados como Redis, MongoDB, Elasticsearch y bases de datos vectoriales."
+summary: 'Una guía profunda sobre cómo consolidar una infraestructura técnica compleja utilizando PostgreSQL como plataforma única, reemplazando servicios especializados como Redis, MongoDB, Elasticsearch y bases de datos vectoriales.'
 technologies:
   - JSONB (NoSQL Replacement)
   - SKIP LOCKED (Message Queues)

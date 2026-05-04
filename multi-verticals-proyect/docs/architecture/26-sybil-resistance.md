@@ -30,23 +30,23 @@ Coste cero de implementación. El usuario legítimo no lo nota.
 
 function getAccountPrivileges(accountAgeDays: number): AccountPrivileges {
   if (accountAgeDays < 1) {
-    return { canContact: false, maxContactsPerDay: 0 }
+    return { canContact: false, maxContactsPerDay: 0 };
     // Primeras 24h: sólo puede navegar el deck — no contactar
   }
   if (accountAgeDays < 7) {
-    return { canContact: true, maxContactsPerDay: 3, maxContactsPerWeek: 10 }
+    return { canContact: true, maxContactsPerDay: 3, maxContactsPerWeek: 10 };
     // Primera semana: muy limitado
   }
   if (accountAgeDays < 30) {
-    return { canContact: true, maxContactsPerDay: 10, maxContactsPerWeek: 40 }
+    return { canContact: true, maxContactsPerDay: 10, maxContactsPerWeek: 40 };
   }
   // Cuenta consolidada — sin límites especiales
-  return { canContact: true, maxContactsPerDay: 50, maxContactsPerWeek: 200 }
+  return { canContact: true, maxContactsPerDay: 50, maxContactsPerWeek: 200 };
 }
 
 // Score inicial de toda cuenta nueva: 2.5 / 5 (neutro)
 // El Presenter puede filtrar "sólo cuentas con historial" usando este campo
-const STARTING_TRUST_SCORE = 2.5
+const STARTING_TRUST_SCORE = 2.5;
 ```
 
 ---
@@ -115,14 +115,14 @@ class DeviceFingerprint {
 export class RegisterUserUseCase {
   async execute(dto: RegisterUserDTO): Promise<void> {
     // Crear usuario normalmente
-    const user = await userRepo.create(dto)
+    const user = await userRepo.create(dto);
 
     // Guardar fingerprint — sólo almacenar, sin lógica adicional
     if (dto.fingerprintHash) {
       await db.insert(deviceFingerprints).values({
-        userId:          user.id,
+        userId: user.id,
         fingerprintHash: dto.fingerprintHash,
-      })
+      });
     }
   }
 }

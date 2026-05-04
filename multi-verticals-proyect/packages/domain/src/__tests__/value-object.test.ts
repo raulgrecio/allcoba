@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
+import { ValidationError } from '../errors/base.errors.js';
 import { Email } from '../value-objects/email.vo.js';
 import { ValueObject } from '../value-objects/value-object.base.js';
-import { ValidationError } from '../errors/base.errors.js';
 
 describe('Email', () => {
   describe('create', () => {

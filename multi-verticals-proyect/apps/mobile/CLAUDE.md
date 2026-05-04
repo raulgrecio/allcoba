@@ -239,21 +239,21 @@ dart format lib/
 
 ```yaml
 dependencies:
-  flutter_riverpod: ^2.5       # state management
-  dio: ^5.4                    # cliente HTTP
-  flutter_map: ^6.1            # mapas sin licencia (OSM)
-  latlong2: ^0.9               # coordenadas para flutter_map
-  drift: ^2.18                 # SQLite ORM para cache offline
-  flutter_secure_storage: ^9   # almacenamiento seguro de tokens
-  firebase_messaging: ^14      # push notifications (sólo mensajería)
-  go_router: ^13               # navegación declarativa
-  intl: ^0.19                  # internacionalización
+  flutter_riverpod: ^2.5 # state management
+  dio: ^5.4 # cliente HTTP
+  flutter_map: ^6.1 # mapas sin licencia (OSM)
+  latlong2: ^0.9 # coordenadas para flutter_map
+  drift: ^2.18 # SQLite ORM para cache offline
+  flutter_secure_storage: ^9 # almacenamiento seguro de tokens
+  firebase_messaging: ^14 # push notifications (sólo mensajería)
+  go_router: ^13 # navegación declarativa
+  intl: ^0.19 # internacionalización
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  riverpod_generator: ^2.4     # generación de providers
-  drift_dev: ^2.18             # generación de código Drift
+  riverpod_generator: ^2.4 # generación de providers
+  drift_dev: ^2.18 # generación de código Drift
   build_runner: ^2.4
 ```
 

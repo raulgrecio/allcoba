@@ -42,15 +42,15 @@ Recibe request externo
 
 ## Tabla de rutas
 
-| Path prefix | Servicio destino | Auth requerida |
-|-------------|-----------------|----------------|
-| `/auth/*` | auth-service:3001 | No — son login/registro |
-| `/search/*` | search-service:3004 | Opcional |
-| `/discovery/*` | matching-service:3005 | Sí |
-| `/conversations/*` | conversation-service:3006 | Sí |
-| `/appointments/*` | appointment-service:3007 | Sí |
-| `/media/*` | media-service:3002 | Sí |
-| `/reputation/*` | reputation-service:3008 | Sí |
+| Path prefix        | Servicio destino          | Auth requerida          |
+| ------------------ | ------------------------- | ----------------------- |
+| `/auth/*`          | auth-service:3001         | No — son login/registro |
+| `/search/*`        | search-service:3004       | Opcional                |
+| `/discovery/*`     | matching-service:3005     | Sí                      |
+| `/conversations/*` | conversation-service:3006 | Sí                      |
+| `/appointments/*`  | appointment-service:3007  | Sí                      |
+| `/media/*`         | media-service:3002        | Sí                      |
+| `/reputation/*`    | reputation-service:3008   | Sí                      |
 
 ---
 
@@ -62,7 +62,7 @@ y lo reemplaza con el userId del JWT verificado.
 
 ```typescript
 // SIEMPRE — incluso si el cliente envió el header
-request.headers['x-user-id'] = payload.sub  // del JWT verificado
+request.headers['x-user-id'] = payload.sub; // del JWT verificado
 ```
 
 ---

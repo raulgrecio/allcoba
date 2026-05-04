@@ -414,19 +414,19 @@ ALTER TABLE providers
 
 // Puerto para generación de embeddings — implementable con modelo local o API
 export interface EmbeddingPort {
-  embed(text: string): Promise<number[]>
-  embedBatch(texts: string[]): Promise<number[][]>
+  embed(text: string): Promise<number[]>;
+  embedBatch(texts: string[]): Promise<number[][]>;
 }
 
 // Adapter con modelo local (all-MiniLM-L6-v2 via ONNX — sin llamadas a red)
 // 80MB, corre en CPU, latencia ~20ms por embedding
 export class LocalEmbeddingAdapter implements EmbeddingPort {
-  private session: InferenceSession
+  private session: InferenceSession;
 
   async embed(text: string): Promise<number[]> {
     // Tokenizar + inferencia ONNX → vector de 384 dimensiones
-    const output = await this.session.run(tokenize(text))
-    return Array.from(output.embeddings.data as Float32Array)
+    const output = await this.session.run(tokenize(text));
+    return Array.from(output.embeddings.data as Float32Array);
   }
 }
 ```

@@ -33,38 +33,38 @@ Request HTTP
 
 declare module 'fastify' {
   interface FastifyRequest {
-    tenantId: string  // siempre viene del JWT verificado
+    tenantId: string; // siempre viene del JWT verificado
   }
 }
 
 export async function enforceTenantIsolation(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ): Promise<void> {
   // El tenantId SIEMPRE viene del JWT — nunca de params, body o query
-  const tenantId = request.user.sub
+  const tenantId = request.user.sub;
 
   if (!tenantId) {
-    return reply.status(401).send({ error: 'unauthorized' })
+    return reply.status(401).send({ error: 'unauthorized' });
   }
 
-  request.tenantId = tenantId
+  request.tenantId = tenantId;
 
   // Si la ruta tiene :providerId, debe coincidir con el JWT
-  const routeProviderId = (request.params as Record<string, string>).providerId
+  const routeProviderId = (request.params as Record<string, string>).providerId;
   if (routeProviderId && routeProviderId !== tenantId) {
     // 404 deliberado — no revelar existencia del recurso
-    return reply.status(404).send({ error: 'not_found' })
+    return reply.status(404).send({ error: 'not_found' });
   }
 }
 
 // Para rutas de platform_admin que SÍ pueden acceder a cualquier provider
 export async function requirePlatformAdmin(
   request: FastifyRequest,
-  reply: FastifyReply
+  reply: FastifyReply,
 ): Promise<void> {
   if (request.user.role !== 'platform_admin') {
-    return reply.status(403).send({ error: 'forbidden' })
+    return reply.status(403).send({ error: 'forbidden' });
   }
   // platform_admin nunca recibe DEK — no puede descifrar datos de clientes
 }
@@ -96,15 +96,13 @@ ALTER TABLE providers FORCE ROW LEVEL SECURITY;
 export async function withTenantContext<T>(
   db: DatabaseConnection,
   tenantId: string,
-  fn: () => Promise<T>
+  fn: () => Promise<T>,
 ): Promise<T> {
   return db.transaction(async (tx) => {
     // Establece la variable de sesión que usa la RLS policy
-    await tx.execute(
-      sql`SELECT set_config('app.current_tenant_id', ${tenantId}, true)`
-    )
-    return fn()
-  })
+    await tx.execute(sql`SELECT set_config('app.current_tenant_id', ${tenantId}, true)`);
+    return fn();
+  });
 }
 
 // Uso en un adapter
@@ -112,9 +110,9 @@ async function getCustomers(tenantId: string, dek: Uint8Array) {
   return withTenantContext(db, tenantId, async () => {
     // Si alguien inyecta un tenantId distinto en la query,
     // PostgreSQL lo rechaza por RLS
-    const rows = await db.select().from(customers)
-    return rows.map(row => decryptCustomer(row, dek))
-  })
+    const rows = await db.select().from(customers);
+    return rows.map((row) => decryptCustomer(row, dek));
+  });
 }
 ```
 
@@ -129,11 +127,11 @@ Cada provider tiene un schema de PostgreSQL dedicado: `provider_{uuid}`. Las tab
 
 export async function createProviderSchema(
   db: DatabaseConnection,
-  providerId: string
+  providerId: string,
 ): Promise<void> {
-  const schemaName = `provider_${providerId.replace(/-/g, '_')}`
+  const schemaName = `provider_${providerId.replace(/-/g, '_')}`;
 
-  await db.execute(sql`CREATE SCHEMA IF NOT EXISTS ${sql.identifier(schemaName)}`)
+  await db.execute(sql`CREATE SCHEMA IF NOT EXISTS ${sql.identifier(schemaName)}`);
 
   // Crear tablas dentro del schema del provider
   await db.execute(sql`
@@ -148,7 +146,7 @@ export async function createProviderSchema(
       created_at    TIMESTAMPTZ DEFAULT now(),
       updated_at    TIMESTAMPTZ DEFAULT now()
     )
-  `)
+  `);
 
   await db.execute(sql`
     CREATE TABLE ${sql.identifier(schemaName)}.conversations (
@@ -160,7 +158,7 @@ export async function createProviderSchema(
       created_at   TIMESTAMPTZ DEFAULT now(),
       updated_at   TIMESTAMPTZ DEFAULT now()
     )
-  `)
+  `);
 }
 ```
 
@@ -180,17 +178,17 @@ Los trust signals permiten a providers ver indicadores de un consumer sin revela
 export function computeConsumerHash(consumerId: string, platformSalt: string): string {
   return createHash('sha256')
     .update(consumerId + platformSalt)
-    .digest('hex')
+    .digest('hex');
 }
 
 // Lo que un provider puede ver de un consumer (nunca PII)
 interface PublicConsumerSignals {
-  consumerHash: string          // identificador opaco
-  punctualityScore: number      // 0-5, agregado de todos los providers
-  paymentScore: number
-  communicationScore: number
-  totalInteractions: number     // cuántas veces ha interactuado en la plataforma
-  isVerified: boolean           // ha verificado su identidad (sin revelarla)
+  consumerHash: string; // identificador opaco
+  punctualityScore: number; // 0-5, agregado de todos los providers
+  paymentScore: number;
+  communicationScore: number;
+  totalInteractions: number; // cuántas veces ha interactuado en la plataforma
+  isVerified: boolean; // ha verificado su identidad (sin revelarla)
 }
 ```
 
@@ -205,35 +203,37 @@ Estos tests deben existir y pasar antes de cualquier merge que toque queries de 
 
 describe('Tenant Isolation', () => {
   it('provider A no puede leer customers de provider B', async () => {
-    const tokenA = await loginAsProvider(providerA.id)
+    const tokenA = await loginAsProvider(providerA.id);
     const response = await app.inject({
       method: 'GET',
       url: `/api/providers/${providerB.id}/customers`,
       headers: { authorization: `Bearer ${tokenA}` },
-    })
-    expect(response.statusCode).toBe(404)  // no 403 — no revelar existencia
-  })
+    });
+    expect(response.statusCode).toBe(404); // no 403 — no revelar existencia
+  });
 
   it('provider_id del body no sobreescribe el del JWT', async () => {
-    const tokenA = await loginAsProvider(providerA.id)
+    const tokenA = await loginAsProvider(providerA.id);
     const response = await app.inject({
       method: 'GET',
       url: '/api/customers',
       headers: { authorization: `Bearer ${tokenA}` },
-      query: { providerId: providerB.id },  // intento de IDOR
-    })
+      query: { providerId: providerB.id }, // intento de IDOR
+    });
     // Sólo devuelve customers de providerA (del JWT), ignora el query param
-    const customers = response.json()
-    expect(customers.every((c: any) => c.providerId === providerA.id)).toBe(true)
-  })
+    const customers = response.json();
+    expect(customers.every((c: any) => c.providerId === providerA.id)).toBe(true);
+  });
 
   it('RLS en PostgreSQL bloquea query directa cross-tenant', async () => {
     // Simula un bug en el ORM que no pasa tenantId correcto
     await expect(
-      withTenantContext(db, providerA.id, () =>
-        db.select().from(customersB)  // tabla del schema de providerB
-      )
-    ).rejects.toThrow()
-  })
-})
+      withTenantContext(
+        db,
+        providerA.id,
+        () => db.select().from(customersB), // tabla del schema de providerB
+      ),
+    ).rejects.toThrow();
+  });
+});
 ```

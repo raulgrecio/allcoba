@@ -1,6 +1,7 @@
 import { z } from 'zod';
-import { ValueObject } from './value-object.base.js';
+
 import { ValidationError } from '../errors/base.errors.js';
+import { ValueObject } from './value-object.base.js';
 
 const emailSchema = z.string().email().max(254);
 

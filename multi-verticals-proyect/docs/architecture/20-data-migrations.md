@@ -107,18 +107,16 @@ Cuando se añade una columna a las tablas de clientes de los providers, hay que 
 // infra/migrations/scripts/migrate-all-provider-schemas.ts
 
 async function migrateAllProviderSchemas(db: Database, migration: string): Promise<void> {
-  const providers = await db.select({ id: providers.id }).from(providers)
+  const providers = await db.select({ id: providers.id }).from(providers);
 
   for (const provider of providers) {
-    const schemaName = `provider_${provider.id.replace(/-/g, '_')}`
+    const schemaName = `provider_${provider.id.replace(/-/g, '_')}`;
 
     try {
-      await db.execute(sql.raw(
-        migration.replace('__SCHEMA__', schemaName)
-      ))
-      logger.info({ providerId: provider.id }, 'schema.migrated')
+      await db.execute(sql.raw(migration.replace('__SCHEMA__', schemaName)));
+      logger.info({ providerId: provider.id }, 'schema.migrated');
     } catch (err) {
-      logger.error({ providerId: provider.id, err }, 'schema.migration.failed')
+      logger.error({ providerId: provider.id, err }, 'schema.migration.failed');
       // No detener — continuar con el siguiente provider
       // Los providers con error se listan al final para revisión manual
     }
@@ -126,10 +124,13 @@ async function migrateAllProviderSchemas(db: Database, migration: string): Promi
 }
 
 // Uso:
-await migrateAllProviderSchemas(db, `
+await migrateAllProviderSchemas(
+  db,
+  `
   ALTER TABLE __SCHEMA__.customers
   ADD COLUMN IF NOT EXISTS preferred_channel TEXT;
-`)
+`,
+);
 ```
 
 ---
@@ -140,11 +141,12 @@ await migrateAllProviderSchemas(db, `
 // infra/seeds/01_verticals.ts
 // Ejecutar: npx tsx infra/seeds/01_verticals.ts
 
-import { VERTICALS } from './data/verticals'  // datos del doc 10-vertical-system.md
+import { VERTICALS } from './data/verticals'; // datos del doc 10-vertical-system.md
 
 async function seedVerticals() {
   for (const vertical of VERTICALS) {
-    await db.insert(verticalsTable)
+    await db
+      .insert(verticalsTable)
       .values({
         slug: vertical.slug,
         name: vertical.name,
@@ -153,13 +155,13 @@ async function seedVerticals() {
       })
       .onConflictDoUpdate({
         target: verticalsTable.slug,
-        set: { config: vertical, name: vertical.name },  // actualiza config si ya existe
-      })
+        set: { config: vertical, name: vertical.name }, // actualiza config si ya existe
+      });
   }
-  logger.info(`Seeded ${VERTICALS.length} verticals`)
+  logger.info(`Seeded ${VERTICALS.length} verticals`);
 }
 
-seedVerticals().catch(console.error)
+seedVerticals().catch(console.error);
 ```
 
 ```typescript
@@ -168,7 +170,7 @@ seedVerticals().catch(console.error)
 // Guarda en DB: SEED_ENV != 'production' como guard
 
 if (process.env.NODE_ENV === 'production') {
-  throw new Error('NUNCA ejecutar seeds de test en producción')
+  throw new Error('NUNCA ejecutar seeds de test en producción');
 }
 
 // Genera 20 providers de prueba con datos realistas

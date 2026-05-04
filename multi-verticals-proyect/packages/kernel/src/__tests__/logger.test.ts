@@ -1,11 +1,12 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+
 import {
-  createRootLogger,
-  createRequestLogger,
   createJobLogger,
+  createRequestLogger,
+  createRootLogger,
+  jobLogger,
   logger,
   requestLogger,
-  jobLogger,
 } from '../logger/index.js';
 
 describe('createRootLogger', () => {

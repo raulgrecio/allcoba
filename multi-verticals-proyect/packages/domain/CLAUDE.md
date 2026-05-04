@@ -70,7 +70,7 @@ export class Provider {
   static create(props: CreateProviderProps): Provider {
     // Validar invariantes — lanzar errores de dominio si no se cumplen
     if (!props.displayName || props.displayName.trim().length < 2) {
-      throw new InvalidProviderNameError(props.displayName)
+      throw new InvalidProviderNameError(props.displayName);
     }
     return new Provider(
       props.id ?? crypto.randomUUID(),
@@ -80,18 +80,18 @@ export class Provider {
       props.verticalId,
       true,
       false,
-    )
+    );
   }
 
   // Métodos de dominio — la lógica de negocio vive aquí
   activate(): void {
-    if (this.isActive) throw new ProviderAlreadyActiveError(this.id)
-    this.isActive = true
+    if (this.isActive) throw new ProviderAlreadyActiveError(this.id);
+    this.isActive = true;
   }
 
   suspend(reason: string): DomainEvent {
-    this.isActive = false
-    return new ProviderSuspendedEvent(this.id, reason)
+    this.isActive = false;
+    return new ProviderSuspendedEvent(this.id, reason);
   }
 }
 ```

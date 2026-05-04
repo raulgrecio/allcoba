@@ -13,11 +13,7 @@ export interface Job<T = unknown> {
 export type JobHandler<T = unknown> = (job: Job<T>) => Promise<void>;
 
 export interface QueuePort {
-  publish<T>(
-    jobName: string,
-    data: T,
-    options?: PublishOptions,
-  ): Promise<string>;
+  publish<T>(jobName: string, data: T, options?: PublishOptions): Promise<string>;
 
   subscribe<T>(jobName: string, handler: JobHandler<T>): Promise<void>;
 

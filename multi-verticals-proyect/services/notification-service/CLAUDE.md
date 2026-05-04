@@ -47,7 +47,7 @@ type NotificationType =
   | 'match_layer2_unlocked'
   | 'profile_layer3_shared'
   | 'image_approved'
-  | 'image_rejected'
+  | 'image_rejected';
 ```
 
 ---
@@ -57,11 +57,11 @@ type NotificationType =
 ```typescript
 // Job publicado por cualquier servicio
 interface SendNotificationJob {
-  type:        NotificationType
-  recipientId: string            // userId del destinatario
-  data:        Record<string, string>  // sin PII — solo IDs y tipos
-  channels:    ('push' | 'inapp' | 'email')[]  // canales a usar
-  priority?:   number            // default 5
+  type: NotificationType;
+  recipientId: string; // userId del destinatario
+  data: Record<string, string>; // sin PII — solo IDs y tipos
+  channels: ('push' | 'inapp' | 'email')[]; // canales a usar
+  priority?: number; // default 5
 }
 ```
 

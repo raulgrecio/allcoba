@@ -259,19 +259,17 @@ vector(384)  →  columna embedding en tabla providers
 //   2. El provider actualiza bio o display_name
 // No se regenera en cada request — es una operación batch por cambio de datos
 
-export async function generateProviderEmbedding(
-  providerId: string,
-): Promise<void> {
+export async function generateProviderEmbedding(providerId: string): Promise<void> {
   const provider = await providerRepo.findById(providerId);
 
   // Construir texto representativo del provider para embeddir
   const text = [
     provider.displayName,
-    provider.bio ?? "",
-    Object.values(provider.attributes).join(" "),
-    provider.services.map((s) => s.name).join(" "),
+    provider.bio ?? '',
+    Object.values(provider.attributes).join(' '),
+    provider.services.map((s) => s.name).join(' '),
   ]
-    .join(". ")
+    .join('. ')
     .slice(0, 512); // límite de tokens del modelo
 
   const embedding = await embeddingAdapter.embed(text);

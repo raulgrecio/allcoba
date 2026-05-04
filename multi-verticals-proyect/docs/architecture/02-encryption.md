@@ -66,22 +66,22 @@ CREATE TABLE provider_keys (
 
 async function registerProvider(dto: RegisterProviderDTO): Promise<void> {
   // 1. Generar sal aleatoria para PBKDF2
-  const salt = crypto.getRandomValues(new Uint8Array(32))
+  const salt = crypto.getRandomValues(new Uint8Array(32));
 
   // 2. Derivar clave del password con PBKDF2
-  const derivedKey = await deriveKeyFromPassword(dto.password, salt)
+  const derivedKey = await deriveKeyFromPassword(dto.password, salt);
 
   // 3. Generar KEK aleatoria
-  const kek = crypto.getRandomValues(new Uint8Array(32))
+  const kek = crypto.getRandomValues(new Uint8Array(32));
 
   // 4. Generar DEK aleatoria
-  const dek = crypto.getRandomValues(new Uint8Array(32))
+  const dek = crypto.getRandomValues(new Uint8Array(32));
 
   // 5. Cifrar DEK con KEK
-  const dekEnc = await encryptAESGCM(dek, kek)
+  const dekEnc = await encryptAESGCM(dek, kek);
 
   // 6. Cifrar KEK con derived key
-  const kekEnc = await encryptAESGCM(kek, derivedKey)
+  const kekEnc = await encryptAESGCM(kek, derivedKey);
 
   // 7. Guardar KEK cifrada y DEK cifrada en Key Management DB
   await keyService.storeKeys({
@@ -89,14 +89,14 @@ async function registerProvider(dto: RegisterProviderDTO): Promise<void> {
     kekEnc,
     dekEnc,
     kdfSalt: salt,
-  })
+  });
 
   // 8. El password se guarda hasheado (Argon2id) en la DB principal
   //    NUNCA en claro, NUNCA la derived key
   await providerRepo.create({
     ...dto,
     passwordHash: await argon2.hash(dto.password),
-  })
+  });
 }
 ```
 
@@ -108,33 +108,33 @@ async function registerProvider(dto: RegisterProviderDTO): Promise<void> {
 // apps/api/src/modules/auth/use-cases/LoginProvider.ts
 
 async function loginProvider(email: string, password: string): Promise<Session> {
-  const provider = await providerRepo.findByEmail(email)
-  if (!provider) throw new InvalidCredentialsError()
+  const provider = await providerRepo.findByEmail(email);
+  if (!provider) throw new InvalidCredentialsError();
 
   // 1. Verificar password con Argon2id
-  const valid = await argon2.verify(provider.passwordHash, password)
-  if (!valid) throw new InvalidCredentialsError()
+  const valid = await argon2.verify(provider.passwordHash, password);
+  if (!valid) throw new InvalidCredentialsError();
 
   // 2. Obtener KEK cifrada y sal desde Key Management DB
-  const { kekEnc, kdfSalt } = await keyService.getProviderKeys(provider.id)
+  const { kekEnc, kdfSalt } = await keyService.getProviderKeys(provider.id);
 
   // 3. Re-derivar clave del password (misma sal)
-  const derivedKey = await deriveKeyFromPassword(password, kdfSalt)
+  const derivedKey = await deriveKeyFromPassword(password, kdfSalt);
 
   // 4. Descifrar KEK en memoria
-  const kek = await decryptAESGCM(kekEnc, derivedKey)
+  const kek = await decryptAESGCM(kekEnc, derivedKey);
 
   // 5. Descifrar DEK en memoria con KEK
-  const { dekEnc } = await keyService.getProviderKeys(provider.id)
-  const dek = await decryptAESGCM(dekEnc, kek)
+  const { dekEnc } = await keyService.getProviderKeys(provider.id);
+  const dek = await decryptAESGCM(dekEnc, kek);
 
   // 6. DEK se guarda SÓLO en memoria de sesión (no en DB, no en cookie)
   //    Se usa un store en memoria del proceso con TTL = duración del JWT
-  const sessionId = crypto.randomUUID()
-  sessionStore.set(sessionId, { providerId: provider.id, dek }, { ttl: 900 }) // 15 min
+  const sessionId = crypto.randomUUID();
+  sessionStore.set(sessionId, { providerId: provider.id, dek }, { ttl: 900 }); // 15 min
 
   // 7. Emitir JWT que referencia el sessionId (no contiene la DEK)
-  return issueJWT({ providerId: provider.id, sessionId })
+  return issueJWT({ providerId: provider.id, sessionId });
 }
 ```
 
@@ -149,19 +149,19 @@ El cifrado se hace en la capa de la aplicación antes de insertar, usando `pgcry
 
 export async function encryptField(value: string, dek: Uint8Array): Promise<Buffer> {
   // AES-256-GCM: genera IV aleatorio de 12 bytes por cada valor
-  const iv = crypto.getRandomValues(new Uint8Array(12))
-  const key = await crypto.subtle.importKey('raw', dek, 'AES-GCM', false, ['encrypt'])
-  const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, Buffer.from(value))
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await crypto.subtle.importKey('raw', dek, 'AES-GCM', false, ['encrypt']);
+  const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, Buffer.from(value));
   // Formato: [IV (12 bytes)][ciphertext]
-  return Buffer.concat([iv, Buffer.from(encrypted)])
+  return Buffer.concat([iv, Buffer.from(encrypted)]);
 }
 
 export async function decryptField(encrypted: Buffer, dek: Uint8Array): Promise<string> {
-  const iv = encrypted.subarray(0, 12)
-  const ciphertext = encrypted.subarray(12)
-  const key = await crypto.subtle.importKey('raw', dek, 'AES-GCM', false, ['decrypt'])
-  const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext)
-  return Buffer.from(decrypted).toString('utf8')
+  const iv = encrypted.subarray(0, 12);
+  const ciphertext = encrypted.subarray(12);
+  const key = await crypto.subtle.importKey('raw', dek, 'AES-GCM', false, ['decrypt']);
+  const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+  return Buffer.from(decrypted).toString('utf8');
 }
 ```
 
@@ -174,8 +174,8 @@ async function saveCustomer(customer: Customer, dek: Uint8Array): Promise<void> 
     nameEnc: await encryptField(customer.name, dek),
     phoneEnc: await encryptField(customer.phone, dek),
     emailEnc: customer.email ? await encryptField(customer.email, dek) : null,
-    tags: customer.tags,  // etiquetas IA — sin PII, en claro
-  })
+    tags: customer.tags, // etiquetas IA — sin PII, en claro
+  });
 }
 ```
 
@@ -188,26 +188,22 @@ async function saveCustomer(customer: Customer, dek: Uint8Array): Promise<void> 
 
 export async function deriveKeyFromPassword(
   password: string,
-  salt: Uint8Array
+  salt: Uint8Array,
 ): Promise<Uint8Array> {
-  const keyMaterial = await crypto.subtle.importKey(
-    'raw',
-    Buffer.from(password),
-    'PBKDF2',
-    false,
-    ['deriveBits']
-  )
+  const keyMaterial = await crypto.subtle.importKey('raw', Buffer.from(password), 'PBKDF2', false, [
+    'deriveBits',
+  ]);
   const bits = await crypto.subtle.deriveBits(
     {
       name: 'PBKDF2',
       hash: 'SHA-256',
       salt,
-      iterations: 100_000,  // mínimo recomendado OWASP 2024
+      iterations: 100_000, // mínimo recomendado OWASP 2024
     },
     keyMaterial,
-    256
-  )
-  return new Uint8Array(bits)
+    256,
+  );
+  return new Uint8Array(bits);
 }
 ```
 
@@ -221,28 +217,33 @@ Cuando un provider cambia su password, la KEK debe re-cifrarse. La DEK **no camb
 async function rotateProviderKey(
   providerId: string,
   oldPassword: string,
-  newPassword: string
+  newPassword: string,
 ): Promise<void> {
   // 1. Verificar password antiguo y obtener DEK actual
-  const dek = await getDEKFromSession(providerId, oldPassword)
+  const dek = await getDEKFromSession(providerId, oldPassword);
 
   // 2. Generar nueva sal
-  const newSalt = crypto.getRandomValues(new Uint8Array(32))
+  const newSalt = crypto.getRandomValues(new Uint8Array(32));
 
   // 3. Derivar nueva clave del nuevo password
-  const newDerivedKey = await deriveKeyFromPassword(newPassword, newSalt)
+  const newDerivedKey = await deriveKeyFromPassword(newPassword, newSalt);
 
   // 4. Generar nueva KEK
-  const newKEK = crypto.getRandomValues(new Uint8Array(32))
+  const newKEK = crypto.getRandomValues(new Uint8Array(32));
 
   // 5. Cifrar DEK existente con nueva KEK (los datos no cambian)
-  const newDEKEnc = await encryptAESGCM(dek, newKEK)
+  const newDEKEnc = await encryptAESGCM(dek, newKEK);
 
   // 6. Cifrar nueva KEK con nueva derived key
-  const newKEKEnc = await encryptAESGCM(newKEK, newDerivedKey)
+  const newKEKEnc = await encryptAESGCM(newKEK, newDerivedKey);
 
   // 7. Actualizar en Key Management DB
-  await keyService.rotateKeys({ providerId, kekEnc: newKEKEnc, dekEnc: newDEKEnc, kdfSalt: newSalt })
+  await keyService.rotateKeys({
+    providerId,
+    kekEnc: newKEKEnc,
+    dekEnc: newDEKEnc,
+    kdfSalt: newSalt,
+  });
 }
 ```
 
@@ -256,11 +257,23 @@ El wrapper de Pino tiene una lista de campos redactados automáticamente:
 // packages/kernel/src/logger/index.ts
 export const logger = pino({
   redact: {
-    paths: ['dek', 'kek', 'password', 'passwordHash', 'token', 'secret',
-            'authorization', 'derivedKey', 'kekEnc', 'dekEnc', '*.dek', '*.kek'],
-    censor: '[REDACTED]'
-  }
-})
+    paths: [
+      'dek',
+      'kek',
+      'password',
+      'passwordHash',
+      'token',
+      'secret',
+      'authorization',
+      'derivedKey',
+      'kekEnc',
+      'dekEnc',
+      '*.dek',
+      '*.kek',
+    ],
+    censor: '[REDACTED]',
+  },
+});
 ```
 
 Si ves `[REDACTED]` en un log, es correcto. Si ves un Buffer o Uint8Array en un log de producción dentro de estos campos, es un bug crítico de seguridad.

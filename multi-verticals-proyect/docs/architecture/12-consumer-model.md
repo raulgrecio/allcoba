@@ -9,12 +9,12 @@
 
 ```typescript
 interface Consumer {
-  id: string
-  consumerHash: string       // SHA-256(id + platformSalt) — identidad cruzable sin revelar
-  isAnonymous: boolean       // true hasta que elige identificarse
-  isVerified: boolean        // ha verificado identidad (sin revelarla a providers)
-  plan: 'free'               // de momento sólo free
-  createdAt: Date
+  id: string;
+  consumerHash: string; // SHA-256(id + platformSalt) — identidad cruzable sin revelar
+  isAnonymous: boolean; // true hasta que elige identificarse
+  isVerified: boolean; // ha verificado identidad (sin revelarla a providers)
+  plan: 'free'; // de momento sólo free
+  createdAt: Date;
 }
 ```
 
@@ -49,13 +49,13 @@ Lo que otros providers pueden ver de un consumer (sin datos personales):
 
 ```typescript
 interface ConsumerPublicSignals {
-  consumerHash: string           // identificador opaco — no reversible
-  punctualityScore: number       // 0-5, promedio de todos sus providers
-  paymentScore: number
-  communicationScore: number
-  totalInteractions: number      // cuántas interacciones verificadas tiene
-  isVerified: boolean
-  memberSince: string            // 'YYYY-MM' — mes de registro, no fecha exacta
+  consumerHash: string; // identificador opaco — no reversible
+  punctualityScore: number; // 0-5, promedio de todos sus providers
+  paymentScore: number;
+  communicationScore: number;
+  totalInteractions: number; // cuántas interacciones verificadas tiene
+  isVerified: boolean;
+  memberSince: string; // 'YYYY-MM' — mes de registro, no fecha exacta
 }
 ```
 
@@ -65,16 +65,16 @@ interface ConsumerPublicSignals {
 
 ```typescript
 interface ConsumerProfile {
-  id: string
-  displayName?: string           // alias, no nombre real
-  avatarUrl?: string
-  preferredVerticals: string[]   // verticales de interés para recomendaciones
-  locationPreference?: GeoPoint  // para búsquedas por defecto
+  id: string;
+  displayName?: string; // alias, no nombre real
+  avatarUrl?: string;
+  preferredVerticals: string[]; // verticales de interés para recomendaciones
+  locationPreference?: GeoPoint; // para búsquedas por defecto
   notificationPrefs: {
-    newMessages: boolean
-    providerAvailability: boolean
-    savedProviderUpdates: boolean
-  }
+    newMessages: boolean;
+    providerAvailability: boolean;
+    savedProviderUpdates: boolean;
+  };
 }
 ```
 
@@ -86,19 +86,19 @@ El consumer puede guardar providers favoritos y ver su historial de contactos. L
 
 ```typescript
 interface ConsumerInteraction {
-  conversationId: string
-  providerId: string
-  providerName: string           // dato público
-  vertical: string
-  status: ConversationStatus
-  initiatedAt: Date
-  lastActivityAt: Date
+  conversationId: string;
+  providerId: string;
+  providerName: string; // dato público
+  vertical: string;
+  status: ConversationStatus;
+  initiatedAt: Date;
+  lastActivityAt: Date;
 }
 
 type ConversationStatus =
-  | 'pending'          // enviado, sin respuesta del provider
-  | 'active'           // en conversación
-  | 'completed'        // finalizado por cualquiera de los dos
-  | 'expired'          // sin respuesta en 7 días
-  | 'rated'            // el consumer ha dejado review
+  | 'pending' // enviado, sin respuesta del provider
+  | 'active' // en conversación
+  | 'completed' // finalizado por cualquiera de los dos
+  | 'expired' // sin respuesta en 7 días
+  | 'rated'; // el consumer ha dejado review
 ```

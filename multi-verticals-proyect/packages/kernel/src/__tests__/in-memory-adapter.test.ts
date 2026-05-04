@@ -1,4 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
+
 import { InMemoryQueueAdapter } from '../queue/in-memory.adapter.js';
 import type { JobHandler, QueuePort } from '../queue/queue.port.js';
 

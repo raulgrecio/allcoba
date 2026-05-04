@@ -40,30 +40,30 @@
 
 ### Secuenciación
 
-| Cambio | Razón |
-|--------|-------|
-| **Sprint 0 nuevo** | El plan original no tenía bootstrap. Sin `package.json` ni monorepo el proyecto no arranca. |
-| **CI/Tooling temprano** | GitHub Actions + ESLint + Husky deben estar desde el día 1. Con 1 dev, CI es el revisor automático. |
-| **Scraper adelantado** (de Sprint 12 → tras BD) | Sin datos reales no validas features. Poblar la BD con providers reales antes de construir UI. |
-| **Flutter retrasado** (de Sprint 10 → post-MVP) | Si no hay usuarios en web, no los habrá en móvil. Validar web primero. |
-| **Swipe retrasado** (de Sprint 15 → post-MVP) | Requiere masa crítica de usuarios. Con <100 providers es un Tinder vacío. |
-| **Dating reemplaza Masajes** como vertical 1 | Decisión de producto. |
+| Cambio                                          | Razón                                                                                               |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Sprint 0 nuevo**                              | El plan original no tenía bootstrap. Sin `package.json` ni monorepo el proyecto no arranca.         |
+| **CI/Tooling temprano**                         | GitHub Actions + ESLint + Husky deben estar desde el día 1. Con 1 dev, CI es el revisor automático. |
+| **Scraper adelantado** (de Sprint 12 → tras BD) | Sin datos reales no validas features. Poblar la BD con providers reales antes de construir UI.      |
+| **Flutter retrasado** (de Sprint 10 → post-MVP) | Si no hay usuarios en web, no los habrá en móvil. Validar web primero.                              |
+| **Swipe retrasado** (de Sprint 15 → post-MVP)   | Requiere masa crítica de usuarios. Con <100 providers es un Tinder vacío.                           |
+| **Dating reemplaza Masajes** como vertical 1    | Decisión de producto.                                                                               |
 
 ### Tooling
 
-| Cambio | Razón |
-|--------|-------|
-| **npm → pnpm** | Más rápido, estricto, mejor soporte de monorepo. |
-| **+ Turborepo** | Caché de builds/tests, ejecución paralela. Sin overhead de Nx. |
-| **+ Husky + commitlint** | Pre-commit hooks para evitar commits rotos. |
+| Cambio                   | Razón                                                          |
+| ------------------------ | -------------------------------------------------------------- |
+| **npm → pnpm**           | Más rápido, estricto, mejor soporte de monorepo.               |
+| **+ Turborepo**          | Caché de builds/tests, ejecución paralela. Sin overhead de Nx. |
+| **+ Husky + commitlint** | Pre-commit hooks para evitar commits rotos.                    |
 
 ### Arquitectura
 
-| Cambio | Razón |
-|--------|-------|
-| **10 microservicios → modular monolith inicial** | Para 1 dev, 3-4 procesos bastan. Extraer microservicios cuando el tráfico lo justifique. |
-| **Session store documentado como single-instance** | MVP corre en 1 instancia. Migrar a Redis cuando se necesite multi-instancia. |
-| **Testing: vitest fetch nativo > supertest** | Una dependencia menos. Vitest ya incluye fetch para tests HTTP. |
+| Cambio                                             | Razón                                                                                    |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **10 microservicios → modular monolith inicial**   | Para 1 dev, 3-4 procesos bastan. Extraer microservicios cuando el tráfico lo justifique. |
+| **Session store documentado como single-instance** | MVP corre en 1 instancia. Migrar a Redis cuando se necesite multi-instancia.             |
+| **Testing: vitest fetch nativo > supertest**       | Una dependencia menos. Vitest ya incluye fetch para tests HTTP.                          |
 
 ---
 

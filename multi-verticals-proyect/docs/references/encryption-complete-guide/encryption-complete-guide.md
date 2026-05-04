@@ -1,19 +1,11 @@
 ---
-title: "Modelo de cifrado — Guía completa"
-source: "Internal Documentation"
-author: "Architecture Team"
+title: 'Modelo de cifrado — Guía completa'
+source: 'Internal Documentation'
+author: 'Architecture Team'
 date: 2026-04-26
 category: Security Architecture
-tags:
-  [
-    encryption,
-    security,
-    envelope-encryption,
-    cryptography,
-    pii-protection,
-    backend,
-  ]
-summary: "Documentación técnica sobre la arquitectura de cifrado (Envelope Encryption) con dos capas de clave (KEK + DEK), diseñada para asegurar que la plataforma nunca tenga acceso a los datos PII de los clientes."
+tags: [encryption, security, envelope-encryption, cryptography, pii-protection, backend]
+summary: 'Documentación técnica sobre la arquitectura de cifrado (Envelope Encryption) con dos capas de clave (KEK + DEK), diseñada para asegurar que la plataforma nunca tenga acceso a los datos PII de los clientes.'
 technologies:
   - Node.js Web Crypto API
   - pgcrypto (PostgreSQL)
@@ -298,16 +290,16 @@ export async function deriveKeyFromPassword(
   salt: Uint8Array,
 ): Promise<Uint8Array> {
   const keyMaterial = await crypto.subtle.importKey(
-    "raw",
+    'raw',
     new TextEncoder().encode(password),
-    "PBKDF2",
+    'PBKDF2',
     false,
-    ["deriveBits"],
+    ['deriveBits'],
   );
   const bits = await crypto.subtle.deriveBits(
     {
-      name: "PBKDF2",
-      hash: "SHA-256",
+      name: 'PBKDF2',
+      hash: 'SHA-256',
       salt,
       iterations: 100_000, // mínimo OWASP 2024 para SHA-256
     },
@@ -324,16 +316,11 @@ export async function deriveKeyFromPassword(
 // packages/kernel/src/crypto/aes-gcm.ts
 
 // IV aleatorio de 12 bytes por cada operación — nunca reutilizar IV con la misma clave
-export async function encryptAESGCM(
-  plaintext: Uint8Array,
-  keyBytes: Uint8Array,
-): Promise<Buffer> {
+export async function encryptAESGCM(plaintext: Uint8Array, keyBytes: Uint8Array): Promise<Buffer> {
   const iv = crypto.getRandomValues(new Uint8Array(12));
-  const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, [
-    "encrypt",
-  ]);
+  const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['encrypt']);
   const ciphertext = await crypto.subtle.encrypt(
-    { name: "AES-GCM", iv, tagLength: 128 },
+    { name: 'AES-GCM', iv, tagLength: 128 },
     key,
     plaintext,
   );
@@ -341,17 +328,12 @@ export async function encryptAESGCM(
   return Buffer.concat([iv, Buffer.from(ciphertext)]);
 }
 
-export async function decryptAESGCM(
-  encrypted: Buffer,
-  keyBytes: Uint8Array,
-): Promise<Uint8Array> {
+export async function decryptAESGCM(encrypted: Buffer, keyBytes: Uint8Array): Promise<Uint8Array> {
   const iv = encrypted.subarray(0, 12);
   const ciphertext = encrypted.subarray(12);
-  const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, [
-    "decrypt",
-  ]);
+  const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['decrypt']);
   const plaintext = await crypto.subtle.decrypt(
-    { name: "AES-GCM", iv, tagLength: 128 },
+    { name: 'AES-GCM', iv, tagLength: 128 },
     key,
     ciphertext,
   );
@@ -365,18 +347,12 @@ export async function decryptAESGCM(
 // packages/kernel/src/crypto/encrypt-columns.ts
 // IV único por campo — dos campos con el mismo valor producen ciphertexts distintos
 
-export async function encryptField(
-  value: string,
-  dek: Uint8Array,
-): Promise<Buffer> {
+export async function encryptField(value: string, dek: Uint8Array): Promise<Buffer> {
   const encoded = new TextEncoder().encode(value);
   return encryptAESGCM(encoded, dek);
 }
 
-export async function decryptField(
-  encrypted: Buffer,
-  dek: Uint8Array,
-): Promise<string> {
+export async function decryptField(encrypted: Buffer, dek: Uint8Array): Promise<string> {
   const decoded = await decryptAESGCM(encrypted, dek);
   return new TextDecoder().decode(decoded);
 }
@@ -387,9 +363,7 @@ export async function decryptField(
 ```typescript
 // apps/api/src/modules/auth/use-cases/RegisterProvider.ts
 
-export async function registerProvider(
-  dto: RegisterProviderDTO,
-): Promise<void> {
+export async function registerProvider(dto: RegisterProviderDTO): Promise<void> {
   // 1. Sal única para este provider — nunca reutilizar
   const salt = crypto.getRandomValues(new Uint8Array(32));
 
@@ -452,9 +426,7 @@ export async function loginProvider(
   }
 
   // Reconstruir DEK desde Key Management DB
-  const { kekEnc, dekEnc, kdfSalt } = await keyService.getProviderKeys(
-    provider.id,
-  );
+  const { kekEnc, dekEnc, kdfSalt } = await keyService.getProviderKeys(provider.id);
   const derivedKey = await deriveKeyFromPassword(password, kdfSalt);
   const kek = await decryptAESGCM(kekEnc, derivedKey);
   const dek = await decryptAESGCM(dekEnc, kek);
@@ -467,7 +439,7 @@ export async function loginProvider(
   const accessToken = issueJWT({
     sub: provider.id,
     sessionId,
-    role: "provider",
+    role: 'provider',
   });
   const refreshToken = await issueRefreshToken(provider.id);
 
@@ -597,10 +569,7 @@ CREATE TABLE provider_{id}.customers (
 
 ```typescript
 // Guardar cliente con columnas cifradas
-async function saveCustomer(
-  customer: Customer,
-  dek: Uint8Array,
-): Promise<void> {
+async function saveCustomer(customer: Customer, dek: Uint8Array): Promise<void> {
   await db.insert(schema.customers).values({
     id: customer.id,
     consumerHash: customer.consumerHash,
@@ -613,10 +582,7 @@ async function saveCustomer(
 }
 
 // Leer cliente y descifrar
-async function getCustomer(
-  customerId: string,
-  dek: Uint8Array,
-): Promise<Customer> {
+async function getCustomer(customerId: string, dek: Uint8Array): Promise<Customer> {
   const row = await db.query.customers.findFirst({
     where: eq(schema.customers.id, customerId),
   });
@@ -649,8 +615,7 @@ export async function rotateProviderKey(
   newPassword: string,
 ): Promise<void> {
   // 1. Verificar password antiguo y obtener DEK actual
-  const { kekEnc, dekEnc, kdfSalt } =
-    await keyService.getProviderKeys(providerId);
+  const { kekEnc, dekEnc, kdfSalt } = await keyService.getProviderKeys(providerId);
   const oldDerivedKey = await deriveKeyFromPassword(oldPassword, kdfSalt);
   const oldKek = await decryptAESGCM(kekEnc, oldDerivedKey);
   const dek = await decryptAESGCM(dekEnc, oldKek);
@@ -756,7 +721,7 @@ await rateLimiter.check(`login:${email}`, { max: 5, windowMs: 15 * 60 * 1000 });
 
 // d) Notificación al provider de login desde nueva IP
 if (isNewDevice(provider.id, request.ip)) {
-  await notifyProvider(provider.id, "new_device_login", { ip: request.ip });
+  await notifyProvider(provider.id, 'new_device_login', { ip: request.ip });
 }
 ```
 
@@ -858,11 +823,11 @@ CREATE POLICY provider_isolation ON providers
 // a) Sanitizar input — eliminar tokens de control del modelo
 function sanitizeInput(text: string): string {
   return text
-    .replace(/<\|system\|>/gi, "")
-    .replace(/<\|user\|>/gi, "")
-    .replace(/<\|assistant\|>/gi, "")
-    .replace(/ignore (all )?previous instructions?/gi, "")
-    .replace(/forget (everything|what|your)/gi, "")
+    .replace(/<\|system\|>/gi, '')
+    .replace(/<\|user\|>/gi, '')
+    .replace(/<\|assistant\|>/gi, '')
+    .replace(/ignore (all )?previous instructions?/gi, '')
+    .replace(/forget (everything|what|your)/gi, '')
     .trim();
 }
 
@@ -871,8 +836,8 @@ function sanitizeInput(text: string): string {
 
 // c) Validación estricta del output con Zod — sólo valores del enum permitido
 const CustomerTagsSchema = z.object({
-  tipo_servicio: z.array(z.enum(["corte", "color", "tratamiento", "novia"])),
-  frecuencia: z.enum(["única", "mensual", "quincenal", "semanal"]).nullable(),
+  tipo_servicio: z.array(z.enum(['corte', 'color', 'tratamiento', 'novia'])),
+  frecuencia: z.enum(['única', 'mensual', 'quincenal', 'semanal']).nullable(),
   es_recurrente: z.boolean(),
 });
 // Si el output no coincide exactamente → se descarta, no se guarda
@@ -900,36 +865,34 @@ FIN_CONVERSACION
 export const logger = pino({
   redact: {
     paths: [
-      "dek",
-      "kek",
-      "password",
-      "passwordHash",
-      "token",
-      "secret",
-      "authorization",
-      "derivedKey",
-      "kekEnc",
-      "dekEnc",
-      "*.dek",
-      "*.kek",
-      "*.password",
-      "req.headers.authorization",
-      "req.headers.cookie",
+      'dek',
+      'kek',
+      'password',
+      'passwordHash',
+      'token',
+      'secret',
+      'authorization',
+      'derivedKey',
+      'kekEnc',
+      'dekEnc',
+      '*.dek',
+      '*.kek',
+      '*.password',
+      'req.headers.authorization',
+      'req.headers.cookie',
     ],
-    censor: "[REDACTED]",
+    censor: '[REDACTED]',
   },
 });
 
 // Test automático que falla si aparecen campos sensibles en logs
-it("los logs no contienen campos sensibles", async () => {
-  const logSpy = vi.spyOn(logger, "info");
-  await loginProvider("test@example.com", "password123", "123456");
+it('los logs no contienen campos sensibles', async () => {
+  const logSpy = vi.spyOn(logger, 'info');
+  await loginProvider('test@example.com', 'password123', '123456');
 
-  const allLogs = logSpy.mock.calls
-    .map(([obj]) => JSON.stringify(obj))
-    .join("\n");
+  const allLogs = logSpy.mock.calls.map(([obj]) => JSON.stringify(obj)).join('\n');
 
-  const forbidden = ["dek", "kek", "derivedKey", "password", "passwordHash"];
+  const forbidden = ['dek', 'kek', 'derivedKey', 'password', 'passwordHash'];
   for (const field of forbidden) {
     expect(allLogs).not.toMatch(new RegExp(`"${field}"\\s*:`));
   }
@@ -974,7 +937,7 @@ const BLOCKED_PATTERNS = [
 
 export function assertSafeUrl(url: string): void {
   const { hostname, protocol } = new URL(url);
-  if (!["http:", "https:"].includes(protocol)) {
+  if (!['http:', 'https:'].includes(protocol)) {
     throw new UnsafeUrlError(`Protocol not allowed: ${protocol}`);
   }
   if (BLOCKED_PATTERNS.some((p) => p.test(hostname))) {

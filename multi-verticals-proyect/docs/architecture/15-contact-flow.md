@@ -63,23 +63,23 @@ Tras completed:
 
 ```typescript
 interface Conversation {
-  id: string
-  providerId: string
-  consumerHash: string          // identidad opaca del consumer
-  vertical: string
-  status: ConversationStatus
-  messages: ConversationMessage[]
-  isIdentityRevealed: boolean   // el consumer ha revelado su identidad
-  initiatedAt: Date
-  lastActivityAt: Date
-  expiresAt: Date               // 7 días desde initiated si no hay respuesta
+  id: string;
+  providerId: string;
+  consumerHash: string; // identidad opaca del consumer
+  vertical: string;
+  status: ConversationStatus;
+  messages: ConversationMessage[];
+  isIdentityRevealed: boolean; // el consumer ha revelado su identidad
+  initiatedAt: Date;
+  lastActivityAt: Date;
+  expiresAt: Date; // 7 días desde initiated si no hay respuesta
 }
 
 interface ConversationMessage {
-  id: string
-  role: 'consumer' | 'provider'
-  content: string               // en claro en la entidad de dominio
-  sentAt: Date
+  id: string;
+  role: 'consumer' | 'provider';
+  content: string; // en claro en la entidad de dominio
+  sentAt: Date;
 }
 
 // En persistencia, messages se guarda cifrado con DEK del provider
@@ -96,11 +96,11 @@ interface ConversationMessage {
 
 // Un consumer no puede iniciar más de 3 conversaciones activas
 // con el mismo provider en 30 días
-const MAX_ACTIVE_CONVERSATIONS_PER_PROVIDER = 3
-const WINDOW_DAYS = 30
+const MAX_ACTIVE_CONVERSATIONS_PER_PROVIDER = 3;
+const WINDOW_DAYS = 30;
 
 // Una conversación expira si el provider no responde en 7 días
-const EXPIRY_DAYS = 7
+const EXPIRY_DAYS = 7;
 
 // El provider puede marcar un consumer como "no deseable"
 // (el consumer no recibe notificación — simplemente sus mensajes no llegan)
@@ -118,16 +118,16 @@ Las notificaciones son el único momento en que el sistema contacta activamente 
 
 ```typescript
 interface NotificationPayload {
-  type: NotificationType
-  recipientId: string
-  data: Record<string, string>  // sin PII en el payload de push
+  type: NotificationType;
+  recipientId: string;
+  data: Record<string, string>; // sin PII en el payload de push
 }
 
 type NotificationType =
-  | 'new_contact_request'       // al provider: nuevo interesado
-  | 'provider_replied'          // al consumer: el provider respondió
-  | 'new_message'               // a cualquiera: nuevo mensaje en conversación activa
-  | 'conversation_expiring'     // a ambos: la conversación expira en 24h
-  | 'review_requested'          // al consumer: ¿quieres dejar una reseña?
-  | 'identity_revealed'         // al provider: el consumer ha compartido sus datos
+  | 'new_contact_request' // al provider: nuevo interesado
+  | 'provider_replied' // al consumer: el provider respondió
+  | 'new_message' // a cualquiera: nuevo mensaje en conversación activa
+  | 'conversation_expiring' // a ambos: la conversación expira en 24h
+  | 'review_requested' // al consumer: ¿quieres dejar una reseña?
+  | 'identity_revealed'; // al provider: el consumer ha compartido sus datos
 ```

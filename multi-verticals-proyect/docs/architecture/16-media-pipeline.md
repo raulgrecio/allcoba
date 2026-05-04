@@ -75,28 +75,27 @@ Usuario sube imagen
 
 ```typescript
 // workers/ai-pipeline/src/image-dedup.ts
-import Jimp from 'jimp'
+import Jimp from 'jimp';
 
 // pHash: genera un hash de 64 bits basado en el contenido visual
 // Dos imágenes con pHash similar (distancia Hamming < 10) son duplicados
 async function computePHash(imageBuffer: Buffer): Promise<string> {
-  const img = await Jimp.read(imageBuffer)
-  img.resize(8, 8).grayscale()
+  const img = await Jimp.read(imageBuffer);
+  img.resize(8, 8).grayscale();
 
-  const pixels = []
+  const pixels = [];
   for (let y = 0; y < 8; y++)
-    for (let x = 0; x < 8; x++)
-      pixels.push(Jimp.intToRGBA(img.getPixelColor(x, y)).r)
+    for (let x = 0; x < 8; x++) pixels.push(Jimp.intToRGBA(img.getPixelColor(x, y)).r);
 
-  const avg = pixels.reduce((a, b) => a + b, 0) / pixels.length
-  return pixels.map(p => (p >= avg ? '1' : '0')).join('')
+  const avg = pixels.reduce((a, b) => a + b, 0) / pixels.length;
+  return pixels.map((p) => (p >= avg ? '1' : '0')).join('');
 }
 
 function hammingDistance(hash1: string, hash2: string): number {
-  return hash1.split('').filter((b, i) => b !== hash2[i]).length
+  return hash1.split('').filter((b, i) => b !== hash2[i]).length;
 }
 
-const DUPLICATE_THRESHOLD = 10  // distancia Hamming máxima para considerar duplicado
+const DUPLICATE_THRESHOLD = 10; // distancia Hamming máxima para considerar duplicado
 ```
 
 ---

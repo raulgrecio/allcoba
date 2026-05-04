@@ -74,25 +74,25 @@ modules/providers/
 
 ```typescript
 // ✅ CORRECTO — siempre del JWT verificado
-const providerId = request.user.sub
+const providerId = request.user.sub;
 
 // ❌ INCORRECTO — nunca de params, body, query
-const providerId = request.params.providerId
-const providerId = request.body.providerId
-const providerId = request.query.providerId
+const providerId = request.params.providerId;
+const providerId = request.body.providerId;
+const providerId = request.query.providerId;
 ```
 
 ### La DEK nunca toca el log ni la respuesta
 
 ```typescript
 // ✅ CORRECTO
-logger.info({ providerId, action: 'customer.read' }, 'customer fetched')
+logger.info({ providerId, action: 'customer.read' }, 'customer fetched');
 
 // ❌ INCORRECTO — la DEK aparecería en logs
-logger.info({ providerId, dek, action: 'customer.read' }, 'customer fetched')
+logger.info({ providerId, dek, action: 'customer.read' }, 'customer fetched');
 
 // ❌ INCORRECTO — la DEK en una respuesta HTTP
-return reply.send({ customers, dek })
+return reply.send({ customers, dek });
 ```
 
 ### Errores de dominio → HTTP en un único sitio
@@ -104,20 +104,20 @@ return reply.send({ customers, dek })
 
 fastify.setErrorHandler((error, request, reply) => {
   if (error instanceof ProviderNotFoundError) {
-    return reply.status(404).send({ error: { code: 'PROVIDER_NOT_FOUND' } })
+    return reply.status(404).send({ error: { code: 'PROVIDER_NOT_FOUND' } });
   }
   if (error instanceof TenantViolationError) {
     // 404 deliberado — no revelar que el recurso existe
-    return reply.status(404).send({ error: { code: 'NOT_FOUND' } })
+    return reply.status(404).send({ error: { code: 'NOT_FOUND' } });
   }
   if (error instanceof ValidationError) {
-    return reply.status(422).send({ error: { code: 'VALIDATION_ERROR', field: error.field } })
+    return reply.status(422).send({ error: { code: 'VALIDATION_ERROR', field: error.field } });
   }
   // Errores no esperados → 500 + Sentry, sin revelar detalles internos
-  logger.error(error, 'unhandled error')
-  Sentry.captureException(error)
-  return reply.status(500).send({ error: { code: 'INTERNAL_ERROR' } })
-})
+  logger.error(error, 'unhandled error');
+  Sentry.captureException(error);
+  return reply.status(500).send({ error: { code: 'INTERNAL_ERROR' } });
+});
 ```
 
 ---

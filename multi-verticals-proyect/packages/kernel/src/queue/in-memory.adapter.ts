@@ -1,15 +1,12 @@
 import { randomUUID } from 'node:crypto';
-import type { QueuePort, JobHandler, PublishOptions, Job } from './queue.port.js';
+
+import type { Job, JobHandler, PublishOptions, QueuePort } from './queue.port.js';
 
 export class InMemoryQueueAdapter implements QueuePort {
   private handlers = new Map<string, Set<JobHandler>>();
   private jobs: Job[] = [];
 
-  async publish<T>(
-    jobName: string,
-    data: T,
-    _options?: PublishOptions,
-  ): Promise<string> {
+  async publish<T>(jobName: string, data: T, _options?: PublishOptions): Promise<string> {
     const id = randomUUID();
     this.jobs.push({ id, name: jobName, data });
     const handlers = this.handlers.get(jobName);
@@ -21,10 +18,7 @@ export class InMemoryQueueAdapter implements QueuePort {
     return id;
   }
 
-  async subscribe<T>(
-    jobName: string,
-    handler: JobHandler<T>,
-  ): Promise<void> {
+  async subscribe<T>(jobName: string, handler: JobHandler<T>): Promise<void> {
     const handlers = this.handlers.get(jobName) ?? new Set();
     handlers.add(handler as JobHandler);
     this.handlers.set(jobName, handlers);

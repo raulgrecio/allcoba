@@ -68,9 +68,11 @@ El Presenter define reglas automáticas para gestionar quién le contacta:
 El Chooser siempre ve "mensaje enviado" — nunca sabe si fue archivado o rechazado.
 
 ### Vertical como cobertura social
+
 Un usuario puede usar la app en la vertical Masajes como "cobertura" mientras también usa Dating. El diseño debe ser suficientemente neutro para que alguien usando Masajes no parezca estar en una app de citas. Esto afecta especialmente a la pantalla de selección de vertical y a la navegación principal.
 
 ### Bloqueo de capturas — solo Dating
+
 En la app móvil, la vertical Dating bloquea capturas de pantalla a nivel del sistema operativo. El diseñador debe saberlo: no hay necesidad de watermarks visibles en Dating, y los usuarios no pueden compartir pantallazos de perfiles.
 
 ---
@@ -90,6 +92,7 @@ Flujo de entrada común a todas las verticales. Se muestra al registrarse por pr
 ---
 
 ### S-01 · Splash / bienvenida — 📱
+
 Primera pantalla al abrir la app. Establece el carácter de la marca antes de cualquier acción. El usuario no puede hacer nada aquí excepto continuar.
 
 **Flujo:** → S-02
@@ -97,6 +100,7 @@ Primera pantalla al abrir la app. Establece el carácter de la marca antes de cu
 ---
 
 ### S-02 · Selección de vertical — 📱🌐
+
 El usuario elige en qué contexto quiere usar Allcoba. Es también la pantalla a la que se vuelve para cambiar de vertical desde la navegación principal.
 
 **Mecánica:** Cada vertical es una opción seleccionable. Las verticales no disponibles en la zona del usuario aparecen deshabilitadas con indicación de "próximamente". Al seleccionar una vertical el usuario accede a su experiencia específica.
@@ -106,6 +110,7 @@ El usuario elige en qué contexto quiere usar Allcoba. Es también la pantalla a
 ---
 
 ### S-03 · Registro / Login — 📱🌐
+
 Crear cuenta o entrar. El identificador principal es el número de teléfono. Mínima fricción.
 
 **Mecánica:** Input de teléfono con selector de prefijo de país. Al enviar el número se genera un código OTP. Opción de login con Google como alternativa. Al final de la pantalla: textos legales obligatorios (Términos y Privacidad) con links.
@@ -115,6 +120,7 @@ Crear cuenta o entrar. El identificador principal es el número de teléfono. M�
 ---
 
 ### S-04 · Verificación OTP — 📱🌐
+
 Confirmar que el número de teléfono es real mediante un código de 6 dígitos enviado por SMS.
 
 **Mecánica:** 6 inputs individuales. Validación automática al completar los 6 dígitos sin necesidad de pulsar botón. Si el código es incorrecto, feedback inmediato. Link para reenviar el código (deshabilitado con countdown los primeros 30 segundos). Link para cambiar el número.
@@ -126,6 +132,7 @@ Confirmar que el número de teléfono es real mediante un código de 6 dígitos 
 ---
 
 ### S-05 · Elegir rol — 📱🌐
+
 El usuario declara si quiere ser Presenter o Chooser en la vertical que ha elegido.
 
 **Mecánica:** Dos opciones claras. Cada opción explica brevemente qué implica ese rol en esa vertical. Solo se puede elegir una. Nota informativa: el rol se puede cambiar desde ajustes. En algunos mercados el rol puede estar predeterminado por la configuración regional — en ese caso esta pantalla muestra confirmación, no elección.
@@ -139,6 +146,7 @@ El usuario declara si quiere ser Presenter o Chooser en la vertical que ha elegi
 ---
 
 ### S-06 · Crear perfil anónimo — 📱🌐
+
 El Chooser construye su identidad en la app. Es anónima por diseño.
 
 **Mecánica:** La foto de perfil es opcional — el sistema debe verse bien sin foto, usando solo un avatar generado (emoji, ilustración, inicial). El alias es el único campo obligatorio. El resto (intereses, idiomas, preferencias) es opcional pero mejora la experiencia. El sistema nunca pide nombre real.
@@ -150,6 +158,7 @@ El Chooser construye su identidad en la app. Es anónima por diseño.
 ---
 
 ### S-07 · Preferencias de búsqueda — 📱🌐
+
 El Chooser configura qué Presenters verá en su deck.
 
 **Mecánica:** Rango de edad (slider doble), distancia máxima (slider con opción "sin límite"), toggle para ver solo perfiles verificados. Estas preferencias se pueden cambiar en cualquier momento desde ajustes.
@@ -159,6 +168,7 @@ El Chooser configura qué Presenters verá en su deck.
 ---
 
 ### S-08 · Permiso de ubicación — 📱
+
 Solicitar acceso a la geolocalización del dispositivo. Solo app — en web se usa input de ciudad.
 
 **Mecánica:** Pantalla explicativa antes del diálogo del sistema operativo. Si el usuario rechaza, se ofrece un fallback con input de ciudad o código postal. El diseño no debe ser alarmista — la ubicación es necesaria para el deck y el mapa pero no para todas las funciones.
@@ -168,9 +178,11 @@ Solicitar acceso a la geolocalización del dispositivo. Solo app — en web se u
 ---
 
 ### S-09 · Deck de swipe — 📱
+
 **La pantalla más importante de la app para el Chooser en Dating.**
 
 **Mecánica:** El Chooser ve perfiles de Presenters uno a uno. La foto del Presenter ocupa toda la pantalla. La información del Presenter (nombre, edad, estado, tags, distancia) se superpone sobre la foto. El Chooser expresa su interés mediante gestos o botones:
+
 - Pasar (no interesado)
 - Guardar / like (interesado, sin notificar aún al Presenter)
 - Super interés (interés destacado)
@@ -179,6 +191,7 @@ Solicitar acceso a la geolocalización del dispositivo. Solo app — en web se u
 Visualmente se apilan varias cards — la del Presenter actual y las siguientes detrás.
 
 **Gestos:**
+
 - Swipe derecha = like / guardar
 - Swipe izquierda = pasar
 - Swipe arriba = super interés
@@ -193,6 +206,7 @@ Visualmente se apilan varias cards — la del Presenter actual y las siguientes 
 ---
 
 ### S-10 · Perfil público del Presenter — Capa 1 — 📱🌐
+
 Vista completa del Presenter antes del match. Solo se ve la Capa 1 (información pública).
 
 **Mecánica:** Foto grande en la parte superior, información debajo. Las fotos de Capa 2 existen pero aparecen bloqueadas/ocultas. El Chooser puede guardar el perfil o iniciar el contacto desde aquí. Si ya ha enviado un mensaje, el botón de contactar lo refleja.
@@ -206,6 +220,7 @@ Vista completa del Presenter antes del match. Solo se ve la Capa 1 (información
 ---
 
 ### S-11 · Mapa de proximidad — 📱
+
 Vista alternativa al deck. Los Presenters aparecen como pins sobre un mapa.
 
 **Mecánica:** Mapa a pantalla completa. Cada Presenter es un pin con su foto. Al seleccionar un pin aparece un popup con información básica y botón de ver perfil completo. El usuario puede ver quién está cerca en tiempo real. Filtros para afinar los resultados visibles en el mapa.
@@ -215,6 +230,7 @@ Vista alternativa al deck. Los Presenters aparecen como pins sobre un mapa.
 ---
 
 ### S-12 · Guardados / likes activos — 📱🌐
+
 Lista de Presenters a los que el Chooser ha dado like o super like.
 
 **Mecánica:** Grid o lista de perfiles guardados. Indicador visual si alguno ya ha respondido (match). El Chooser puede eliminar un guardado o contactar directamente desde aquí. Estado vacío si no hay guardados.
@@ -224,6 +240,7 @@ Lista de Presenters a los que el Chooser ha dado like o super like.
 ---
 
 ### S-13 · Enviar interés — primer contacto — 📱🌐
+
 El Chooser inicia el contacto. Es el único que puede hacerlo — los Presenters no pueden escribir primero.
 
 **Mecánica:** El Chooser puede añadir un mensaje al enviar su interés (opcional). Si no escribe nada, se envía solo el interés. Sugerencias de mensajes rápidos para reducir la fricción. Confirmación de que el perfil del Chooser permanece anónimo hasta que el Presenter acepte. Una vez enviado, el Presenter lo evaluará con su plantilla de filtrado (el Chooser no sabe cómo funciona esa plantilla).
@@ -233,6 +250,7 @@ El Chooser inicia el contacto. Es el único que puede hacerlo — los Presenters
 ---
 
 ### S-14 · Match — Capa 2 desbloqueada — 📱🌐
+
 Momento en que el Presenter acepta el contacto. Se desbloquea la Capa 2 del perfil del Presenter.
 
 **Mecánica:** Notificación o pantalla de celebración al producirse el match. Se revelan automáticamente los contenidos de Capa 2: más fotos, información adicional del Presenter. Acceso directo al chat.
@@ -242,6 +260,7 @@ Momento en que el Presenter acepta el contacto. Se desbloquea la Capa 2 del perf
 ---
 
 ### S-15 · Chat — 📱🌐
+
 Conversación entre Chooser y Presenter tras el match.
 
 **Mecánica:** Interfaz de mensajería estándar. El Chooser puede desde aquí compartir voluntariamente su Capa 3 (información adicional personal) si decide hacerlo. El Presenter también puede compartir su Capa 3. Esta acción es irreversible — una vez compartida, la otra persona ha visto esa información.
@@ -251,6 +270,7 @@ Conversación entre Chooser y Presenter tras el match.
 ---
 
 ### S-16 · Calificar match — 📱🌐
+
 El Chooser puede calificar al Presenter tras una conversación.
 
 **Mecánica:** Score por varias dimensiones (no de texto libre únicamente). Opción de publicar como anónimo. Opción de posponer y que el sistema recuerde. La calificación contribuye al score público del Presenter visible en su perfil.
@@ -264,6 +284,7 @@ El Chooser puede calificar al Presenter tras una conversación.
 ---
 
 ### S-17 · Crear perfil público — Capa 1 — 📱🌐
+
 El Presenter construye la parte pública de su perfil. La foto es obligatoria — sin foto aprobada el perfil no es visible.
 
 **Mecánica:** La foto pasa por moderación automática (IA). Si es rechazada se informa del motivo y se permite subir otra. El perfil se activa solo cuando hay al menos una foto aprobada. Hay un indicador de progreso porque el perfil tiene tres capas.
@@ -275,6 +296,7 @@ El Presenter construye la parte pública de su perfil. La foto es obligatoria �
 ---
 
 ### S-18 · Perfil — Capa 2 — 📱🌐
+
 Información adicional que solo verán los Choosers tras hacer match.
 
 **Mecánica:** Fotos adicionales (hasta 6, todas pasan por moderación). Información más personal que en la Capa 1. El Presenter sabe que esta información solo se revela tras match.
@@ -284,6 +306,7 @@ Información adicional que solo verán los Choosers tras hacer match.
 ---
 
 ### S-19 · Perfil — Capa 3 — 📱🌐
+
 Información muy personal. El Presenter la rellena pero elige cuándo compartirla con cada match de forma individual.
 
 **Mecánica:** Explicación clara de cómo funciona la Capa 3 — nadie la ve hasta que el Presenter decide activamente compartirla. El contenido está cifrado de forma que ni la plataforma puede leerlo. Campos opcionales de contacto adicional e información íntima.
@@ -293,6 +316,7 @@ Información muy personal. El Presenter la rellena pero elige cuándo compartirl
 ---
 
 ### S-20 · Plantilla de filtrado — 📱🌐
+
 El Presenter define reglas automáticas para gestionar los contactos entrantes.
 
 **Mecánica:** Una acción por defecto (qué pasa si ninguna regla coincide: aceptar / archivar / rechazar) y una lista de reglas específicas en orden de prioridad. Cada regla: condición + acción. Las reglas se evalúan en orden — la primera que coincide gana. El Presenter puede reordenar las reglas.
@@ -306,6 +330,7 @@ El Presenter define reglas automáticas para gestionar los contactos entrantes.
 ---
 
 ### S-21 · Bandeja principal — 📱🌐
+
 Contactos que han pasado el filtro. Llegan con notificación push.
 
 **Mecánica:** Lista de contactos recibidos. Cada contacto muestra el avatar anónimo del Chooser (nunca su foto real), el score de reputación público, el mensaje inicial si lo envió, y el timestamp. El Presenter puede aceptar (responder = match) o gestionar desde aquí. Swipe o acción contextual para archivar, rechazar o bloquear.
@@ -315,6 +340,7 @@ Contactos que han pasado el filtro. Llegan con notificación push.
 ---
 
 ### S-22 · Archivados — 📱🌐
+
 Contactos que la plantilla filtró automáticamente sin notificación.
 
 **Mecánica:** Misma estructura que la bandeja principal pero sin las notificaciones. Badge informativo "archivado automáticamente". El Presenter puede mover cualquier contacto a la bandeja principal (acepta) o rechazarlo definitivamente. Filtros para ordenar por fecha o por score del Chooser.
@@ -324,6 +350,7 @@ Contactos que la plantilla filtró automáticamente sin notificación.
 ---
 
 ### S-23 · Gestión de relaciones — 📱🌐
+
 Vista de todos los Choosers con los que el Presenter ha interactuado, organizados por estado.
 
 **Mecánica:** Tabs por estado: activos / silenciados / bloqueados. Para los silenciados se muestra el tiempo restante de silencio. El Presenter puede cambiar el estado de cualquier relación desde aquí.
@@ -331,6 +358,7 @@ Vista de todos los Choosers con los que el Presenter ha interactuado, organizado
 ---
 
 ### S-24 · Estado de disponibilidad — 📱🌐
+
 El Presenter controla cuándo aparece como disponible para nuevos contactos.
 
 **Mecánica:** Toggle principal de visibilidad. Tres modos: activo (aparece en deck y búsquedas) / ocupado (aparece pero con indicador de ocupado) / invisible (el perfil existe pero no aparece en búsquedas). Opción de programar la disponibilidad por horario semanal.
@@ -342,6 +370,7 @@ El Presenter controla cuándo aparece como disponible para nuevos contactos.
 ---
 
 ### S-25 · Alta del negocio — 🌐
+
 Flujo guiado para dar de alta la ficha de un negocio de masajes. Preferentemente desde web por el espacio disponible.
 
 **Mecánica:** Stepper con pasos claramente diferenciados. En cada paso se puede guardar como borrador y continuar después. Preview en tiempo real de cómo quedará la ficha pública. Al finalizar, la ficha entra en estado "pendiente de verificación".
@@ -351,6 +380,7 @@ Flujo guiado para dar de alta la ficha de un negocio de masajes. Preferentemente
 ---
 
 ### S-26 · Catálogo de servicios — 🌐
+
 El Presenter define qué servicios ofrece.
 
 **Mecánica:** Lista de servicios con opción de añadir, editar y eliminar. Por cada servicio: nombre, categoría, duración en minutos, precio (o "consultar precio"), tiempo de descanso necesario tras el servicio (el sistema sugiere automáticamente el mismo tiempo que la duración, el Presenter lo puede cambiar), y toggle activo/inactivo. Sección separada para paquetes (combinación de servicios con precio especial).
@@ -360,6 +390,7 @@ El Presenter define qué servicios ofrece.
 ---
 
 ### S-27 · Galería de fotos — 📱🌐
+
 Subir y ordenar las fotos del local.
 
 **Mecánica:** Grid de fotos con estado de moderación visible para cada una (aprobada / en revisión / rechazada con motivo). Arrastrables para reordenar. La primera foto es la que aparece en las búsquedas. Las fotos con caras de personas son rechazadas automáticamente por el sistema en esta vertical — el diseño debe incluir una guía de qué tipo de fotos subir.
@@ -367,6 +398,7 @@ Subir y ordenar las fotos del local.
 ---
 
 ### S-28 · Configuración de agenda — 📱🌐
+
 Definir la disponibilidad semanal.
 
 **Mecánica:** Vista de plantilla semanal día a día. Por cada día activo el Presenter define franjas horarias (inicio y fin). El sistema genera automáticamente los slots disponibles para las próximas semanas respetando los tiempos de servicio y descanso. El Presenter puede bloquear días específicos (vacaciones, festivos). Preview de cuántos huecos disponibles quedan esta semana con la configuración actual.
@@ -374,6 +406,7 @@ Definir la disponibilidad semanal.
 ---
 
 ### S-29 · Dashboard del Presenter — 📱🌐
+
 Vista de resumen diario para el Presenter de servicios.
 
 **Mecánica:** Información del día de un vistazo: citas pendientes de confirmar (con indicador urgente si las hay), citas confirmadas para hoy, mensajes sin leer. Detalle de la próxima cita. Accesos rápidos a las secciones principales.
@@ -381,11 +414,13 @@ Vista de resumen diario para el Presenter de servicios.
 ---
 
 ### S-30 · Agenda — vista día / semana / mes — 📱🌐
+
 Gestión de citas.
 
 **Mecánica:** Vista temporal del calendario con los slots y citas. Al tocar una cita se accede a sus detalles y acciones disponibles según el estado. Los buffers de descanso son visibles para el Presenter (pero no para el cliente). Estados de cita: pendiente de confirmar / confirmada / completada / cancelada / no-show. Cada estado tiene acciones disponibles distintas.
 
 **Acciones por estado:**
+
 - Pendiente → Confirmar / Cancelar
 - Confirmada → Marcar completada / Marcar no-show / Cancelar
 - Completada → Solo visualización
@@ -394,6 +429,7 @@ Gestión de citas.
 ---
 
 ### S-31 · Ficha de cliente — CRM — 📱🌐
+
 Vista completa de un cliente específico del Presenter.
 
 **Mecánica:** El Presenter ve toda la información del cliente en un solo lugar. Los datos personales (nombre, teléfono) solo son visibles si el cliente los ha compartido voluntariamente — y están cifrados, solo accesibles con la sesión activa del Presenter. El resto de la ficha (estadísticas, historial, etiquetas) es visible siempre.
@@ -405,6 +441,7 @@ Vista completa de un cliente específico del Presenter.
 ---
 
 ### S-32 · Estadísticas CRM — 🌐
+
 Métricas del negocio. Solo web por la densidad de información.
 
 **Mecánica:** Selector de período. KPIs principales en cards: citas totales, tasa de no-show, ingresos, ticket medio, clientes únicos, tasa de retorno. Gráfico de ocupación por día de la semana (para optimizar la plantilla horaria). Top servicios. Los datos de clientes en las estadísticas son siempre anonimizados.
@@ -416,6 +453,7 @@ Métricas del negocio. Solo web por la densidad de información.
 ---
 
 ### S-33 · Búsqueda de servicios — 📱🌐
+
 Pantalla principal del Chooser en la vertical Masajes.
 
 **Mecánica:** Búsqueda basada en ubicación. Dos vistas intercambiables: lista y mapa. Filtros para afinar resultados (tipo de masaje, precio, duración, disponibilidad hoy, solo verificados). En la vista mapa los pins abren un popup con información básica del Presenter. La búsqueda funciona sin login pero los resultados sin login son limitados.
@@ -423,6 +461,7 @@ Pantalla principal del Chooser en la vertical Masajes.
 ---
 
 ### S-34 · Ficha pública del local — 📱🌐
+
 Página de detalle del Presenter de masajes. La versión web de esta pantalla es indexable por buscadores (SEO).
 
 **Mecánica:** Toda la información del Presenter en una sola pantalla. La dirección exacta no se muestra hasta que se produce el contacto — se muestra solo el barrio o zona. El botón de reservar es la acción principal. Las reviews son visibles para cualquiera, sin login.
@@ -432,6 +471,7 @@ Página de detalle del Presenter de masajes. La versión web de esta pantalla es
 ---
 
 ### S-35 · Seleccionar servicio — 📱🌐
+
 El Chooser elige qué servicio quiere reservar.
 
 **Mecánica:** Lista de servicios activos del Presenter con nombre, duración y precio. Expansión para ver descripción completa. Sección de paquetes si los hay. Resumen del seleccionado siempre visible. La duración que ve el Chooser es la del servicio — no incluye el buffer de descanso (ese es interno).
@@ -441,6 +481,7 @@ El Chooser elige qué servicio quiere reservar.
 ---
 
 ### S-36 · Elegir slot — 📱🌐
+
 Seleccionar fecha y hora disponible.
 
 **Mecánica:** Selector de fecha (calendario, máximo 4 semanas hacia adelante). Para cada fecha, los huecos disponibles se muestran como opciones seleccionables. Los huecos ocupados o en buffer no aparecen — el Chooser nunca ve que hay un "descanso" entre citas, simplemente no hay disponibilidad en ese horario. Resumen del total antes de confirmar.
@@ -450,6 +491,7 @@ Seleccionar fecha y hora disponible.
 ---
 
 ### S-37 · Confirmar reserva — 📱🌐
+
 Último paso antes de reservar. Resumen completo.
 
 **Mecánica:** Resumen de todo (servicio, fecha, hora, precio). Campo opcional para dejar una nota al terapeuta. Información de que la cita estará pendiente de confirmación hasta que el Presenter la acepte. Si el Presenter no confirma en 24 horas, la reserva se cancela automáticamente y el Chooser recibe notificación.
@@ -459,6 +501,7 @@ Seleccionar fecha y hora disponible.
 ---
 
 ### S-38 · Mis citas — Chooser — 📱🌐
+
 Lista de todas las citas del Chooser.
 
 **Mecánica:** Tabs próximas / pasadas. Cada cita muestra el estado de forma clara. Las acciones disponibles dependen del estado: una cita pendiente se puede cancelar, una completada se puede calificar. Estado vacío con llamada a la acción de explorar servicios.
@@ -468,6 +511,7 @@ Lista de todas las citas del Chooser.
 ---
 
 ### S-39 · Dejar reseña — Masajes — 📱🌐
+
 El Chooser califica su experiencia con el Presenter.
 
 **Mecánica:** Score por varias dimensiones específicas de la vertical masajes (puntualidad, calidad del servicio, limpieza, precio justo, comunicación). Comentario de texto opcional. Opción de publicar de forma anónima. La reseña contribuye al score público visible en la ficha del Presenter.
@@ -479,6 +523,7 @@ El Chooser califica su experiencia con el Presenter.
 ---
 
 ### S-40 · Centro de notificaciones — 📱🌐
+
 Historial de todas las notificaciones recibidas.
 
 **Mecánica:** Lista cronológica. Las no leídas tienen tratamiento visual diferenciado. Tipos de notificación: nuevo contacto recibido / match desbloqueado / nuevo mensaje / recordatorio de cita (24h y 2h antes) / cita confirmada o cancelada / nueva reseña recibida. Swipe para marcar como leída o eliminar. Acción para marcar todo como leído.
@@ -486,6 +531,7 @@ Historial de todas las notificaciones recibidas.
 ---
 
 ### S-41 · Lista de conversaciones — 📱🌐
+
 Todas las conversaciones activas.
 
 **Mecánica:** Para el Presenter: tabs "Principal" y "Archivados". Para el Chooser: lista única. Preview del último mensaje, timestamp, badge de no leídos. Swipe para archivar, silenciar o bloquear. Buscador en la lista.
@@ -493,6 +539,7 @@ Todas las conversaciones activas.
 ---
 
 ### S-42 · Chat — 📱🌐
+
 Conversación individual entre dos usuarios.
 
 **Mecánica:** Interfaz de mensajería. La apariencia varía según la vertical: en Dating el contexto es personal, en Masajes puede haber un banner con la cita activa entre los dos. En Dating existe la opción de compartir la Capa 3 desde el chat. En Masajes existe la opción de crear una reserva directamente desde el chat.
@@ -500,6 +547,7 @@ Conversación individual entre dos usuarios.
 ---
 
 ### S-43 · Mi perfil — 📱🌐
+
 El usuario ve y edita su propia información.
 
 **Mecánica:** La información se organiza por vertical (el usuario puede tener perfiles distintos en Dating y en Masajes). Edición de información por capas en Dating. En la sección de privacidad el usuario puede ver con quién ha compartido su Capa 3 y gestionar eso. Score de reputación propio visible.
@@ -507,6 +555,7 @@ El usuario ve y edita su propia información.
 ---
 
 ### S-44 · Ajustes — 📱🌐
+
 Configuración de la cuenta.
 
 **Mecánica:** Secciones: cuenta (cambiar teléfono, cerrar sesión, eliminar cuenta) / notificaciones (toggle por tipo) / apariencia (tema claro/oscuro/automático) / idioma / privacidad / legales / soporte / versión.
@@ -514,6 +563,7 @@ Configuración de la cuenta.
 ---
 
 ### S-45 · Denunciar / bloquear — 📱🌐
+
 Flujo de denuncia de un usuario o contenido.
 
 **Mecánica:** Selector de motivo (contenido inapropiado / acoso / perfil falso / spam / menor de edad / otro). Campo descriptivo opcional. Toggle para bloquear también al usuario simultáneamente. Confirmación de que la denuncia fue recibida y será revisada.
@@ -525,6 +575,7 @@ Flujo de denuncia de un usuario o contenido.
 ---
 
 ### S-46 · Landing pública — 🌐
+
 Página de entrada para tráfico orgánico y campañas. SEO prioritario.
 
 **Mecánica:** El tono es "plataforma de conexión" — sin mencionar explícitamente dating en la propuesta de valor principal. Secciones: propuesta de valor / cómo funciona / privacidad como diferenciador / llamada a la acción para descargar la app / sección separada para Presenters ("¿Ofreces servicios? Empieza aquí"). Sin contenido de dating explícito — el dating se descubre dentro de la app.
@@ -532,6 +583,7 @@ Página de entrada para tráfico orgánico y campañas. SEO prioritario.
 ---
 
 ### S-47 · Ficha pública del Presenter — Web SEO — 🌐
+
 Página indexable de cada Presenter de servicios (masajes, coches, etc.). Las fichas de Dating NO son indexables — solo las de verticales de servicios.
 
 **Mecánica:** URL semántica (`/masajes/madrid/centro/nombre-del-local`). Todo el contenido de S-34 más markup semántico para SEO (Schema.org). Breadcrumb de navegación. CTA principal que lleva a descargar la app o reservar directamente si el usuario ya está registrado.
@@ -539,6 +591,7 @@ Página indexable de cada Presenter de servicios (masajes, coches, etc.). Las fi
 ---
 
 ### S-48 · Búsqueda pública sin login — 🌐
+
 Resultados de búsqueda accesibles sin registrarse. Para SEO y primer contacto.
 
 **Mecánica:** Resultados limitados sin login (ej: primeros 10). Las fichas individuales sí son accesibles sin login. CTA para registrarse y ver todos los resultados. Mapa con funcionalidad básica sin login.
@@ -546,6 +599,7 @@ Resultados de búsqueda accesibles sin registrarse. Para SEO y primer contacto.
 ---
 
 ### S-49 · Panel Presenter — escritorio — 🌐
+
 Versión de escritorio del panel del Presenter. Aprovecha el espacio para mostrar más información simultáneamente.
 
 **Mecánica:** Sidebar de navegación lateral persistente. El área principal cambia según la sección. La agenda muestra vista semanal por defecto. Las estadísticas muestran más gráficos a la vez. El CRM de clientes tiene más columnas visibles.
@@ -553,6 +607,7 @@ Versión de escritorio del panel del Presenter. Aprovecha el espacio para mostra
 ---
 
 ### S-50 · Onboarding Presenter web — 🌐
+
 Flujo guiado completo para dar de alta un negocio desde web.
 
 **Mecánica:** Stepper horizontal con los pasos visibles. Formularios más completos que en móvil. Preview en tiempo real de la ficha. Posibilidad de guardar borrador en cualquier paso. Al finalizar: ficha en estado "pendiente de verificación" con instrucciones claras de qué pasa a continuación.
@@ -563,15 +618,15 @@ Flujo guiado completo para dar de alta un negocio desde web.
 
 **50 pantallas en total**
 
-| Bloque | Pantallas | Total |
-|--------|-----------|-------|
-| Onboarding | S-01 a S-05 | 5 |
-| Dating Chooser | S-06 a S-16 | 11 |
-| Dating Presenter | S-17 a S-24 | 8 |
-| Masajes Presenter | S-25 a S-32 | 8 |
-| Masajes Chooser | S-33 a S-39 | 7 |
-| Comunes | S-40 a S-45 | 6 |
-| Web exclusivo | S-46 a S-50 | 5 |
+| Bloque            | Pantallas   | Total |
+| ----------------- | ----------- | ----- |
+| Onboarding        | S-01 a S-05 | 5     |
+| Dating Chooser    | S-06 a S-16 | 11    |
+| Dating Presenter  | S-17 a S-24 | 8     |
+| Masajes Presenter | S-25 a S-32 | 8     |
+| Masajes Chooser   | S-33 a S-39 | 7     |
+| Comunes           | S-40 a S-45 | 6     |
+| Web exclusivo     | S-46 a S-50 | 5     |
 
 ---
 

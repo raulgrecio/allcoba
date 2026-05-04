@@ -24,6 +24,7 @@ Su identidad dentro de la plataforma es exclusivamente su **reputación acumulad
 no su nombre, no su foto, no sus datos personales.
 
 Esto es intencional y diferenciador:
+
 - Una persona pública (famosa, política, empresaria) puede usar la app sin riesgo de exposición
 - En mercados donde buscar pareja está estigmatizado, el Chooser no deja rastro visible
 - La reputación sustituye a la identidad: un Chooser con score 4.8 y 50 interacciones
@@ -193,7 +194,7 @@ CREATE TABLE profile_layer_grants (
 
 // Capa 1 — siempre disponible, sin descifrado
 async function getLayer1(userId: string, vertical: string): Promise<Layer1Data> {
-  return profileRepo.getLayer1(userId, vertical)
+  return profileRepo.getLayer1(userId, vertical);
 }
 
 // Capa 2 — disponible tras match, descifrada en servidor
@@ -201,22 +202,22 @@ async function getLayer2AfterMatch(
   requesterId: string,
   targetId: string,
   vertical: string,
-  requesterDek: Uint8Array
+  requesterDek: Uint8Array,
 ): Promise<Layer2Data | null> {
   // Verificar que hay match real entre los dos usuarios
-  const match = await matchRepo.findMatch(requesterId, targetId, vertical)
-  if (!match) return null
+  const match = await matchRepo.findMatch(requesterId, targetId, vertical);
+  if (!match) return null;
 
   // Obtener el grant de la capa 2
-  const grant = await grantRepo.find(targetId, requesterId, vertical, 2)
-  if (!grant) return null
+  const grant = await grantRepo.find(targetId, requesterId, vertical, 2);
+  if (!grant) return null;
 
   // Descifrar la clave de la capa 2 con la DEK del requester
-  const layerKey = await decryptField(grant.layerKeyEnc, requesterDek)
+  const layerKey = await decryptField(grant.layerKeyEnc, requesterDek);
 
   // Descifrar los datos de la capa 2 con la clave de la capa
-  const layer2Raw = await profileRepo.getLayer2Enc(targetId, vertical)
-  return decryptLayer(layer2Raw, layerKey)
+  const layer2Raw = await profileRepo.getLayer2Enc(targetId, vertical);
+  return decryptLayer(layer2Raw, layerKey);
 }
 
 // Capa 3 — NUNCA se descifra en el servidor
@@ -225,17 +226,17 @@ async function getLayer2AfterMatch(
 async function getLayer3Package(
   requesterId: string,
   targetId: string,
-  vertical: string
+  vertical: string,
 ): Promise<Layer3Package | null> {
-  const grant = await grantRepo.find(targetId, requesterId, vertical, 3)
-  if (!grant) return null
+  const grant = await grantRepo.find(targetId, requesterId, vertical, 3);
+  if (!grant) return null;
 
   return {
-    layer3Enc:    await profileRepo.getLayer3Enc(targetId, vertical),
-    layerKeyEnc:  grant.layerKeyEnc,
+    layer3Enc: await profileRepo.getLayer3Enc(targetId, vertical),
+    layerKeyEnc: grant.layerKeyEnc,
     // El cliente recibe esto y descifra localmente con su DEK
     // El servidor nunca ve los datos en claro de la capa 3
-  }
+  };
 }
 ```
 
@@ -247,41 +248,44 @@ async function getLayer3Package(
 // La Capa 2 se comparte automáticamente al producirse el match
 // La Capa 3 siempre es manual — nunca automática
 
-async function onMatchCreated(
-  userId1: string,
-  userId2: string,
-  vertical: string
-): Promise<void> {
+async function onMatchCreated(userId1: string, userId2: string, vertical: string): Promise<void> {
   // Compartir Capa 2 en ambas direcciones automáticamente
-  await shareLayer2(userId1, userId2, vertical)
-  await shareLayer2(userId2, userId1, vertical)
+  await shareLayer2(userId1, userId2, vertical);
+  await shareLayer2(userId2, userId1, vertical);
 
   // Notificar a ambos que ahora pueden verse más info
   await queue.publish('send-notification', {
-    type:    'match_layer2_unlocked',
-    userId1, userId2, vertical,
-  })
+    type: 'match_layer2_unlocked',
+    userId1,
+    userId2,
+    vertical,
+  });
 }
 
 async function shareLayer3(
   grantorId: string,
   granteeId: string,
   vertical: string,
-  grantorDek: Uint8Array
+  grantorDek: Uint8Array,
 ): Promise<void> {
   // El grantor decide activamente compartir
   // Se registra en profile_layer_grants
   // Irreversible: el grantee ya ha visto los datos si los descifró
   await grantRepo.create({
-    grantorId, granteeId, vertical, layer: 3,
+    grantorId,
+    granteeId,
+    vertical,
+    layer: 3,
     layerKeyEnc: await prepareLayerKeyForGrantee(grantorId, granteeId, vertical, 3, grantorDek),
     grantedAt: new Date(),
-  })
+  });
 
   await queue.publish('send-notification', {
-    type:    'profile_layer3_shared',
-    grantorId, granteeId, vertical,
-  })
+    type: 'profile_layer3_shared',
+    grantorId,
+    granteeId,
+    vertical,
+  });
 }
 ```
 
@@ -302,15 +306,15 @@ mismo nombre o distinto, misma bio o adaptada al contexto.
 // (a menos que el usuario lo autorice explícitamente en el futuro)
 
 interface UserVerticalProfiles {
-  userId: string
+  userId: string;
   profiles: {
-    vertical:  string
-    layer1:    Record<string, unknown>   // en claro
-    hasLayer2: boolean                   // ¿ha rellenado la capa 2?
-    hasLayer3: boolean                   // ¿ha rellenado la capa 3?
-    isActive:  boolean                   // puede aparecer en búsquedas
-    role:      'presenter' | 'chooser'   // rol en esta vertical
-  }[]
+    vertical: string;
+    layer1: Record<string, unknown>; // en claro
+    hasLayer2: boolean; // ¿ha rellenado la capa 2?
+    hasLayer3: boolean; // ¿ha rellenado la capa 3?
+    isActive: boolean; // puede aparecer en búsquedas
+    role: 'presenter' | 'chooser'; // rol en esta vertical
+  }[];
 }
 ```
 
@@ -381,23 +385,19 @@ la plataforma puede identificar qué cuenta la filtró.
 // apps/api/src/modules/media/use-cases/ServeProtectedImage.ts
 
 export class ServeProtectedImageUseCase {
-  async execute(
-    imageId: string,
-    userId: string,
-    sessionId: string
-  ): Promise<Buffer> {
-    const image = await mediaRepo.findById(imageId)
+  async execute(imageId: string, userId: string, sessionId: string): Promise<Buffer> {
+    const image = await mediaRepo.findById(imageId);
 
     // Sólo aplicar watermark en verticales protegidas
-    const vertical = await verticalRepo.findByImageId(imageId)
+    const vertical = await verticalRepo.findByImageId(imageId);
     if (!vertical.config.security.imageWatermarking) {
-      return image.buffer
+      return image.buffer;
     }
 
     // Marca invisible: modifica píxeles específicos con ID de sesión
     // Imperceptible al ojo humano · detectable con análisis forense
-    const watermarkPayload = `${userId}:${sessionId}:${Date.now()}`
-    return applyInvisibleWatermark(image.buffer, watermarkPayload)
+    const watermarkPayload = `${userId}:${sessionId}:${Date.now()}`;
+    return applyInvisibleWatermark(image.buffer, watermarkPayload);
   }
 }
 ```
@@ -408,10 +408,10 @@ export class ServeProtectedImageUseCase {
 // Añadir a VerticalConfig en 10-vertical-system.md
 
 interface VerticalSecurityConfig {
-  blockScreenCapture:     boolean  // dating: true · masajes: false · cars: false
-  imageWatermarking:      boolean  // dating: true · masajes: false · cars: false
-  blurInAppSwitcher:      boolean  // dating: true (aparece negro al cambiar de app)
-  requireBiometricToOpen: boolean  // false en MVP — opcional en fase avanzada
+  blockScreenCapture: boolean; // dating: true · masajes: false · cars: false
+  imageWatermarking: boolean; // dating: true · masajes: false · cars: false
+  blurInAppSwitcher: boolean; // dating: true (aparece negro al cambiar de app)
+  requireBiometricToOpen: boolean; // false en MVP — opcional en fase avanzada
 }
 
 // Configuraciones por vertical:

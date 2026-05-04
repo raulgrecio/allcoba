@@ -55,6 +55,7 @@
 ## Formato de respuesta estándar
 
 **Éxito — recurso único:**
+
 ```json
 {
   "data": {
@@ -66,6 +67,7 @@
 ```
 
 **Éxito — colección con paginación:**
+
 ```json
 {
   "data": [ ... ],
@@ -78,6 +80,7 @@
 ```
 
 **Error:**
+
 ```json
 {
   "error": {
@@ -98,34 +101,34 @@
 
 export const API_ERROR_CODES = {
   // Auth
-  UNAUTHORIZED:              'UNAUTHORIZED',
-  FORBIDDEN:                 'FORBIDDEN',
-  MFA_REQUIRED:              'MFA_REQUIRED',
-  SESSION_EXPIRED:           'SESSION_EXPIRED',
+  UNAUTHORIZED: 'UNAUTHORIZED',
+  FORBIDDEN: 'FORBIDDEN',
+  MFA_REQUIRED: 'MFA_REQUIRED',
+  SESSION_EXPIRED: 'SESSION_EXPIRED',
 
   // Tenant
-  TENANT_VIOLATION:          'TENANT_VIOLATION',
+  TENANT_VIOLATION: 'TENANT_VIOLATION',
 
   // Recursos
-  NOT_FOUND:                 'NOT_FOUND',
-  PROVIDER_NOT_FOUND:        'PROVIDER_NOT_FOUND',
-  CUSTOMER_NOT_FOUND:        'CUSTOMER_NOT_FOUND',
-  VERTICAL_NOT_FOUND:        'VERTICAL_NOT_FOUND',
+  NOT_FOUND: 'NOT_FOUND',
+  PROVIDER_NOT_FOUND: 'PROVIDER_NOT_FOUND',
+  CUSTOMER_NOT_FOUND: 'CUSTOMER_NOT_FOUND',
+  VERTICAL_NOT_FOUND: 'VERTICAL_NOT_FOUND',
 
   // Validación
-  VALIDATION_ERROR:          'VALIDATION_ERROR',
-  INVALID_PAYLOAD:           'INVALID_PAYLOAD',
+  VALIDATION_ERROR: 'VALIDATION_ERROR',
+  INVALID_PAYLOAD: 'INVALID_PAYLOAD',
 
   // Negocio
-  PROVIDER_INACTIVE:         'PROVIDER_INACTIVE',
-  CONTACT_LIMIT_REACHED:     'CONTACT_LIMIT_REACHED',
-  REVIEW_ALREADY_EXISTS:     'REVIEW_ALREADY_EXISTS',
-  REVIEW_WITHOUT_INTERACTION:'REVIEW_WITHOUT_INTERACTION',
+  PROVIDER_INACTIVE: 'PROVIDER_INACTIVE',
+  CONTACT_LIMIT_REACHED: 'CONTACT_LIMIT_REACHED',
+  REVIEW_ALREADY_EXISTS: 'REVIEW_ALREADY_EXISTS',
+  REVIEW_WITHOUT_INTERACTION: 'REVIEW_WITHOUT_INTERACTION',
 
   // Sistema
-  INTERNAL_ERROR:            'INTERNAL_ERROR',
-  SERVICE_UNAVAILABLE:       'SERVICE_UNAVAILABLE',
-} as const
+  INTERNAL_ERROR: 'INTERNAL_ERROR',
+  SERVICE_UNAVAILABLE: 'SERVICE_UNAVAILABLE',
+} as const;
 ```
 
 ---
@@ -136,28 +139,28 @@ export const API_ERROR_CODES = {
 // packages/kernel/src/pagination/cursor.ts
 
 interface PaginationParams {
-  cursor?: string  // base64(JSON({id, createdAt}))
-  limit?: number   // máximo 50, defecto 20
+  cursor?: string; // base64(JSON({id, createdAt}))
+  limit?: number; // máximo 50, defecto 20
 }
 
 interface PaginatedResult<T> {
-  data: T[]
+  data: T[];
   meta: {
-    total: number
-    cursor: string | null  // null si no hay más páginas
-    hasMore: boolean
-  }
+    total: number;
+    cursor: string | null; // null si no hay más páginas
+    hasMore: boolean;
+  };
 }
 
 // Query con cursor en PostgreSQL (más eficiente que OFFSET)
 function buildCursorQuery(cursor?: string) {
-  if (!cursor) return sql`1=1`  // primera página
+  if (!cursor) return sql`1=1`; // primera página
 
-  const { id, createdAt } = decodeCursor(cursor)
+  const { id, createdAt } = decodeCursor(cursor);
   // Keyset pagination: (created_at, id) como cursor compuesto
   return sql`
     (created_at, id) < (${createdAt}::timestamptz, ${id}::uuid)
-  `
+  `;
 }
 ```
 
@@ -168,6 +171,7 @@ function buildCursorQuery(cursor?: string) {
 Utilizamos un enfoque **Schema-First**. Los esquemas no se escriben a mano en el backend, sino que se definen en un único archivo `openapi.yaml` y **Orval** genera el código tanto para el Frontend como para el Backend.
 
 ### 1. Definición en OpenAPI
+
 ```yaml
 # packages/api-spec/openapi.yaml
 paths:
@@ -184,22 +188,30 @@ paths:
 ```
 
 ### 2. Uso en el Backend (Fastify)
+
 Orval autogenera los esquemas de Zod (incluyendo soporte para coerción de tipos en query params).
+
 ```typescript
 // services/search-service/src/http/search.route.ts
 import { getSearchQuerySchema } from '@allcoba/api-zod';
 
-fastify.get('/api/v1/search', {
-  schema: {
-    querystring: getSearchQuerySchema // Generado automáticamente por Orval
+fastify.get(
+  '/api/v1/search',
+  {
+    schema: {
+      querystring: getSearchQuerySchema, // Generado automáticamente por Orval
+    },
   },
-}, async (request, reply) => {
-  // request.query ya está 100% tipado y validado
-})
+  async (request, reply) => {
+    // request.query ya está 100% tipado y validado
+  },
+);
 ```
 
 ### 3. Uso en el Frontend (React)
+
 El Frontend consume el hook generado por Orval sin escribir llamadas fetch manuales.
+
 ```tsx
 // apps/web/src/components/Search.tsx
 import { useGetSearch } from '@allcoba/api-client-react';
@@ -218,10 +230,10 @@ function SearchComponent() {
 // apps/api/src/plugins/response-headers.ts
 
 fastify.addHook('onSend', async (request, reply) => {
-  reply.header('X-Request-Id', request.id)           // trazabilidad
-  reply.header('X-Response-Time', `${Date.now() - request.startTime}ms`)
-  reply.header('Cache-Control', 'no-store')           // datos personales — nunca cachear
-})
+  reply.header('X-Request-Id', request.id); // trazabilidad
+  reply.header('X-Response-Time', `${Date.now() - request.startTime}ms`);
+  reply.header('Cache-Control', 'no-store'); // datos personales — nunca cachear
+});
 ```
 
 ---

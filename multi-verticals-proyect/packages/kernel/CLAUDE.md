@@ -41,15 +41,15 @@ packages/kernel/src/
 ## El logger — uso correcto
 
 ```typescript
-import { logger, requestLogger, jobLogger } from '@allcoba/kernel'
+import { jobLogger, logger, requestLogger } from '@allcoba/kernel';
 
 // En handlers de Fastify — siempre con requestId y tenantId
-const log = requestLogger(request.id, request.user.sub)
-log.info({ action: 'customer.list' }, 'listing customers')
+const log = requestLogger(request.id, request.user.sub);
+log.info({ action: 'customer.list' }, 'listing customers');
 
 // En workers — siempre con jobId y nombre de cola
-const log = jobLogger(job.id, 'analyze-conversation')
-log.info({ conversationId }, 'processing conversation')
+const log = jobLogger(job.id, 'analyze-conversation');
+log.info({ conversationId }, 'processing conversation');
 
 // Nunca loguear estos campos — el redact los cubre pero no dependas de ello
 // dek, kek, password, passwordHash, token, secret, authorization, derivedKey
@@ -68,27 +68,27 @@ log.info({ conversationId }, 'processing conversation')
 // ⚠️ MVP: single-instance. Migrar a Redis para multi-instancia.
 
 class SessionStore {
-  private store = new Map<string, { dek: Uint8Array; expiresAt: number }>()
+  private store = new Map<string, { dek: Uint8Array; expiresAt: number }>();
 
   set(sessionId: string, dek: Uint8Array, ttlMs = 15 * 60 * 1000): void {
-    this.store.set(sessionId, { dek, expiresAt: Date.now() + ttlMs })
+    this.store.set(sessionId, { dek, expiresAt: Date.now() + ttlMs });
   }
 
   get(sessionId: string): Uint8Array | null {
-    const entry = this.store.get(sessionId)
+    const entry = this.store.get(sessionId);
     if (!entry || entry.expiresAt < Date.now()) {
-      this.store.delete(sessionId)
-      return null
+      this.store.delete(sessionId);
+      return null;
     }
-    return entry.dek
+    return entry.dek;
   }
 
   delete(sessionId: string): void {
-    this.store.delete(sessionId)
+    this.store.delete(sessionId);
   }
 }
 
-export const sessionStore = new SessionStore()
+export const sessionStore = new SessionStore();
 ```
 
 ---
@@ -99,10 +99,7 @@ export const sessionStore = new SessionStore()
 // Importar siempre el port, nunca el adapter directamente
 // El adapter se inyecta en el contenedor de dependencias
 
-import type { QueuePort }    from '@allcoba/kernel'
-import type { SearchPort }   from '@allcoba/kernel'
-import type { StoragePort }  from '@allcoba/kernel'
-import type { EmbeddingPort } from '@allcoba/kernel'
+import type { EmbeddingPort, QueuePort, SearchPort, StoragePort } from '@allcoba/kernel';
 ```
 
 ---
