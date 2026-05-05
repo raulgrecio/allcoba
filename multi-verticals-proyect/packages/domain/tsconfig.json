@@ -2,9 +2,13 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": ".",
+    "baseUrl": ".",
+    "paths": {
+      "#*": ["./src/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src", "__tests__", "vitest.config.ts"],
   "references": [],
   "extends": "../../tsconfig.base.json"
 }

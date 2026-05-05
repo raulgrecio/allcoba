@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { UserId } from '@domain/value-objects/user-id.vo.js';
+import { UserId } from '#value-objects/user-id.vo.js';
 
 const VALID_UUID = 'a1b2c3d4-e5f6-4789-abcd-ef0123456789';
 
@@ -23,7 +23,6 @@ describe('UserId.create', () => {
   it('fails for non-UUID string', () => {
     expect(UserId.create('not-a-uuid').success).toBe(false);
   });
-
 });
 
 describe('UserId.generate', () => {

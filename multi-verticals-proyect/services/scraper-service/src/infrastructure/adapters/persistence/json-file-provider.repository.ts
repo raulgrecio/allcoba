@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import type { Coordinates } from '@allcoba/domain';
-import { Email, ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, ProviderId, valueOrUndefined } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
 import type {
@@ -92,25 +92,22 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
 
     const phones: Phone[] = [];
     for (const e164 of r.phones) {
-      const res = Phone.create(e164, 'ES');
+      const res = Phone.create(e164);
       if (res.success) phones.push(res.value);
     }
 
-    const emailResult = r.email ? Email.create(r.email) : null;
-    const email = emailResult?.success ? emailResult.value : undefined;
+    const email = valueOrUndefined(Email.create(r.email));
 
     const contacts: SocialContact[] = (r.contacts ?? []).map((c) => ({
       platform: c.platform as ContactPlatform,
       handle: c.handle,
     }));
 
-    const addressResult = r.address
-      ? ScrapedAddress.create(r.address.text, r.address.coordinates)
-      : null;
-    const address = addressResult?.success ? addressResult.value : undefined;
+    const address = valueOrUndefined(
+      r.address ? ScrapedAddress.create(r.address.text, r.address.coordinates) : null,
+    );
 
-    const priceResult = r.price ? Price.create(r.price.amount, r.price.currency) : null;
-    const price = priceResult?.success ? priceResult.value : undefined;
+    const price = valueOrUndefined(r.price ? Price.create(r.price.amount, r.price.currency) : null);
 
     const externalIds: ExternalId[] = [];
     for (const e of r.externalIds) {

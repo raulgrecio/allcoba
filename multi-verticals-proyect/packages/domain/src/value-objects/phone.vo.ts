@@ -1,9 +1,9 @@
 import type { CountryCode as LibPhoneCountryCode } from 'libphonenumber-js';
-import { ParseError, parsePhoneNumber } from 'libphonenumber-js';
+import { ParseError, parsePhoneNumberWithError } from 'libphonenumber-js';
 
 import type { CountryCode } from '../shared/country-code.js';
-import { SUPPORTED_COUNTRIES } from '../shared/country-code.js';
 import type { ValidationResult } from '../shared/validation-result.js';
+import { SUPPORTED_COUNTRIES } from '../shared/country-code.js';
 import { failOne, ok } from '../shared/validation-result.js';
 import { ValueObject } from './value-object.base.js';
 
@@ -16,16 +16,22 @@ export class Phone extends ValueObject {
     super();
   }
 
-  static create(raw: string, defaultCountry: CountryCode = 'ES'): ValidationResult<Phone> {
+  static create(raw: unknown, defaultCountry: CountryCode = 'ES'): ValidationResult<Phone> {
+    if (typeof raw !== 'string' || !raw) {
+      return failOne('PHONE_REQUIRED', 'Phone number is required and must be a string', ['phone']);
+    }
     try {
-      const parsed = parsePhoneNumber(raw, defaultCountry as LibPhoneCountryCode);
+      const parsed = parsePhoneNumberWithError(raw, defaultCountry as LibPhoneCountryCode);
 
       if (!parsed.isValid()) {
         return failOne('PHONE_INVALID', 'Invalid phone number', ['phone']);
       }
 
       const resolvedCountry = parsed.country;
-      if (!resolvedCountry || !(SUPPORTED_COUNTRIES as readonly string[]).includes(resolvedCountry)) {
+      if (
+        !resolvedCountry ||
+        !(SUPPORTED_COUNTRIES as readonly string[]).includes(resolvedCountry)
+      ) {
         return failOne('PHONE_COUNTRY_UNSUPPORTED', 'Phone country not supported', ['phone']);
       }
 

@@ -11,8 +11,12 @@ export class ProviderId extends Id {
     super(value);
   }
 
-  static create(raw: string): ValidationResult<ProviderId> {
-    const parsed = uuidSchema.safeParse(raw);
+  /**
+   * Creates a ProviderId from raw data.
+   * @param candidate - The provider id (string, UUID)
+   */
+  static create(candidate: unknown): ValidationResult<ProviderId> {
+    const parsed = uuidSchema.safeParse(candidate);
     if (!parsed.success) {
       return failOne('PROVIDER_ID_INVALID', 'Invalid ProviderId: must be a UUID', ['providerId']);
     }

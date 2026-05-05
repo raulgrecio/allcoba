@@ -1,3 +1,5 @@
+import type { CountryCode } from '@allcoba/domain';
+
 import type { ContactPlatform } from '#domain/aggregates/scraped-provider.aggregate.js';
 import type { Vertical } from '#domain/entities/vertical.js';
 
@@ -13,6 +15,7 @@ export interface RawExtraction<T = Record<string, any>> {
   name?: string;
   description?: string;
   phones: string[];
+  country: CountryCode;
   email?: string;
   contacts?: RawContact[];
   address?: string;

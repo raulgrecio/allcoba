@@ -12,6 +12,9 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

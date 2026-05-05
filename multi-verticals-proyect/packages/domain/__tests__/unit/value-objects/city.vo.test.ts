@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { City } from '@domain/value-objects/city.vo.js';
+import { City } from '#value-objects/city.vo.js';
 
 describe('City.create', () => {
   it('accepts valid city', () => {

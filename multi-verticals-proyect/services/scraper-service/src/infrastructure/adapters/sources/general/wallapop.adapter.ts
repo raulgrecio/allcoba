@@ -1,5 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 
+import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+
 import { Vertical } from '#domain/entities/vertical.js';
 
 import { BaseSourceAdapter } from '../base-source.adapter.js';
@@ -7,6 +9,8 @@ import { BaseSourceAdapter } from '../base-source.adapter.js';
 export class WallapopAdapter extends BaseSourceAdapter {
   readonly identifier = 'wallapop';
   readonly defaultVertical = Vertical.GENERAL;
+  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCurrency: CurrencyCode = 'EUR';
 
   canHandle(url: string): boolean {
     return url.includes('wallapop.com');

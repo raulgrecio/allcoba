@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ImageHash } from '@domain/value-objects/image-hash.vo.js';
+import { ImageHash } from '#value-objects/image-hash.vo.js';
 
 describe('ImageHash', () => {
   describe('create', () => {
@@ -32,8 +32,8 @@ describe('ImageHash', () => {
       const result = ImageHash.create('a1b2c3d4e5f6071');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('IMAGE_HASH_INVALID');
-        expect(result.errors[0].path).toContain('imageHash');
+        expect(result.errors[0]!.code).toBe('IMAGE_HASH_INVALID');
+        expect(result.errors[0]!.path).toContain('imageHash');
       }
     });
 
@@ -41,7 +41,7 @@ describe('ImageHash', () => {
       const result = ImageHash.create('a1b2c3d4e5f607189');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('IMAGE_HASH_INVALID');
+        expect(result.errors[0]!.code).toBe('IMAGE_HASH_INVALID');
       }
     });
 
@@ -49,7 +49,7 @@ describe('ImageHash', () => {
       const result = ImageHash.create('a1b2c3d4e5f6071g');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('IMAGE_HASH_INVALID');
+        expect(result.errors[0]!.code).toBe('IMAGE_HASH_INVALID');
       }
     });
 

@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer';
 
 import type { Coordinates } from '@allcoba/domain';
-import { Email, ImageHash, Phone, Price } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, unwrap, valueOrUndefined } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
@@ -204,24 +204,20 @@ export class ScrapeUrlUseCase {
 
     const phones: Phone[] = [];
     for (const p of raw.phones) {
-      const r = Phone.create(p, 'ES');
+      const r = Phone.create(p, raw.country);
       if (r.success) phones.push(r.value);
       else this.logger.debug({ raw: p }, 'Skipping invalid phone');
     }
 
-    const emailResult = raw.email ? Email.create(raw.email) : null;
-    const email = emailResult?.success ? emailResult.value : undefined;
-    if (raw.email && !emailResult?.success) {
+    const email = valueOrUndefined(Email.create(raw.email));
+    if (raw.email && !email) {
       this.logger.debug({ raw: raw.email }, 'Skipping invalid email');
     }
 
     const contacts: SocialContact[] = raw.contacts ?? [];
 
-    const priceResult = raw.price != null ? Price.create(raw.price, raw.currency ?? 'EUR') : null;
-    const price = priceResult?.success ? priceResult.value : undefined;
-
-    const addressResult = raw.address ? ScrapedAddress.create(raw.address, raw.coordinates) : null;
-    const address = addressResult?.success ? addressResult.value : undefined;
+    const price = valueOrUndefined(Price.create(raw.price, raw.currency));
+    const address = valueOrUndefined(ScrapedAddress.create(raw.address, raw.coordinates));
 
     return {
       externalId: externalIdResult.value,

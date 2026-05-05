@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isSupportedCountry, SUPPORTED_COUNTRIES } from '@domain/shared/country-code.js';
+import { isSupportedCountry, SUPPORTED_COUNTRIES } from '#shared/country-code.js';
 
 describe('SUPPORTED_COUNTRIES', () => {
   it('contains ES', () => {

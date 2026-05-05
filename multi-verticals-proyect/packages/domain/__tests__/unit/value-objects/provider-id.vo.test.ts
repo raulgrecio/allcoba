@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ProviderId } from '@domain/value-objects/provider-id.vo.js';
-import { UserId } from '@domain/value-objects/user-id.vo.js';
+import { ProviderId } from '#value-objects/provider-id.vo.js';
+import { UserId } from '#value-objects/user-id.vo.js';
 
 const VALID_UUID = 'b2c3d4e5-f6a7-4890-bcde-f01234567890';
 

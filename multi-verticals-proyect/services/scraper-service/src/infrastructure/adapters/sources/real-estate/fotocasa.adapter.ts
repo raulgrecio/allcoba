@@ -1,9 +1,13 @@
 import type { CheerioAPI } from 'cheerio';
 
+import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+
 import { RealEstateBaseAdapter } from './real-estate.base.js';
 
 export class FotocasaAdapter extends RealEstateBaseAdapter {
   readonly identifier = 'fotocasa';
+  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCurrency: CurrencyCode = 'EUR';
 
   canHandle(url: string): boolean {
     return url.includes('fotocasa.es');

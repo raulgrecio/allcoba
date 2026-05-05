@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { Email } from '@domain/value-objects/email.vo.js';
-import { ValueObject } from '@domain/value-objects/value-object.base.js';
+import { Email } from '#value-objects/email.vo.js';
+import { ValueObject } from '#value-objects/value-object.base.js';
 
 describe('Email', () => {
   describe('create', () => {

@@ -1,9 +1,13 @@
 import type { CheerioAPI } from 'cheerio';
 
+import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+
 import { RealEstateBaseAdapter } from './real-estate.base.js';
 
 export class IdealistaAdapter extends RealEstateBaseAdapter {
   readonly identifier = 'idealista';
+  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCurrency: CurrencyCode = 'EUR';
 
   canHandle(url: string): boolean {
     return url.includes('idealista.com');

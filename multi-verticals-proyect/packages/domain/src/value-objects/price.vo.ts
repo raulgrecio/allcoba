@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import type { ValidationResult } from '../shared/validation-result.js';
-import { failOne, ok } from '../shared/validation-result.js';
 import type { CurrencyCode } from '../shared/currency-code.js';
+import type { ValidationResult } from '../shared/validation-result.js';
 import { isSupportedCurrency } from '../shared/currency-code.js';
+import { failOne, ok } from '../shared/validation-result.js';
 import { ValueObject } from './value-object.base.js';
 
 const amountSchema = z.number().finite().nonnegative();
@@ -16,8 +16,19 @@ export class Price extends ValueObject {
     super();
   }
 
-  static create(amount: number, currency: string): ValidationResult<Price> {
-    const parsedAmount = amountSchema.safeParse(amount);
+  /**
+   * Creates a Price from raw data.
+   * @param candidate - The price amount (number, 0-infinity)
+   * @param currency - The currency code (2 chars)
+   */
+  static create(candidate: unknown, currency: unknown): ValidationResult<Price> {
+    if (typeof candidate !== 'number' || typeof currency !== 'string' || !currency) {
+      return failOne('PRICE_REQUIRED', 'Price amount (number) and currency (string) are required', [
+        'price',
+      ]);
+    }
+
+    const parsedAmount = amountSchema.safeParse(candidate);
     if (!parsedAmount.success) {
       return failOne('PRICE_AMOUNT_INVALID', 'Price amount must be a non-negative finite number', [
         'amount',
@@ -34,7 +45,9 @@ export class Price extends ValueObject {
   }
 
   equals(other: ValueObject): boolean {
-    return other instanceof Price && this.amount === other.amount && this.currency === other.currency;
+    return (
+      other instanceof Price && this.amount === other.amount && this.currency === other.currency
+    );
   }
 
   toString(): string {

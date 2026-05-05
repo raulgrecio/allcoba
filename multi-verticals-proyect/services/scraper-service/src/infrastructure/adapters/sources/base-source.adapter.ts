@@ -1,6 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type { CountryCode, CurrencyCode } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
 import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
@@ -12,6 +13,8 @@ import { RobotsChecker } from '../../crawler/robots-checker.js';
 export abstract class BaseSourceAdapter implements SourcePort {
   abstract readonly identifier: string;
   abstract readonly defaultVertical: Vertical;
+  abstract readonly defaultCountry: CountryCode;
+  abstract readonly defaultCurrency: CurrencyCode;
   protected robotsChecker = new RobotsChecker();
   protected readonly browser: PlaywrightCrawler;
   protected readonly logger = logger().child({ component: this.constructor.name });
@@ -81,6 +84,8 @@ export abstract class BaseSourceAdapter implements SourcePort {
       phones: await this.extractPhones($, url),
       imageUrls: this.extractImagesFromDom($, this.getImageSelectors($)),
       vertical: this.detectVertical(url),
+      country: this.defaultCountry,
+      currency: this.defaultCurrency,
       attributes: this.extractAttributes($),
       extractedAt: new Date(),
     };

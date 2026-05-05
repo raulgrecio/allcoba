@@ -1,5 +1,6 @@
 import type { CheerioAPI } from 'cheerio';
 
+import type { CountryCode, CurrencyCode } from '@allcoba/domain';
 import { Vertical } from '#domain/entities/vertical.js';
 
 import { BaseSourceAdapter } from '../base-source.adapter.js';

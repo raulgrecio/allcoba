@@ -10,8 +10,12 @@ export class ConfidenceScore extends ValueObject {
     super();
   }
 
-  static create(raw: number): ValidationResult<ConfidenceScore> {
-    const parsed = scoreSchema.safeParse(raw);
+  /**
+   * Creates a ConfidenceScore from raw data.
+   * @param candidate - The confidence score value (number between 0 and 1)
+   */
+  static create(candidate: unknown): ValidationResult<ConfidenceScore> {
+    const parsed = scoreSchema.safeParse(candidate);
     if (!parsed.success) {
       return failOne(
         'CONFIDENCE_SCORE_INVALID',

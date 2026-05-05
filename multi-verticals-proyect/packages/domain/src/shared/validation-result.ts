@@ -42,3 +42,8 @@ export function combine<T extends readonly ValidationResult<unknown>[]>(
   const values = results.map((r) => (r as { success: true; value: unknown }).value);
   return ok(values as never);
 }
+
+export function valueOrUndefined<T>(result: ValidationResult<T> | null | undefined): T | undefined {
+  if (!result) return undefined;
+  return result.success ? result.value : undefined;
+}

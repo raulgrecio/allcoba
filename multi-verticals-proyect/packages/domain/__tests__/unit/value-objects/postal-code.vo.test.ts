@@ -1,5 +1,7 @@
-import type { CountryCode } from '@domain/shared/country-code.js';
-import { PostalCode } from '@domain/value-objects/postal-code.vo.js';
+import { describe, expect, it } from 'vitest';
+
+import type { CountryCode } from '#shared/country-code.js';
+import { PostalCode } from '#value-objects/postal-code.vo.js';
 
 describe('PostalCode.create — ES', () => {
   it('accepts valid 5-digit code', () => {

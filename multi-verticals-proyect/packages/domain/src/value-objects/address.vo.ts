@@ -27,6 +27,15 @@ export class Address extends ValueObject {
     super();
   }
 
+  /**
+   * Creates an Address from raw data.
+   * @param input - The address data
+   * @param input.street - The street name (min 3, max 200 chars)
+   * @param input.city - The city name (min 3, max 100 chars)
+   * @param input.postalCode - The postal code (min 3, max 10 chars)
+   * @param input.country - The country code (2 chars)
+   * @param input.coordinates - Optional coordinates { lat: number, lng: number }
+   */
   static create(input: AddressInput): ValidationResult<Address> {
     const parts = combine([
       Street.create(input.street),

@@ -10,7 +10,11 @@ export class ImageHash extends ValueObject {
     super();
   }
 
-  static create(raw: string): ValidationResult<ImageHash> {
+  static create(raw: unknown): ValidationResult<ImageHash> {
+    if (typeof raw !== 'string' || !raw) {
+      return failOne('IMAGE_HASH_REQUIRED', 'Image hash is required and must be a string', ['imageHash']);
+    }
+
     const normalized = raw.toLowerCase().trim();
     if (!PHASH_REGEX.test(normalized)) {
       return failOne(

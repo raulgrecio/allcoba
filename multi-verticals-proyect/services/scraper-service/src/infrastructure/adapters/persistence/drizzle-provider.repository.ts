@@ -1,7 +1,7 @@
 import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq, sql } from 'drizzle-orm';
 
-import { Email, ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, ProviderId, valueOrUndefined } from '@allcoba/domain';
 
 import type {
   ProviderCriteria,
@@ -51,7 +51,7 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
     const filters = [];
 
     if (criteria.phone) {
-      filters.push(sql`${table.phones} @> ${JSON.stringify([criteria.phone.toJSON()])}::jsonb`);
+      filters.push(sql`${table.phones} @> ${JSON.stringify([criteria.phone.e164])}::jsonb`);
     }
 
     if (criteria.email) {
@@ -108,13 +108,12 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
 
     const phones: Phone[] = [];
     for (const e164 of row.phones as string[]) {
-      // E.164 numbers (starting with +) parse correctly regardless of country hint
-      const res = Phone.create(e164, 'ES');
+      // libphonenumber-js can infer the country from E.164 (+) numbers
+      const res = Phone.create(e164);
       if (res.success) phones.push(res.value);
     }
 
-    const emailResult = row.email ? Email.create(row.email) : null;
-    const email = emailResult?.success ? emailResult.value : undefined;
+    const email = valueOrUndefined(Email.create(row.email));
 
     const rawContacts = row.contacts as { platform: ContactPlatform; handle: string }[];
     const contacts: SocialContact[] = rawContacts.map((c) => ({
@@ -126,14 +125,14 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
       text: string;
       coordinates?: { lat: number; lng: number };
     } | null;
-    const addressResult = rawAddress
-      ? ScrapedAddress.create(rawAddress.text, rawAddress.coordinates)
-      : null;
-    const address = addressResult?.success ? addressResult.value : undefined;
+    const address = valueOrUndefined(
+      rawAddress ? ScrapedAddress.create(rawAddress.text, rawAddress.coordinates) : null,
+    );
 
     const rawPrice = row.price as { amount: number; currency: string } | null;
-    const priceResult = rawPrice ? Price.create(rawPrice.amount, rawPrice.currency) : null;
-    const price = priceResult?.success ? priceResult.value : undefined;
+    const price = valueOrUndefined(
+      rawPrice ? Price.create(rawPrice.amount, rawPrice.currency) : null,
+    );
 
     const externalIds: ExternalId[] = [];
     for (const e of row.externalIds as { source: string; id: string }[]) {

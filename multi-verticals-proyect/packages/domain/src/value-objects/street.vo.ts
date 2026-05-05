@@ -11,8 +11,12 @@ export class Street extends ValueObject {
     super();
   }
 
-  static create(raw: string): ValidationResult<Street> {
-    const parsed = schema.safeParse(raw);
+  /**
+   * Creates a Street from raw data.
+   * @param candidate - The street (string, 3-200 characters)
+   */
+  static create(candidate: unknown): ValidationResult<Street> {
+    const parsed = schema.safeParse(candidate);
     if (!parsed.success) {
       return failOne('STREET_INVALID', 'Street must be 3-200 chars', ['street']);
     }

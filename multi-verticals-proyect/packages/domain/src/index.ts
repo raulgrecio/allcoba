@@ -15,6 +15,7 @@ export {
   failOne,
   ok,
   unwrap,
+  valueOrUndefined,
   type ValidationIssue,
   type ValidationResult,
 } from './shared/validation-result.js';

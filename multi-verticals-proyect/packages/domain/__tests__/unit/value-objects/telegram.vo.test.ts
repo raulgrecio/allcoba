@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { Telegram } from '@domain/value-objects/telegram.vo.js';
+import { Telegram } from '#value-objects/telegram.vo.js';
 
 describe('Telegram.create', () => {
   it('accepts valid handle without @', () => {

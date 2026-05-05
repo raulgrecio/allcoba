@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { Url } from '@domain/value-objects/url.vo.js';
+import { Url } from '#value-objects/url.vo.js';
 
 describe('Url', () => {
   describe('create', () => {
@@ -34,8 +34,8 @@ describe('Url', () => {
       const result = Url.create('not-a-url');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('URL_INVALID_FORMAT');
-        expect(result.errors[0].path).toContain('url');
+        expect(result.errors[0]!.code).toBe('URL_INVALID_FORMAT');
+        expect(result.errors[0]!.path).toContain('url');
       }
     });
 
@@ -43,7 +43,7 @@ describe('Url', () => {
       const result = Url.create('ftp://files.example.com/file.txt');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('URL_PROTOCOL_NOT_ALLOWED');
+        expect(result.errors[0]!.code).toBe('URL_PROTOCOL_NOT_ALLOWED');
       }
     });
 
@@ -51,7 +51,7 @@ describe('Url', () => {
       const result = Url.create('javascript:alert(1)');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('URL_PROTOCOL_NOT_ALLOWED');
+        expect(result.errors[0]!.code).toBe('URL_PROTOCOL_NOT_ALLOWED');
       }
     });
   });

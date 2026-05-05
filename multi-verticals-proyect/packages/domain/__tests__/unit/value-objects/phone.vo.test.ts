@@ -1,5 +1,7 @@
-import type { CountryCode } from '@domain/shared/country-code.js';
-import { Phone } from '@domain/value-objects/phone.vo.js';
+import { describe, expect, it } from 'vitest';
+
+import type { CountryCode } from '#shared/country-code.js';
+import { Phone } from '#value-objects/phone.vo.js';
 
 describe('Phone.create — ES', () => {
   it('accepts 9-digit mobile number', () => {
@@ -39,7 +41,12 @@ describe('Phone.create — ES', () => {
   it('fails for empty string', () => {
     const result = Phone.create('', 'ES');
     expect(result.success).toBe(false);
-    if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_INVALID_FORMAT');
+    if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_REQUIRED');
+  });
+
+  it('fails for null or undefined', () => {
+    expect(Phone.create(null, 'ES').success).toBe(false);
+    expect(Phone.create(undefined, 'ES').success).toBe(false);
   });
 
   it('fails for letters only', () => {

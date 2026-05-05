@@ -14,8 +14,13 @@ export class ExternalId extends ValueObject {
     super();
   }
 
-  static create(source: string, id: string): ValidationResult<ExternalId> {
-    const parsedSource = sourceSchema.safeParse(source);
+  /**
+   * Creates an ExternalId from raw data.
+   * @param candidate - The source of the external ID (e.g., 'google_places'). Must be 1-64 chars.
+   * @param id - The external ID value. Must be 1-256 chars.
+   */
+  static create(candidate: unknown, id: unknown): ValidationResult<ExternalId> {
+    const parsedSource = sourceSchema.safeParse(candidate);
     if (!parsedSource.success) {
       return failOne('EXTERNAL_ID_SOURCE_INVALID', 'Source must be 1-64 chars', ['source']);
     }

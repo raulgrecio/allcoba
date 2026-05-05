@@ -47,7 +47,14 @@ export class ConsolidationService {
     let maxScore = 0;
 
     for (const candidate of candidates) {
-      const match = this.scoreCandidate({ candidate, phones, contacts, email, externalId, coordinates });
+      const match = this.scoreCandidate({
+        candidate,
+        phones,
+        contacts,
+        email,
+        externalId,
+        coordinates,
+      });
       if (match.score > maxScore) {
         maxScore = match.score;
         bestMatch = candidate;

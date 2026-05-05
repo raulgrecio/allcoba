@@ -11,8 +11,12 @@ export class City extends ValueObject {
     super();
   }
 
-  static create(raw: string): ValidationResult<City> {
-    const parsed = schema.safeParse(raw);
+  /**
+   * Creates a City from raw data.
+   * @param candidate - The city name (min 2, max 100 chars)
+   */
+  static create(candidate: unknown): ValidationResult<City> {
+    const parsed = schema.safeParse(candidate);
     if (!parsed.success) {
       return failOne('CITY_INVALID', 'City must be 2-100 chars', ['city']);
     }

@@ -13,7 +13,8 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
     return Array.from(this.providers.values()).filter((p) => {
       if (criteria.phone && p.hasPhone(criteria.phone)) return true;
       if (criteria.email && p.email?.equals(criteria.email)) return true;
-      if (criteria.contact && p.hasContact(criteria.contact.platform, criteria.contact.handle)) return true;
+      if (criteria.contact && p.hasContact(criteria.contact.platform, criteria.contact.handle))
+        return true;
       if (criteria.externalId && p.hasExternalId(criteria.externalId)) return true;
       if (criteria.imageHash && p.hasImageHash(criteria.imageHash)) return true;
       if (criteria.vertical && p.vertical === criteria.vertical) return true;

@@ -5,9 +5,6 @@ import { defineConfig } from 'vitest/config';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
-  resolve: {
-    alias: { '@domain': path.resolve(__dirname, 'src') },
-  },
   test: {
     globals: true,
     environment: 'node',

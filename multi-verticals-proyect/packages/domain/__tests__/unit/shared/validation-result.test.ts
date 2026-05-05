@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { combine, fail, failOne, ok } from '@domain/shared/validation-result.js';
+import { combine, fail, failOne, ok } from '#shared/validation-result.js';
 
 describe('ok', () => {
   it('returns success:true with value', () => {
@@ -66,11 +66,7 @@ describe('combine', () => {
   });
 
   it('aggregates errors from multiple failures', () => {
-    const result = combine([
-      failOne('ERR1', 'first'),
-      failOne('ERR2', 'second'),
-      ok(3),
-    ] as const);
+    const result = combine([failOne('ERR1', 'first'), failOne('ERR2', 'second'), ok(3)] as const);
     expect(result.success).toBe(false);
     if (!result.success) {
       expect(result.errors).toHaveLength(2);

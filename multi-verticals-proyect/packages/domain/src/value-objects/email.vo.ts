@@ -11,7 +11,11 @@ export class Email extends ValueObject {
     super();
   }
 
-  static create(candidate: string): ValidationResult<Email> {
+  /**
+   * Creates an Email from raw data.
+   * @param candidate - The email value (string)
+   */
+  static create(candidate: unknown): ValidationResult<Email> {
     const result = emailSchema.safeParse(candidate);
     if (!result.success) {
       return failOne('EMAIL_INVALID', result.error.issues[0]!.message, ['email']);

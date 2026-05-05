@@ -1,9 +1,13 @@
 import type { CheerioAPI } from 'cheerio';
 
+import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+
 import { MotorBaseAdapter } from './motor.base.js';
 
 export class CochesNetAdapter extends MotorBaseAdapter {
   readonly identifier = 'coches.net';
+  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCurrency: CurrencyCode = 'EUR';
 
   canHandle(url: string): boolean {
     return url.includes('coches.net');

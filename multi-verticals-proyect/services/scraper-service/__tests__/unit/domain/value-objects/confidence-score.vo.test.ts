@@ -29,8 +29,8 @@ describe('ConfidenceScore', () => {
       const result = ConfidenceScore.create(1.1);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0]?.code).toBe('CONFIDENCE_SCORE_INVALID');
-        expect(result.errors[0]?.path).toContain('confidenceScore');
+        expect(result.errors[0]!.code).toBe('CONFIDENCE_SCORE_INVALID');
+        expect(result.errors[0]!.path).toContain('confidenceScore');
       }
     });
 
@@ -38,7 +38,7 @@ describe('ConfidenceScore', () => {
       const result = ConfidenceScore.create(-0.1);
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0]?.code).toBe('CONFIDENCE_SCORE_INVALID');
+        expect(result.errors[0]!.code).toBe('CONFIDENCE_SCORE_INVALID');
       }
     });
 

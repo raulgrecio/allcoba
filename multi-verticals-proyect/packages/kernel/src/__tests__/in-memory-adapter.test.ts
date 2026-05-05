@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { InMemoryQueueAdapter } from '../queue/in-memory.adapter.js';
 import type { JobHandler, QueuePort } from '../queue/queue.port.js';
+import { InMemoryQueueAdapter } from '../queue/in-memory.adapter.js';
 
 describe('InMemoryQueueAdapter', () => {
   let queue: InMemoryQueueAdapter;
@@ -28,8 +28,8 @@ describe('InMemoryQueueAdapter', () => {
       await queue.publish('email', { to: 'a@b.com' });
       const jobs = queue.getPendingJobs();
       expect(jobs).toHaveLength(1);
-      expect(jobs[0]?.name).toBe('email');
-      expect(jobs[0]?.data).toEqual({ to: 'a@b.com' });
+      expect(jobs[0]!.name).toBe('email');
+      expect(jobs[0]!.data).toEqual({ to: 'a@b.com' });
     });
 
     it('should filter jobs by name', async () => {
@@ -195,9 +195,9 @@ describe('InMemoryQueueAdapter', () => {
 
       const jobs = queue.getPendingJobs();
       expect(jobs).toHaveLength(3);
-      expect(jobs[0]?.data).toBe(1);
-      expect(jobs[1]?.data).toBe(2);
-      expect(jobs[2]?.data).toBe(3);
+      expect(jobs[0]!.data).toBe(1);
+      expect(jobs[1]!.data).toBe(2);
+      expect(jobs[2]!.data).toBe(3);
     });
   });
 

@@ -11,8 +11,12 @@ export class UserId extends Id {
     super(value);
   }
 
-  static create(raw: string): ValidationResult<UserId> {
-    const parsed = uuidSchema.safeParse(raw);
+  /**
+   * Creates a UserId from raw data.
+   * @param candidate - The user id (string, UUID)
+   */
+  static create(candidate: unknown): ValidationResult<UserId> {
+    const parsed = uuidSchema.safeParse(candidate);
     if (!parsed.success) {
       return failOne('USER_ID_INVALID', 'Invalid UserId: must be a UUID', ['userId']);
     }

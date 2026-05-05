@@ -13,10 +13,18 @@ export class Url extends ValueObject {
     super();
   }
 
-  static create(raw: string): ValidationResult<Url> {
+  /**
+   * Creates a Url from raw data.
+   * @param candidate - The url (string)
+   */
+  static create(candidate: unknown): ValidationResult<Url> {
+    if (typeof candidate !== 'string' || !candidate) {
+      return failOne('URL_REQUIRED', 'URL is required and must be a string', ['url']);
+    }
+
     let parsed: URL;
     try {
-      parsed = new URL(raw);
+      parsed = new URL(candidate);
     } catch {
       return failOne('URL_INVALID_FORMAT', 'Invalid URL format', ['url']);
     }

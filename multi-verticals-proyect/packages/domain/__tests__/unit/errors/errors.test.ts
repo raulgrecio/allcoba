@@ -6,7 +6,7 @@ import {
   NotFoundError,
   UnauthorizedError,
   ValidationError,
-} from '@domain/errors/base.errors.js';
+} from '#errors/base.errors.js';
 
 describe('DomainError', () => {
   it('should be abstract and have code property', () => {

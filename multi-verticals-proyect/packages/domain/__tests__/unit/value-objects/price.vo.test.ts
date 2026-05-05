@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { Price } from '@domain/value-objects/price.vo.js';
+import { Price } from '#value-objects/price.vo.js';
 
 describe('Price', () => {
   describe('create', () => {
@@ -30,8 +30,8 @@ describe('Price', () => {
       const result = Price.create(-1, 'EUR');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('PRICE_AMOUNT_INVALID');
-        expect(result.errors[0].path).toContain('amount');
+        expect(result.errors[0]!.code).toBe('PRICE_AMOUNT_INVALID');
+        expect(result.errors[0]!.path).toContain('amount');
       }
     });
 
@@ -39,7 +39,7 @@ describe('Price', () => {
       const result = Price.create(Infinity, 'EUR');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('PRICE_AMOUNT_INVALID');
+        expect(result.errors[0]!.code).toBe('PRICE_AMOUNT_INVALID');
       }
     });
 
@@ -47,7 +47,7 @@ describe('Price', () => {
       const result = Price.create(NaN, 'EUR');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('PRICE_AMOUNT_INVALID');
+        expect(result.errors[0]!.code).toBe('PRICE_AMOUNT_INVALID');
       }
     });
 
@@ -55,8 +55,8 @@ describe('Price', () => {
       const result = Price.create(50, 'USD');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('PRICE_CURRENCY_UNSUPPORTED');
-        expect(result.errors[0].path).toContain('currency');
+        expect(result.errors[0]!.code).toBe('PRICE_CURRENCY_UNSUPPORTED');
+        expect(result.errors[0]!.path).toContain('currency');
       }
     });
   });

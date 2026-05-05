@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { Address } from '@domain/value-objects/address.vo.js';
+import { Address } from '#value-objects/address.vo.js';
 
 const VALID_ES = {
   street: 'Calle Mayor 1',
@@ -8,7 +8,6 @@ const VALID_ES = {
   postalCode: '28001',
   country: 'ES' as const,
 };
-
 
 describe('Address.create', () => {
   it('creates valid ES address', () => {
@@ -87,7 +86,9 @@ describe('Address.create', () => {
 
   it('accepts boundary coordinates', () => {
     expect(Address.create({ ...VALID_ES, coordinates: { lat: 90, lng: 180 } }).success).toBe(true);
-    expect(Address.create({ ...VALID_ES, coordinates: { lat: -90, lng: -180 } }).success).toBe(true);
+    expect(Address.create({ ...VALID_ES, coordinates: { lat: -90, lng: -180 } }).success).toBe(
+      true,
+    );
   });
 });
 

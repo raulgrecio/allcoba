@@ -9,8 +9,18 @@ export class Telegram extends ValueObject {
     super();
   }
 
-  static create(raw: string): ValidationResult<Telegram> {
-    const stripped = raw.startsWith('@') ? raw.slice(1) : raw;
+  /**
+   * Creates a Telegram from raw data.
+   * @param candidate - The telegram handle (string, 5-32 chars, alphanumeric/underscore, start and end with alphanumeric)
+   */
+  static create(candidate: unknown): ValidationResult<Telegram> {
+    if (typeof candidate !== 'string' || !candidate) {
+      return failOne('TELEGRAM_REQUIRED', 'Telegram handle is required and must be a string', [
+        'telegram',
+      ]);
+    }
+
+    const stripped = candidate.startsWith('@') ? candidate.slice(1) : candidate;
 
     if (!TELEGRAM_REGEX.test(stripped)) {
       return failOne(

@@ -15,14 +15,25 @@ export class PostalCode extends ValueObject {
     super();
   }
 
-  static create(raw: string, country: CountryCode): ValidationResult<PostalCode> {
+  /**
+   * Creates a PostalCode from candidate data.
+   * @param candidate - The postal code value (string)
+   * @param country - The country code (2 chars)
+   */
+  static create(candidate: unknown, country: CountryCode): ValidationResult<PostalCode> {
+    if (typeof candidate !== 'string' || !candidate) {
+      return failOne('POSTAL_REQUIRED', 'Postal code is required and must be a string', [
+        'postalCode',
+      ]);
+    }
+
     const rule = RULES[country];
     if (!rule) {
       return failOne('POSTAL_COUNTRY_UNSUPPORTED', `Country ${country} not supported`, [
         'postalCode',
       ]);
     }
-    const trimmed = raw.trim();
+    const trimmed = candidate.trim();
     if (!rule.test(trimmed)) {
       return failOne('POSTAL_INVALID_FORMAT', `Invalid ${country} postal code`, ['postalCode']);
     }
@@ -31,9 +42,7 @@ export class PostalCode extends ValueObject {
 
   equals(other: ValueObject): boolean {
     return (
-      other instanceof PostalCode &&
-      this.value === other.value &&
-      this.country === other.country
+      other instanceof PostalCode && this.value === other.value && this.country === other.country
     );
   }
 

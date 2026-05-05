@@ -13,25 +13,43 @@ export class ScrapedAddress extends ValueObject {
     super();
   }
 
-  static create(text: string, coordinates?: Coordinates): ValidationResult<ScrapedAddress> {
-    const result = textSchema.safeParse(text.trim());
+  /**
+   * Creates a ScrapedAddress from raw data.
+   * @param candidate - The address string (e.g., from a web scraper)
+   * @param coordinates - Optional object with Coordinates type { lat: number, lng: number }
+   */
+  static create(candidate: unknown, coordinates?: unknown): ValidationResult<ScrapedAddress> {
+    if (typeof candidate !== 'string' || !candidate) {
+      return failOne('SCRAPED_ADDRESS_REQUIRED', 'Address text is required and must be a string', [
+        'address',
+      ]);
+    }
+
+    const result = textSchema.safeParse(candidate.trim());
     if (!result.success) {
       return failOne('SCRAPED_ADDRESS_INVALID', 'Address text must be 1–500 characters', [
         'address',
       ]);
     }
 
-    if (coordinates) {
-      const { lat, lng } = coordinates;
+    let coords: Coordinates | undefined = undefined;
+    if (
+      coordinates &&
+      typeof coordinates === 'object' &&
+      'lat' in coordinates &&
+      'lng' in coordinates
+    ) {
+      const { lat, lng } = coordinates as any;
       if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
         return failOne('SCRAPED_ADDRESS_COORDS_INVALID', 'Invalid coordinates', [
           'address',
           'coordinates',
         ]);
       }
+      coords = { lat, lng };
     }
 
-    return ok(new ScrapedAddress(result.data, coordinates));
+    return ok(new ScrapedAddress(result.data, coords));
   }
 
   equals(other: ValueObject): boolean {
