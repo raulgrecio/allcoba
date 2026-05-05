@@ -8,20 +8,20 @@ import { logger } from '@allcoba/kernel';
 import type {
   ProviderCriteria,
   ProviderRepositoryPort,
-} from '../../../application/ports/repository.port.js';
+} from '#application/ports/repository.port.js';
 import type {
   ScrapedImage,
   ScraperSignal,
   SignalType,
-} from '../../../domain/aggregates/scraped-provider.aggregate.js';
+} from '#domain/aggregates/scraped-provider.aggregate.js';
 import {
   ScrapedProvider,
   VerificationStatus,
-} from '../../../domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '../../../domain/entities/vertical.js';
-import { ConfidenceScore } from '../../../domain/value-objects/confidence-score.vo.js';
-import { ExternalId } from '../../../domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '../../../domain/value-objects/scraped-address.vo.js';
+} from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
+import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
+import { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
 
 /** Plain JSON shape stored on disk — no VOs, only primitives. */
 interface JsonRecord {

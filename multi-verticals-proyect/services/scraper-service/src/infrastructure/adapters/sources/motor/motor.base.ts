@@ -1,6 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 
-import { Vertical } from '../../../../domain/entities/vertical.js';
+import { Vertical } from '#domain/entities/vertical.js';
+
 import { BaseSourceAdapter } from '../base-source.adapter.js';
 
 export abstract class MotorBaseAdapter extends BaseSourceAdapter {

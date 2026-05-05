@@ -1,10 +1,11 @@
-import * as cheerio from 'cheerio';
 import type { CheerioAPI } from 'cheerio';
+import * as cheerio from 'cheerio';
 
 import { logger } from '@allcoba/kernel';
 
-import type { RawExtraction, SourcePort } from '../../../application/ports/source.port.js';
-import { Vertical } from '../../../domain/entities/vertical.js';
+import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
+import { Vertical } from '#domain/entities/vertical.js';
+
 import { PlaywrightCrawler } from '../../crawler/playwright-crawler.js';
 import { RobotsChecker } from '../../crawler/robots-checker.js';
 

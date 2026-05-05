@@ -2,7 +2,7 @@ import PgBoss from 'pg-boss';
 
 import { logger } from '@allcoba/kernel';
 
-import type { JobOptions, QueuePort } from '../../../application/ports/queue.port.js';
+import type { JobOptions, QueuePort } from '#application/ports/queue.port.js';
 
 export class PgBossQueueAdapter implements QueuePort {
   private boss: PgBoss;

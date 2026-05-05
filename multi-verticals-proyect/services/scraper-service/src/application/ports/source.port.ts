@@ -1,4 +1,4 @@
-import type { Vertical } from '../../domain/entities/vertical.js';
+import type { Vertical } from '#domain/entities/vertical.js';
 
 export interface RawExtraction<T = Record<string, any>> {
   source: string;

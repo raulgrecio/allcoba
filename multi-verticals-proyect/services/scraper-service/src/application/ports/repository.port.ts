@@ -1,8 +1,8 @@
 import type { ImageHash, Phone, ProviderId, Telegram } from '@allcoba/domain';
 
-import type { ScrapedProvider } from '../../domain/aggregates/scraped-provider.aggregate.js';
-import type { Vertical } from '../../domain/entities/vertical.js';
-import type { ExternalId } from '../../domain/value-objects/external-id.vo.js';
+import type { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import type { Vertical } from '#domain/entities/vertical.js';
+import type { ExternalId } from '#domain/value-objects/external-id.vo.js';
 
 export interface ProviderCriteria {
   phone?: Phone;

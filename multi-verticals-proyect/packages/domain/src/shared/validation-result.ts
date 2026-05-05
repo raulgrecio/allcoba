@@ -24,6 +24,14 @@ export const failOne = <T = never>(
   path?: string[],
 ): ValidationResult<T> => fail([{ code, message, path }]);
 
+export function unwrap<T>(result: ValidationResult<T>, label?: string): T {
+  if (!result.success) {
+    const messages = result.errors.map((e) => e.message).join(', ');
+    throw new Error(label ? `[${label}] ${messages}` : messages);
+  }
+  return result.value;
+}
+
 export function combine<T extends readonly ValidationResult<unknown>[]>(
   results: T,
 ): ValidationResult<{

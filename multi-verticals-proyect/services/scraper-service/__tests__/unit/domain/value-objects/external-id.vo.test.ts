@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ExternalId } from '../../../../src/domain/value-objects/external-id.vo.js';
+import { ExternalId } from '#domain/value-objects/external-id.vo.js';
 
 describe('ExternalId', () => {
   describe('create', () => {
@@ -26,8 +26,8 @@ describe('ExternalId', () => {
       const result = ExternalId.create('', 'abc123');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('EXTERNAL_ID_SOURCE_INVALID');
-        expect(result.errors[0].path).toContain('source');
+        expect(result.errors[0]?.code).toBe('EXTERNAL_ID_SOURCE_INVALID');
+        expect(result.errors[0]?.path).toContain('source');
       }
     });
 
@@ -35,7 +35,7 @@ describe('ExternalId', () => {
       const result = ExternalId.create('a'.repeat(65), 'abc123');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('EXTERNAL_ID_SOURCE_INVALID');
+        expect(result.errors[0]?.code).toBe('EXTERNAL_ID_SOURCE_INVALID');
       }
     });
 
@@ -43,8 +43,8 @@ describe('ExternalId', () => {
       const result = ExternalId.create('idealista', '');
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('EXTERNAL_ID_INVALID');
-        expect(result.errors[0].path).toContain('id');
+        expect(result.errors[0]?.code).toBe('EXTERNAL_ID_INVALID');
+        expect(result.errors[0]?.path).toContain('id');
       }
     });
 
@@ -52,7 +52,7 @@ describe('ExternalId', () => {
       const result = ExternalId.create('idealista', 'x'.repeat(257));
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.errors[0].code).toBe('EXTERNAL_ID_INVALID');
+        expect(result.errors[0]?.code).toBe('EXTERNAL_ID_INVALID');
       }
     });
 

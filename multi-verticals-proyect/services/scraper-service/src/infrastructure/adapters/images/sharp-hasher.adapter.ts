@@ -2,7 +2,7 @@ import sharp from 'sharp';
 
 import { logger } from '@allcoba/kernel';
 
-import type { ImageHasherPort } from '../../../application/ports/image-hasher.port.js';
+import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 
 export class SharpHasherAdapter implements ImageHasherPort {
   async generateHash(input: string | Buffer): Promise<string> {

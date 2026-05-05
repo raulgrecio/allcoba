@@ -3,8 +3,8 @@ import type { ProviderId } from '@allcoba/domain';
 import type {
   ProviderCriteria,
   ProviderRepositoryPort,
-} from '../../../application/ports/repository.port.js';
-import type { ScrapedProvider } from '../../../domain/aggregates/scraped-provider.aggregate.js';
+} from '#application/ports/repository.port.js';
+import type { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
 
 export class InMemoryProviderRepository implements ProviderRepositoryPort {
   private readonly providers: Map<string, ScrapedProvider> = new Map();

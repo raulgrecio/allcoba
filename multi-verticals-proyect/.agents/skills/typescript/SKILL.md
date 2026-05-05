@@ -22,6 +22,49 @@ import { User }   from '../domain/user.entity'
 
 ---
 
+## Workspace packages — condición `"source"` en exports
+
+Todo package interno del monorepo que compile a `dist/` debe incluir la condición `"source"` en su `exports`. Sin ella, los servicios dependientes necesitan rebuild cada vez que cambia el package — inaceptable en desarrollo.
+
+```json
+// packages/domain/package.json
+{
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  }
+}
+```
+
+Y cada servicio que consuma workspace packages configura Vitest para usar esa condición:
+
+```ts
+// services/*/vitest.config.ts
+export default defineConfig({
+  resolve: {
+    conditions: ['source'],
+  },
+  test: { ... }
+})
+```
+
+Con esto, Vitest lee directamente el `.ts` fuente — cero rebuild necesario durante desarrollo. El `dist/` sigue siendo necesario para producción y para `tsc --noEmit`.
+
+Si un package tiene subpath exports (`./logger`, `./queue`), añadir `"source"` a cada uno:
+
+```json
+"./logger": {
+  "source": "./src/logger/index.ts",
+  "import": "./dist/logger/index.js",
+  "types": "./dist/logger/index.d.ts"
+}
+```
+
+---
+
 ## Imports internos del paquete — subpath imports `#`
 
 Para importar módulos internos dentro del mismo servicio/paquete, usar el estándar Node.js `#` (subpath imports). Nunca usar alias `@alias/` ni rutas relativas largas `../../../`:
