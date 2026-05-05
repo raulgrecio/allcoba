@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { ImageHash, Phone, ProviderId, Telegram, unwrap } from '@allcoba/domain';
+import { ImageHash, Phone, ProviderId, unwrap } from '@allcoba/domain';
 
 import {
   ScrapedProvider,
@@ -10,6 +10,7 @@ import { Vertical } from '#domain/entities/vertical.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
 import { DrizzleProviderRepository } from '#infrastructure/adapters/persistence/drizzle-provider.repository.js';
+import * as schema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
 
 describe('DrizzleProviderRepository', () => {
   const mockDb = {
@@ -30,6 +31,7 @@ describe('DrizzleProviderRepository', () => {
         id: ProviderId.generate(),
         vertical: Vertical.REAL_ESTATE,
         phones: [],
+        contacts: [{ platform: 'TELEGRAM', handle: 'testhandle' }],
         externalIds: [],
         verificationStatus: VerificationStatus.PENDING_REVIEW,
         confidenceScore: ConfidenceScore.high(),
@@ -58,19 +60,22 @@ describe('DrizzleProviderRepository', () => {
       const row = (repository as any).toPersistence(provider);
 
       expect(row.id).toBe(provider.id.value);
+      expect(row.contacts[0].platform).toBe('TELEGRAM');
+      expect(row.contacts[0].handle).toBe('testhandle');
       expect(row.images[0].storedUrl).toBe('s1');
       expect(row.signals[0].type).toBe('IMAGE_MATCH');
       expect(row.attributes).toEqual({ rooms: 3 });
+      expect(typeof row.confidenceScore).toBe('number');
     });
   });
 
   describe('toDomain', () => {
-    it('correctly maps a database row to a ScrapedProvider including signals', () => {
+    it('correctly maps a database row to a ScrapedProvider including contacts and signals', () => {
       const row = {
         id: '123e4567-e89b-12d3-a456-426614174000',
         displayName: 'Test Provider',
         phones: ['+34600000000'],
-        telegram: 'test_tg',
+        contacts: [{ platform: 'TELEGRAM', handle: 'test_tg' }],
         address: { text: 'Calle Falsa 123' },
         description: 'A test description',
         price: { amount: 1000, currency: 'EUR' },
@@ -99,70 +104,112 @@ describe('DrizzleProviderRepository', () => {
 
       expect(provider).toBeInstanceOf(ScrapedProvider);
       expect(provider.id.value).toBe(row.id);
+      expect(provider.contacts[0].platform).toBe('TELEGRAM');
+      expect(provider.contacts[0].handle).toBe('test_tg');
       expect(provider.images[0].hash.toJSON()).toBe('0123456789abcdef');
       expect(provider.signals[0].type).toBe('IMAGE_MATCH');
     });
   });
 
   describe('Repository Methods', () => {
-    it('findById calls db with correct id', async () => {
+    it('findById searches all vertical tables', async () => {
       const id = ProviderId.generate();
       mockDb.select.mockReturnThis();
       mockDb.from.mockReturnThis();
-      mockDb.where.mockReturnValue([]); // Empty row for simplicity
+      mockDb.where.mockReturnValue([]);
 
       await repository.findById(id);
 
-      expect(mockDb.where).toHaveBeenCalled();
+      expect(mockDb.from).toHaveBeenCalledTimes(5);
     });
 
-    it('create calls insert with persistence row', async () => {
+    it('create uses the correct vertical table (MOTOR)', async () => {
+      vi.clearAllMocks();
       const provider = ScrapedProvider.create({
-        vertical: Vertical.GENERAL,
+        vertical: Vertical.MOTOR,
         confidenceScore: ConfidenceScore.medium(),
       });
 
       await repository.create(provider);
 
-      expect(mockDb.insert).toHaveBeenCalled();
-      expect(mockDb.values).toHaveBeenCalled();
+      expect(mockDb.insert).toHaveBeenCalledWith(schema.motorProviders);
     });
 
-    it('update calls update with persistence row', async () => {
+    it('create uses the correct vertical table (REAL_ESTATE)', async () => {
+      vi.clearAllMocks();
+      const provider = ScrapedProvider.create({
+        vertical: Vertical.REAL_ESTATE,
+        confidenceScore: ConfidenceScore.medium(),
+      });
+
+      await repository.create(provider);
+
+      expect(mockDb.insert).toHaveBeenCalledWith(schema.realEstateProviders);
+    });
+
+    it('update uses the correct vertical table (JOBS)', async () => {
+      vi.clearAllMocks();
       const id = ProviderId.generate();
       const provider = ScrapedProvider.create({
         id,
-        vertical: Vertical.GENERAL,
+        vertical: Vertical.JOBS,
         confidenceScore: ConfidenceScore.medium(),
       });
 
       await repository.update(id, provider);
 
-      expect(mockDb.update).toHaveBeenCalled();
-      expect(mockDb.set).toHaveBeenCalled();
+      expect(mockDb.update).toHaveBeenCalledWith(schema.jobsProviders);
     });
 
-    it('find builds filters for all criteria', async () => {
+    it('find with vertical searches only that table', async () => {
+      vi.clearAllMocks();
       mockDb.where.mockReturnValue([]);
 
-      const criteria = {
-        vertical: Vertical.MOTOR,
+      await repository.find({
+        vertical: Vertical.SERVICES,
         phone: unwrap(Phone.create('+34600000000', 'ES')),
-        telegram: unwrap(Telegram.create('testhandle')),
+      });
+
+      expect(mockDb.from).toHaveBeenCalledTimes(1);
+      expect(mockDb.from).toHaveBeenCalledWith(schema.servicesProviders);
+    });
+
+    it('find without vertical throws (vertical required for isolation)', async () => {
+      await expect(
+        repository.find({ phone: unwrap(Phone.create('+34600000000', 'ES')) }),
+      ).rejects.toThrow('vertical is required');
+    });
+
+    it('find with contact criteria builds correct filter', async () => {
+      vi.clearAllMocks();
+      mockDb.where.mockReturnValue([]);
+
+      await repository.find({
+        vertical: Vertical.MOTOR,
+        contact: { platform: 'TELEGRAM', handle: 'testhandle' },
         externalId: unwrap(ExternalId.create('source', 'id')),
         imageHash: unwrap(ImageHash.create('0123456789abcdef')),
-      };
+      });
 
-      await repository.find(criteria);
       expect(mockDb.where).toHaveBeenCalled();
     });
 
-    it('find returns empty array if no criteria provided', async () => {
-      // Reset mocks to ensure they are not called
+    it('find returns empty array if no criteria match any filter', async () => {
       vi.clearAllMocks();
-      const results = await repository.find({});
+      const results = await repository.find({ vertical: Vertical.GENERAL });
       expect(results).toEqual([]);
       expect(mockDb.select).not.toHaveBeenCalled();
+    });
+
+    it('throws if vertical has no mapped table', async () => {
+      const provider = ScrapedProvider.create({
+        vertical: 'NON_EXISTENT' as any,
+        confidenceScore: ConfidenceScore.low(),
+      });
+
+      await expect(repository.create(provider)).rejects.toThrow(
+        "No table defined for vertical 'NON_EXISTENT'",
+      );
     });
   });
 
@@ -172,6 +219,7 @@ describe('DrizzleProviderRepository', () => {
         id: ProviderId.generate().value,
         vertical: Vertical.GENERAL,
         phones: [],
+        contacts: [],
         externalIds: [],
         images: [],
         signals: [],
@@ -181,14 +229,14 @@ describe('DrizzleProviderRepository', () => {
         metadata: {},
         createdAt: new Date(),
         updatedAt: new Date(),
+        lastScrapedAt: new Date(),
         displayName: null,
-        telegram: null,
         address: null,
         price: null,
       };
 
       const provider = (repository as any).toDomain(row);
-      expect(provider.telegram).toBeUndefined();
+      expect(provider.contacts).toHaveLength(0);
       expect(provider.address).toBeUndefined();
       expect(provider.price).toBeUndefined();
     });

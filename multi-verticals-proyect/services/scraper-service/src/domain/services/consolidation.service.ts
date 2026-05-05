@@ -1,7 +1,11 @@
-import type { Phone, Telegram } from '@allcoba/domain';
+import type { Email, Phone } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
-import type { ScrapedProvider, ScraperSignal } from '../aggregates/scraped-provider.aggregate.js';
+import type {
+  ScrapedProvider,
+  ScraperSignal,
+  SocialContact,
+} from '../aggregates/scraped-provider.aggregate.js';
 import type { ExternalId } from '../value-objects/external-id.vo.js';
 import { ConfidenceScore } from '../value-objects/confidence-score.vo.js';
 
@@ -18,17 +22,21 @@ export interface ConsolidationResult {
 export class ConsolidationService {
   private readonly logger = logger().child({ component: ConsolidationService.name });
 
-  /**
-   * Determines the consolidation action for a raw extraction against existing candidates.
-   * Threshold: ≥0.95 → MERGE, ≥0.6 → FLAG_FOR_REVIEW, otherwise → CREATE.
-   */
-  consolidate(
-    phones: readonly Phone[],
-    telegram: Telegram | undefined,
-    externalId: ExternalId,
-    rawCoordinates: { lat: number; lng: number } | undefined,
-    candidates: readonly ScrapedProvider[],
-  ): ConsolidationResult {
+  consolidate({
+    phones,
+    contacts,
+    email,
+    externalId,
+    coordinates,
+    candidates,
+  }: {
+    phones: readonly Phone[];
+    contacts: readonly SocialContact[];
+    email?: Email;
+    externalId: ExternalId;
+    coordinates?: { lat: number; lng: number };
+    candidates: readonly ScrapedProvider[];
+  }): ConsolidationResult {
     this.logger.debug(
       { sourceKey: externalId.key, candidatesCount: candidates.length },
       'Starting consolidation',
@@ -39,7 +47,7 @@ export class ConsolidationService {
     let maxScore = 0;
 
     for (const candidate of candidates) {
-      const match = this.scoreCandidate(candidate, phones, telegram, externalId, rawCoordinates);
+      const match = this.scoreCandidate({ candidate, phones, contacts, email, externalId, coordinates });
       if (match.score > maxScore) {
         maxScore = match.score;
         bestMatch = candidate;
@@ -61,13 +69,21 @@ export class ConsolidationService {
     return { action: 'CREATE', confidence: ConfidenceScore.high(), signals: [] };
   }
 
-  private scoreCandidate(
-    candidate: ScrapedProvider,
-    phones: readonly Phone[],
-    telegram: Telegram | undefined,
-    externalId: ExternalId,
-    rawCoordinates: { lat: number; lng: number } | undefined,
-  ): { score: number; signals: ScraperSignal[] } {
+  private scoreCandidate({
+    candidate,
+    phones,
+    contacts,
+    email,
+    externalId,
+    coordinates,
+  }: {
+    candidate: ScrapedProvider;
+    phones: readonly Phone[];
+    contacts: readonly SocialContact[];
+    email: Email | undefined;
+    externalId: ExternalId;
+    coordinates: { lat: number; lng: number } | undefined;
+  }): { score: number; signals: ScraperSignal[] } {
     let score = 0;
     const signals: ScraperSignal[] = [];
 
@@ -94,19 +110,31 @@ export class ConsolidationService {
       });
     }
 
-    if (telegram && candidate.hasTelegram(telegram)) {
-      score += 0.8;
+    if (email && candidate.email?.equals(email)) {
+      score += 0.9;
       signals.push({
-        type: 'TELEGRAM_MATCH',
+        type: 'EMAIL_MATCH',
         sourceKey: externalId.key,
-        confidence: 0.8,
-        metadata: { handle: telegram.handle },
+        confidence: 0.9,
+        metadata: { email: email.value },
         createdAt: new Date(),
       });
     }
 
-    if (rawCoordinates && candidate.address?.coordinates) {
-      const dist = this.haversineKm(rawCoordinates, candidate.address.coordinates);
+    const matchedContacts = contacts.filter((c) => candidate.hasContact(c.platform, c.handle));
+    if (matchedContacts.length > 0) {
+      score += 0.8;
+      signals.push({
+        type: 'CONTACT_MATCH',
+        sourceKey: externalId.key,
+        confidence: 0.8,
+        metadata: { contacts: matchedContacts },
+        createdAt: new Date(),
+      });
+    }
+
+    if (coordinates && candidate.address?.coordinates) {
+      const dist = this.haversineKm(coordinates, candidate.address.coordinates);
       if (dist < 0.1) {
         score += 0.3;
         signals.push({

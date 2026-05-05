@@ -1,19 +1,20 @@
 import { Buffer } from 'buffer';
 
 import type { Coordinates } from '@allcoba/domain';
-import { ImageHash, Phone, Price, Telegram } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
-import type { ScrapedImage } from '#domain/aggregates/scraped-provider.aggregate.js';
+import type { ScrapedImage, SocialContact } from '#domain/aggregates/scraped-provider.aggregate.js';
 import type { ConsolidationService } from '#domain/services/consolidation.service.js';
 import {
   ScrapedProvider,
   VerificationStatus,
 } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
 import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
 
@@ -31,7 +32,8 @@ const DEFAULT_CONFIG: ScraperConfig = {
 interface ParsedRaw {
   externalId: ExternalId;
   phones: readonly Phone[];
-  telegram: Telegram | undefined;
+  email: Email | undefined;
+  contacts: readonly SocialContact[];
   price: Price | undefined;
   address: ScrapedAddress | undefined;
   coordinates: Coordinates | undefined;
@@ -96,21 +98,29 @@ export class ScrapeUrlUseCase {
       'Processing images',
     );
 
-    const processedImages = await this.processImages(raw.imageUrls, raw.externalId, raw.source);
+    const processedImages = await this.processImages({
+      imageUrls: raw.imageUrls,
+      externalId: raw.externalId,
+      source: raw.source,
+      vertical: raw.vertical,
+    });
 
     const candidates = await this.repository.find({
+      vertical: raw.vertical,
       phone: parsed.phones[0],
-      telegram: parsed.telegram,
+      email: parsed.email,
+      contact: parsed.contacts[0],
       externalId: parsed.externalId,
     });
 
-    const result = this.consolidationService.consolidate(
-      parsed.phones,
-      parsed.telegram,
-      parsed.externalId,
-      parsed.coordinates,
+    const result = this.consolidationService.consolidate({
+      phones: parsed.phones,
+      contacts: parsed.contacts,
+      email: parsed.email,
+      externalId: parsed.externalId,
+      coordinates: parsed.coordinates,
       candidates,
-    );
+    });
 
     this.logger.info(
       {
@@ -126,7 +136,8 @@ export class ScrapeUrlUseCase {
         const provider = ScrapedProvider.create({
           displayName: raw.name,
           phones: parsed.phones,
-          telegram: parsed.telegram,
+          email: parsed.email,
+          contacts: parsed.contacts,
           address: parsed.address,
           description: raw.description,
           price: parsed.price,
@@ -148,7 +159,8 @@ export class ScrapeUrlUseCase {
         if (result.target) {
           const merged = result.target.merge({
             phones: parsed.phones,
-            telegram: parsed.telegram,
+            email: parsed.email,
+            contacts: parsed.contacts,
             address: parsed.address,
             description: raw.description,
             price: parsed.price,
@@ -192,13 +204,18 @@ export class ScrapeUrlUseCase {
 
     const phones: Phone[] = [];
     for (const p of raw.phones) {
-      const r = Phone.create(p);
+      const r = Phone.create(p, 'ES');
       if (r.success) phones.push(r.value);
       else this.logger.debug({ raw: p }, 'Skipping invalid phone');
     }
 
-    const telegramResult = raw.telegram ? Telegram.create(raw.telegram) : null;
-    const telegram = telegramResult?.success ? telegramResult.value : undefined;
+    const emailResult = raw.email ? Email.create(raw.email) : null;
+    const email = emailResult?.success ? emailResult.value : undefined;
+    if (raw.email && !emailResult?.success) {
+      this.logger.debug({ raw: raw.email }, 'Skipping invalid email');
+    }
+
+    const contacts: SocialContact[] = raw.contacts ?? [];
 
     const priceResult = raw.price != null ? Price.create(raw.price, raw.currency ?? 'EUR') : null;
     const price = priceResult?.success ? priceResult.value : undefined;
@@ -209,18 +226,25 @@ export class ScrapeUrlUseCase {
     return {
       externalId: externalIdResult.value,
       phones,
-      telegram,
+      email,
+      contacts,
       price,
       address,
       coordinates: raw.coordinates,
     };
   }
 
-  private async processImages(
-    imageUrls: string[],
-    externalId: string,
-    source: string,
-  ): Promise<ScrapedImage[]> {
+  private async processImages({
+    imageUrls,
+    externalId,
+    source,
+    vertical,
+  }: {
+    imageUrls: string[];
+    externalId: string;
+    source: string;
+    vertical: Vertical;
+  }): Promise<ScrapedImage[]> {
     const results = await Promise.all(
       imageUrls.slice(0, this.config.maxImagesToProcess).map(async (imgUrl, i) => {
         try {
@@ -234,7 +258,10 @@ export class ScrapeUrlUseCase {
             return null;
           }
 
-          const existing = await this.repository.find({ imageHash: hashResult.value });
+          const existing = await this.repository.find({
+            vertical,
+            imageHash: hashResult.value,
+          });
           if (existing.length > 0) {
             const existingImg = existing[0]!.images.find((img) =>
               img.hash.equals(hashResult.value),

@@ -1,4 +1,4 @@
-import type { ImageHash, Phone, Price, Telegram } from '@allcoba/domain';
+import type { Email, ImageHash, Phone, Price } from '@allcoba/domain';
 import { ProviderId } from '@allcoba/domain';
 
 import type { Vertical } from '../entities/vertical.js';
@@ -13,12 +13,20 @@ export enum VerificationStatus {
   VERIFIED_MANUAL = 'VERIFIED_MANUAL',
 }
 
+export type ContactPlatform = 'TELEGRAM' | 'WHATSAPP' | 'INSTAGRAM' | 'TIKTOK';
+
+export interface SocialContact {
+  platform: ContactPlatform;
+  handle: string;
+}
+
 export type SignalType =
   | 'IMAGE_MATCH'
   | 'TEXT_SIMILARITY'
   | 'PHONE_MATCH'
+  | 'EMAIL_MATCH'
   | 'LOCATION_MATCH'
-  | 'TELEGRAM_MATCH'
+  | 'CONTACT_MATCH'
   | 'EXTERNAL_ID_MATCH';
 
 export interface ScraperSignal {
@@ -40,7 +48,8 @@ export interface CreateScrapedProviderProps {
   id?: ProviderId;
   displayName?: string;
   phones?: readonly Phone[];
-  telegram?: Telegram;
+  email?: Email;
+  contacts?: readonly SocialContact[];
   address?: ScrapedAddress;
   description?: string;
   price?: Price;
@@ -59,7 +68,8 @@ export interface CreateScrapedProviderProps {
 
 export type MergeProps = Partial<{
   phones: readonly Phone[];
-  telegram: Telegram;
+  email: Email;
+  contacts: readonly SocialContact[];
   address: ScrapedAddress;
   description: string;
   price: Price;
@@ -81,7 +91,8 @@ export class ScrapedProvider {
     public readonly id: ProviderId,
     public readonly displayName: string | undefined,
     public readonly phones: readonly Phone[],
-    public readonly telegram: Telegram | undefined,
+    public readonly email: Email | undefined,
+    public readonly contacts: readonly SocialContact[],
     public readonly address: ScrapedAddress | undefined,
     public readonly description: string | undefined,
     public readonly price: Price | undefined,
@@ -104,7 +115,8 @@ export class ScrapedProvider {
       props.id ?? ProviderId.generate(),
       props.displayName,
       props.phones ?? [],
-      props.telegram,
+      props.email,
+      props.contacts ?? [],
       props.address,
       props.description,
       props.price,
@@ -126,8 +138,13 @@ export class ScrapedProvider {
     return this.phones.some((p) => p.equals(phone));
   }
 
-  hasTelegram(telegram: Telegram): boolean {
-    return this.telegram?.equals(telegram) ?? false;
+  hasContact(platform: ContactPlatform, handle: string): boolean {
+    const h = handle.toLowerCase();
+    return this.contacts.some((c) => c.platform === platform && c.handle.toLowerCase() === h);
+  }
+
+  findContact(platform: ContactPlatform): SocialContact | undefined {
+    return this.contacts.find((c) => c.platform === platform);
   }
 
   hasExternalId(externalId: ExternalId): boolean {
@@ -142,18 +159,19 @@ export class ScrapedProvider {
     return this.externalIds.find((e) => e.source === source);
   }
 
-  /**
-   * Returns new instance with merged data.
-   * Existing values always win (scraped data never overwrites user-entered data).
-   * Exception: price is always updated to latest market data.
-   * Collections (phones, images, externalIds, signals) are merged by deduplication.
-   */
   merge(updates: MergeProps): ScrapedProvider {
     const now = new Date();
 
     const mergedPhones = updates.phones
       ? [...this.phones, ...updates.phones.filter((p) => !this.hasPhone(p))]
       : this.phones;
+
+    const mergedContacts = updates.contacts
+      ? [
+          ...this.contacts,
+          ...updates.contacts.filter((c) => !this.hasContact(c.platform, c.handle)),
+        ]
+      : this.contacts;
 
     const mergedImages = updates.images
       ? [...this.images, ...updates.images.filter((img) => !this.hasImageHash(img.hash))]
@@ -167,7 +185,8 @@ export class ScrapedProvider {
       this.id,
       this.displayName,
       mergedPhones,
-      this.telegram ?? updates.telegram,
+      this.email ?? updates.email,
+      mergedContacts,
       this.address ?? updates.address,
       this.description ?? updates.description,
       updates.price ?? this.price,
@@ -179,9 +198,9 @@ export class ScrapedProvider {
       updates.signals ? [...this.signals, ...updates.signals] : this.signals,
       { ...this.attributes, ...updates.attributes },
       { ...this.metadata, ...updates.metadata, lastMergedAt: now.toISOString() },
-      now, // lastScrapedAt
-      this.createdAt, // createdAt
-      now, // updatedAt
+      now,
+      this.createdAt,
+      now,
     );
   }
 }

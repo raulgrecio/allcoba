@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { ImageHash, Phone, Price, ProviderId, Telegram } from '@allcoba/domain';
+import { ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
 
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
 import { Vertical } from '#domain/entities/vertical.js';
@@ -16,11 +16,6 @@ function ph(raw: string): Phone {
   return r.value;
 }
 
-function tg(handle: string): Telegram {
-  const r = Telegram.create(handle);
-  if (!r.success) throw new Error(`Bad telegram: ${handle}`);
-  return r.value;
-}
 
 function eid(source: string, id: string): ExternalId {
   const r = ExternalId.create(source, id);
@@ -47,7 +42,7 @@ function makeProvider(): ScrapedProvider {
     vertical: Vertical.REAL_ESTATE,
     confidenceScore: ConfidenceScore.high(),
     phones: [ph('+34600000000')],
-    telegram: tg('testhandle'),
+    contacts: [{ platform: 'TELEGRAM' as const, handle: 'testhandle' }],
     externalIds: [eid('fotocasa', 'fc123')],
     images: [
       {
@@ -93,10 +88,12 @@ describe('Unit: InMemoryProviderRepository', () => {
     expect(results[0]!.hasPhone(ph('+34600000000'))).toBe(true);
   });
 
-  it('find by telegram returns matching provider', async () => {
+  it('find by contact returns matching provider', async () => {
     await repository.create(makeProvider());
 
-    const results = await repository.find({ telegram: tg('testhandle') });
+    const results = await repository.find({
+      contact: { platform: 'TELEGRAM', handle: 'testhandle' },
+    });
 
     expect(results).toHaveLength(1);
   });

@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 import type { Coordinates } from '@allcoba/domain';
-import { ImageHash, Phone, Price, ProviderId, Telegram } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
 import type {
@@ -10,9 +10,11 @@ import type {
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
 import type {
+  ContactPlatform,
   ScrapedImage,
   ScraperSignal,
   SignalType,
+  SocialContact,
 } from '#domain/aggregates/scraped-provider.aggregate.js';
 import {
   ScrapedProvider,
@@ -28,7 +30,8 @@ interface JsonRecord {
   id: string;
   displayName?: string;
   phones: string[];
-  telegram?: string;
+  email?: string;
+  contacts: { platform: string; handle: string }[];
   address?: { text: string; coordinates?: Coordinates };
   description?: string;
   price?: { amount: number; currency: string };
@@ -83,19 +86,23 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
     await fs.writeFile(this.filePath, JSON.stringify(records, null, 2));
   }
 
-  /** Reconstructs a ScrapedProvider aggregate from its JSON record. */
   private toDomain(r: JsonRecord): ScrapedProvider | null {
     const idResult = ProviderId.create(r.id);
     if (!idResult.success) return null;
 
     const phones: Phone[] = [];
     for (const e164 of r.phones) {
-      const res = Phone.create(e164);
+      const res = Phone.create(e164, 'ES');
       if (res.success) phones.push(res.value);
     }
 
-    const telegramResult = r.telegram ? Telegram.create(r.telegram) : null;
-    const telegram = telegramResult?.success ? telegramResult.value : undefined;
+    const emailResult = r.email ? Email.create(r.email) : null;
+    const email = emailResult?.success ? emailResult.value : undefined;
+
+    const contacts: SocialContact[] = (r.contacts ?? []).map((c) => ({
+      platform: c.platform as ContactPlatform,
+      handle: c.handle,
+    }));
 
     const addressResult = r.address
       ? ScrapedAddress.create(r.address.text, r.address.coordinates)
@@ -140,7 +147,8 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
       id: idResult.value,
       displayName: r.displayName,
       phones,
-      telegram,
+      email,
+      contacts,
       address,
       description: r.description,
       price,
@@ -158,13 +166,13 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
     });
   }
 
-  /** Serializes a ScrapedProvider aggregate to its JSON record using VO.toJSON(). */
   private toRecord(p: ScrapedProvider): JsonRecord {
     return {
       id: p.id.toJSON(),
       displayName: p.displayName,
       phones: p.phones.map((ph) => ph.toJSON()),
-      telegram: p.telegram?.toJSON(),
+      email: p.email?.value,
+      contacts: p.contacts.map((c) => ({ platform: c.platform, handle: c.handle })),
       address: p.address?.toJSON(),
       description: p.description,
       price: p.price?.toJSON(),
@@ -190,7 +198,9 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
     const providers = await this.load();
     return Array.from(providers.values()).filter((p) => {
       if (criteria.phone && p.hasPhone(criteria.phone)) return true;
-      if (criteria.telegram && p.hasTelegram(criteria.telegram)) return true;
+      if (criteria.email && p.email?.equals(criteria.email)) return true;
+      if (criteria.contact && p.hasContact(criteria.contact.platform, criteria.contact.handle))
+        return true;
       if (criteria.externalId && p.hasExternalId(criteria.externalId)) return true;
       if (criteria.imageHash && p.hasImageHash(criteria.imageHash)) return true;
       if (criteria.vertical && p.vertical === criteria.vertical) return true;

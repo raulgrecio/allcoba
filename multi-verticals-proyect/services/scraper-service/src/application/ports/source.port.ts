@@ -1,4 +1,10 @@
+import type { ContactPlatform } from '#domain/aggregates/scraped-provider.aggregate.js';
 import type { Vertical } from '#domain/entities/vertical.js';
+
+export interface RawContact {
+  platform: ContactPlatform;
+  handle: string;
+}
 
 export interface RawExtraction<T = Record<string, any>> {
   source: string;
@@ -7,8 +13,8 @@ export interface RawExtraction<T = Record<string, any>> {
   name?: string;
   description?: string;
   phones: string[];
-  telegram?: string;
   email?: string;
+  contacts?: RawContact[];
   address?: string;
   coordinates?: { lat: number; lng: number };
   imageUrls: string[];

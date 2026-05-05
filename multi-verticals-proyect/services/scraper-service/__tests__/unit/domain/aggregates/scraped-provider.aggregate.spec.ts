@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { ImageHash, Phone, Price, ProviderId, Telegram } from '@allcoba/domain';
+import { ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
 
-import type { ScrapedImage, ScraperSignal } from '#domain/aggregates/scraped-provider.aggregate.js';
+import type {
+  ContactPlatform,
+  ScrapedImage,
+  ScraperSignal,
+  SocialContact,
+} from '#domain/aggregates/scraped-provider.aggregate.js';
 import {
   ScrapedProvider,
   VerificationStatus,
@@ -20,10 +25,8 @@ function ph(raw: string): Phone {
   return r.value;
 }
 
-function tg(handle: string): Telegram {
-  const r = Telegram.create(handle);
-  if (!r.success) throw new Error(`Bad telegram: ${handle}`);
-  return r.value;
+function sc(platform: ContactPlatform, handle: string): SocialContact {
+  return { platform, handle };
 }
 
 function eid(source: string, id: string): ExternalId {
@@ -87,6 +90,7 @@ describe('ScrapedProvider', () => {
     it('defaults to empty collections', () => {
       const p = makeProvider();
       expect(p.phones).toHaveLength(0);
+      expect(p.contacts).toHaveLength(0);
       expect(p.images).toHaveLength(0);
       expect(p.externalIds).toHaveLength(0);
       expect(p.signals).toHaveLength(0);
@@ -107,7 +111,7 @@ describe('ScrapedProvider', () => {
       const p = makeProvider({
         displayName: 'Piso Sol',
         phones: [ph('+34919032747')],
-        telegram: tg('pisolsol'),
+        contacts: [sc('TELEGRAM', 'pisolsol')],
         description: 'Precioso piso',
         price: price(500000),
         externalIds: [eid('fotocasa', 'fc123')],
@@ -118,7 +122,7 @@ describe('ScrapedProvider', () => {
 
       expect(p.displayName).toBe('Piso Sol');
       expect(p.phones).toHaveLength(1);
-      expect(p.telegram?.handle).toBe('pisolsol');
+      expect(p.findContact('TELEGRAM')?.handle).toBe('pisolsol');
       expect(p.description).toBe('Precioso piso');
       expect(p.price?.amount).toBe(500000);
       expect(p.externalIds).toHaveLength(1);
@@ -136,7 +140,6 @@ describe('ScrapedProvider', () => {
 
     it('returns true regardless of input format (VO normalizes)', () => {
       const p = makeProvider({ phones: [ph('+34919032747')] });
-      // Both normalize to same e164 via libphonenumber
       expect(p.hasPhone(ph('919 032 747'))).toBe(true);
     });
 
@@ -151,20 +154,50 @@ describe('ScrapedProvider', () => {
     });
   });
 
-  describe('hasTelegram', () => {
-    it('returns true for matching handle (case-insensitive)', () => {
-      const p = makeProvider({ telegram: tg('PisoSol') });
-      expect(p.hasTelegram(tg('pisosol'))).toBe(true);
+  describe('hasContact', () => {
+    it('returns true for matching platform+handle', () => {
+      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
+      expect(p.hasContact('TELEGRAM', 'pisolsol')).toBe(true);
+    });
+
+    it('matching is case-insensitive', () => {
+      const p = makeProvider({ contacts: [sc('TELEGRAM', 'PisoSol')] });
+      expect(p.hasContact('TELEGRAM', 'pisosol')).toBe(true);
     });
 
     it('returns false for different handle', () => {
-      const p = makeProvider({ telegram: tg('PisoSol') });
-      expect(p.hasTelegram(tg('otrocasa'))).toBe(false);
+      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
+      expect(p.hasContact('TELEGRAM', 'otrocasa')).toBe(false);
     });
 
-    it('returns false when no telegram', () => {
+    it('returns false for same handle but different platform', () => {
+      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
+      expect(p.hasContact('INSTAGRAM', 'pisolsol')).toBe(false);
+    });
+
+    it('returns false when no contacts', () => {
       const p = makeProvider();
-      expect(p.hasTelegram(tg('someone'))).toBe(false);
+      expect(p.hasContact('TELEGRAM', 'someone')).toBe(false);
+    });
+
+    it('matches multiple platforms independently', () => {
+      const p = makeProvider({
+        contacts: [sc('TELEGRAM', 'pisolsol'), sc('INSTAGRAM', 'pisolsol')],
+      });
+      expect(p.hasContact('TELEGRAM', 'pisolsol')).toBe(true);
+      expect(p.hasContact('WHATSAPP', 'pisolsol')).toBe(false);
+    });
+  });
+
+  describe('findContact', () => {
+    it('returns contact for matching platform', () => {
+      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
+      expect(p.findContact('TELEGRAM')?.handle).toBe('pisolsol');
+    });
+
+    it('returns undefined for missing platform', () => {
+      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
+      expect(p.findContact('INSTAGRAM')).toBeUndefined();
     });
   });
 
@@ -193,7 +226,6 @@ describe('ScrapedProvider', () => {
 
     it('normalizes uppercase hex before comparing', () => {
       const p = makeProvider({ images: [img('abcdef0123456789')] });
-      // ImageHash.create normalizes to lowercase — both become same value
       expect(p.hasImageHash(hash('ABCDEF0123456789'))).toBe(true);
     });
 
@@ -224,7 +256,7 @@ describe('ScrapedProvider', () => {
       const merged = original.merge({ phones: [ph('+34611222333')] });
 
       expect(merged).not.toBe(original);
-      expect(original.phones).toHaveLength(1); // unchanged
+      expect(original.phones).toHaveLength(1);
     });
 
     it('preserves id across merge', () => {
@@ -252,21 +284,27 @@ describe('ScrapedProvider', () => {
   describe('merge — existing values win', () => {
     it('existing displayName is never overwritten', () => {
       const original = makeProvider({ displayName: 'Original Name' });
-      // MergeProps has no displayName field — display name is always preserved
       const merged = original.merge({ description: 'new desc' });
       expect(merged.displayName).toBe('Original Name');
     });
 
-    it('existing telegram is kept when incoming has different value', () => {
-      const original = makeProvider({ telegram: tg('original') });
-      const merged = original.merge({ telegram: tg('incoming') });
-      expect(merged.telegram?.handle).toBe('original');
+    it('existing contact is kept when incoming has same platform but different handle', () => {
+      const original = makeProvider({ contacts: [sc('TELEGRAM', 'original')] });
+      const merged = original.merge({ contacts: [sc('TELEGRAM', 'incoming')] });
+      expect(merged.contacts).toHaveLength(2); // both kept — different handles
     });
 
-    it('incoming telegram is used when original has none', () => {
-      const original = makeProvider();
-      const merged = original.merge({ telegram: tg('incoming') });
-      expect(merged.telegram?.handle).toBe('incoming');
+    it('incoming contact fills gap for new platform', () => {
+      const original = makeProvider({ contacts: [sc('TELEGRAM', 'myhandle')] });
+      const merged = original.merge({ contacts: [sc('INSTAGRAM', 'myhandle')] });
+      expect(merged.contacts).toHaveLength(2);
+      expect(merged.findContact('INSTAGRAM')?.handle).toBe('myhandle');
+    });
+
+    it('does not duplicate same platform+handle', () => {
+      const original = makeProvider({ contacts: [sc('TELEGRAM', 'myhandle')] });
+      const merged = original.merge({ contacts: [sc('TELEGRAM', 'myhandle')] });
+      expect(merged.contacts).toHaveLength(1);
     });
 
     it('existing address is kept when incoming provides one', () => {
@@ -353,9 +391,9 @@ describe('ScrapedProvider', () => {
       const original = makeProvider({ images: [img('aaaaaaaaaaaaaaaa')] });
       const merged = original.merge({
         images: [
-          img('aaaaaaaaaaaaaaaa'), // duplicate
-          img('bbbbbbbbbbbbbbbb'), // new
-          img('cccccccccccccccc'), // new
+          img('aaaaaaaaaaaaaaaa'),
+          img('bbbbbbbbbbbbbbbb'),
+          img('cccccccccccccccc'),
         ],
       });
       expect(merged.images).toHaveLength(3);
@@ -379,10 +417,10 @@ describe('ScrapedProvider', () => {
   describe('merge — signals always appended', () => {
     it('appends incoming signals to existing signals', () => {
       const original = makeProvider({ signals: [signal('PHONE_MATCH')] });
-      const merged = original.merge({ signals: [signal('TELEGRAM_MATCH')] });
+      const merged = original.merge({ signals: [signal('CONTACT_MATCH')] });
       expect(merged.signals).toHaveLength(2);
       expect(merged.signals[0]!.type).toBe('PHONE_MATCH');
-      expect(merged.signals[1]!.type).toBe('TELEGRAM_MATCH');
+      expect(merged.signals[1]!.type).toBe('CONTACT_MATCH');
     });
 
     it('keeps existing signals when merge provides none', () => {

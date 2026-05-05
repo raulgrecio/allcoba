@@ -1,27 +1,52 @@
-import { jsonb, pgSchema, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { pgEnum, pgSchema, real, text, timestamp, uuid, jsonb } from 'drizzle-orm/pg-core';
+
+import { VerificationStatus } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
 
 export const scraperSchema = pgSchema('scraper');
 
-export const scrapedProviders = scraperSchema.table('scraped_providers', {
+export const verificationStatusEnum = pgEnum('verification_status', [
+  VerificationStatus.AUTOMATIC_MATCH,
+  VerificationStatus.PENDING_REVIEW,
+  VerificationStatus.REJECTED,
+  VerificationStatus.VERIFIED_MANUAL,
+]);
+
+const providerColumns = {
   id: uuid('id').primaryKey(),
   displayName: text('display_name'),
   phones: jsonb('phones').notNull().default([]),
-  telegram: jsonb('telegram'),
+  email: text('email'),
+  contacts: jsonb('contacts').notNull().default([]),
   address: jsonb('address'),
   description: text('description'),
   price: jsonb('price'),
   images: jsonb('images').notNull().default([]),
   vertical: text('vertical').notNull(),
   externalIds: jsonb('external_ids').notNull().default([]),
-  verificationStatus: text('verification_status').notNull(),
-  confidenceScore: jsonb('confidence_score').notNull(),
+  verificationStatus: verificationStatusEnum('verification_status').notNull(),
+  confidenceScore: real('confidence_score').notNull(),
   signals: jsonb('signals').notNull().default([]),
   attributes: jsonb('attributes').notNull().default({}),
   metadata: jsonb('metadata').notNull().default({}),
   lastScrapedAt: timestamp('last_scraped_at', { withTimezone: true }).notNull().defaultNow(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-});
+};
 
-export type ScrapedProviderRow = typeof scrapedProviders.$inferSelect;
-export type NewScrapedProviderRow = typeof scrapedProviders.$inferInsert;
+export const realEstateProviders = scraperSchema.table('scraped_real_estate', providerColumns);
+export const motorProviders = scraperSchema.table('scraped_motor', providerColumns);
+export const jobsProviders = scraperSchema.table('scraped_jobs', providerColumns);
+export const servicesProviders = scraperSchema.table('scraped_services', providerColumns);
+export const generalProviders = scraperSchema.table('scraped_general', providerColumns);
+
+export const verticalTables = {
+  [Vertical.REAL_ESTATE]: realEstateProviders,
+  [Vertical.MOTOR]: motorProviders,
+  [Vertical.JOBS]: jobsProviders,
+  [Vertical.SERVICES]: servicesProviders,
+  [Vertical.GENERAL]: generalProviders,
+} as const;
+
+export type ScrapedProviderRow = typeof realEstateProviders.$inferSelect;
+export type NewScrapedProviderRow = typeof realEstateProviders.$inferInsert;
