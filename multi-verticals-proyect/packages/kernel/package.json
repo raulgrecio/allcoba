@@ -7,14 +7,17 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "source": "./src/index.ts",
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./logger": {
+      "source": "./src/logger/index.ts",
       "import": "./dist/logger/index.js",
       "types": "./dist/logger/index.d.ts"
     },
     "./queue": {
+      "source": "./src/queue/index.ts",
       "import": "./dist/queue/index.js",
       "types": "./dist/queue/index.d.ts"
     }
