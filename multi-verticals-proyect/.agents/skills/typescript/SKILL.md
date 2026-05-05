@@ -22,6 +22,49 @@ import { User }   from '../domain/user.entity'
 
 ---
 
+## Imports internos del paquete — subpath imports `#`
+
+Para importar módulos internos dentro del mismo servicio/paquete, usar el estándar Node.js `#` (subpath imports). Nunca usar alias `@alias/` ni rutas relativas largas `../../../`:
+
+```typescript
+// ✅ CORRECTO — subpath imports estándar Node.js
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js'
+import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js'
+import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js'
+
+// ❌ INCORRECTO — alias vitest-only, colisiona con scoped packages npm
+import { ScrapedProvider } from '@scraper/domain/aggregates/scraped-provider.aggregate.js'
+
+// ❌ INCORRECTO — rutas relativas largas, frágiles ante reorganizaciones
+import { ScrapedProvider } from '../../../domain/aggregates/scraped-provider.aggregate.js'
+```
+
+Cada servicio/paquete necesita estas dos configuraciones:
+
+```json
+// package.json
+{
+  "imports": {
+    "#*": "./src/*"
+  }
+}
+```
+
+```json
+// tsconfig.json — dentro de compilerOptions
+{
+  "paths": {
+    "#*": ["src/*"]
+  }
+}
+```
+
+No añadir alias en `vitest.config.ts` — Vitest 2.x/Vite 5.x resuelve `#` via `package.json "imports"` de forma nativa.
+
+**Por qué `#` y no `@alias`:** El prefijo `#` está reservado por la spec de Node.js para package self-imports. Ningún paquete npm puede publicarse con `#` — cero colisiones posibles.
+
+---
+
 ## Strictness — sin excepciones
 
 ```json

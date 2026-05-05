@@ -86,6 +86,107 @@ export class User {
 
 ---
 
+## Value Objects (domain/value-objects/)
+
+Encapsulan validación y normalización. Nunca lanzar excepciones — devolver `ValidationResult<T>`.
+
+```typescript
+// domain/value-objects/phone.vo.ts
+
+export class Phone extends ValueObject {
+  private constructor(
+    public readonly e164: string,
+    public readonly countryCode: string,
+  ) { super() }
+
+  static create(raw: string, country: string): ValidationResult<Phone> {
+    const parsed = parsePhoneNumber(raw, country)
+    if (!parsed?.isValid()) {
+      return failOne(`Invalid phone: ${raw}`)
+    }
+    return ok(new Phone(parsed.format('E.164'), country))
+  }
+
+  equals(other: ValueObject): boolean {
+    return other instanceof Phone && this.e164 === other.e164
+  }
+
+  toJSON(): string { return this.e164 }
+}
+```
+
+**Reglas de los Value Objects:**
+- `private constructor` — solo se instancian via `static create()`
+- `create()` devuelve `ValidationResult<T>` — nunca lanza. El caller decide qué hacer con el error.
+- `equals()` compara por valor, no por referencia
+- `toJSON()` devuelve el tipo primitivo serializable para persistencia
+- Son inmutables — ningún setter, ningún método que mute estado
+
+**`ValidationResult<T>`** (definido en `@allcoba/kernel` o `@allcoba/domain`):
+```typescript
+type ValidationResult<T> =
+  | { success: true;  value: T }
+  | { success: false; errors: string[] }
+```
+
+**Dónde vive cada VO:**
+- `packages/domain/src/value-objects/` — VOs compartidos entre servicios (`Phone`, `Email`, `Price`, `ImageHash`, `ProviderId`, `Url`, `Telegram`, `PostalCode`, `Address`)
+- `services/<name>/src/domain/value-objects/` — VOs específicos del servicio que no tienen sentido fuera (`ConfidenceScore`, `ExternalId`, `ScrapedAddress`)
+
+**Enums no necesitan VO.** Un `enum Vertical` o `enum UserRole` ya es tipo seguro — no wrappear en clase.
+
+---
+
+## Aggregate Roots (domain/aggregates/)
+
+Un Aggregate Root es la entidad principal de un bounded context. Controla el acceso a los objetos internos y garantiza la consistencia de invariantes.
+
+```typescript
+// domain/aggregates/scraped-provider.aggregate.ts
+
+export class ScrapedProvider {
+  private constructor(
+    public readonly id: ProviderId,
+    public readonly phones: readonly Phone[],
+    public readonly confidenceScore: ConfidenceScore,
+    // ... resto de props
+  ) {}
+
+  static create(props: CreateScrapedProviderProps): ScrapedProvider {
+    return new ScrapedProvider(
+      props.id,
+      props.phones ?? [],
+      props.confidenceScore ?? ConfidenceScore.low(),
+      // ...
+    )
+  }
+
+  // Métodos de consulta — no mutan estado
+  hasPhone(phone: Phone): boolean {
+    return this.phones.some(p => p.equals(phone))
+  }
+
+  // Merge inmutable — devuelve nueva instancia, nunca muta this
+  merge(updates: MergeProps): ScrapedProvider {
+    return new ScrapedProvider(
+      this.id,
+      deduplicatePhones([...this.phones, ...(updates.phones ?? [])]),
+      updates.confidenceScore ?? this.confidenceScore,
+      // regla: campos existentes ganan (no sobreescribir lo que el usuario puso)
+    )
+  }
+}
+```
+
+**Reglas del Aggregate:**
+- `private constructor` + `static create()` — mismo patrón que VO
+- `merge()` devuelve **nueva instancia** — nunca mutar `this`
+- Las colecciones internas son `readonly` — no exponer arrays mutables
+- Métodos de consulta (`hasPhone`, `findBySource`) viven en el aggregate, no en el adapter
+- El adapter nunca accede a las props internas del aggregate para filtrar — usa los métodos del aggregate
+
+---
+
 ## Ports (interfaces en application/)
 
 Los Ports definen QUÉ necesita el use case, sin saber CÓMO se implementa:
