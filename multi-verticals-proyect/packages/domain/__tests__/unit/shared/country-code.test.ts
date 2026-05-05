@@ -7,8 +7,9 @@ describe('SUPPORTED_COUNTRIES', () => {
     expect(SUPPORTED_COUNTRIES).toContain('ES');
   });
 
-  it('contains PT', () => {
-    expect(SUPPORTED_COUNTRIES).toContain('PT');
+  it('does not contain unsupported countries', () => {
+    expect(SUPPORTED_COUNTRIES).not.toContain('PT');
+    expect(SUPPORTED_COUNTRIES).not.toContain('FR');
   });
 });
 
@@ -17,11 +18,11 @@ describe('isSupportedCountry', () => {
     expect(isSupportedCountry('ES')).toBe(true);
   });
 
-  it('returns true for PT', () => {
-    expect(isSupportedCountry('PT')).toBe(true);
+  it('returns false for PT', () => {
+    expect(isSupportedCountry('PT')).toBe(false);
   });
 
-  it('returns false for unsupported country', () => {
+  it('returns false for other countries', () => {
     expect(isSupportedCountry('FR')).toBe(false);
   });
 

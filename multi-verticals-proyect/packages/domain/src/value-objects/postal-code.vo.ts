@@ -5,7 +5,6 @@ import { ValueObject } from './value-object.base.js';
 
 const RULES: Record<CountryCode, RegExp> = {
   ES: /^\d{5}$/,
-  PT: /^\d{4}-\d{3}$/,
 };
 
 export class PostalCode extends ValueObject {

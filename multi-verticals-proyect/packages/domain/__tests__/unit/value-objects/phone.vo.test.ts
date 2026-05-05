@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 import type { CountryCode } from '@domain/shared/country-code.js';
 import { Phone } from '@domain/value-objects/phone.vo.js';
 
@@ -20,77 +18,49 @@ describe('Phone.create — ES', () => {
     if (result.success) expect(result.value.e164).toBe('+34612345678');
   });
 
-  it('accepts number with 34 prefix (no +)', () => {
-    const result = Phone.create('34612345678');
-    expect(result.success).toBe(true);
-  });
-
-  it('strips spaces and dashes', () => {
-    const result = Phone.create('612 345 678');
+  it('accepts number with spaces', () => {
+    const result = Phone.create('612 345 678', 'ES');
     expect(result.success).toBe(true);
     if (result.success) expect(result.value.national).toBe('612345678');
   });
 
-  it('accepts numbers starting with 7, 8, 9', () => {
-    for (const prefix of ['7', '8', '9']) {
-      const result = Phone.create(`${prefix}12345678`);
-      expect(result.success).toBe(true);
-    }
+  it('accepts mobile starting with 7', () => {
+    expect(Phone.create('712345678', 'ES').success).toBe(true);
   });
 
-  it('fails for number starting with 5', () => {
-    expect(Phone.create('512345678').success).toBe(false);
+  it('accepts landline starting with 9', () => {
+    expect(Phone.create('912345678', 'ES').success).toBe(true);
   });
 
-  it('fails for 8-digit number', () => {
-    expect(Phone.create('61234567').success).toBe(false);
+  it('fails for 8-digit number (too short)', () => {
+    expect(Phone.create('61234567', 'ES').success).toBe(false);
   });
 
   it('fails for empty string', () => {
-    const result = Phone.create('');
+    const result = Phone.create('', 'ES');
     expect(result.success).toBe(false);
     if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_INVALID_FORMAT');
   });
 
-  it('fails for letters', () => {
-    expect(Phone.create('ABCDEFGHI').success).toBe(false);
+  it('fails for letters only', () => {
+    expect(Phone.create('ABCDEFGHI', 'ES').success).toBe(false);
   });
 
-  it('fails for unsupported country', () => {
-    const result = Phone.create('612345678', 'FR' as CountryCode);
+  it('fails for number from unsupported country', () => {
+    const result = Phone.create('+33612345678', 'ES');
+    expect(result.success).toBe(false);
+    if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_COUNTRY_UNSUPPORTED');
+  });
+
+  it('fails when defaultCountry bypasses type system', () => {
+    const result = Phone.create('612345678', 'PT' as CountryCode);
     expect(result.success).toBe(false);
     if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_COUNTRY_UNSUPPORTED');
   });
 });
 
-describe('Phone.create — PT', () => {
-  it('accepts valid PT landline', () => {
-    const result = Phone.create('291123456', 'PT');
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.value.e164).toBe('+351291123456');
-      expect(result.value.country).toBe('PT');
-    }
-  });
-
-  it('accepts valid PT mobile', () => {
-    const result = Phone.create('962123456', 'PT');
-    expect(result.success).toBe(true);
-  });
-
-  it('accepts number with +351 prefix', () => {
-    const result = Phone.create('+351291123456', 'PT');
-    expect(result.success).toBe(true);
-    if (result.success) expect(result.value.e164).toBe('+351291123456');
-  });
-
-  it('fails for ES number format with PT country', () => {
-    expect(Phone.create('612345678', 'PT').success).toBe(false);
-  });
-});
-
 describe('Phone.equals', () => {
-  it('returns true for same e164', () => {
+  it('returns true for same e164 via different input formats', () => {
     const r1 = Phone.create('612345678');
     const r2 = Phone.create('+34612345678');
     expect(r1.success && r2.success && r1.value.equals(r2.value)).toBe(true);

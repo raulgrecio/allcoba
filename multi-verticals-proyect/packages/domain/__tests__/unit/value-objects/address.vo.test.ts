@@ -9,12 +9,6 @@ const VALID_ES = {
   country: 'ES' as const,
 };
 
-const VALID_PT = {
-  street: 'Rua Augusta 10',
-  city: 'Lisboa',
-  postalCode: '1100-048',
-  country: 'PT' as const,
-};
 
 describe('Address.create', () => {
   it('creates valid ES address', () => {
@@ -26,12 +20,6 @@ describe('Address.create', () => {
       expect(result.value.postalCode.value).toBe('28001');
       expect(result.value.country).toBe('ES');
     }
-  });
-
-  it('creates valid PT address', () => {
-    const result = Address.create(VALID_PT);
-    expect(result.success).toBe(true);
-    if (result.success) expect(result.value.country).toBe('PT');
   });
 
   it('accepts optional coordinates', () => {
