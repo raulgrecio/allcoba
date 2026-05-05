@@ -1,201 +1,136 @@
+import type { Phone, Telegram } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
-import type { RawExtraction } from '../../application/ports/source.port.js';
-import { VerificationStatus, type Provider, type ScraperSignal } from '../entities/provider.js';
+import type { ScrapedProvider, ScraperSignal } from '../aggregates/scraped-provider.aggregate.js';
+import type { ExternalId } from '../value-objects/external-id.vo.js';
+import { ConfidenceScore } from '../value-objects/confidence-score.vo.js';
 
 export type ConsolidationAction = 'CREATE' | 'MERGE' | 'FLAG_FOR_REVIEW' | 'IGNORE';
 
 export interface ConsolidationResult {
   action: ConsolidationAction;
-  targetProviderId?: string;
-  confidenceScore: number;
-  newSignals: ScraperSignal[];
-  mergedData: Partial<Provider>;
+  /** Existing provider to update. Defined when action is MERGE or FLAG_FOR_REVIEW. */
+  target?: ScrapedProvider;
+  confidence: ConfidenceScore;
+  signals: readonly ScraperSignal[];
 }
 
 export class ConsolidationService {
   private readonly logger = logger().child({ component: ConsolidationService.name });
+
   /**
-   * Analiza una extracción cruda contra los candidatos existentes para decidir qué acción tomar.
+   * Determines the consolidation action for a raw extraction against existing candidates.
+   * Threshold: ≥0.95 → MERGE, ≥0.6 → FLAG_FOR_REVIEW, otherwise → CREATE.
    */
-  consolidate(raw: RawExtraction, candidates: Provider[]): ConsolidationResult {
+  consolidate(
+    phones: readonly Phone[],
+    telegram: Telegram | undefined,
+    externalId: ExternalId,
+    rawCoordinates: { lat: number; lng: number } | undefined,
+    candidates: readonly ScrapedProvider[],
+  ): ConsolidationResult {
     this.logger.debug(
-      { source: raw.source, externalId: raw.externalId, candidatesCount: candidates.length },
-      'Iniciando consolidación',
+      { sourceKey: externalId.key, candidatesCount: candidates.length },
+      'Starting consolidation',
     );
+
     const signals: ScraperSignal[] = [];
-    let bestMatch: Provider | null = null;
-    let maxConfidence = 0;
+    let bestMatch: ScrapedProvider | undefined;
+    let maxScore = 0;
 
     for (const candidate of candidates) {
-      const matchDetails = this.calculateMatch(raw, candidate);
-
-      if (matchDetails.confidence > maxConfidence) {
-        maxConfidence = matchDetails.confidence;
+      const match = this.scoreCandidate(candidate, phones, telegram, externalId, rawCoordinates);
+      if (match.score > maxScore) {
+        maxScore = match.score;
         bestMatch = candidate;
-        signals.push(...matchDetails.signals);
+        signals.length = 0;
+        signals.push(...match.signals);
       }
     }
 
-    // 1. Coincidencia muy alta -> Fusionar automáticamente
-    if (bestMatch && maxConfidence >= 0.95) {
-      return {
-        action: 'MERGE',
-        targetProviderId: bestMatch.id,
-        confidenceScore: maxConfidence,
-        newSignals: signals,
-        mergedData: this.mergeData(bestMatch, raw),
-      };
-    }
+    const clampedScore = Math.min(maxScore, 1.0);
+    const confidenceResult = ConfidenceScore.create(clampedScore);
+    const confidence = confidenceResult.success ? confidenceResult.value : ConfidenceScore.low();
 
-    // 2. Coincidencia media -> Marcar para revisión (Posible Fusión o Fraude)
-    if (bestMatch && maxConfidence >= 0.6) {
-      return {
-        action: 'FLAG_FOR_REVIEW',
-        targetProviderId: bestMatch.id,
-        confidenceScore: maxConfidence,
-        newSignals: signals,
-        mergedData: this.mergeData(bestMatch, raw),
-      };
+    if (bestMatch && clampedScore >= 0.95) {
+      return { action: 'MERGE', target: bestMatch, confidence, signals };
     }
-
-    // 3. Sin coincidencias claras -> Crear nuevo
-    return {
-      action: 'CREATE',
-      confidenceScore: 1.0,
-      newSignals: signals,
-      mergedData: this.mapToProvider(raw),
-    };
+    if (bestMatch && clampedScore >= 0.6) {
+      return { action: 'FLAG_FOR_REVIEW', target: bestMatch, confidence, signals };
+    }
+    return { action: 'CREATE', confidence: ConfidenceScore.high(), signals: [] };
   }
 
-  private calculateMatch(
-    raw: RawExtraction,
-    candidate: Provider,
-  ): { confidence: number; signals: ScraperSignal[] } {
+  private scoreCandidate(
+    candidate: ScrapedProvider,
+    phones: readonly Phone[],
+    telegram: Telegram | undefined,
+    externalId: ExternalId,
+    rawCoordinates: { lat: number; lng: number } | undefined,
+  ): { score: number; signals: ScraperSignal[] } {
     let score = 0;
     const signals: ScraperSignal[] = [];
 
-    // Match por teléfono
-    const commonPhones = raw.phones.filter((p) => candidate.phones.includes(p));
-    if (commonPhones.length > 0) {
-      score += 0.9;
-      signals.push({
-        type: 'PHONE_MATCH',
-        sourceId: raw.externalId,
-        confidence: 0.9,
-        metadata: { commonPhones },
-        createdAt: new Date(),
-      });
-    }
-
-    // Match por Telegram
-    if (raw.telegram && raw.telegram === candidate.telegram) {
-      score += 0.8;
-      signals.push({
-        type: 'TELEGRAM_MATCH',
-        sourceId: raw.externalId,
-        confidence: 0.8,
-        metadata: { telegram: raw.telegram },
-        createdAt: new Date(),
-      });
-    }
-
-    // Match por ubicación (si están muy cerca)
-    if (raw.coordinates && candidate.address?.coordinates) {
-      const distance = this.calculateDistance(raw.coordinates, candidate.address.coordinates);
-      if (distance < 0.1) {
-        // Menos de 100 metros
-        score += 0.3;
-        const signal: ScraperSignal = {
-          type: 'LOCATION_MATCH',
-          sourceId: raw.externalId,
-          confidence: 0.3,
-          metadata: { distanceKm: distance },
-          createdAt: new Date(),
-        };
-        signals.push(signal);
-        this.logger.debug({ distanceKm: distance }, 'Señal LOCATION_MATCH detectada');
-      }
-    }
-
-    // Match por externalId (¡El más fuerte!)
-    const source = raw.source;
-    if (candidate.externalIds[source] === raw.externalId) {
+    if (candidate.hasExternalId(externalId)) {
       score += 1.0;
       signals.push({
         type: 'EXTERNAL_ID_MATCH',
-        sourceId: raw.externalId,
+        sourceKey: externalId.key,
         confidence: 1.0,
-        metadata: { source, externalId: raw.externalId },
+        metadata: {},
         createdAt: new Date(),
       });
     }
 
-    return {
-      confidence: Math.min(score, 1.0),
-      signals,
-    };
+    const matchedPhones = phones.filter((p) => candidate.hasPhone(p));
+    if (matchedPhones.length > 0) {
+      score += 0.9;
+      signals.push({
+        type: 'PHONE_MATCH',
+        sourceKey: externalId.key,
+        confidence: 0.9,
+        metadata: { phones: matchedPhones.map((p) => p.e164) },
+        createdAt: new Date(),
+      });
+    }
+
+    if (telegram && candidate.hasTelegram(telegram)) {
+      score += 0.8;
+      signals.push({
+        type: 'TELEGRAM_MATCH',
+        sourceKey: externalId.key,
+        confidence: 0.8,
+        metadata: { handle: telegram.handle },
+        createdAt: new Date(),
+      });
+    }
+
+    if (rawCoordinates && candidate.address?.coordinates) {
+      const dist = this.haversineKm(rawCoordinates, candidate.address.coordinates);
+      if (dist < 0.1) {
+        score += 0.3;
+        signals.push({
+          type: 'LOCATION_MATCH',
+          sourceKey: externalId.key,
+          confidence: 0.3,
+          metadata: { distanceKm: dist },
+          createdAt: new Date(),
+        });
+      }
+    }
+
+    return { score, signals };
   }
 
-  private mergeData(existing: Provider, raw: RawExtraction): Partial<Provider> {
-    // Los datos manuales del usuario (si existieran) deberían tener prioridad.
-    // Aquí asumimos que estamos mergeando datos de scraper.
-    return {
-      phones: Array.from(new Set([...existing.phones, ...raw.phones])),
-      telegram: existing.telegram || raw.telegram,
-      email: existing.email || raw.email,
-      price: raw.price || existing.price,
-      description: existing.description || raw.description,
-      images: this.deduplicateImages(existing.images, (raw as any).processedImages || []),
-      attributes: { ...existing.attributes, ...raw.attributes },
-      metadata: { ...existing.metadata, ...raw.metadata, lastMergedAt: new Date() },
-    };
-  }
-
-  private deduplicateImages(existing: any[], incoming: any[]): any[] {
-    const combined = [...existing, ...incoming];
-    const seen = new Set();
-    return combined.filter((img) => {
-      if (!img.hash) return true; // Si no tiene hash (raro), lo dejamos
-      if (seen.has(img.hash)) return false;
-      seen.add(img.hash);
-      return true;
-    });
-  }
-
-  private mapToProvider(raw: RawExtraction): Partial<Provider> {
-    return {
-      displayName: raw.name,
-      phones: raw.phones,
-      telegram: raw.telegram,
-      email: raw.email,
-      price: raw.price,
-      address: raw.address ? { text: raw.address, coordinates: raw.coordinates } : undefined,
-      description: raw.description,
-      images: (raw as any).processedImages || [],
-      vertical: raw.vertical,
-      externalIds: { [raw.source]: raw.externalId },
-      verificationStatus: VerificationStatus.PENDING_REVIEW,
-      confidenceScore: 1.0,
-      attributes: raw.attributes,
-      metadata: raw.metadata || {},
-    };
-  }
-
-  private calculateDistance(
-    p1: { lat: number; lng: number },
-    p2: { lat: number; lng: number },
-  ): number {
-    const R = 6371; // Radio de la Tierra en km
+  private haversineKm(p1: { lat: number; lng: number }, p2: { lat: number; lng: number }): number {
+    const R = 6371;
     const dLat = ((p2.lat - p1.lat) * Math.PI) / 180;
     const dLon = ((p2.lng - p1.lng) * Math.PI) / 180;
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLat / 2) ** 2 +
       Math.cos((p1.lat * Math.PI) / 180) *
         Math.cos((p2.lat * Math.PI) / 180) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
+        Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 }

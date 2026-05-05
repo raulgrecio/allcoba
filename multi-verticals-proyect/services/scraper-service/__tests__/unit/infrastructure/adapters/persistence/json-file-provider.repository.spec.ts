@@ -1,65 +1,110 @@
 import fs from 'fs/promises';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { type Provider } from '@scraper/domain/entities/provider.js';
+import { ProviderId } from '@allcoba/domain';
+import { ScrapedProvider } from '@scraper/domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '@scraper/domain/entities/vertical.js';
+import { ConfidenceScore } from '@scraper/domain/value-objects/confidence-score.vo.js';
 import { JsonFileProviderRepository } from '@scraper/infrastructure/adapters/persistence/json-file-provider.repository.js';
 
 vi.mock('fs/promises');
 
+const TEST_UUID = '00000000-0000-4000-8000-000000000001';
+
+function makeProviderId(): ProviderId {
+  const r = ProviderId.create(TEST_UUID);
+  if (!r.success) throw new Error('Invalid UUID in test');
+  return r.value;
+}
+
+function makeProvider(): ScrapedProvider {
+  return ScrapedProvider.create({
+    id: makeProviderId(),
+    displayName: 'JSON Provider',
+    vertical: Vertical.REAL_ESTATE,
+    confidenceScore: ConfidenceScore.low(),
+  });
+}
+
+/** Returns a valid JsonRecord shape as stored on disk. */
+function makeJsonRecord(id = TEST_UUID) {
+  return {
+    id,
+    displayName: 'JSON Provider',
+    phones: [],
+    images: [],
+    externalIds: [],
+    vertical: 'REAL_ESTATE',
+    verificationStatus: 'PENDING_REVIEW',
+    confidenceScore: 0.5,
+    signals: [],
+    attributes: {},
+    metadata: {},
+    lastScrapedAt: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
 describe('Unit: JsonFileProviderRepository', () => {
   let repository: JsonFileProviderRepository;
-  const fileName = 'test-providers.json';
 
   beforeEach(() => {
     vi.resetAllMocks();
-    repository = new JsonFileProviderRepository({ fileName });
+    vi.mocked(fs.mkdir).mockResolvedValue(undefined);
+    repository = new JsonFileProviderRepository({ fileName: 'test-providers.json' });
   });
 
-  const mockProvider: Provider = {
-    id: 'uuid-1',
-    displayName: 'JSON Provider',
-    price: 1000,
-    phones: ['+34600000000'],
-    externalIds: { fotocasa: 'fc123' },
-    images: [{ hash: 'h1', url: 'img.jpg', originalUrl: 'http://img.jpg' }],
-    vertical: 'real-estate' as any,
-    verificationStatus: 'unverified' as any,
-    signals: [],
-    confidenceScore: 1,
-    lastScrapedAt: new Date(),
-    metadata: {} as any,
-    attributes: {} as any,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-
-  it('debería manejar errores de lectura retornando mapa vacío', async () => {
+  it('returns null when file read fails', async () => {
     vi.mocked(fs.readFile).mockRejectedValue(new Error('File not found'));
-    const found = await repository.findById('any');
+
+    const found = await repository.findById(makeProviderId());
     expect(found).toBeNull();
   });
 
-  it('debería guardar y cargar proveedores desde archivo', async () => {
-    // Simular que el archivo tiene un proveedor
-    const mockFileContent = JSON.stringify([mockProvider]);
-    vi.mocked(fs.readFile).mockResolvedValue(mockFileContent);
+  it('deserializes ScrapedProvider aggregate from JSON', async () => {
+    vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify([makeJsonRecord()]));
 
-    const found = await repository.findById('uuid-1');
+    const found = await repository.findById(makeProviderId());
 
-    expect(found).toBeDefined();
+    expect(found).not.toBeNull();
     expect(found?.displayName).toBe('JSON Provider');
+    expect(found?.vertical).toBe(Vertical.REAL_ESTATE);
+    expect(found?.confidenceScore.value).toBe(0.5);
   });
 
-  it('debería persistir cambios al crear un proveedor', async () => {
+  it('serializes ScrapedProvider aggregate to JSON on create', async () => {
     vi.mocked(fs.readFile).mockResolvedValue('[]');
     vi.mocked(fs.writeFile).mockResolvedValue();
 
-    await repository.create(mockProvider);
+    const provider = makeProvider();
+    await repository.create(provider);
 
     expect(fs.writeFile).toHaveBeenCalled();
-    const callArgs = vi.mocked(fs.writeFile).mock.calls[0];
-    const savedData = JSON.parse(callArgs![1] as string);
-    expect(savedData).toHaveLength(1);
-    expect(savedData[0].id).toBe('uuid-1');
+    const [, content] = vi.mocked(fs.writeFile).mock.calls[0]!;
+    const saved = JSON.parse(content as string);
+
+    expect(saved).toHaveLength(1);
+    expect(saved[0].id).toBe(TEST_UUID);
+    expect(saved[0].displayName).toBe('JSON Provider');
+    expect(saved[0].vertical).toBe('REAL_ESTATE');
+    expect(saved[0].confidenceScore).toBe(0.5);
+  });
+
+  it('round-trips: create then findById returns same aggregate', async () => {
+    // Simulate load() returning empty then the written content
+    let stored = '[]';
+    vi.mocked(fs.readFile).mockImplementation(async () => stored);
+    vi.mocked(fs.writeFile).mockImplementation(async (_path, content) => {
+      stored = content as string;
+    });
+
+    const provider = makeProvider();
+    await repository.create(provider);
+
+    const found = await repository.findById(makeProviderId());
+    expect(found).not.toBeNull();
+    expect(found?.id.value).toBe(TEST_UUID);
+    expect(found?.displayName).toBe('JSON Provider');
   });
 });

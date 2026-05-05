@@ -1,15 +1,21 @@
 import { Buffer } from 'buffer';
-import crypto from 'crypto';
 
+import type { Coordinates } from '@allcoba/domain';
+import { ImageHash, Phone, Price, Telegram } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
-import { VerificationStatus, type Provider } from '../../domain/entities/provider.js';
-import { Vertical } from '../../domain/entities/vertical.js';
-import { ConsolidationService } from '../../domain/services/consolidation.service.js';
+import type { ScrapedImage } from '../../domain/aggregates/scraped-provider.aggregate.js';
+import type { ConsolidationService } from '../../domain/services/consolidation.service.js';
 import type { ImageHasherPort } from '../ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '../ports/repository.port.js';
-import type { SourcePort } from '../ports/source.port.js';
+import type { RawExtraction, SourcePort } from '../ports/source.port.js';
 import type { StoragePort } from '../ports/storage.port.js';
+import {
+  ScrapedProvider,
+  VerificationStatus,
+} from '../../domain/aggregates/scraped-provider.aggregate.js';
+import { ExternalId } from '../../domain/value-objects/external-id.vo.js';
+import { ScrapedAddress } from '../../domain/value-objects/scraped-address.vo.js';
 
 export interface ScraperConfig {
   maxImagesToProcess: number;
@@ -21,6 +27,15 @@ const DEFAULT_CONFIG: ScraperConfig = {
   maxImagesToProcess: 5,
   saveRawHtml: true,
 };
+
+interface ParsedRaw {
+  externalId: ExternalId;
+  phones: readonly Phone[];
+  telegram: Telegram | undefined;
+  price: Price | undefined;
+  address: ScrapedAddress | undefined;
+  coordinates: Coordinates | undefined;
+}
 
 export class ScrapeUrlUseCase {
   private readonly logger = logger().child({ component: ScrapeUrlUseCase.name });
@@ -35,188 +50,219 @@ export class ScrapeUrlUseCase {
   ) {}
 
   async execute(url: string): Promise<void> {
-    // 1. Encontrar adaptador de fuente
     const source = this.sources.find((s) => s.canHandle(url));
-    if (!source) {
-      throw new Error(`No se encontró un adaptador para la URL: ${url}`);
-    }
+    if (!source) throw new Error(`No adapter for: ${url}`);
 
-    // 2. Verificar robots.txt
-    const isAllowed = await source.isAllowed(url);
-    if (!isAllowed) {
-      throw new Error(`El acceso a la URL está restringido por robots.txt: ${url}`);
-    }
+    if (!(await source.isAllowed(url))) throw new Error(`robots.txt blocks: ${url}`);
 
-    // 3. Extraer datos crudos (Con soporte para instantáneas de depuración)
     const { data: raw, html } = await source.extract(url, {
       headless: this.config.headless,
       onSnapshot: async (snapshotHtml, stage) => {
-        if (this.config.saveRawHtml) {
-          const sanitizedId =
-            url
-              .split('/')
-              .filter(Boolean)
-              .pop()
-              ?.replace(/[^a-z0-9]/gi, '_') || 'unknown';
-          const fileName = `debug_${stage}_${source.identifier}_${sanitizedId}.html`;
-          await this.storage.upload(Buffer.from(snapshotHtml), `raw/${fileName}`, 'text/html');
-          this.logger.debug({ stage, fileName }, 'Instantánea de depuración guardada');
-        }
+        if (!this.config.saveRawHtml) return;
+        const slug =
+          url
+            .split('/')
+            .filter(Boolean)
+            .pop()
+            ?.replace(/[^a-z0-9]/gi, '_') ?? 'unknown';
+        await this.storage.upload(
+          Buffer.from(snapshotHtml),
+          `raw/debug_${stage}_${source.identifier}_${slug}.html`,
+          'text/html',
+        );
       },
     });
 
-    // 3.5. Persistir HTML crudo para análisis (Debug) si está activado
     if (this.config.saveRawHtml) {
-      try {
-        const sanitizedId = raw.externalId.replace(/[^a-z0-9]/gi, '_');
-        const fileName = `${raw.source}_${sanitizedId}.html`;
-        await this.storage.upload(Buffer.from(html), `raw/${fileName}`, 'text/html');
-
-        // Guardamos solo el nombre del archivo en los metadatos para la BBDD
-        raw.metadata.debugFile = fileName;
-        this.logger.info({ fileName }, 'HTML crudo persistido para análisis');
-      } catch (e) {
-        this.logger.warn('No se pudo persistir el HTML de debug');
-      }
+      const slug = raw.externalId.replace(/[^a-z0-9]/gi, '_');
+      await this.storage
+        .upload(Buffer.from(html), `raw/${raw.source}_${slug}.html`, 'text/html')
+        .then(
+          () => {
+            raw.metadata.debugFile = `${raw.source}_${slug}.html`;
+          },
+          () => {
+            this.logger.warn('Could not persist debug HTML');
+          },
+        );
     }
+
+    // Convert raw strings → validated VOs. Invalid externalId → skip whole extraction.
+    const parsed = this.parseRaw(raw);
+    if (!parsed) return;
+
+    this.logger.info(
+      { imageUrlsCount: raw.imageUrls.length, source: raw.source, key: parsed.externalId.key },
+      'Processing images',
+    );
+
+    const processedImages = await this.processImages(raw.imageUrls, raw.externalId, raw.source);
+
+    const candidates = await this.repository.find({
+      phone: parsed.phones[0],
+      telegram: parsed.telegram,
+      externalId: parsed.externalId,
+    });
+
+    const result = this.consolidationService.consolidate(
+      parsed.phones,
+      parsed.telegram,
+      parsed.externalId,
+      parsed.coordinates,
+      candidates,
+    );
 
     this.logger.info(
       {
-        imageUrlsCount: raw.imageUrls.length,
-        source: raw.source,
-        externalId: raw.externalId,
+        action: result.action,
+        confidence: result.confidence.value,
+        signals: result.signals.map((s) => s.type),
       },
-      'Iniciando procesamiento de imágenes...',
+      'Consolidation result',
     );
 
-    // 3.5. Procesar imágenes: Hash + Almacenamiento
-    const processedImages = await Promise.all(
-      raw.imageUrls.slice(0, this.config.maxImagesToProcess).map(async (imgUrl, i) => {
+    switch (result.action) {
+      case 'CREATE': {
+        const provider = ScrapedProvider.create({
+          displayName: raw.name,
+          phones: parsed.phones,
+          telegram: parsed.telegram,
+          address: parsed.address,
+          description: raw.description,
+          price: parsed.price,
+          images: processedImages,
+          vertical: raw.vertical,
+          externalIds: [parsed.externalId],
+          confidenceScore: result.confidence,
+          signals: [...result.signals],
+          attributes: raw.attributes as Record<string, unknown>,
+          metadata: raw.metadata as Record<string, unknown>,
+        });
+        await this.repository.create(provider);
+        this.logger.info({ id: provider.id.value }, 'Provider created');
+        break;
+      }
+
+      case 'MERGE':
+      case 'FLAG_FOR_REVIEW': {
+        if (result.target) {
+          const merged = result.target.merge({
+            phones: parsed.phones,
+            telegram: parsed.telegram,
+            address: parsed.address,
+            description: raw.description,
+            price: parsed.price,
+            images: processedImages,
+            externalIds: [parsed.externalId],
+            confidenceScore: result.confidence,
+            verificationStatus:
+              result.action === 'FLAG_FOR_REVIEW'
+                ? VerificationStatus.PENDING_REVIEW
+                : result.target.verificationStatus,
+            signals: [...result.signals],
+            attributes: raw.attributes as Record<string, unknown>,
+            metadata: raw.metadata as Record<string, unknown>,
+          });
+          await this.repository.update(merged.id, merged);
+          this.logger.info({ id: merged.id.value, action: result.action }, 'Provider updated');
+        }
+        break;
+      }
+
+      case 'IGNORE':
+        this.logger.info('Extraction ignored');
+        break;
+    }
+  }
+
+  /**
+   * Converts raw primitives from the source adapter into validated domain VOs.
+   * Invalid phones and telegrams are skipped with a debug log.
+   * Returns null only when the externalId itself is invalid (critical — skip extraction).
+   */
+  private parseRaw(raw: RawExtraction): ParsedRaw | null {
+    const externalIdResult = ExternalId.create(raw.source, raw.externalId);
+    if (!externalIdResult.success) {
+      this.logger.warn(
+        { source: raw.source, externalId: raw.externalId },
+        'Invalid externalId, skipping extraction',
+      );
+      return null;
+    }
+
+    const phones: Phone[] = [];
+    for (const p of raw.phones) {
+      const r = Phone.create(p);
+      if (r.success) phones.push(r.value);
+      else this.logger.debug({ raw: p }, 'Skipping invalid phone');
+    }
+
+    const telegramResult = raw.telegram ? Telegram.create(raw.telegram) : null;
+    const telegram = telegramResult?.success ? telegramResult.value : undefined;
+
+    const priceResult = raw.price != null ? Price.create(raw.price, raw.currency ?? 'EUR') : null;
+    const price = priceResult?.success ? priceResult.value : undefined;
+
+    const addressResult = raw.address ? ScrapedAddress.create(raw.address, raw.coordinates) : null;
+    const address = addressResult?.success ? addressResult.value : undefined;
+
+    return {
+      externalId: externalIdResult.value,
+      phones,
+      telegram,
+      price,
+      address,
+      coordinates: raw.coordinates,
+    };
+  }
+
+  private async processImages(
+    imageUrls: string[],
+    externalId: string,
+    source: string,
+  ): Promise<ScrapedImage[]> {
+    const results = await Promise.all(
+      imageUrls.slice(0, this.config.maxImagesToProcess).map(async (imgUrl, i) => {
         try {
-          // 1. Descargar (Necesario para el Hash)
           const response = await fetch(imgUrl);
-          const buffer = await response.arrayBuffer();
-          const nodeBuffer = Buffer.from(buffer);
+          const buffer = Buffer.from(await response.arrayBuffer());
 
-          // 2. Generar Hash
-          const hash = await this.imageHasher.generateHash(nodeBuffer);
-
-          // 3. ¿Ya tenemos este hash?
-          const existingProviders = await this.repository.find({ imageHash: hash });
-          if (existingProviders.length > 0) {
-            const existingProvider = existingProviders[0]!;
-            const existingImg = existingProvider.images.find((img) => img.hash === hash);
-            const existingUrl = existingImg?.url || existingProvider.images[0]?.url;
-
-            this.logger.info(
-              { hash },
-              'pHash detectado en otro proveedor, reutilizando imagen existente',
-            );
-            return { hash, storedUrl: existingUrl!, originalUrl: imgUrl };
+          const rawHash = await this.imageHasher.generateHash(buffer);
+          const hashResult = ImageHash.create(rawHash);
+          if (!hashResult.success) {
+            this.logger.warn({ rawHash }, 'Invalid image hash format, skipping');
+            return null;
           }
 
-          // 4. Si es nuevo, guardar en nuestro storage
-          const sanitizedId = raw.externalId.replace(/[^a-z0-9]/gi, '_');
-          const fileName = `${raw.source}_${sanitizedId}_${i}.jpg`;
-          const storedUrl = await this.storage.upload(nodeBuffer, fileName, 'image/jpeg');
+          const existing = await this.repository.find({ imageHash: hashResult.value });
+          if (existing.length > 0) {
+            const existingImg = existing[0]!.images.find((img) =>
+              img.hash.equals(hashResult.value),
+            );
+            if (existingImg) {
+              return {
+                hash: hashResult.value,
+                storedUrl: existingImg.storedUrl,
+                originalUrl: imgUrl,
+              };
+            }
+          }
 
-          return { hash, storedUrl, originalUrl: imgUrl };
+          const slug = externalId.replace(/[^a-z0-9]/gi, '_');
+          const storedUrl = await this.storage.upload(
+            buffer,
+            `${source}_${slug}_${i}.jpg`,
+            'image/jpeg',
+          );
+
+          return { hash: hashResult.value, storedUrl, originalUrl: imgUrl };
         } catch (error) {
-          this.logger.error({ imgUrl, error }, 'Error procesando imagen');
+          this.logger.error({ imgUrl, error }, 'Error processing image');
           return null;
         }
       }),
     );
 
-    const validImages = processedImages.filter((img) => img !== null) as any[];
-    const rawWithImages = {
-      ...raw,
-      processedImages: validImages.map((img) => ({
-        url: img.storedUrl,
-        originalUrl: img.originalUrl,
-        hash: img.hash,
-      })),
-    };
-
-    this.logger.info(
-      {
-        source: raw.source,
-        name: raw.name,
-        price: raw.price,
-        imagesStored: rawWithImages.processedImages.length,
-      },
-      'Procesamiento completo, buscando candidatos...',
-    );
-
-    // 4. Buscar candidatos para consolidación
-    const candidates = await this.repository.find({
-      phone: raw.phones[0],
-      telegram: raw.telegram,
-      externalId: { source: source.identifier, id: raw.externalId },
-    });
-
-    // 5. Consolidar
-    this.logger.info('Iniciando proceso de consolidación...');
-    const result = this.consolidationService.consolidate(rawWithImages as any, candidates);
-
-    this.logger.info(
-      {
-        action: result.action,
-        confidence: result.confidenceScore,
-        signals: result.newSignals.map((s) => s.type),
-      },
-      'Resultado de la consolidación',
-    );
-
-    // 6. Ejecutar acción
-    switch (result.action) {
-      case 'CREATE':
-        await this.repository.create(this.createProvider(result.mergedData));
-        this.logger.info('Nuevo proveedor creado con éxito');
-        break;
-
-      case 'MERGE':
-      case 'FLAG_FOR_REVIEW':
-        if (result.targetProviderId) {
-          const existing = await this.repository.findById(result.targetProviderId);
-          if (existing) {
-            await this.repository.update(result.targetProviderId, {
-              ...result.mergedData,
-              confidenceScore: result.confidenceScore,
-              updatedAt: new Date(),
-            });
-            this.logger.info({ id: result.targetProviderId }, 'Proveedor actualizado (MERGE)');
-          }
-        }
-        break;
-
-      case 'IGNORE':
-        this.logger.info('Extracción ignorada por baja confianza o duplicado exacto');
-        break;
-    }
-  }
-
-  private createProvider(data: Partial<Provider>): Provider {
-    return {
-      id: crypto.randomUUID(),
-      displayName: data.displayName || 'Sin nombre',
-      phones: data.phones || [],
-      telegram: data.telegram,
-      email: data.email,
-      address: data.address,
-      description: data.description,
-      price: data.price,
-      images: data.images || (data as any).processedImages || [],
-      vertical: data.vertical || Vertical.GENERAL,
-      externalIds: data.externalIds || {},
-      verificationStatus: data.verificationStatus || VerificationStatus.PENDING_REVIEW,
-      confidenceScore: data.confidenceScore || 1.0,
-      signals: [],
-      metadata: data.metadata || {},
-      attributes: data.attributes || {},
-      lastScrapedAt: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    return results.filter((r): r is ScrapedImage => r !== null);
   }
 }

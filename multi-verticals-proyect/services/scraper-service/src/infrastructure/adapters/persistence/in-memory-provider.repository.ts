@@ -1,38 +1,34 @@
-import type { ProviderRepositoryPort } from '../../../application/ports/repository.port.js';
-import type { Provider, ProviderCriteria } from '../../../domain/entities/provider.js';
+import type { ProviderId } from '@allcoba/domain';
+
+import type {
+  ProviderCriteria,
+  ProviderRepositoryPort,
+} from '../../../application/ports/repository.port.js';
+import type { ScrapedProvider } from '../../../domain/aggregates/scraped-provider.aggregate.js';
 
 export class InMemoryProviderRepository implements ProviderRepositoryPort {
-  private providers: Map<string, Provider> = new Map();
+  private readonly providers: Map<string, ScrapedProvider> = new Map();
 
-  async find(criteria: ProviderCriteria): Promise<Provider[]> {
+  async find(criteria: ProviderCriteria): Promise<ScrapedProvider[]> {
     return Array.from(this.providers.values()).filter((p) => {
-      let match = false;
-      if (criteria.phone && p.phones.includes(criteria.phone)) match = true;
-      if (criteria.telegram && p.telegram === criteria.telegram) match = true;
-      if (criteria.externalId && criteria.externalId.source && criteria.externalId.id) {
-        if (p.externalIds[criteria.externalId.source] === criteria.externalId.id) {
-          match = true;
-        }
-      }
-      if (criteria.imageHash && p.images.some((img) => img.hash === criteria.imageHash))
-        match = true;
-
-      return match;
+      if (criteria.phone && p.hasPhone(criteria.phone)) return true;
+      if (criteria.telegram && p.hasTelegram(criteria.telegram)) return true;
+      if (criteria.externalId && p.hasExternalId(criteria.externalId)) return true;
+      if (criteria.imageHash && p.hasImageHash(criteria.imageHash)) return true;
+      if (criteria.vertical && p.vertical === criteria.vertical) return true;
+      return false;
     });
   }
 
-  async create(provider: Provider): Promise<void> {
-    this.providers.set(provider.id, provider);
+  async create(provider: ScrapedProvider): Promise<void> {
+    this.providers.set(provider.id.value, provider);
   }
 
-  async update(id: string, provider: Partial<Provider>): Promise<void> {
-    const existing = this.providers.get(id);
-    if (existing) {
-      this.providers.set(id, { ...existing, ...provider, updatedAt: new Date() });
-    }
+  async update(id: ProviderId, provider: ScrapedProvider): Promise<void> {
+    this.providers.set(id.value, provider);
   }
 
-  async findById(id: string): Promise<Provider | null> {
-    return this.providers.get(id) || null;
+  async findById(id: ProviderId): Promise<ScrapedProvider | null> {
+    return this.providers.get(id.value) ?? null;
   }
 }
