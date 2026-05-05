@@ -8,6 +8,11 @@
       "@scraper/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "__test__/**/*"],
+  "include": [
+    "src/**/*",
+    "__tests__/unit/domain/services",
+    "__tests__/unit/application",
+    "__tests__/integration"
+  ],
   "exclude": ["node_modules", "dist"]
 }

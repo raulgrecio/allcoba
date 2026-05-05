@@ -3,9 +3,9 @@ import path from 'path';
 import * as cheerio from 'cheerio';
 import { describe, expect, it, vi } from 'vitest';
 
-import { ConsolidationService } from '../../src/domain/services/consolidation.service.js';
-import { FotocasaAdapter } from '../../src/infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
-import { IdealistaAdapter } from '../../src/infrastructure/adapters/sources/real-estate/idealista.adapter.js';
+import { ConsolidationService } from '@scraper/domain/services/consolidation.service.js';
+import { FotocasaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
+import { IdealistaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/idealista.adapter.js';
 
 describe('Integration: Source Adapters with Real HTML', () => {
   const fixturesDir = path.resolve(__dirname, '../fixtures/html');
