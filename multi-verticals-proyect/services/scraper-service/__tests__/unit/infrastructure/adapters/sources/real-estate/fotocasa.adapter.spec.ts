@@ -11,6 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 describe('Unit: FotocasaAdapter (Offline)', () => {
   it(
     'debería extraer correctamente los campos básicos usando el HTML persistido',
+    { timeout: 15000 },
     async () => {
       const htmlPath = path.resolve(
         __dirname,
@@ -54,6 +55,5 @@ describe('Unit: FotocasaAdapter (Offline)', () => {
         expect(data.phones[0]).toMatch(/^\+?[0-9 ]+$/);
       }
     },
-    { timeout: 15000 },
   );
 });

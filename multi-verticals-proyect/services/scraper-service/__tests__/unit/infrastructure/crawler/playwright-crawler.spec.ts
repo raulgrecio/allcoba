@@ -45,6 +45,11 @@ describe('Unit: PlaywrightCrawler', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     crawler = new PlaywrightCrawler();
+
+    // Mock delays to be instant in tests
+    vi.spyOn(crawler as any, 'randomWait').mockResolvedValue(undefined);
+    vi.spyOn(crawler as any, 'simulateHumanScroll').mockResolvedValue(undefined);
+
     global.fetch = vi.fn().mockResolvedValue({
       json: vi.fn().mockResolvedValue({ ip: '5.6.7.8' }),
     });
