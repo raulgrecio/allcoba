@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { SharpHasherAdapter } from '@scraper/infrastructure/adapters/images/sharp-hasher.adapter.js';
+import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
 
 // Mock sharp
 vi.mock('sharp', () => {

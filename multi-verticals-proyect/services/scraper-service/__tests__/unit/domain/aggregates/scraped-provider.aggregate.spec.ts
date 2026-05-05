@@ -1,16 +1,16 @@
-import { ImageHash, Phone, Price, ProviderId, Telegram } from '@allcoba/domain';
 import { describe, expect, it } from 'vitest';
 
+import { ImageHash, Phone, Price, ProviderId, Telegram } from '@allcoba/domain';
+
+import type { ScrapedImage, ScraperSignal } from '#domain/aggregates/scraped-provider.aggregate.js';
 import {
   ScrapedProvider,
   VerificationStatus,
-  type ScrapedImage,
-  type ScraperSignal,
-} from '@scraper/domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '@scraper/domain/entities/vertical.js';
-import { ConfidenceScore } from '@scraper/domain/value-objects/confidence-score.vo.js';
-import { ExternalId } from '@scraper/domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '@scraper/domain/value-objects/scraped-address.vo.js';
+} from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
+import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
+import { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
 
 // --- VO factories ---
 
@@ -58,7 +58,9 @@ function signal(type: ScraperSignal['type']): ScraperSignal {
   return { type, sourceKey: 'src:1', confidence: 0.9, metadata: {}, createdAt: new Date() };
 }
 
-function makeProvider(overrides: Partial<Parameters<typeof ScrapedProvider.create>[0]> = {}): ScrapedProvider {
+function makeProvider(
+  overrides: Partial<Parameters<typeof ScrapedProvider.create>[0]> = {},
+): ScrapedProvider {
   return ScrapedProvider.create({
     vertical: Vertical.REAL_ESTATE,
     confidenceScore: ConfidenceScore.medium(),
@@ -341,7 +343,9 @@ describe('ScrapedProvider', () => {
 
     it('does not add image with duplicate hash', () => {
       const original = makeProvider({ images: [img('aaaaaaaaaaaaaaaa')] });
-      const merged = original.merge({ images: [img('aaaaaaaaaaaaaaaa', 'http://other.com/img.jpg')] });
+      const merged = original.merge({
+        images: [img('aaaaaaaaaaaaaaaa', 'http://other.com/img.jpg')],
+      });
       expect(merged.images).toHaveLength(1);
     });
 

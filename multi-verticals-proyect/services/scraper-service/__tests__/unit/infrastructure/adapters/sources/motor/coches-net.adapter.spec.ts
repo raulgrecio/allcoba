@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { CochesNetAdapter } from '@scraper/infrastructure/adapters/sources/motor/coches-net.adapter.js';
+import { CochesNetAdapter } from '#infrastructure/adapters/sources/motor/coches-net.adapter.js';
 
 describe('Unit: CochesNetAdapter', () => {
   const adapter = new CochesNetAdapter({} as any);

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { Vertical } from '@scraper/domain/entities/vertical.js';
-import { WallapopAdapter } from '@scraper/infrastructure/adapters/sources/general/wallapop.adapter.js';
+import { Vertical } from '#domain/entities/vertical.js';
+import { WallapopAdapter } from '#infrastructure/adapters/sources/general/wallapop.adapter.js';
 
 describe('Unit: WallapopAdapter', () => {
   const adapter = new WallapopAdapter({} as any);

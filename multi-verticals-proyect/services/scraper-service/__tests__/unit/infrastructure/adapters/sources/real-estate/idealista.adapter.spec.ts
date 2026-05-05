@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { IdealistaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/idealista.adapter.js';
+import { IdealistaAdapter } from '#infrastructure/adapters/sources/real-estate/idealista.adapter.js';
 
 describe('Unit: IdealistaAdapter', () => {
   const adapter = new IdealistaAdapter({} as any);

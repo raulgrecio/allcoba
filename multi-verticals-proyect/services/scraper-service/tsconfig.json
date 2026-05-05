@@ -5,14 +5,12 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@scraper/*": ["src/*"]
+      "#*": ["src/*"]
     }
   },
   "include": [
     "src/**/*",
-    "__tests__/unit/domain/services",
-    "__tests__/unit/application",
-    "__tests__/integration"
+    "__tests__/**/*"
   ],
   "exclude": ["node_modules", "dist"]
 }

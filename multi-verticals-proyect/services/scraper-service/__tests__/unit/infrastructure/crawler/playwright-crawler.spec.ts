@@ -1,7 +1,7 @@
 import { chromium } from 'playwright-extra';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { PlaywrightCrawler } from '@scraper/infrastructure/crawler/playwright-crawler.js';
+import { PlaywrightCrawler } from '#infrastructure/crawler/playwright-crawler.js';
 
 // Mock playwright-extra chromium
 vi.mock('playwright-extra', () => {

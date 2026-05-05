@@ -1,6 +1,6 @@
-import type { Browser, BrowserContext, Page } from 'playwright';
 import { chromium } from 'playwright-extra';
 import stealth from 'puppeteer-extra-plugin-stealth';
+import type { Browser, BrowserContext, Page } from 'playwright';
 
 import { logger } from '@allcoba/kernel';
 

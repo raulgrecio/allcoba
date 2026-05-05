@@ -1,7 +1,7 @@
 import PgBoss from 'pg-boss';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { PgBossQueueAdapter } from '@scraper/infrastructure/adapters/queue/pg-boss.adapter.js';
+import { PgBossQueueAdapter } from '#infrastructure/adapters/queue/pg-boss.adapter.js';
 
 vi.mock('pg-boss', () => {
   const mockBoss = {

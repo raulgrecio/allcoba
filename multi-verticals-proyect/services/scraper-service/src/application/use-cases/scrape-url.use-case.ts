@@ -4,18 +4,18 @@ import type { Coordinates } from '@allcoba/domain';
 import { ImageHash, Phone, Price, Telegram } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
-import type { ScrapedImage } from '../../domain/aggregates/scraped-provider.aggregate.js';
-import type { ConsolidationService } from '../../domain/services/consolidation.service.js';
-import type { ImageHasherPort } from '../ports/image-hasher.port.js';
-import type { ProviderRepositoryPort } from '../ports/repository.port.js';
-import type { RawExtraction, SourcePort } from '../ports/source.port.js';
-import type { StoragePort } from '../ports/storage.port.js';
+import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
+import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
+import type { StoragePort } from '#application/ports/storage.port.js';
+import type { ScrapedImage } from '#domain/aggregates/scraped-provider.aggregate.js';
+import type { ConsolidationService } from '#domain/services/consolidation.service.js';
 import {
   ScrapedProvider,
   VerificationStatus,
-} from '../../domain/aggregates/scraped-provider.aggregate.js';
-import { ExternalId } from '../../domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '../../domain/value-objects/scraped-address.vo.js';
+} from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
 
 export interface ScraperConfig {
   maxImagesToProcess: number;

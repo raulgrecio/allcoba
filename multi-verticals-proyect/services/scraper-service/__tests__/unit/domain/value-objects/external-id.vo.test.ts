@@ -97,7 +97,10 @@ describe('ExternalId', () => {
 
     it('toJSON returns source and id object', () => {
       const result = ExternalId.create('idealista', 'prop-99');
-      expect(result.success && result.value.toJSON()).toEqual({ source: 'idealista', id: 'prop-99' });
+      expect(result.success && result.value.toJSON()).toEqual({
+        source: 'idealista',
+        id: 'prop-99',
+      });
     });
   });
 });

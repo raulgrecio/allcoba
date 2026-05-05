@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { failOne, ok, ValueObject, type ValidationResult } from '@allcoba/domain';
+import type { ValidationResult } from '@allcoba/domain';
+import { failOne, ok, ValueObject } from '@allcoba/domain';
 
 const sourceSchema = z.string().trim().min(1).max(64);
 const idSchema = z.string().trim().min(1).max(256);

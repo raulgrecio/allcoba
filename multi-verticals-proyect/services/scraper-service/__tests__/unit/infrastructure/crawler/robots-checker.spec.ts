@@ -1,7 +1,7 @@
 import robotsParser from 'robots-parser';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { RobotsChecker } from '@scraper/infrastructure/crawler/robots-checker.js';
+import { RobotsChecker } from '#infrastructure/crawler/robots-checker.js';
 
 vi.mock('robots-parser');
 

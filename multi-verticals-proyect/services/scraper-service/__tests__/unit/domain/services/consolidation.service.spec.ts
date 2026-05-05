@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
 import { Phone, Telegram } from '@allcoba/domain';
-import { ScrapedProvider } from '@scraper/domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '@scraper/domain/entities/vertical.js';
-import { ConsolidationService } from '@scraper/domain/services/consolidation.service.js';
-import { ConfidenceScore } from '@scraper/domain/value-objects/confidence-score.vo.js';
-import { ExternalId } from '@scraper/domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '@scraper/domain/value-objects/scraped-address.vo.js';
+
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
+import { ConsolidationService } from '#domain/services/consolidation.service.js';
+import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
+import { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
 
 // Helpers to create typed VOs without boilerplate in every test
 function phone(raw: string): Phone {

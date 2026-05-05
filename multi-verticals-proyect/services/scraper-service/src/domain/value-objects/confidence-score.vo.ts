@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
-import { failOne, ok, ValueObject, type ValidationResult } from '@allcoba/domain';
+import type { ValidationResult } from '@allcoba/domain';
+import { failOne, ok, ValueObject } from '@allcoba/domain';
 
 const scoreSchema = z.number().finite().min(0).max(1);
 

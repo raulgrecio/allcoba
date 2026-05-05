@@ -3,8 +3,8 @@ import path from 'path';
 import * as cheerio from 'cheerio';
 import { describe, expect, it } from 'vitest';
 
-import { FotocasaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
-import { IdealistaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/idealista.adapter.js';
+import { FotocasaAdapter } from '#infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
+import { IdealistaAdapter } from '#infrastructure/adapters/sources/real-estate/idealista.adapter.js';
 
 describe('Integration: Source Adapters with Real HTML', () => {
   const fixturesDir = path.resolve(__dirname, '../fixtures/html');

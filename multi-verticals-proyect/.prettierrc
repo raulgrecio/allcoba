@@ -10,14 +10,14 @@
   "importOrder": [
     "^(react/(.*)$)|^(react$)",
     "^(next/(.*)$)|^(next$)",
+    "<TYPES>",
     "<THIRD_PARTY_MODULES>",
     "",
     "<TYPES>^@allcoba/(.*)$",
     "^@allcoba/(.*)$",
-    "<TYPES>^@scraper/(.*)$",
-    "^@scraper/(.*)$",
-    "<TYPES>^@/(.*)$",
-    "^@/(.*)$",
+    "",
+    "<TYPES>^#",
+    "^#",
     "",
     "<TYPES>^[./]",
     "^[./]"

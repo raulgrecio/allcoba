@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { CheerioCrawler } from '@scraper/infrastructure/crawler/cheerio-crawler.js';
+import { CheerioCrawler } from '#infrastructure/crawler/cheerio-crawler.js';
 
 describe('Unit: CheerioCrawler', () => {
   let crawler: CheerioCrawler;

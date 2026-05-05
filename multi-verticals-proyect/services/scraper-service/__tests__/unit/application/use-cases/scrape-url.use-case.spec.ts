@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { ScrapeUrlUseCase } from '@scraper/application/use-cases/scrape-url.use-case.js';
-import { ScrapedProvider } from '@scraper/domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '@scraper/domain/entities/vertical.js';
-import { ConfidenceScore } from '@scraper/domain/value-objects/confidence-score.vo.js';
+import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
+import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 
 const VALID_PHASH = 'abcdef0123456789'; // 16 lowercase hex = valid pHash
 

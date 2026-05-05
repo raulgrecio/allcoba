@@ -3,8 +3,8 @@ import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { describe, expect, it } from 'vitest';
 
-import { FotocasaAdapter } from '@scraper/infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
-import { PlaywrightCrawler } from '@scraper/infrastructure/crawler/playwright-crawler.js';
+import { FotocasaAdapter } from '#infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
+import { PlaywrightCrawler } from '#infrastructure/crawler/playwright-crawler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

@@ -1,11 +1,12 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ImageHash, Phone, Price, ProviderId, Telegram } from '@allcoba/domain';
-import { ScrapedProvider } from '@scraper/domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '@scraper/domain/entities/vertical.js';
-import { ConfidenceScore } from '@scraper/domain/value-objects/confidence-score.vo.js';
-import { ExternalId } from '@scraper/domain/value-objects/external-id.vo.js';
-import { InMemoryProviderRepository } from '@scraper/infrastructure/adapters/persistence/in-memory-provider.repository.js';
+
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { Vertical } from '#domain/entities/vertical.js';
+import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
+import { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
 
 // --- Helpers ---
 
