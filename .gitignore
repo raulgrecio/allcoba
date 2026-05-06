@@ -32,3 +32,6 @@ nuxt/
 
 # External assets
 external/
+
+# Claude
+.claude/
