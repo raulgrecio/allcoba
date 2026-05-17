@@ -11,9 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as RedirectRouteImport } from './routes/redirect'
+import { Route as PublicarRouteImport } from './routes/publicar'
 import { Route as PostsRouteImport } from './routes/posts'
+import { Route as MisAnunciosRouteImport } from './routes/mis-anuncios'
+import { Route as FavoritosRouteImport } from './routes/favoritos'
 import { Route as DeferredRouteImport } from './routes/deferred'
 import { Route as CustomScriptDotjsRouteImport } from './routes/customScript[.]js'
+import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as PathlessLayoutRouteImport } from './routes/_pathlessLayout'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UsersIndexRouteImport } from './routes/users.index'
@@ -22,6 +26,7 @@ import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
 import { Route as PostsPostIdRouteImport } from './routes/posts.$postId'
 import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as PathlessLayoutNestedLayoutRouteImport } from './routes/_pathlessLayout/_nested-layout'
+import { Route as VerticalSlugRouteImport } from './routes/$vertical.$slug'
 import { Route as PostsPostIdDeepRouteImport } from './routes/posts_.$postId.deep'
 import { Route as ApiUsersUserIdRouteImport } from './routes/api/users.$userId'
 import { Route as PathlessLayoutNestedLayoutRouteBRouteImport } from './routes/_pathlessLayout/_nested-layout/route-b'
@@ -37,9 +42,24 @@ const RedirectRoute = RedirectRouteImport.update({
   path: '/redirect',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PublicarRoute = PublicarRouteImport.update({
+  id: '/publicar',
+  path: '/publicar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsRoute = PostsRouteImport.update({
   id: '/posts',
   path: '/posts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MisAnunciosRoute = MisAnunciosRouteImport.update({
+  id: '/mis-anuncios',
+  path: '/mis-anuncios',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritosRoute = FavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DeferredRoute = DeferredRouteImport.update({
@@ -50,6 +70,11 @@ const DeferredRoute = DeferredRouteImport.update({
 const CustomScriptDotjsRoute = CustomScriptDotjsRouteImport.update({
   id: '/customScript.js',
   path: '/customScript.js',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuscarRoute = BuscarRouteImport.update({
+  id: '/buscar',
+  path: '/buscar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PathlessLayoutRoute = PathlessLayoutRouteImport.update({
@@ -91,6 +116,11 @@ const PathlessLayoutNestedLayoutRoute =
     id: '/_nested-layout',
     getParentRoute: () => PathlessLayoutRoute,
   } as any)
+const VerticalSlugRoute = VerticalSlugRouteImport.update({
+  id: '/$vertical/$slug',
+  path: '/$vertical/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PostsPostIdDeepRoute = PostsPostIdDeepRouteImport.update({
   id: '/posts_/$postId/deep',
   path: '/posts/$postId/deep',
@@ -116,11 +146,16 @@ const PathlessLayoutNestedLayoutRouteARoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
   '/customScript.js': typeof CustomScriptDotjsRoute
   '/deferred': typeof DeferredRoute
+  '/favoritos': typeof FavoritosRoute
+  '/mis-anuncios': typeof MisAnunciosRoute
   '/posts': typeof PostsRouteWithChildren
+  '/publicar': typeof PublicarRoute
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRouteWithChildren
+  '/$vertical/$slug': typeof VerticalSlugRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -133,9 +168,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/buscar': typeof BuscarRoute
   '/customScript.js': typeof CustomScriptDotjsRoute
   '/deferred': typeof DeferredRoute
+  '/favoritos': typeof FavoritosRoute
+  '/mis-anuncios': typeof MisAnunciosRoute
+  '/publicar': typeof PublicarRoute
   '/redirect': typeof RedirectRoute
+  '/$vertical/$slug': typeof VerticalSlugRoute
   '/api/users': typeof ApiUsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -150,11 +190,16 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
+  '/buscar': typeof BuscarRoute
   '/customScript.js': typeof CustomScriptDotjsRoute
   '/deferred': typeof DeferredRoute
+  '/favoritos': typeof FavoritosRoute
+  '/mis-anuncios': typeof MisAnunciosRoute
   '/posts': typeof PostsRouteWithChildren
+  '/publicar': typeof PublicarRoute
   '/redirect': typeof RedirectRoute
   '/users': typeof UsersRouteWithChildren
+  '/$vertical/$slug': typeof VerticalSlugRoute
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -170,11 +215,16 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/buscar'
     | '/customScript.js'
     | '/deferred'
+    | '/favoritos'
+    | '/mis-anuncios'
     | '/posts'
+    | '/publicar'
     | '/redirect'
     | '/users'
+    | '/$vertical/$slug'
     | '/api/users'
     | '/posts/$postId'
     | '/users/$userId'
@@ -187,9 +237,14 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/buscar'
     | '/customScript.js'
     | '/deferred'
+    | '/favoritos'
+    | '/mis-anuncios'
+    | '/publicar'
     | '/redirect'
+    | '/$vertical/$slug'
     | '/api/users'
     | '/posts/$postId'
     | '/users/$userId'
@@ -203,11 +258,16 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_pathlessLayout'
+    | '/buscar'
     | '/customScript.js'
     | '/deferred'
+    | '/favoritos'
+    | '/mis-anuncios'
     | '/posts'
+    | '/publicar'
     | '/redirect'
     | '/users'
+    | '/$vertical/$slug'
     | '/_pathlessLayout/_nested-layout'
     | '/api/users'
     | '/posts/$postId'
@@ -223,11 +283,16 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
+  BuscarRoute: typeof BuscarRoute
   CustomScriptDotjsRoute: typeof CustomScriptDotjsRoute
   DeferredRoute: typeof DeferredRoute
+  FavoritosRoute: typeof FavoritosRoute
+  MisAnunciosRoute: typeof MisAnunciosRoute
   PostsRoute: typeof PostsRouteWithChildren
+  PublicarRoute: typeof PublicarRoute
   RedirectRoute: typeof RedirectRoute
   UsersRoute: typeof UsersRouteWithChildren
+  VerticalSlugRoute: typeof VerticalSlugRoute
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
@@ -248,11 +313,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RedirectRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/publicar': {
+      id: '/publicar'
+      path: '/publicar'
+      fullPath: '/publicar'
+      preLoaderRoute: typeof PublicarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/posts': {
       id: '/posts'
       path: '/posts'
       fullPath: '/posts'
       preLoaderRoute: typeof PostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mis-anuncios': {
+      id: '/mis-anuncios'
+      path: '/mis-anuncios'
+      fullPath: '/mis-anuncios'
+      preLoaderRoute: typeof MisAnunciosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favoritos': {
+      id: '/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof FavoritosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/deferred': {
@@ -267,6 +353,13 @@ declare module '@tanstack/react-router' {
       path: '/customScript.js'
       fullPath: '/customScript.js'
       preLoaderRoute: typeof CustomScriptDotjsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/buscar': {
+      id: '/buscar'
+      path: '/buscar'
+      fullPath: '/buscar'
+      preLoaderRoute: typeof BuscarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_pathlessLayout': {
@@ -324,6 +417,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PathlessLayoutNestedLayoutRouteImport
       parentRoute: typeof PathlessLayoutRoute
+    }
+    '/$vertical/$slug': {
+      id: '/$vertical/$slug'
+      path: '/$vertical/$slug'
+      fullPath: '/$vertical/$slug'
+      preLoaderRoute: typeof VerticalSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/posts_/$postId/deep': {
       id: '/posts_/$postId/deep'
@@ -425,11 +525,16 @@ const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
+  BuscarRoute: BuscarRoute,
   CustomScriptDotjsRoute: CustomScriptDotjsRoute,
   DeferredRoute: DeferredRoute,
+  FavoritosRoute: FavoritosRoute,
+  MisAnunciosRoute: MisAnunciosRoute,
   PostsRoute: PostsRouteWithChildren,
+  PublicarRoute: PublicarRoute,
   RedirectRoute: RedirectRoute,
   UsersRoute: UsersRouteWithChildren,
+  VerticalSlugRoute: VerticalSlugRoute,
   ApiUsersRoute: ApiUsersRouteWithChildren,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
