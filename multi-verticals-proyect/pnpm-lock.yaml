@@ -150,6 +150,25 @@ importers:
         specifier: ^3.1.0
         version: 3.2.4(@types/node@25.6.0)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.14.2(@types/node@25.6.0)(typescript@5.9.3))(tsx@4.21.0)
 
+  packages/shared-types:
+    dependencies:
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^25.6.0
+        version: 25.6.0
+      '@vitest/coverage-v8':
+        specifier: ^3.1.0
+        version: 3.2.4(vitest@3.2.4(@types/node@25.6.0)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.14.2(@types/node@25.6.0)(typescript@5.9.3))(tsx@4.21.0))
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.1.0
+        version: 3.2.4(@types/node@25.6.0)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.32.0)(msw@2.14.2(@types/node@25.6.0)(typescript@5.9.3))(tsx@4.21.0)
+
   packages/ui:
     dependencies:
       '@allcoba/design-tokens':
@@ -261,6 +280,9 @@ importers:
       '@allcoba/legacy-domain':
         specifier: workspace:*
         version: link:../../packages/legacy-domain
+      '@allcoba/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       cheerio:
         specifier: ^1.2.0
         version: 1.2.0
