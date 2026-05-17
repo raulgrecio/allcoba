@@ -1,0 +1,923 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "5892",
+      "country_id": "82",
+      "city_escaped": "charenton-le-pont",
+      "url_segment": "charenton-le-pont",
+      "distance": "3.177451079335443",
+      "name": "Charenton-le-Pont",
+      "user_count": "1"
+    },
+    {
+      "id": "5003",
+      "country_id": "82",
+      "city_escaped": "clichy",
+      "url_segment": "clichy",
+      "distance": "3.903562821082465",
+      "name": "Clichy",
+      "user_count": "2"
+    },
+    {
+      "id": "4886",
+      "country_id": "82",
+      "city_escaped": "levallois-perret",
+      "url_segment": "levallois-perret",
+      "distance": "3.970087727257894",
+      "name": "Levallois-Perret",
+      "user_count": "1"
+    },
+    {
+      "id": "4849",
+      "country_id": "82",
+      "city_escaped": "aubervilliers",
+      "url_segment": "aubervilliers",
+      "distance": "4.148709508710331",
+      "name": "Aubervilliers",
+      "user_count": "1"
+    },
+    {
+      "id": "4043",
+      "country_id": "82",
+      "city_escaped": "montreuil",
+      "url_segment": "montreuil",
+      "distance": "4.166958364374688",
+      "name": "Montreuil",
+      "user_count": "1"
+    },
+    {
+      "id": "5560",
+      "country_id": "82",
+      "city_escaped": "alfortville",
+      "url_segment": "alfortville",
+      "distance": "4.833505360877483",
+      "name": "Alfortville",
+      "user_count": "3"
+    },
+    {
+      "id": "5731",
+      "country_id": "82",
+      "city_escaped": "noisy-le-sec",
+      "url_segment": "noisy-le-sec",
+      "distance": "5.000554306953023",
+      "name": "Noisy-le-Sec",
+      "user_count": "1"
+    },
+    {
+      "id": "5404",
+      "country_id": "82",
+      "city_escaped": "maisons-alfort",
+      "url_segment": "maisons-alfort",
+      "distance": "5.244091543634015",
+      "name": "Maisons-Alfort",
+      "user_count": "2"
+    },
+    {
+      "id": "3601",
+      "country_id": "82",
+      "city_escaped": "boulogne-billancourt",
+      "url_segment": "boulogne-billancourt",
+      "distance": "5.274216637513684",
+      "name": "Boulogne-Billancourt",
+      "user_count": "4"
+    },
+    {
+      "id": "4557",
+      "country_id": "82",
+      "city_escaped": "courbevoic",
+      "url_segment": "courbevoic",
+      "distance": "5.326714499912934",
+      "name": "Courbevoic",
+      "user_count": "1"
+    },
+    {
+      "id": "5494",
+      "country_id": "82",
+      "city_escaped": "bobigny",
+      "url_segment": "bobigny",
+      "distance": "5.45131228977101",
+      "name": "Bobigny",
+      "user_count": "2"
+    },
+    {
+      "id": "4096",
+      "country_id": "82",
+      "city_escaped": "saint-denis-fr",
+      "url_segment": "saint-denis-fr",
+      "distance": "5.459445465726269",
+      "name": "Saint-Denis",
+      "user_count": "3"
+    },
+    {
+      "id": "5533",
+      "country_id": "82",
+      "city_escaped": "puteaux",
+      "url_segment": "puteaux",
+      "distance": "5.509853532256313",
+      "name": "Puteaux",
+      "user_count": "5"
+    },
+    {
+      "id": "5760",
+      "country_id": "82",
+      "city_escaped": "gennevilliers",
+      "url_segment": "gennevilliers",
+      "distance": "5.805637622334316",
+      "name": "Gennevilliers",
+      "user_count": "1"
+    },
+    {
+      "id": "5711",
+      "country_id": "82",
+      "city_escaped": "rosny-sous-bois",
+      "url_segment": "rosny-sous-bois",
+      "distance": "6.000290193409878",
+      "name": "Rosny-sous-Bois",
+      "user_count": "1"
+    },
+    {
+      "id": "5482",
+      "country_id": "82",
+      "city_escaped": "suresnes",
+      "url_segment": "suresnes",
+      "distance": "6.080091345807337",
+      "name": "Suresnes",
+      "user_count": "1"
+    },
+    {
+      "id": "4877",
+      "country_id": "82",
+      "city_escaped": "colombes",
+      "url_segment": "colombes",
+      "distance": "6.48471914561849",
+      "name": "Colombes",
+      "user_count": "1"
+    },
+    {
+      "id": "5098",
+      "country_id": "82",
+      "city_escaped": "drancy",
+      "url_segment": "drancy",
+      "distance": "6.740904463147947",
+      "name": "Drancy",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4102181,
+  "agencyId": 3400499,
+  "nickname": "Charlotte",
+  "age": "24",
+  "baseCity": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "fr",
+      "name": "Francia",
+      "subdomain": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "currentCity": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "FR",
+      "name": "Francia",
+      "url_segment": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "minimumPrice": "Desde £750",
+  "photosCount": 13,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "activo hace 4 días",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Welcome to Dolls And Roses! We proudly represent high-class escorts, VIP celebrity models, and exclusive travel playmates, available in Dubai, London and worldwide. All photos, selfies, and videos on our website are 100% real no fake profiles allowed. Our friendly staff are trained in concierge-style service and love the little details. Were here to make sure everything goes smoothly. Message us on WhatsApp  for bookings, or you may visit Dolls N Roses website for more model option.",
+    "original": "Welcome to Dolls And Roses! We proudly represent high-class escorts, VIP celebrity models, and exclusive travel playmates, available in Dubai, London and worldwide. All photos, selfies, and videos on our website are 100% real no fake profiles allowed. Our friendly staff are trained in concierge-style service and love the little details. Were here to make sure everything goes smoothly. Message us on WhatsApp  for bookings, or you may visit Dolls N Roses website for more model option.",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "750",
+      "currency": "GBP"
+    },
+    {
+      "label": "2 horas",
+      "price": "1250",
+      "currency": "GBP"
+    },
+    {
+      "label": "3 horas",
+      "price": "1750",
+      "currency": "GBP"
+    },
+    {
+      "label": "12 horas",
+      "price": "4650",
+      "currency": "GBP"
+    }
+  ],
+  "serviceText": null,
+  "priceLabelType": null,
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=380&wm=1&s=d64c46dcf59af894d29d8011e99ffd63",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=380&wm=1&s=d64c46dcf59af894d29d8011e99ffd63 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=480&wm=1&s=bff651eb88ca85f69b58407b1f79af2d 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=782&wm=1&s=e9799e099a2b2d63ce20c0cb0bc732de 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=1023&wm=1&s=73984ecb1c6aba5b4b6eb03c79f41585 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=1920&wm=1&s=a7c472f1e8528710627fc140a6c2f339",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=480&wm=1&s=bff651eb88ca85f69b58407b1f79af2d 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=782&wm=1&s=e9799e099a2b2d63ce20c0cb0bc732de 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=1023&wm=1&s=73984ecb1c6aba5b4b6eb03c79f41585 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574097509.webp?fit=crop&h=0&w=1920&wm=1&s=a7c472f1e8528710627fc140a6c2f339 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=380&wm=1&s=13380b1467d1cebbc2599af4954f88b0",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=380&wm=1&s=13380b1467d1cebbc2599af4954f88b0 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=480&wm=1&s=46d319b25b70ae3a0ac1cb5a94bbd929 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=782&wm=1&s=02bc44af0f968b69200fc682af6bfbfa 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=1023&wm=1&s=caf7409e2b6b00af300d618999845acd 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=1920&wm=1&s=7f6e9021332d028d8cb20bdb7e4867c5",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=480&wm=1&s=46d319b25b70ae3a0ac1cb5a94bbd929 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=782&wm=1&s=02bc44af0f968b69200fc682af6bfbfa 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=1023&wm=1&s=caf7409e2b6b00af300d618999845acd 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740a2181.webp?fit=crop&h=0&w=1920&wm=1&s=7f6e9021332d028d8cb20bdb7e4867c5 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=380&wm=1&s=02684844d6300802db7a9b7622273ef9",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=380&wm=1&s=02684844d6300802db7a9b7622273ef9 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=480&wm=1&s=32a6419c8fa1912a9f4a47937bb5a711 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=782&wm=1&s=3beb418889ac0e7a154f687fe29a7ef9 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=1023&wm=1&s=be320c4ca2a7bff8fcae09a5c886306b 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=1920&wm=1&s=ab24167abe350ab8d895a6af6bdbd6c5",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=480&wm=1&s=32a6419c8fa1912a9f4a47937bb5a711 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=782&wm=1&s=3beb418889ac0e7a154f687fe29a7ef9 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=1023&wm=1&s=be320c4ca2a7bff8fcae09a5c886306b 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740953aa.webp?fit=crop&h=0&w=1920&wm=1&s=ab24167abe350ab8d895a6af6bdbd6c5 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=380&wm=1&s=46b8cc61a79bb62a24e413ea8f4561a4",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=380&wm=1&s=46b8cc61a79bb62a24e413ea8f4561a4 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=480&wm=1&s=84bbde9baeaa8bf6fb473a3f84d07d06 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=782&wm=1&s=4d41b55b7adbda3e877accb40c777088 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=1023&wm=1&s=7e6e8989262b6e4ae22bb22e30078d9c 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=1920&wm=1&s=d3a54be05a02b817803029ad121d0e32",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=480&wm=1&s=84bbde9baeaa8bf6fb473a3f84d07d06 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=782&wm=1&s=4d41b55b7adbda3e877accb40c777088 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=1023&wm=1&s=7e6e8989262b6e4ae22bb22e30078d9c 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b2bef.webp?fit=crop&h=0&w=1920&wm=1&s=d3a54be05a02b817803029ad121d0e32 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=380&wm=1&s=1304f692d1bc499d1b258e2319c2b06e",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=380&wm=1&s=1304f692d1bc499d1b258e2319c2b06e 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=480&wm=1&s=cb9040f987b2b52cb767fe9ebf54a755 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=782&wm=1&s=9cb184e6628f5e0fa529c70523465b98 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=1023&wm=1&s=bd3afb35d4ef35550fed2f4f0f4f6789 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=1920&wm=1&s=5a896cb47d86f61239c12aeb2b08b6d3",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=480&wm=1&s=cb9040f987b2b52cb767fe9ebf54a755 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=782&wm=1&s=9cb184e6628f5e0fa529c70523465b98 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=1023&wm=1&s=bd3afb35d4ef35550fed2f4f0f4f6789 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574091d0a.webp?fit=crop&h=0&w=1920&wm=1&s=5a896cb47d86f61239c12aeb2b08b6d3 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=380&wm=1&s=d64253c9b61ea64671cc0212c17f72f2",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=380&wm=1&s=d64253c9b61ea64671cc0212c17f72f2 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=480&wm=1&s=21c6a632e003ff9916698f091804c554 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=782&wm=1&s=0c11e922cecb502afb1e714f4a50bec2 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=1023&wm=1&s=cafaf431c4d6e2a5b2d38714ef7aa163 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=1920&wm=1&s=8ab7155f3d64fa3e543b532b39570d18",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=480&wm=1&s=21c6a632e003ff9916698f091804c554 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=782&wm=1&s=0c11e922cecb502afb1e714f4a50bec2 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=1023&wm=1&s=cafaf431c4d6e2a5b2d38714ef7aa163 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740b3c63.webp?fit=crop&h=0&w=1920&wm=1&s=8ab7155f3d64fa3e543b532b39570d18 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=380&wm=1&s=c64722614ef77f53bb2570e5065fead9",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=380&wm=1&s=c64722614ef77f53bb2570e5065fead9 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=480&wm=1&s=99a358fc0bad75afa4897312c84cfee9 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=782&wm=1&s=ba53ef8ae7559ecd4cbf039bd16d9cc9 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=1023&wm=1&s=138d6991162292065d98342eabcb500b 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=1920&wm=1&s=15f9316e8c11e406455addb9c1378324",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=480&wm=1&s=99a358fc0bad75afa4897312c84cfee9 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=782&wm=1&s=ba53ef8ae7559ecd4cbf039bd16d9cc9 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=1023&wm=1&s=138d6991162292065d98342eabcb500b 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-69155740983b3.webp?fit=crop&h=0&w=1920&wm=1&s=15f9316e8c11e406455addb9c1378324 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=380&wm=1&s=4ce0ec56901baee1173c690a09e8e050",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=380&wm=1&s=4ce0ec56901baee1173c690a09e8e050 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=480&wm=1&s=5cc31150911bd9b3a28e71bc6a0f45ea 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=782&wm=1&s=702501a3b15ada3e4a31e5c7256f2908 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=1023&wm=1&s=7a2197cf7a8341a5ef582ac9ba72ba22 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=1920&wm=1&s=dd5638d767f1ed3067031dc2a3161888",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=480&wm=1&s=5cc31150911bd9b3a28e71bc6a0f45ea 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=782&wm=1&s=702501a3b15ada3e4a31e5c7256f2908 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=1023&wm=1&s=7a2197cf7a8341a5ef582ac9ba72ba22 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915574060353.webp?fit=crop&h=0&w=1920&wm=1&s=dd5638d767f1ed3067031dc2a3161888 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=380&wm=1&s=426a0d1f1ae7b8ebf8b8e66927f196a7",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=380&wm=1&s=426a0d1f1ae7b8ebf8b8e66927f196a7 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=480&wm=1&s=c1bd3950e6b822c95717890a8ba838be 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=782&wm=1&s=6dab8ad5a5f3dd29f3319b6dbd969eb2 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=1023&wm=1&s=a34085cf52869139b8e3a2432142d5b2 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=1920&wm=1&s=d76dd4b7cc67271b201416b940071d45",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=480&wm=1&s=c1bd3950e6b822c95717890a8ba838be 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=782&wm=1&s=6dab8ad5a5f3dd29f3319b6dbd969eb2 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=1023&wm=1&s=a34085cf52869139b8e3a2432142d5b2 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-6915571f88495.webp?fit=crop&h=0&w=1920&wm=1&s=d76dd4b7cc67271b201416b940071d45 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=380&wm=1&s=d9671838e6626b685b2121097465262b",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=380&wm=1&s=d9671838e6626b685b2121097465262b 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=480&wm=1&s=201b6750d2dc7fb6cd8ed97197407579 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=782&wm=1&s=e9dded2b3c1c71cdb0559f4f650f3040 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=1023&wm=1&s=e34eebd052ef516412125701e93707aa 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=1920&wm=1&s=4e03a56257b8d495477a369340d4cf0b",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=480&wm=1&s=201b6750d2dc7fb6cd8ed97197407579 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=782&wm=1&s=e9dded2b3c1c71cdb0559f4f650f3040 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=1023&wm=1&s=e34eebd052ef516412125701e93707aa 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1c01c2.webp?fit=crop&h=0&w=1920&wm=1&s=4e03a56257b8d495477a369340d4cf0b 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=380&wm=1&s=78b405822be4533c6dcf43861b28d906",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=380&wm=1&s=78b405822be4533c6dcf43861b28d906 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=480&wm=1&s=6060d0f6e7fe66b2f707eac5e69f912a 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=782&wm=1&s=c48334fb912067632ab8dbc0ba765691 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=1023&wm=1&s=e9cf6df671dc9ec58e3bd05031f425ef 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=1920&wm=1&s=11d437067c3505fdf37cb750971a870a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=480&wm=1&s=6060d0f6e7fe66b2f707eac5e69f912a 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=782&wm=1&s=c48334fb912067632ab8dbc0ba765691 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=1023&wm=1&s=e9cf6df671dc9ec58e3bd05031f425ef 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d6a37.webp?fit=crop&h=0&w=1920&wm=1&s=11d437067c3505fdf37cb750971a870a 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=380&wm=1&s=07eb2cc4dc209d61e1e3bca7d07bb2c5",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=380&wm=1&s=07eb2cc4dc209d61e1e3bca7d07bb2c5 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=480&wm=1&s=c652e8f7374f7d47782248af270c25cb 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=782&wm=1&s=4199e8d8d557198b99c1df6702aa43d4 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=1023&wm=1&s=4fe89c5d20605eeff7fe637c0f05176d 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=1920&wm=1&s=15285c90ab84a2eda0feb84a9914fac7",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=480&wm=1&s=c652e8f7374f7d47782248af270c25cb 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=782&wm=1&s=4199e8d8d557198b99c1df6702aa43d4 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=1023&wm=1&s=4fe89c5d20605eeff7fe637c0f05176d 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1d13ca.webp?fit=crop&h=0&w=1920&wm=1&s=15285c90ab84a2eda0feb84a9914fac7 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=380&wm=1&s=66d68e4d15ef8b5d7ac53db2c349c080",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=380&wm=1&s=66d68e4d15ef8b5d7ac53db2c349c080 380w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=480&wm=1&s=2ad03344ae7e952ea138c61fbaecf52a 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=782&wm=1&s=31ca96b8ead4093bb910275ffcc2e4ba 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=1023&wm=1&s=a3972fe934c956ea4462a907037ffc72 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=1920&wm=1&s=3d1e9867d9bb7fb09bed7131e3823e92",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=480&wm=1&s=2ad03344ae7e952ea138c61fbaecf52a 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=782&wm=1&s=31ca96b8ead4093bb910275ffcc2e4ba 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=1023&wm=1&s=a3972fe934c956ea4462a907037ffc72 1023w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f1cb835.webp?fit=crop&h=0&w=1920&wm=1&s=3d1e9867d9bb7fb09bed7131e3823e92 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    }
+  ],
+  "galleryImgAlt": "Charlotte, 24 - Chica VIP, modelos exclusivas, servicio de lujo.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/france/escorts\" title=\"Escorts en Francia\">Francia</a>, <a href=\"https://topescortbabes.com/es/paris/escorts\" title=\"Escorts en París\">París</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/paris/escorts/brazilian-nationality\" title=\"Escorts brasileña en París\">brasileña</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/paris/escorts/caucasian-ethnic\" title=\"Escorts blanco en París\">blanco</a>",
+    "meetingWith": "",
+    "meetingPlace": "",
+    "age": "<a href=\"https://topescortbabes.com/es/paris/escorts/college_girl-age\" title=\"Universitaria escorts en París\">24</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/paris/escorts/medium-height\" title=\"Escorts de altura media en París\">174cm / 5'9\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/paris/escorts/50_60-weight\" title=\"Escorts que pesan 50-60 kg en París\">56kg / 123lbs</a>",
+    "bust": "81",
+    "hip": "91",
+    "waist": "66",
+    "hair": "<a href=\"https://topescortbabes.com/es/paris/escorts/blonde-hair\" title=\"Escorts rubia en París\">pelo rubio</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/paris/escorts/green-eyes\" title=\"Escorts de ojos verdes en París\">ojos verdes</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/paris/escorts/bisexual-sexuality\" title=\"Escorts bisexuales en París\">Bisexual</a>",
+    "languages": "habla inglés, portugués y español",
+    "drink": "",
+    "music": "",
+    "hobby": ""
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "image",
+    "path": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=0&w=782&wm=1&s=d48282bc42b66d24f956626d053af2fd",
+    "fallback": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=0&w=782&wm=1&s=d48282bc42b66d24f956626d053af2fd",
+    "path_srcset": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=0&w=480&wm=1&s=7ec027035acf9afb84e8f60d61ea0f7a 480w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=0&w=782&wm=1&s=d48282bc42b66d24f956626d053af2fd 782w, https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=0&w=1023&wm=1&s=b0963d17a604c624049e673212d8b81b 1023w",
+    "orientation": "portrait",
+    "width": 1000,
+    "height": 1500,
+    "small_image": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=110&w=110&s=9d92247b5bd1d2543335d1d4cfeacfa7",
+    "verification_level": 1,
+    "verification_text": "<b>Parecía similar</b>",
+    "verification_at": "hace 6 meses",
+    "uploaded_on": "hace 6 meses"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 05 febrero, 2026",
+  "aiTitle": "Chica VIP, modelos exclusivas, servicio de lujo.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4102181"
+    },
+    {
+      "name": "Paris Escort Girls",
+      "url": "https://parisescortgirls.fr/4102181"
+    }
+  ],
+  "spokenLanguage": "habla inglés, portugués y español",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "IC80MTo0NzpDRg==",
+  "encodedTelegram": "",
+  "contactOptions": [
+    "Whatsapp",
+    "SMS"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": false,
+    "outcall": false
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4102181,
+    "pic": 14,
+    "vid": 0,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 82,
+    "ci": 35,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "1.2mil vistas, 7 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/paris/escorts",
+      "text": "Más escorts en París"
+    }
+  ],
+  "trackHash": "c6991518-2fx9h-7294bd",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181",
+  "metaTitle": "Charlotte - Chica VIP, modelos exclusivas, servicio de lujo.",
+  "metaDescription": "Welcome to Dolls And Roses! We proudly represent high-class escorts, VIP celebrity models, and exclusive travel playmates, available in Dubai, London and worldw…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.webp?fit=crop&h=0&w=782&wm=1&s=d48282bc42b66d24f956626d053af2fd",
+  "logoTitle": "Escorts en Francia",
+  "preloadImages": [],
+  "country": {
+    "id": "82",
+    "name": "Francia",
+    "seo_name": "Francia",
+    "iso2": "FR",
+    "code": "FRA",
+    "new_seo": "0",
+    "shortname": "Paris",
+    "subdomain": "france",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "76",
+    "conversion_rate": "1",
+    "nationality_id": "65",
+    "default_language": "fr",
+    "region": "Europe",
+    "sub_region": "Western Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"BE\", \"DE\", \"IT\", \"LU\", \"MC\", \"ES\", \"CH\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "FR",
+      "name": "Francia",
+      "url_segment": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "locationName": "París",
+  "locationUrl": "paris",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "5164",
+      "country_id": "82",
+      "city_escaped": "cannes",
+      "name": "Cannes",
+      "user_count": "23"
+    },
+    {
+      "id": "2004",
+      "country_id": "82",
+      "city_escaped": "strasbourg",
+      "name": "Estrasburgo",
+      "user_count": "13"
+    },
+    {
+      "id": "1207",
+      "country_id": "82",
+      "city_escaped": "lyon",
+      "name": "Lyon",
+      "user_count": "25"
+    },
+    {
+      "id": "806",
+      "country_id": "82",
+      "city_escaped": "marseille",
+      "name": "Marsella",
+      "user_count": "15"
+    },
+    {
+      "id": "1963",
+      "country_id": "82",
+      "city_escaped": "montpellier",
+      "name": "Montpellier",
+      "user_count": "11"
+    },
+    {
+      "id": "1712",
+      "country_id": "82",
+      "city_escaped": "nice",
+      "name": "Niza",
+      "user_count": "17"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "Francia",
+        "schemaText": "",
+        "title": "Escorts y putas en Francia",
+        "url": "https://topescortbabes.com/es/france/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "París",
+        "schemaText": "",
+        "title": "Escorts y putas en París",
+        "url": "https://topescortbabes.com/es/paris/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Charlotte",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con Charlotte?",
+      "content": "<p>Puedes reservar una cita con Charlotte de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: SMS, WhatsApp.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla Charlotte?",
+      "content": "Charlotte habla habla inglés, portugués y español.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con Charlotte?",
+      "content": "Charlotte se encuentra actualmente en París. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de Charlotte son reales y verificadas?",
+      "content": "Todas las fotos de Charlotte han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 6 meses.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#person",
+        "name": "Charlotte",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=2aaf4b51dc11f74595dd4801ce5a6643",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "París",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "48.8566",
+            "longitude": "2.3522"
+          }
+        },
+        "description": "Welcome to Dolls And Roses! We proudly represent high-class escorts, VIP celebrity models, and exclusive travel playmates, available in Dubai, London and worldwide. All photos, selfies, and videos on our website are 100% real no fake profiles allowed. Our friendly staff are trained in concierge-style service and love the little details. Were here to make sure everything goes smoothly. Message us on WhatsApp  for bookings, or you may visit Dolls N Roses website for more model option.",
+        "nationality": {
+          "@type": "Country",
+          "name": "Brazil"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "174",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "56",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "Portuguese",
+            "alternateName": "pt"
+          },
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "750",
+          "priceCurrency": "GBP",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-16",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#organization",
+        "name": "Charlotte",
+        "url": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=2aaf4b51dc11f74595dd4801ce5a6643",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#service",
+        "name": "Charlotte Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#person"
+        },
+        "url": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/2/181/Charlotte--4102181-691556f18bd9e.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=2aaf4b51dc11f74595dd4801ce5a6643",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "París",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "48.8566",
+            "longitude": "2.3522"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "750",
+            "priceCurrency": "GBP",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "2 horas",
+            "price": "1250",
+            "priceCurrency": "GBP",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "3 horas",
+            "price": "1750",
+            "priceCurrency": "GBP",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "12 horas",
+            "price": "4650",
+            "priceCurrency": "GBP",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "Francia",
+              "@id": "https://topescortbabes.com/es/france/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "París",
+              "@id": "https://topescortbabes.com/es/paris/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Charlotte",
+              "@id": "https://topescortbabes.com/es/paris/escorts/Charlotte_4102181"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con Charlotte?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con Charlotte de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: SMS, WhatsApp.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla Charlotte?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Charlotte habla habla inglés, portugués y español."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con Charlotte?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Charlotte se encuentra actualmente en París. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de Charlotte son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de Charlotte han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 6 meses."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts París",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en París"
+}

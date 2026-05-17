@@ -171,11 +171,62 @@ Para cada archivo del scraper que importa `@allcoba/legacy-domain`:
 5. `infrastructure/adapters/persistence/json-file-provider.repository.ts`.
 6. `infrastructure/adapters/persistence/drizzle-provider.repository.ts` — añadir tablas `entity_translations`, `enum_labels`, `catalog_*` en schema Drizzle.
 7. `infrastructure/adapters/sources/base-source.adapter.ts` — clase base con `parse(raw) → Normalized`.
-8. `infrastructure/adapters/sources/dating/topescortbabes.adapter.ts` — primer adapter rico (referencia v2).
+8. **`infrastructure/adapters/sources/dating/topescortbabes/`** — primer adapter rico
+   (**referencia v2 — ver `topescortbabes/README.md`**). Patrón resultante:
+   `extractor (HTML → raw) → save raw → mapper (raw → ScrapedProvider) → save canonical`.
 9. Resto de adapters de dating (13 archivos) — patrón establecido.
 10. Adapters de `motor/`, `real-estate/`, `general/`.
 11. `application/use-cases/scrape-url.use-case.ts`.
 12. Reactivar tests uno a uno desde `__tests__.legacy/` → `__tests__/`, reescribiendo al diseño nuevo.
+
+---
+
+## 5.b Patrón v2 — raw store + pure mapper (resultado de portar topescortbabes)
+
+```
+HTML  ─→  extractor  ─→  <Source>Payload  ─→  mapper  ─→  ScrapedProvider
+                              │                                 │
+                              ▼                                 ▼
+                  RawPayloadRepositoryPort         ProviderRepositoryPort
+                    (scraped_raw table)              (scraped_<vertical>)
+```
+
+**Componentes y reglas (mismas para cada adapter):**
+
+| Capa | Archivo | Pureza | Tests |
+|---|---|---|---|
+| Tipos raw | `<source>.types.ts` | n/a | — |
+| Extractor | `<source>.extractor.ts` | puro (HTML in, raw out) | unit + HTML real |
+| Parsers | `<source>.parsers.ts` | puros (string in, value out) | unit |
+| Mapper | `<source>.mapper.ts` | puro excepto `TaxonomyResolverPort` inyectado | unit con 30-50 fixtures raw + `FakeTaxonomyResolver` |
+| Pipeline | (sin archivo, se compone en el adapter / use-case) | — | integration HTML → ScrapedProvider |
+| Persistencia raw | `RawPayloadRepositoryPort` (`scraped_raw`) | n/a | integration Testcontainers PG |
+| Persistencia canónica | `ProviderRepositoryPort` (`scraped_<vertical>`) | n/a | integration con mapper output |
+
+**Preferencia de fuente dentro del mapper (orden):**
+1. `pageSchema."@graph"` (Schema.org) — más estable y limpio internacionalmente.
+2. Campos root del payload (`age`, `nickname`, `prices`, `photos`, `mainMedia`, `badges`).
+3. `personalDetails.*` HTML — extraer slug del `<a href="…/{slug}-{taxonomy}">`.
+
+**Layout de tests (regla del proyecto: mismo árbol que `src/`):**
+
+```
+__tests__/infrastructure/adapters/sources/<vertical>/<source>/
+├── fixtures/
+│   ├── <source>_*.json        ← 30-50 raw payloads (mapper unit)
+│   └── html/<sample>.html     ← 2-3 capturas reales (extractor + pipeline)
+├── helpers/
+│   ├── fake-taxonomy-resolver.ts
+│   └── load-fixtures.ts
+├── <source>.parsers.test.ts
+├── <source>.extractor.test.ts
+├── <source>.mapper.test.ts    ← bulk loop sobre todos los fixtures + invariantes
+└── <source>.pipeline.test.ts  ← HTML → ScrapedProvider end-to-end
+```
+
+**Estado actual:** topescortbabes verde con **114 tests** (105 unit + 9 integration PG).
+Ver `services/scraper-service/src/infrastructure/adapters/sources/dating/topescortbabes/README.md`
+para el checklist completo del siguiente adapter.
 
 ---
 

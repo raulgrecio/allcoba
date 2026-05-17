@@ -1,0 +1,793 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "6546",
+      "country_id": "226",
+      "city_escaped": "las-rozas-de-madrid",
+      "url_segment": "las-rozas-de-madrid",
+      "distance": "9.725616832004661",
+      "name": "Las Rozas de Madrid",
+      "user_count": "3"
+    },
+    {
+      "id": "6676",
+      "country_id": "226",
+      "city_escaped": "san-sebastian-de-los-reyes",
+      "url_segment": "san-sebastian-de-los-reyes",
+      "distance": "10.184571957287227",
+      "name": "San Sebastián de los Reyes",
+      "user_count": "1"
+    },
+    {
+      "id": "5024",
+      "country_id": "226",
+      "city_escaped": "toledo",
+      "url_segment": "toledo",
+      "distance": "41.99767927611181",
+      "name": "Toledo",
+      "user_count": "1"
+    },
+    {
+      "id": "8491",
+      "country_id": "226",
+      "city_escaped": "avila",
+      "url_segment": "avila",
+      "distance": "53.17996343202064",
+      "name": "Ávila",
+      "user_count": "1"
+    },
+    {
+      "id": "3476",
+      "country_id": "226",
+      "city_escaped": "salamanca-es",
+      "url_segment": "salamanca-es",
+      "distance": "108.47857494707354",
+      "name": "Salamanca",
+      "user_count": "1"
+    },
+    {
+      "id": "3386",
+      "country_id": "226",
+      "city_escaped": "logrono",
+      "url_segment": "logrono",
+      "distance": "155.66468007513515",
+      "name": "Logroño",
+      "user_count": "2"
+    },
+    {
+      "id": "973",
+      "country_id": "226",
+      "city_escaped": "zaragoza-es",
+      "url_segment": "zaragoza-es",
+      "distance": "169.31416350785844",
+      "name": "Zaragoza",
+      "user_count": "2"
+    },
+    {
+      "id": "2220",
+      "country_id": "226",
+      "city_escaped": "vitoria-gasteiz",
+      "url_segment": "vitoria-gasteiz",
+      "distance": "176.10336395043484",
+      "name": "Vitoria",
+      "user_count": "1"
+    },
+    {
+      "id": "1828",
+      "country_id": "226",
+      "city_escaped": "cordoba-es",
+      "url_segment": "cordoba-es",
+      "distance": "184.32784022406315",
+      "name": "Córdoba",
+      "user_count": "1"
+    },
+    {
+      "id": "854",
+      "country_id": "226",
+      "city_escaped": "valencia",
+      "url_segment": "valencia",
+      "distance": "189.8153021700758",
+      "name": "Valencia",
+      "user_count": "13"
+    },
+    {
+      "id": "3036",
+      "country_id": "226",
+      "city_escaped": "castellon-de-la-plana",
+      "url_segment": "castellon-de-la-plana",
+      "distance": "197.33101335669016",
+      "name": "Castellón de la Plana",
+      "user_count": "1"
+    },
+    {
+      "id": "1670",
+      "country_id": "226",
+      "city_escaped": "bilbao",
+      "url_segment": "bilbao",
+      "distance": "200.27558476078528",
+      "name": "Bilbao",
+      "user_count": "4"
+    },
+    {
+      "id": "10693",
+      "country_id": "226",
+      "city_escaped": "ecija",
+      "url_segment": "ecija",
+      "distance": "212.85173994865173",
+      "name": "Écija",
+      "user_count": "1"
+    },
+    {
+      "id": "1371",
+      "country_id": "226",
+      "city_escaped": "murcia-es",
+      "url_segment": "murcia-es",
+      "distance": "219.2072048950711",
+      "name": "Murcia",
+      "user_count": "3"
+    },
+    {
+      "id": "2369",
+      "country_id": "226",
+      "city_escaped": "granada-es",
+      "url_segment": "granada-es",
+      "distance": "223.87822135647775",
+      "name": "Granada",
+      "user_count": "1"
+    },
+    {
+      "id": "8009",
+      "country_id": "226",
+      "city_escaped": "irun",
+      "url_segment": "irun",
+      "distance": "223.9010416313929",
+      "name": "Irún",
+      "user_count": "1"
+    },
+    {
+      "id": "1739",
+      "country_id": "226",
+      "city_escaped": "alicante",
+      "url_segment": "alicante",
+      "distance": "226.27309824986972",
+      "name": "Alicante",
+      "user_count": "18"
+    },
+    {
+      "id": "2507",
+      "country_id": "226",
+      "city_escaped": "oviedo",
+      "url_segment": "oviedo",
+      "distance": "229.77886178760767",
+      "name": "Oviedo",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4107019,
+  "agencyId": 87807,
+  "nickname": "Candy",
+  "age": "19",
+  "baseCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "es",
+      "name": "España",
+      "subdomain": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "currentCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "minimumPrice": "Desde 250 €",
+  "photosCount": 5,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "no activo desde hace un tiempo",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Candy, joven brasileña de 19 años, elegancia natural y sensualidad irresistible. Su encanto exótico, trato dulce y estilo sofisticado la convierten en una compañía verdaderamente exclusiva.<br />\nPara quienes buscan discreción, lujo y momentos inolvidables en la mejor compañía.",
+    "original": "Candy, joven brasileña de 19 años, elegancia natural y sensualidad irresistible. Su encanto exótico, trato dulce y estilo sofisticado la convierten en una compañía verdaderamente exclusiva.<br />\nPara quienes buscan discreción, lujo y momentos inolvidables en la mejor compañía.",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "250",
+      "currency": "EUR"
+    },
+    {
+      "label": "24 horas",
+      "price": "3000",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios <b>en mi piso</b> y <b>a domicilio o en hotel</b>. Las tarifas a domicilio pueden variar.",
+  "priceLabelType": null,
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=380&wm=1&s=72205acdc45bc5385776a04ed2ffb14c",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=380&wm=1&s=72205acdc45bc5385776a04ed2ffb14c 380w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=480&wm=1&s=66ffb55cfa6cefeea9234ca46cf12386 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=782&wm=1&s=841f05c084a9fb6b2e32e37d491a61ba 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=1023&wm=1&s=24956decc0f88b9a149f4e3f23df6048 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=1920&wm=1&s=bc3aea5b48045123d1cac4a8d0bc8f73",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=480&wm=1&s=66ffb55cfa6cefeea9234ca46cf12386 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=782&wm=1&s=841f05c084a9fb6b2e32e37d491a61ba 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=1023&wm=1&s=24956decc0f88b9a149f4e3f23df6048 1023w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c9736d.webp?fit=crop&h=0&w=1920&wm=1&s=bc3aea5b48045123d1cac4a8d0bc8f73 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 2 meses",
+      "uploaded_on": "hace 2 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=380&wm=1&s=e1b77e43ae6bffe59dbf5e78667822ca",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=380&wm=1&s=e1b77e43ae6bffe59dbf5e78667822ca 380w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=480&wm=1&s=80d215a1b947ec3b2662e2a8d8a65cee 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=782&wm=1&s=3bc80a8459a375df9b13404fb64528b9 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=1023&wm=1&s=afbf53fbdb81beb0ac2d83b502609d04 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=1920&wm=1&s=c7fec2ef2b2d3fe0fd22037d868a3ad9",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=480&wm=1&s=80d215a1b947ec3b2662e2a8d8a65cee 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=782&wm=1&s=3bc80a8459a375df9b13404fb64528b9 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=1023&wm=1&s=afbf53fbdb81beb0ac2d83b502609d04 1023w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591cb46bc.webp?fit=crop&h=0&w=1920&wm=1&s=c7fec2ef2b2d3fe0fd22037d868a3ad9 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 2 meses",
+      "uploaded_on": "hace 2 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=380&wm=1&s=c6e2452fd843385bdabbb1c656b565b9",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=380&wm=1&s=c6e2452fd843385bdabbb1c656b565b9 380w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=480&wm=1&s=dd0b29367830898f03a3e9cd7e8df0a1 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=782&wm=1&s=f46aa2fc647f5f7ec164bb518eeb9929 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=1023&wm=1&s=b834c36a845a672199241cfc71e9fa80 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=1920&wm=1&s=dda95a31291214c3891cdc4654da7fbb",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=480&wm=1&s=dd0b29367830898f03a3e9cd7e8df0a1 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=782&wm=1&s=f46aa2fc647f5f7ec164bb518eeb9929 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=1023&wm=1&s=b834c36a845a672199241cfc71e9fa80 1023w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-6993591c77d78.webp?fit=crop&h=0&w=1920&wm=1&s=dda95a31291214c3891cdc4654da7fbb 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 2 meses",
+      "uploaded_on": "hace 2 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=380&wm=1&s=ddcae6de7b4a5d225125dbbee497a886",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=380&wm=1&s=ddcae6de7b4a5d225125dbbee497a886 380w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=480&wm=1&s=607455ea50fe9d231d6bbdb378dd6854 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=782&wm=1&s=2ffa85f41a8b24d8d176795d51644703 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=1023&wm=1&s=3d2f69d5d484962898056acaa66eaf29 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=1920&wm=1&s=a282f256d552124bceff7f188f47c224",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=480&wm=1&s=607455ea50fe9d231d6bbdb378dd6854 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=782&wm=1&s=2ffa85f41a8b24d8d176795d51644703 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=1023&wm=1&s=3d2f69d5d484962898056acaa66eaf29 1023w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357c934cfd.webp?fit=crop&h=0&w=1920&wm=1&s=a282f256d552124bceff7f188f47c224 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 2 meses",
+      "uploaded_on": "hace 2 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=380&wm=1&s=31b8719cd58e86a74a6a5b96bea17610",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=380&wm=1&s=31b8719cd58e86a74a6a5b96bea17610 380w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=480&wm=1&s=fd7dd3a057e32cc64aaabefa5699331a 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=782&wm=1&s=7155938d6c35205dfad6fbb012caa7cd 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=1023&wm=1&s=54c5bd0f9c3b35c187181025b1922195 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=1920&wm=1&s=f5c10f88a48402874d69f50ad4e6f366",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=480&wm=1&s=fd7dd3a057e32cc64aaabefa5699331a 480w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=782&wm=1&s=7155938d6c35205dfad6fbb012caa7cd 782w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=1023&wm=1&s=54c5bd0f9c3b35c187181025b1922195 1023w, https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=1920&wm=1&s=f5c10f88a48402874d69f50ad4e6f366 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 2 meses",
+      "uploaded_on": "hace 2 meses"
+    }
+  ],
+  "galleryImgAlt": "Candy, 19 - Compañía exclusiva, lujo, encanto exótico.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/spain/escorts\" title=\"Escorts en España\">España</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts\" title=\"Escorts en Madrid\">Madrid</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/madrid/escorts/brazilian-nationality\" title=\"Escorts brasileña en Madrid\">brasileña</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/madrid/escorts/latina-ethnic\" title=\"Escorts latina en Madrid\">latina</a>",
+    "meetingWith": "encuentro con una mujer, mujeres, un hombre, hombres y una pareja",
+    "meetingPlace": "<a href=\"https://topescortbabes.com/es/madrid/escorts/incall\" title=\"Escorts en su piso en Madrid\">mi piso</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts/outcall\" title=\"Escorts a domicilio en Madrid\">a domicilio</a>, dirección profesional",
+    "age": "<a href=\"https://topescortbabes.com/es/madrid/escorts/teen-age\" title=\"Adolescente escorts en Madrid\">19</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/madrid/escorts/medium-height\" title=\"Escorts de altura media en Madrid\">164cm / 5'5\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/madrid/escorts/under_50-weight\" title=\"Escorts de menos de 50 kg en Madrid\">44kg / 97lbs</a>",
+    "bust": "86",
+    "hip": "92",
+    "waist": "61",
+    "hair": "<a href=\"https://topescortbabes.com/es/madrid/escorts/blonde-hair\" title=\"Escorts rubia en Madrid\">pelo rubio</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/madrid/escorts/other-eyes\" title=\"Escorts de otros colores de ojos en Madrid\">otro color de ojos</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/madrid/escorts/bisexual-sexuality\" title=\"Escorts bisexuales en Madrid\">Bisexual</a>",
+    "languages": "habla portugués, inglés y español",
+    "drink": "cócteles",
+    "music": "Todo",
+    "hobby": "cine"
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "video",
+    "path": "https://topescortbabes.com/es/video/get-url/dmlkZW9fZHJvcGxldF9wcm9maWxlLzcwLzE5LzQxMDcwMTkvdGViLzY2ZTk5OGUzNDBhZTc2ZDcxMzZhYmM2MDU3YjhlN2ViYThjZjQyYWIvZnVsbC5tcDQ=",
+    "poster": "https://img.topescortbabes.com/videos/profile/70/19/4107019/teb/66e998e340ae76d7136abc6057b8e7eba8cf42ab/full_0.jpg?o=png&wm=1",
+    "fallback": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=575&wm=1&s=8d9d9b6eaa50ae747854033d74043a11",
+    "orientation": "landscape",
+    "width": "1778",
+    "height": "1000",
+    "small_image": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=110&w=110&s=278e2b62635340009cd7a59e83320f3d"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 16 febrero, 2026",
+  "aiTitle": "Compañía exclusiva, lujo, encanto exótico.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4107019"
+    }
+  ],
+  "spokenLanguage": "habla portugués, inglés y español",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "QUxQVVZXXGJhYWxp",
+  "encodedTelegram": "Ky97LSgwOD4uNT5MPA==",
+  "contactOptions": [
+    "Whatsapp",
+    "Telegram",
+    "SMS",
+    "Calls"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": true,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4107019,
+    "pic": 6,
+    "vid": 1,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 226,
+    "ci": 102,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "1.3mil vistas, 11 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/madrid/escorts",
+      "text": "Más escorts en Madrid"
+    },
+    {
+      "link": "https://topescortbabes.com/es/madrid/erotic-massage",
+      "text": "Más masajistas sexy en Madrid"
+    }
+  ],
+  "trackHash": "df8c5d32-2g0zv-b1acb5",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019",
+  "metaTitle": "Candy - Compañía exclusiva, lujo, encanto exótico.",
+  "metaDescription": "Candy, joven brasileña de 19 años, elegancia natural y sensualidad irresistible. Su encanto exótico, trato dulce y estilo sofisticado la convierten en una compa…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.webp?fit=crop&h=0&w=575&wm=1&s=8d9d9b6eaa50ae747854033d74043a11",
+  "logoTitle": "Escorts en España",
+  "preloadImages": [],
+  "country": {
+    "id": "226",
+    "name": "España",
+    "seo_name": "España",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "locationName": "Madrid",
+  "locationUrl": "madrid",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "9360",
+      "country_id": "226",
+      "city_escaped": "adeje",
+      "name": "Adeje",
+      "user_count": "70"
+    },
+    {
+      "id": "158",
+      "country_id": "226",
+      "city_escaped": "barcelona",
+      "name": "Barcelona",
+      "user_count": "171"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "name": "Ibiza",
+      "user_count": "27"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "name": "Mallorca",
+      "user_count": "20"
+    },
+    {
+      "id": "2588",
+      "country_id": "226",
+      "city_escaped": "santa-cruz",
+      "name": "Santa Cruz",
+      "user_count": "17"
+    },
+    {
+      "id": "17452",
+      "country_id": "226",
+      "city_escaped": "tenerife",
+      "name": "Tenerife",
+      "user_count": "37"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "España",
+        "schemaText": "",
+        "title": "Escorts y putas en España",
+        "url": "https://topescortbabes.com/es/spain/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "Madrid",
+        "schemaText": "",
+        "title": "Escorts y putas en Madrid",
+        "url": "https://topescortbabes.com/es/madrid/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Candy",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con Candy?",
+      "content": "<p>Puedes reservar una cita con Candy de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp, Telegram.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla Candy?",
+      "content": "Candy habla habla portugués, inglés y español.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con Candy?",
+      "content": "Candy se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de Candy son reales y verificadas?",
+      "content": "Todas las fotos de Candy han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 2 meses.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#person",
+        "name": "Candy",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=97716a0f246c94af4f47697bb462be59",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "description": "Candy, joven brasileña de 19 años, elegancia natural y sensualidad irresistible. Su encanto exótico, trato dulce y estilo sofisticado la convierten en una compañía verdaderamente exclusiva.<br />\nPara quienes buscan discreción, lujo y momentos inolvidables en la mejor compañía.",
+        "nationality": {
+          "@type": "Country",
+          "name": "Brazil"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "164",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "44",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "Portuguese",
+            "alternateName": "pt"
+          },
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "250",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-14",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#organization",
+        "name": "Candy",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=97716a0f246c94af4f47697bb462be59",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#service",
+        "name": "Candy Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#person"
+        },
+        "url": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/7/19/Candy--4107019-699357b01d3cd.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=97716a0f246c94af4f47697bb462be59",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "250",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "24 horas",
+            "price": "3000",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "España",
+              "@id": "https://topescortbabes.com/es/spain/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "Madrid",
+              "@id": "https://topescortbabes.com/es/madrid/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Candy",
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Candy_4107019"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con Candy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con Candy de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp, Telegram.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla Candy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Candy habla habla portugués, inglés y español."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con Candy?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Candy se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de Candy son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de Candy han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 2 meses."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts Madrid",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en Madrid"
+}

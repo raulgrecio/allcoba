@@ -12,7 +12,7 @@
  * are stored as `I18nText` when present.
  */
 
-import type { Iso2Code, MeetingWith } from '../primitives/enums.js';
+import type { Gender, Iso2Code, MeetingWith } from '../primitives/enums.js';
 import type { I18nText } from '../primitives/i18n-text.js';
 import type {
   Brand,
@@ -31,6 +31,8 @@ export const asEmail = (raw: string): Email => raw as Email;
 
 export interface PersonalDetailsCanonical {
   readonly ageYears: number;
+  /** Self-declared gender. Schema.org Person.gender is the canonical source. */
+  readonly gender?: Gender;
   readonly heightCm?: number;
   readonly weightKg?: number;
   readonly bustCm?: number;

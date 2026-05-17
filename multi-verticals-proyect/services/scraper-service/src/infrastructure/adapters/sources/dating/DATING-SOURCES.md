@@ -113,25 +113,31 @@ Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
 ---
 
-## erosguia.com
+## erosguia.com ✅ v2
 
 Example URL: `https://www.erosguia.com/55383.html` (Real)
 
-| Campo       | Valor                                                                              |
-| ----------- | ---------------------------------------------------------------------------------- |
-| Tech        | Laravel + Alpine.js + Tailwind v4                                                  |
-| Render      | **SSR** — todo el contenido en HTML estático a pesar de Alpine                     |
-| Listing     | `/escorts-{city}` · `/escorts-espana`                                              |
-| Profile URL | `/{id}.html` — ID numérico                                                         |
-| Paginación  | `?pagina=N`                                                                        |
-| Teléfono    | **HTML** — en `<title>` (`/ - 612 345 678 - /`) o `wa.me/34XXXXXXXXX`              |
-| Ciudad      | `.ficha-info .grid` campo "Ciudad"                                                 |
-| Atributos   | Edad, Nacionalidad, Altura, Peso, Medidas, Idiomas — `.ficha-info .grid` pares div |
-| Imágenes    | `img[src*="eros.bz"]`, `img[src*="/fichas/"]`                                      |
-| Telegram    | `a[href^="https://t.me"]`                                                          |
-| Tarifas     | ❌ stub                                                                            |
-| Servicios   | ❌ stub                                                                            |
-| Login       | No                                                                                 |
+| Campo         | Valor                                                                                               |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| Tech          | Laravel + Alpine.js + Tailwind v4                                                                   |
+| Render        | **SSR** — todo el contenido en HTML estático a pesar de Alpine                                      |
+| Listing       | `/escorts-{city}` · `/escorts-espana`                                                               |
+| Profile URL   | `/{id}.html` — ID numérico en path                                                                  |
+| Paginación    | `?pagina=N`                                                                                         |
+| Nickname      | `h1.title-ad span:first-child`                                                                      |
+| Teléfono call | **title** — patrón `- NNN NNN NNN -` (puede diferir del número WA)                                 |
+| WA phone      | `a[href*="wa.me"]` (static attr) → `+34XXXXXXXXX` — número distinto al call en este fixture        |
+| Telegram      | `a[href^="https://t.me"]` → `otherPlatforms[{platform:'telegram'}]`                                |
+| Ciudad        | `[data-position="responsive"] .ficha-info .grid` campo "Ciudad" (evitar panel desktop duplicado)    |
+| Atributos     | Edad, Nacionalidad, Estatura, Idiomas — `[data-position="responsive"] .ficha-info .grid` pares div  |
+| Idiomas       | string CSV en div, e.g. "Español, Inglés" — split por coma                                         |
+| Servicios     | `[data-position="responsive"] .ficha-services > div` — aficiones/hobbies (no tarifas)              |
+| Bio           | `[data-position="responsive"] .ficha-about [x-ref="content"]`                                      |
+| Cover photo   | `.ficha-row-img img[src*="eros.bz"]` — fuera de ambos panels                                       |
+| Gallery       | `.ficha-imagenes .ficha-imagen img[src*="eros.bz"]` — 6 fotos en fixture                           |
+| Login         | No                                                                                                  |
+| v2 adapter    | `src/infrastructure/adapters/sources/dating/erosguia/` — 82 tests (1 HTML fixture)                 |
+| Nota          | Dos panels idénticos (`data-position="desktop"` hidden + `"responsive"` visible) — scope al responsive para evitar duplicados |
 
 ---
 
@@ -152,23 +158,25 @@ Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
 ---
 
-## eurogirlsescort.es / .com
+## eurogirlsescort.es / .com ✅ v2
 
 Example URL: `https://www.eurogirlsescort.com/escort/sofia/1053224/?list=netqc` (Real)
 
-| Campo       | Valor                                                       |
-| ----------- | ----------------------------------------------------------- |
-| Tech        | SSR (stack desconocido)                                     |
-| Render      | SSR (+ `onBeforeCapture` para age gate o cookies)           |
-| Listing     | `/escorts/spain/...`                                        |
-| Profile URL | `…/escort/{slug}/{id}/` — contiene `/escort/`, sin `?list=` |
-| Paginación  | `?profile-paginator-page=N`                                 |
-| Teléfono    | **HTML**                                                    |
-| Tarifas     | **HTML** ✅                                                 |
-| Servicios   | **HTML** ✅                                                 |
-| Reviews     | **HTML** ✅                                                 |
-| Login       | No                                                          |
-| Nota        | Resuelve CountryCode desde HTML (`resolveCountryCode`)      |
+| Campo       | Valor                                                                    |
+| ----------- | ------------------------------------------------------------------------ |
+| Tech        | SSR (PHP custom — Nette framework)                                       |
+| Render      | SSR (+ `onBeforeCapture` para age gate o cookies)                        |
+| Listing     | `/escorts/spain/...`                                                     |
+| Profile URL | `…/escort/{slug}/{id}/` — contiene `/escort/`, sin `?list=`              |
+| Paginación  | `?profile-paginator-page=N`                                              |
+| Teléfono    | **HTML** — `a.js-phone[href^="tel:"]`, WhatsApp via `.icon-whatsapp`     |
+| Tarifas     | **HTML** ✅ — `.rates table tbody tr`, primary + EUR conversion          |
+| Servicios   | **HTML** ✅ — `.services table tbody tr`, included/extra columns         |
+| Reviews     | **HTML** ✅ — `.reviews #reviews-content .item`                          |
+| Params      | `.params > div` pares label/value — slugs de city/country desde `<a href>` |
+| Mapa        | `#incall-map[data-lat][data-lng]` — lat/lng del incall                   |
+| Login       | No                                                                       |
+| v2 adapter  | `src/infrastructure/adapters/sources/dating/eurogirlsescort/` — 105 tests |
 
 ---
 
@@ -188,7 +196,7 @@ Example URL: `https://gemidos.tv/helena-negrini` (Real)
 
 ---
 
-## girlsbcn.net / girlsbcn.com
+## girlsbcn.net / girlsbcn.com ✅ v2
 
 Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 
@@ -198,30 +206,37 @@ Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 | Render       | SSR                                                                                                |
 | Listing      | `/escorts-girl/` (con paginación `a[rel="next"]`)                                                  |
 | Profile URL  | `/escort/{slug}.html`                                                                              |
-| Teléfono     | **HTML** — `a[href^="tel:"]` o alt de `p.foto.css_escort img`                                      |
+| Teléfono     | **HTML** — `p.telefono a[href^="tel:"]` · fallback `p.foto.css_escort img[alt]` (digits)           |
 | WhatsApp     | `a[href*="wa.me"]` → `wa.me/(\d+)`                                                                 |
-| Ciudad       | `dl.dl-horizontal` campo "Lugar"                                                                   |
+| Ciudad       | `p.texto.css_escort` → regex `/disponible en:\s*([^.]+)/i`                                         |
 | Atributos    | Edad, Medidas, Estatura, Peso, Cabello, Ojos, Nacionalidad, Idiomas, Horarios — `dl.dl-horizontal` |
-| Imágenes     | `p.foto.css_escort img[data-src]` (lazy)                                                           |
+| Imágenes     | `p.foto.css_escort img[src]` filtradas a dominios `gbcnmedia` · `media.`                           |
 | Vídeo        | `video.css_escort source[src]`                                                                     |
-| Precio rango | `p.rango.css_escort img[src]` → `perfil-N.png` → badge `range-N`                                   |
-| Tarifas      | ❌ stub                                                                                            |
-| Servicios    | ❌ stub                                                                                            |
+| Precio rango | `p.rango.css_escort img[src]` → `perfil-N.png` → 1–5                                              |
 | Login        | No                                                                                                 |
+| v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsbcn/` — tipos + parsers + extractor + mapper     |
 
 ---
 
-## girlsmadrid.com
+## girlsmadrid.com ✅ v2
 
 Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 
-| Campo  | Valor                                                           |
-| ------ | --------------------------------------------------------------- |
-| Tech   | PHP SSR — estructura HTML **idéntica** a GirlsBCN               |
-| Render | SSR                                                             |
-| Ciudad | Hardcodeada `'Madrid'`                                          |
-| Login  | No                                                              |
-| Nota   | Adapter es copia de GirlsBCN con `canHandle` y ciudad distintos |
+| Campo        | Valor                                                                                              |
+| ------------ | -------------------------------------------------------------------------------------------------- |
+| Tech         | PHP SSR — mismo backend gbcnmedia que GirlsBCN, HTML template distinto                            |
+| Render       | SSR                                                                                                |
+| Profile URL  | `/{slug}.html`                                                                                     |
+| Título       | `.heading h1` — ALL-CAPS → title case en extractor                                                 |
+| Teléfono     | `div.telefono a[href^="tel:"]`                                                                     |
+| WhatsApp     | `a[href*="wa.me"]`                                                                                 |
+| Ciudad       | Hardcodeada `'Madrid'` (no presente en HTML)                                                       |
+| Atributos    | `ul.meta-post li label/span` — mismos campos que GirlsBCN                                          |
+| Imágenes     | `.foto.media-box .media-box-image img` — `data-src` primero, luego `src`                           |
+| Encuentros   | `.widget .tags li` → `meetingPlaces[]`                                                             |
+| Precio rango | `.widget h4:contains("tarifas") ~ img[src]` → `perfil-N.png` → 1–5                               |
+| Login        | No                                                                                                 |
+| v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsmadrid/` — extractor + mapper (tipos y parsers de girlsbcn/) |
 
 ---
 
@@ -393,12 +408,15 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ## Resumen por estado
 
-### Implementación completa (SSR + todos los campos)
+### v2 adapter completo ✅
 
-- **erosguia.com** — SSR Laravel, teléfono en title/WA, atributos en DOM
-- **eurogirlsescort.es/com** — SSR, tarifas + servicios + reviews
-- **girlsbcn.net** — SSR PHP, atributos dl-horizontal, WA, video, rango precio
-- **girlsmadrid.com** — idem GirlsBCN
+- **topescortbabes.com** — CF, JSON embebido, 105 tests (51 JSON fixtures + 2 HTML)
+- **eurogirlsescort.es/com** — SSR, tarifas + servicios + reviews, 105 tests (1 HTML fixture)
+- **girlsbcn.net** — SSR PHP, atributos dl-horizontal, WA, video, rango precio — shared types+parsers+mapper
+- **girlsmadrid.com** — SSR PHP, template diferente, ciudad hardcoded, usa tipos/mapper de girlsbcn
+- **erosguia.com** — SSR Laravel, dual panel data-position, call≠WA phone, telegram, 82 tests (1 HTML fixture)
+
+### Implementación completa (SSR + todos los campos — pendiente port v2)
 - **loquosex.com** — SSR, teléfono + servicios
 - **milescorts.es** — SSR, teléfono + ciudad desde URL
 
@@ -410,7 +428,6 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ### Requiere Playwright (age gate / JS-render)
 
-- **eurogirlsescort.es/com** — `onBeforeCapture`
 - **nuevoloquo.ch/com/es** — `onBeforeCapture`
 - **nuevapasion.com** — age gate `#edadPopup`
 - **bluemove.es** — JS-rendered

@@ -1,0 +1,782 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "6546",
+      "country_id": "226",
+      "city_escaped": "las-rozas-de-madrid",
+      "url_segment": "las-rozas-de-madrid",
+      "distance": "9.725616832004661",
+      "name": "Las Rozas de Madrid",
+      "user_count": "3"
+    },
+    {
+      "id": "6676",
+      "country_id": "226",
+      "city_escaped": "san-sebastian-de-los-reyes",
+      "url_segment": "san-sebastian-de-los-reyes",
+      "distance": "10.184571957287227",
+      "name": "San Sebastián de los Reyes",
+      "user_count": "1"
+    },
+    {
+      "id": "5024",
+      "country_id": "226",
+      "city_escaped": "toledo",
+      "url_segment": "toledo",
+      "distance": "41.99767927611181",
+      "name": "Toledo",
+      "user_count": "1"
+    },
+    {
+      "id": "8491",
+      "country_id": "226",
+      "city_escaped": "avila",
+      "url_segment": "avila",
+      "distance": "53.17996343202064",
+      "name": "Ávila",
+      "user_count": "1"
+    },
+    {
+      "id": "3476",
+      "country_id": "226",
+      "city_escaped": "salamanca-es",
+      "url_segment": "salamanca-es",
+      "distance": "108.47857494707354",
+      "name": "Salamanca",
+      "user_count": "1"
+    },
+    {
+      "id": "3386",
+      "country_id": "226",
+      "city_escaped": "logrono",
+      "url_segment": "logrono",
+      "distance": "155.66468007513515",
+      "name": "Logroño",
+      "user_count": "2"
+    },
+    {
+      "id": "973",
+      "country_id": "226",
+      "city_escaped": "zaragoza-es",
+      "url_segment": "zaragoza-es",
+      "distance": "169.31416350785844",
+      "name": "Zaragoza",
+      "user_count": "2"
+    },
+    {
+      "id": "2220",
+      "country_id": "226",
+      "city_escaped": "vitoria-gasteiz",
+      "url_segment": "vitoria-gasteiz",
+      "distance": "176.10336395043484",
+      "name": "Vitoria",
+      "user_count": "1"
+    },
+    {
+      "id": "1828",
+      "country_id": "226",
+      "city_escaped": "cordoba-es",
+      "url_segment": "cordoba-es",
+      "distance": "184.32784022406315",
+      "name": "Córdoba",
+      "user_count": "1"
+    },
+    {
+      "id": "854",
+      "country_id": "226",
+      "city_escaped": "valencia",
+      "url_segment": "valencia",
+      "distance": "189.8153021700758",
+      "name": "Valencia",
+      "user_count": "13"
+    },
+    {
+      "id": "3036",
+      "country_id": "226",
+      "city_escaped": "castellon-de-la-plana",
+      "url_segment": "castellon-de-la-plana",
+      "distance": "197.33101335669016",
+      "name": "Castellón de la Plana",
+      "user_count": "1"
+    },
+    {
+      "id": "1670",
+      "country_id": "226",
+      "city_escaped": "bilbao",
+      "url_segment": "bilbao",
+      "distance": "200.27558476078528",
+      "name": "Bilbao",
+      "user_count": "4"
+    },
+    {
+      "id": "10693",
+      "country_id": "226",
+      "city_escaped": "ecija",
+      "url_segment": "ecija",
+      "distance": "212.85173994865173",
+      "name": "Écija",
+      "user_count": "1"
+    },
+    {
+      "id": "1371",
+      "country_id": "226",
+      "city_escaped": "murcia-es",
+      "url_segment": "murcia-es",
+      "distance": "219.2072048950711",
+      "name": "Murcia",
+      "user_count": "3"
+    },
+    {
+      "id": "2369",
+      "country_id": "226",
+      "city_escaped": "granada-es",
+      "url_segment": "granada-es",
+      "distance": "223.87822135647775",
+      "name": "Granada",
+      "user_count": "1"
+    },
+    {
+      "id": "8009",
+      "country_id": "226",
+      "city_escaped": "irun",
+      "url_segment": "irun",
+      "distance": "223.9010416313929",
+      "name": "Irún",
+      "user_count": "1"
+    },
+    {
+      "id": "1739",
+      "country_id": "226",
+      "city_escaped": "alicante",
+      "url_segment": "alicante",
+      "distance": "226.27309824986972",
+      "name": "Alicante",
+      "user_count": "18"
+    },
+    {
+      "id": "2507",
+      "country_id": "226",
+      "city_escaped": "oviedo",
+      "url_segment": "oviedo",
+      "distance": "229.77886178760767",
+      "name": "Oviedo",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4108817,
+  "agencyId": 0,
+  "nickname": "Lucia",
+  "age": "27",
+  "baseCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "es",
+      "name": "España",
+      "subdomain": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "currentCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "minimumPrice": "Desde 200 €",
+  "photosCount": 6,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "no activo desde hace un tiempo",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Soy una chica elegante, natural y muy cercana, ideal para quienes valoran la discreción y el buen trato.<br />\nMe gusta implicarme y ofrecer encuentros tranquilos, sin prisas, donde ambos podamos disfrutar de una conexión real.<br />\nAtiendo en Madrid, en espacios cómodos y discretos.<br />\nSi sabes lo que buscas y valoras la calidad, estaré encantada de conocerte.",
+    "original": "Soy una chica elegante, natural y muy cercana, ideal para quienes valoran la discreción y el buen trato.<br />\nMe gusta implicarme y ofrecer encuentros tranquilos, sin prisas, donde ambos podamos disfrutar de una conexión real.<br />\nAtiendo en Madrid, en espacios cómodos y discretos.<br />\nSi sabes lo que buscas y valoras la calidad, estaré encantada de conocerte.",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "200",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios a domicilio o en hotel.",
+  "priceLabelType": "lower",
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=380&wm=1&s=33c51712a87cc2956848f4e1dbf9398e",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=380&wm=1&s=33c51712a87cc2956848f4e1dbf9398e 380w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=480&wm=1&s=30e7070244d3dbbdc313dc00301b167d 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=782&wm=1&s=dc293e114c34c7ba7d1e269b25d72477 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=1023&wm=1&s=d2d2425eb0449983cfe7c8a4e3786e5d 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=1920&wm=1&s=9760840fd0bebd6f7acfe059cc0de2f8",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=480&wm=1&s=30e7070244d3dbbdc313dc00301b167d 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=782&wm=1&s=dc293e114c34c7ba7d1e269b25d72477 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=1023&wm=1&s=d2d2425eb0449983cfe7c8a4e3786e5d 1023w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed54b3001.webp?fit=crop&h=0&w=1920&wm=1&s=9760840fd0bebd6f7acfe059cc0de2f8 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 1 mes",
+      "uploaded_on": "hace 1 mes"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=380&wm=1&s=94aa32df8cc0c45d8dac34a55d4bb108",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=380&wm=1&s=94aa32df8cc0c45d8dac34a55d4bb108 380w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=480&wm=1&s=84d72762ae1ca48db009df6b1d3c56e6 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=782&wm=1&s=321f58692e18b65ed8ae5ff40ce6014f 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=1023&wm=1&s=e8d18d33f1620447d67a6669822e6e58 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=1920&wm=1&s=6b6e065da08d38921552b414c5c95956",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=480&wm=1&s=84d72762ae1ca48db009df6b1d3c56e6 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=782&wm=1&s=321f58692e18b65ed8ae5ff40ce6014f 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=1023&wm=1&s=e8d18d33f1620447d67a6669822e6e58 1023w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ed5239a73.webp?fit=crop&h=0&w=1920&wm=1&s=6b6e065da08d38921552b414c5c95956 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 1 mes",
+      "uploaded_on": "hace 1 mes"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=380&wm=1&s=dc8967dea9e307d6a3da4a489d8ef979",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=380&wm=1&s=dc8967dea9e307d6a3da4a489d8ef979 380w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=480&wm=1&s=b131f9460ad8436238ee21749aa010c6 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=782&wm=1&s=04ed96347e067c073e34968f5bd7edb1 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=1023&wm=1&s=71c3e6b885a1967ee5b21e8e2e54b51e 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=1920&wm=1&s=de32b1ecb30db5e634ef0fa3c1387ecd",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=480&wm=1&s=b131f9460ad8436238ee21749aa010c6 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=782&wm=1&s=04ed96347e067c073e34968f5bd7edb1 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=1023&wm=1&s=71c3e6b885a1967ee5b21e8e2e54b51e 1023w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ec97cdaf1.webp?fit=crop&h=0&w=1920&wm=1&s=de32b1ecb30db5e634ef0fa3c1387ecd 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 1 mes",
+      "uploaded_on": "hace 1 mes"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=380&wm=1&s=ff7c1335488745787f227e5947adb1b0",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=380&wm=1&s=ff7c1335488745787f227e5947adb1b0 380w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=480&wm=1&s=ec681aef4c39c015b9c304249f7b8bca 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=782&wm=1&s=186b6d73a86287255c482b9ae944fdab 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=1023&wm=1&s=2a38452a14073218291155dca4a40624 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=1920&wm=1&s=6bcfcfeef2fac4506f8d6e14aa07223f",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=480&wm=1&s=ec681aef4c39c015b9c304249f7b8bca 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=782&wm=1&s=186b6d73a86287255c482b9ae944fdab 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=1023&wm=1&s=2a38452a14073218291155dca4a40624 1023w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7ebe1e8d93.webp?fit=crop&h=0&w=1920&wm=1&s=6bcfcfeef2fac4506f8d6e14aa07223f 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 1 mes",
+      "uploaded_on": "hace 1 mes"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=380&wm=1&s=225869a89549eec22f82c949bbf48724",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=380&wm=1&s=225869a89549eec22f82c949bbf48724 380w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=480&wm=1&s=52f0d4ec7516dc998403d1acebd95032 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=782&wm=1&s=5430c83b2e5da9d0d2bb7f874b5dd870 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=1023&wm=1&s=11c6015e8ad470171f6201cb4edd8cc0 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=1920&wm=1&s=7c17bb0cb9b78f8b21dabd4d73c6ca6e",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=480&wm=1&s=52f0d4ec7516dc998403d1acebd95032 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=782&wm=1&s=5430c83b2e5da9d0d2bb7f874b5dd870 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=1023&wm=1&s=11c6015e8ad470171f6201cb4edd8cc0 1023w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba388f4f.webp?fit=crop&h=0&w=1920&wm=1&s=7c17bb0cb9b78f8b21dabd4d73c6ca6e 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 1 mes",
+      "uploaded_on": "hace 1 mes"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=380&wm=1&s=ed08c837f2557be891a10b8888d5531f",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=380&wm=1&s=ed08c837f2557be891a10b8888d5531f 380w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=480&wm=1&s=337e40535ebd1f78a11d8a5198d377ee 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=782&wm=1&s=588682966a9e94bfa258f20d2bb3e823 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=1023&wm=1&s=465b03811382051bc1a5ba4e6ec2f31e 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=1920&wm=1&s=371b19b5d54c6c7d8ae28af64aed8937",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=480&wm=1&s=337e40535ebd1f78a11d8a5198d377ee 480w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=782&wm=1&s=588682966a9e94bfa258f20d2bb3e823 782w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=1023&wm=1&s=465b03811382051bc1a5ba4e6ec2f31e 1023w, https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=1920&wm=1&s=371b19b5d54c6c7d8ae28af64aed8937 1920w",
+      "width": 1290,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 1 mes",
+      "uploaded_on": "hace 1 mes"
+    }
+  ],
+  "galleryImgAlt": "Lucia, 27 - Chica elegante y cercana, encuentros tranquilos.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/spain/escorts\" title=\"Escorts en España\">España</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts\" title=\"Escorts en Madrid\">Madrid</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/madrid/escorts/spanish-nationality\" title=\"Escorts española en Madrid\">española</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/madrid/escorts/caucasian-ethnic\" title=\"Escorts blanco en Madrid\">blanco</a>",
+    "meetingWith": "encuentro con un hombre y hombres",
+    "meetingPlace": "dirección profesional, <a href=\"https://topescortbabes.com/es/madrid/escorts/outcall\" title=\"Escorts a domicilio en Madrid\">a domicilio</a>",
+    "age": "<a href=\"https://topescortbabes.com/es/madrid/escorts/college_girl-age\" title=\"Universitaria escorts en Madrid\">27</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/madrid/escorts/medium-height\" title=\"Escorts de altura media en Madrid\">163cm / 5'4\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/madrid/escorts/50_60-weight\" title=\"Escorts que pesan 50-60 kg en Madrid\">56kg / 123lbs</a>",
+    "bust": "90",
+    "hip": "95",
+    "waist": "70",
+    "hair": "<a href=\"https://topescortbabes.com/es/madrid/escorts/brunette-hair\" title=\"Escorts de cabello morena en Madrid\">pelo castaño</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/madrid/escorts/green-eyes\" title=\"Escorts de ojos verdes en Madrid\">ojos verdes</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/madrid/escorts/heterosexual-sexuality\" title=\"Escorts heterosexuales en Madrid\">Heterosexual</a>",
+    "languages": "habla español, inglés y francés",
+    "drink": "",
+    "music": "",
+    "hobby": ""
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "video",
+    "path": "https://topescortbabes.com/es/video/get-url/dmlkZW9fZHJvcGxldF9wcm9maWxlLzg4LzE3LzQxMDg4MTcvdGViLzU5ZGI2ZjBlZDIxNDE4ZjI1MTdhZWI1ZGNiMTQzYzcwYjBkZDA2MmMvZnVsbC5tcDQ=",
+    "poster": "https://img.topescortbabes.com/videos/profile/88/17/4108817/teb/59db6f0ed21418f2517aeb5dcb143c70b0dd062c/full_0.jpg?o=png&wm=1",
+    "fallback": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=575&wm=1&s=e910830c5806fc2fbcb7b6e8a47fccd2",
+    "orientation": "portrait",
+    "width": "720",
+    "height": "1280",
+    "small_image": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=110&w=110&s=b7c8ac558c826789d4fc0f2cd004e68b"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 28 marzo, 2026",
+  "aiTitle": "Chica elegante y cercana, encuentros tranquilos.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4108817"
+    }
+  ],
+  "spokenLanguage": "habla español, inglés y francés",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "P0pOU1dXWVxlYmJq",
+  "encodedTelegram": "",
+  "contactOptions": [
+    "Whatsapp"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": false,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4108817,
+    "pic": 7,
+    "vid": 1,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 226,
+    "ci": 102,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "861 vistas, 15 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/madrid/escorts",
+      "text": "Más escorts en Madrid"
+    }
+  ],
+  "trackHash": "210cbb06-2g2dt-8a1480",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817",
+  "metaTitle": "Lucia - Chica elegante y cercana, encuentros tranquilos.",
+  "metaDescription": "Soy una chica elegante, natural y muy cercana, ideal para quienes valoran la discreción y el buen trato.\nMe gusta implicarme y ofrecer encuentros tranquilos, si…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.webp?fit=crop&h=0&w=575&wm=1&s=e910830c5806fc2fbcb7b6e8a47fccd2",
+  "logoTitle": "Escorts en España",
+  "preloadImages": [],
+  "country": {
+    "id": "226",
+    "name": "España",
+    "seo_name": "España",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "locationName": "Madrid",
+  "locationUrl": "madrid",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "9360",
+      "country_id": "226",
+      "city_escaped": "adeje",
+      "name": "Adeje",
+      "user_count": "70"
+    },
+    {
+      "id": "158",
+      "country_id": "226",
+      "city_escaped": "barcelona",
+      "name": "Barcelona",
+      "user_count": "171"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "name": "Ibiza",
+      "user_count": "27"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "name": "Mallorca",
+      "user_count": "20"
+    },
+    {
+      "id": "2588",
+      "country_id": "226",
+      "city_escaped": "santa-cruz",
+      "name": "Santa Cruz",
+      "user_count": "17"
+    },
+    {
+      "id": "17452",
+      "country_id": "226",
+      "city_escaped": "tenerife",
+      "name": "Tenerife",
+      "user_count": "37"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "España",
+        "schemaText": "",
+        "title": "Escorts y putas en España",
+        "url": "https://topescortbabes.com/es/spain/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "Madrid",
+        "schemaText": "",
+        "title": "Escorts y putas en Madrid",
+        "url": "https://topescortbabes.com/es/madrid/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Lucia",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con Lucia?",
+      "content": "<p>Puedes reservar una cita con Lucia de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar vía WhatsApp.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla Lucia?",
+      "content": "Lucia habla habla español, inglés y francés.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con Lucia?",
+      "content": "Lucia se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de Lucia son reales y verificadas?",
+      "content": "Todas las fotos de Lucia han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 1 mes.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#person",
+        "name": "Lucia",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=44215837d343af5aad8fce35ee68a4b3",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "description": "Soy una chica elegante, natural y muy cercana, ideal para quienes valoran la discreción y el buen trato.<br />\nMe gusta implicarme y ofrecer encuentros tranquilos, sin prisas, donde ambos podamos disfrutar de una conexión real.<br />\nAtiendo en Madrid, en espacios cómodos y discretos.<br />\nSi sabes lo que buscas y valoras la calidad, estaré encantada de conocerte.",
+        "nationality": {
+          "@type": "Country",
+          "name": "Sri Lanka"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "163",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "56",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          },
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "French",
+            "alternateName": "fr"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "200",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-14",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#organization",
+        "name": "Lucia",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=44215837d343af5aad8fce35ee68a4b3",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#service",
+        "name": "Lucia Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#person"
+        },
+        "url": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/8/817/Lucia--4108817-69c7eba304361.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=44215837d343af5aad8fce35ee68a4b3",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "200",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "España",
+              "@id": "https://topescortbabes.com/es/spain/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "Madrid",
+              "@id": "https://topescortbabes.com/es/madrid/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Lucia",
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Lucia_4108817"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con Lucia?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con Lucia de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar vía WhatsApp.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla Lucia?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lucia habla habla español, inglés y francés."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con Lucia?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lucia se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de Lucia son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de Lucia han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 1 mes."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts Madrid",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en Madrid"
+}

@@ -1,0 +1,894 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "5892",
+      "country_id": "82",
+      "city_escaped": "charenton-le-pont",
+      "url_segment": "charenton-le-pont",
+      "distance": "3.177451079335443",
+      "name": "Charenton-le-Pont",
+      "user_count": "1"
+    },
+    {
+      "id": "5003",
+      "country_id": "82",
+      "city_escaped": "clichy",
+      "url_segment": "clichy",
+      "distance": "3.903562821082465",
+      "name": "Clichy",
+      "user_count": "2"
+    },
+    {
+      "id": "4886",
+      "country_id": "82",
+      "city_escaped": "levallois-perret",
+      "url_segment": "levallois-perret",
+      "distance": "3.970087727257894",
+      "name": "Levallois-Perret",
+      "user_count": "1"
+    },
+    {
+      "id": "4849",
+      "country_id": "82",
+      "city_escaped": "aubervilliers",
+      "url_segment": "aubervilliers",
+      "distance": "4.148709508710331",
+      "name": "Aubervilliers",
+      "user_count": "1"
+    },
+    {
+      "id": "4043",
+      "country_id": "82",
+      "city_escaped": "montreuil",
+      "url_segment": "montreuil",
+      "distance": "4.166958364374688",
+      "name": "Montreuil",
+      "user_count": "1"
+    },
+    {
+      "id": "5560",
+      "country_id": "82",
+      "city_escaped": "alfortville",
+      "url_segment": "alfortville",
+      "distance": "4.833505360877483",
+      "name": "Alfortville",
+      "user_count": "3"
+    },
+    {
+      "id": "5731",
+      "country_id": "82",
+      "city_escaped": "noisy-le-sec",
+      "url_segment": "noisy-le-sec",
+      "distance": "5.000554306953023",
+      "name": "Noisy-le-Sec",
+      "user_count": "1"
+    },
+    {
+      "id": "5404",
+      "country_id": "82",
+      "city_escaped": "maisons-alfort",
+      "url_segment": "maisons-alfort",
+      "distance": "5.244091543634015",
+      "name": "Maisons-Alfort",
+      "user_count": "2"
+    },
+    {
+      "id": "3601",
+      "country_id": "82",
+      "city_escaped": "boulogne-billancourt",
+      "url_segment": "boulogne-billancourt",
+      "distance": "5.274216637513684",
+      "name": "Boulogne-Billancourt",
+      "user_count": "4"
+    },
+    {
+      "id": "4557",
+      "country_id": "82",
+      "city_escaped": "courbevoic",
+      "url_segment": "courbevoic",
+      "distance": "5.326714499912934",
+      "name": "Courbevoic",
+      "user_count": "1"
+    },
+    {
+      "id": "5494",
+      "country_id": "82",
+      "city_escaped": "bobigny",
+      "url_segment": "bobigny",
+      "distance": "5.45131228977101",
+      "name": "Bobigny",
+      "user_count": "2"
+    },
+    {
+      "id": "4096",
+      "country_id": "82",
+      "city_escaped": "saint-denis-fr",
+      "url_segment": "saint-denis-fr",
+      "distance": "5.459445465726269",
+      "name": "Saint-Denis",
+      "user_count": "3"
+    },
+    {
+      "id": "5533",
+      "country_id": "82",
+      "city_escaped": "puteaux",
+      "url_segment": "puteaux",
+      "distance": "5.509853532256313",
+      "name": "Puteaux",
+      "user_count": "5"
+    },
+    {
+      "id": "5760",
+      "country_id": "82",
+      "city_escaped": "gennevilliers",
+      "url_segment": "gennevilliers",
+      "distance": "5.805637622334316",
+      "name": "Gennevilliers",
+      "user_count": "1"
+    },
+    {
+      "id": "5711",
+      "country_id": "82",
+      "city_escaped": "rosny-sous-bois",
+      "url_segment": "rosny-sous-bois",
+      "distance": "6.000290193409878",
+      "name": "Rosny-sous-Bois",
+      "user_count": "1"
+    },
+    {
+      "id": "5482",
+      "country_id": "82",
+      "city_escaped": "suresnes",
+      "url_segment": "suresnes",
+      "distance": "6.080091345807337",
+      "name": "Suresnes",
+      "user_count": "1"
+    },
+    {
+      "id": "4877",
+      "country_id": "82",
+      "city_escaped": "colombes",
+      "url_segment": "colombes",
+      "distance": "6.48471914561849",
+      "name": "Colombes",
+      "user_count": "1"
+    },
+    {
+      "id": "5098",
+      "country_id": "82",
+      "city_escaped": "drancy",
+      "url_segment": "drancy",
+      "distance": "6.740904463147947",
+      "name": "Drancy",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4101522,
+  "agencyId": 416713,
+  "nickname": "Okami",
+  "age": "25",
+  "baseCity": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "fr",
+      "name": "Francia",
+      "subdomain": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "currentCity": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "FR",
+      "name": "Francia",
+      "url_segment": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "minimumPrice": "Desde 400 €",
+  "photosCount": 11,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "activo hace 16 horas",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Ready for an adventure where every minute is pure debauchery? I'm your lustful little vixen who can't resist touching and sucking your hard shaft. I love purring dirty things while my tits rub against you, and I bring you to the point where cum flows like a river through my body. I'm so wet from thinking about you that I'm already dripping, imagining you entering and tearing me apart with pleasure. Waiting to make you happy and empty 😏💋<br />\n",
+    "original": "Ready for an adventure where every minute is pure debauchery? I'm your lustful little vixen who can't resist touching and sucking your hard shaft. I love purring dirty things while my tits rub against you, and I bring you to the point where cum flows like a river through my body. I'm so wet from thinking about you that I'm already dripping, imagining you entering and tearing me apart with pleasure. Waiting to make you happy and empty 😏💋<br />\n",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "400",
+      "currency": "EUR"
+    },
+    {
+      "label": "2 horas",
+      "price": "800",
+      "currency": "EUR"
+    },
+    {
+      "label": "3 horas",
+      "price": "1200",
+      "currency": "EUR"
+    },
+    {
+      "label": "24 horas",
+      "price": "2000",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios <b>en mi piso</b> y <b>a domicilio o en hotel</b>. Las tarifas a domicilio pueden variar.",
+  "priceLabelType": null,
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=380&wm=1&s=6d839d517ac76b6af23b26d4ada6f860",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=380&wm=1&s=6d839d517ac76b6af23b26d4ada6f860 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=480&wm=1&s=41afeb8cc96283d368fe0d3d06495d3a 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=782&wm=1&s=b0bf6646ef4a5c390a41d7607ddc54c0 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=1023&wm=1&s=b18e639efc51853d381d018e494ac563 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=1920&wm=1&s=dd0cd603421fac1c656de78f46a0753a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=480&wm=1&s=41afeb8cc96283d368fe0d3d06495d3a 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=782&wm=1&s=b0bf6646ef4a5c390a41d7607ddc54c0 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=1023&wm=1&s=b18e639efc51853d381d018e494ac563 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836be66b0.webp?fit=crop&h=0&w=1920&wm=1&s=dd0cd603421fac1c656de78f46a0753a 1920w",
+      "width": 1281,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=380&wm=1&s=0140dbb22257b50db23dda5ee22fc2a8",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=380&wm=1&s=0140dbb22257b50db23dda5ee22fc2a8 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=480&wm=1&s=e2b923945dcaebe189fc2c67dcefbad0 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=782&wm=1&s=6a94b1dc9c29d1b1df3bb78a7ef3c3b4 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=1023&wm=1&s=d5ea3e6062a1a125c3ea624c77b87ed5 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=1920&wm=1&s=32236967aa87c2fa595cb45eb0a54fe5",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=480&wm=1&s=e2b923945dcaebe189fc2c67dcefbad0 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=782&wm=1&s=6a94b1dc9c29d1b1df3bb78a7ef3c3b4 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=1023&wm=1&s=d5ea3e6062a1a125c3ea624c77b87ed5 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c08289.webp?fit=crop&h=0&w=1920&wm=1&s=32236967aa87c2fa595cb45eb0a54fe5 1920w",
+      "width": 1278,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=380&wm=1&s=df16aac1a79abf5639ae8494c2bdada0",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=380&wm=1&s=df16aac1a79abf5639ae8494c2bdada0 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=480&wm=1&s=cc21acde7260324bd6181879216295a5 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=782&wm=1&s=dd3f8aa74e1892f5eead65ec2659cd7a 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=1023&wm=1&s=24d4f3d47d82835543c98b38d7d78520 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=1920&wm=1&s=f7f4316243dc1a2b1a8d87fe54183ff3",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=480&wm=1&s=cc21acde7260324bd6181879216295a5 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=782&wm=1&s=dd3f8aa74e1892f5eead65ec2659cd7a 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=1023&wm=1&s=24d4f3d47d82835543c98b38d7d78520 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c13f10.webp?fit=crop&h=0&w=1920&wm=1&s=f7f4316243dc1a2b1a8d87fe54183ff3 1920w",
+      "width": 1291,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=380&wm=1&s=f820a6511367b1e1ab0ee8ebad738358",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=380&wm=1&s=f820a6511367b1e1ab0ee8ebad738358 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=480&wm=1&s=80d4cd2313aa7d38b02ce99a8653ba35 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=782&wm=1&s=6e17a25cb64a0391ad5cdc36ac215b90 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=1023&wm=1&s=b7901c66c782a279fd835633b0445283 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=1920&wm=1&s=186dc754ff78d775d94311fb2f547a5c",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=480&wm=1&s=80d4cd2313aa7d38b02ce99a8653ba35 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=782&wm=1&s=6e17a25cb64a0391ad5cdc36ac215b90 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=1023&wm=1&s=b7901c66c782a279fd835633b0445283 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c0c752.webp?fit=crop&h=0&w=1920&wm=1&s=186dc754ff78d775d94311fb2f547a5c 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=380&wm=1&s=207a24590cf7bb8d136aa63f551942f0",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=380&wm=1&s=207a24590cf7bb8d136aa63f551942f0 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=480&wm=1&s=92ff8b75924e5d06f7e4e0494d6d5c1b 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=782&wm=1&s=b0fcdb5e4ac5acd2b354c71ba2ad04a3 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=1023&wm=1&s=fbc5f8d94f659d30950a5c6d9343a8e4 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=1920&wm=1&s=3062b3491dd30a8739d42f3a707331f7",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=480&wm=1&s=92ff8b75924e5d06f7e4e0494d6d5c1b 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=782&wm=1&s=b0fcdb5e4ac5acd2b354c71ba2ad04a3 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=1023&wm=1&s=fbc5f8d94f659d30950a5c6d9343a8e4 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c10e7a.webp?fit=crop&h=0&w=1920&wm=1&s=3062b3491dd30a8739d42f3a707331f7 1920w",
+      "width": 1278,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=380&wm=1&s=2562ec04fce0c54b1cdf2b1375f22bd8",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=380&wm=1&s=2562ec04fce0c54b1cdf2b1375f22bd8 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=480&wm=1&s=c72f426640722e9f5659e5c5afb73463 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=782&wm=1&s=4f31e064d179afae7ae75539f510955c 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=1023&wm=1&s=6d480fc454a18705eabdcb1befaaaf67 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=1920&wm=1&s=244a46c1e6cc48745a9eef1f2637081c",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=480&wm=1&s=c72f426640722e9f5659e5c5afb73463 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=782&wm=1&s=4f31e064d179afae7ae75539f510955c 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=1023&wm=1&s=6d480fc454a18705eabdcb1befaaaf67 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c1fa4f.webp?fit=crop&h=0&w=1920&wm=1&s=244a46c1e6cc48745a9eef1f2637081c 1920w",
+      "width": 1278,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=380&wm=1&s=7ce8861df44f5a14c43bf9e79cd07325",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=380&wm=1&s=7ce8861df44f5a14c43bf9e79cd07325 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=480&wm=1&s=2f8c22773de39bf9e270b858de4ca0a6 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=782&wm=1&s=afa6a1cece7642fc61312905259ca1c1 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=1023&wm=1&s=a84f2459e55b6d57b6be92810f893e5d 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=1920&wm=1&s=28d643500845adf00515c8e1372579f0",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=480&wm=1&s=2f8c22773de39bf9e270b858de4ca0a6 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=782&wm=1&s=afa6a1cece7642fc61312905259ca1c1 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=1023&wm=1&s=a84f2459e55b6d57b6be92810f893e5d 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c218ad.webp?fit=crop&h=0&w=1920&wm=1&s=28d643500845adf00515c8e1372579f0 1920w",
+      "width": 1920,
+      "height": 1279,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=380&wm=1&s=34966b267e40426cb531bf427cbceb67",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=380&wm=1&s=34966b267e40426cb531bf427cbceb67 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=480&wm=1&s=ca0236b69d681ab54d538153369f5478 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=782&wm=1&s=f145f8bf706c7ff8a0a32e949461db9f 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=1023&wm=1&s=bcf4f8d73a7bb5ec4e012e13009776dd 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=1920&wm=1&s=ddd36789233a84f591d667bf0d73236f",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=480&wm=1&s=ca0236b69d681ab54d538153369f5478 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=782&wm=1&s=f145f8bf706c7ff8a0a32e949461db9f 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=1023&wm=1&s=bcf4f8d73a7bb5ec4e012e13009776dd 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c11746.webp?fit=crop&h=0&w=1920&wm=1&s=ddd36789233a84f591d667bf0d73236f 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=380&wm=1&s=91885953a37651411b56640ad832c952",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=380&wm=1&s=91885953a37651411b56640ad832c952 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=480&wm=1&s=44c2bc7d9be6964cc91a4b37c91452d9 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=782&wm=1&s=0380f0705851b560651e482710421080 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=1023&wm=1&s=05e5e70fcd9006528c980942f6dc711f 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=1920&wm=1&s=f34bdd6422b0877d1560aa3f97b8710a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=480&wm=1&s=44c2bc7d9be6964cc91a4b37c91452d9 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=782&wm=1&s=0380f0705851b560651e482710421080 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=1023&wm=1&s=05e5e70fcd9006528c980942f6dc711f 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c113a9.webp?fit=crop&h=0&w=1920&wm=1&s=f34bdd6422b0877d1560aa3f97b8710a 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=380&wm=1&s=b07985078a42f321ee5c0ce6bbfb89ad",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=380&wm=1&s=b07985078a42f321ee5c0ce6bbfb89ad 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=480&wm=1&s=d6897766e6f53b5f9291dd66cc4eadc6 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=782&wm=1&s=a9fb57fe7b16d31720ab18a4aeedd93d 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=1023&wm=1&s=df9af6f15fd2d15b2172c45abd998ce0 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=1920&wm=1&s=5242934d87429a89c5b8e30eab4f033a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=480&wm=1&s=d6897766e6f53b5f9291dd66cc4eadc6 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=782&wm=1&s=a9fb57fe7b16d31720ab18a4aeedd93d 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=1023&wm=1&s=df9af6f15fd2d15b2172c45abd998ce0 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c14326.webp?fit=crop&h=0&w=1920&wm=1&s=5242934d87429a89c5b8e30eab4f033a 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=380&wm=1&s=83564b1a3b83c2b66a55d88cf72ec81f",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=380&wm=1&s=83564b1a3b83c2b66a55d88cf72ec81f 380w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=480&wm=1&s=92c73ceffb759b6bef5362a0f114d215 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=782&wm=1&s=a90a7da7a7494ddba5083f1c94533d44 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=1023&wm=1&s=4bf6efa2b39d3634ea02233882683f1b 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=1920&wm=1&s=b53c49f681c11f3ad6be68c0cc4ad9e3",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=480&wm=1&s=92c73ceffb759b6bef5362a0f114d215 480w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=782&wm=1&s=a90a7da7a7494ddba5083f1c94533d44 782w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=1023&wm=1&s=4bf6efa2b39d3634ea02233882683f1b 1023w, https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=1920&wm=1&s=b53c49f681c11f3ad6be68c0cc4ad9e3 1920w",
+      "width": 1920,
+      "height": 1279,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 6 meses",
+      "uploaded_on": "hace 6 meses"
+    }
+  ],
+  "galleryImgAlt": "Okami, 25 - Chica lista para la aventura, placer sin fin.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/france/escorts\" title=\"Escorts en Francia\">Francia</a>, <a href=\"https://topescortbabes.com/es/paris/escorts\" title=\"Escorts en París\">París</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/paris/escorts/brazilian-nationality\" title=\"Escorts brasileña en París\">brasileña</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/paris/escorts/caucasian-ethnic\" title=\"Escorts blanco en París\">blanco</a>",
+    "meetingWith": "encuentro con una mujer, mujeres, un hombre, una pareja y parejas",
+    "meetingPlace": "<a href=\"https://topescortbabes.com/es/paris/escorts/incall\" title=\"Escorts en su piso en París\">mi piso</a>, <a href=\"https://topescortbabes.com/es/paris/escorts/outcall\" title=\"Escorts a domicilio en París\">a domicilio</a>",
+    "age": "<a href=\"https://topescortbabes.com/es/paris/escorts/college_girl-age\" title=\"Universitaria escorts en París\">25</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/paris/escorts/medium-height\" title=\"Escorts de altura media en París\">163cm / 5'4\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/paris/escorts/50_60-weight\" title=\"Escorts que pesan 50-60 kg en París\">50kg / 110lbs</a>",
+    "bust": "90",
+    "hip": "90",
+    "waist": "60",
+    "hair": "<a href=\"https://topescortbabes.com/es/paris/escorts/blonde-hair\" title=\"Escorts rubia en París\">pelo rubio</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/paris/escorts/brown-eyes\" title=\"Escorts de ojos marrones en París\">ojos marrones</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/paris/escorts/bisexual-sexuality\" title=\"Escorts bisexuales en París\">Bisexual</a>",
+    "languages": "habla portugués y inglés",
+    "drink": "",
+    "music": "",
+    "hobby": ""
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "video",
+    "path": "https://topescortbabes.com/es/video/get-url/dmlkZW9fZHJvcGxldF9wcm9maWxlLzE1LzIyLzQxMDE1MjIvdGViLzI3ZTVjZDk3ZjFhZjcxN2ZiNzhiOTI1NjAzYmRkMTQyNDMwNzhhYjYvZnVsbC5tcDQ=",
+    "poster": "https://img.topescortbabes.com/videos/profile/15/22/4101522/teb/27e5cd97f1af717fb78b925603bdd14243078ab6/full_0.jpg?o=png&wm=1",
+    "fallback": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=575&wm=1&s=525868f54928b5b576b408073eba0cbb",
+    "orientation": "portrait",
+    "width": "1080",
+    "height": "1920",
+    "small_image": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=110&w=110&s=b4952554c2dc1c77fa2a666c2075e618"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 26 febrero, 2026",
+  "aiTitle": "Chica lista para la aventura, placer sin fin.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4101522"
+    },
+    {
+      "name": "Paris Escort Girls",
+      "url": "https://parisescortgirls.fr/4101522"
+    }
+  ],
+  "spokenLanguage": "habla portugués y inglés",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "RFBTWVhgYWNkamlybQ==",
+  "encodedTelegram": "IjE0MzliWl1GYkVAbGt3eiEgKCkrLDIxOjU=",
+  "contactOptions": [
+    "Whatsapp",
+    "Telegram"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": true,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4101522,
+    "pic": 12,
+    "vid": 1,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 82,
+    "ci": 35,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "2mil vistas, 27 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/paris/escorts",
+      "text": "Más escorts en París"
+    },
+    {
+      "link": "https://topescortbabes.com/es/paris/erotic-massage",
+      "text": "Más masajistas sexy en París"
+    }
+  ],
+  "trackHash": "a4a6e67a-2fwr6-278fe3",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/paris/escorts/Okami_4101522",
+  "metaTitle": "Okami - Chica lista para la aventura, placer sin fin.",
+  "metaDescription": "Ready for an adventure where every minute is pure debauchery? I'm your lustful little vixen who can't resist touching and sucking your hard shaft. I love purrin…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.webp?fit=crop&h=0&w=575&wm=1&s=525868f54928b5b576b408073eba0cbb",
+  "logoTitle": "Escorts en Francia",
+  "preloadImages": [],
+  "country": {
+    "id": "82",
+    "name": "Francia",
+    "seo_name": "Francia",
+    "iso2": "FR",
+    "code": "FRA",
+    "new_seo": "0",
+    "shortname": "Paris",
+    "subdomain": "france",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "76",
+    "conversion_rate": "1",
+    "nationality_id": "65",
+    "default_language": "fr",
+    "region": "Europe",
+    "sub_region": "Western Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"BE\", \"DE\", \"IT\", \"LU\", \"MC\", \"ES\", \"CH\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "FR",
+      "name": "Francia",
+      "url_segment": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "locationName": "París",
+  "locationUrl": "paris",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "5164",
+      "country_id": "82",
+      "city_escaped": "cannes",
+      "name": "Cannes",
+      "user_count": "23"
+    },
+    {
+      "id": "2004",
+      "country_id": "82",
+      "city_escaped": "strasbourg",
+      "name": "Estrasburgo",
+      "user_count": "13"
+    },
+    {
+      "id": "1207",
+      "country_id": "82",
+      "city_escaped": "lyon",
+      "name": "Lyon",
+      "user_count": "25"
+    },
+    {
+      "id": "806",
+      "country_id": "82",
+      "city_escaped": "marseille",
+      "name": "Marsella",
+      "user_count": "15"
+    },
+    {
+      "id": "1963",
+      "country_id": "82",
+      "city_escaped": "montpellier",
+      "name": "Montpellier",
+      "user_count": "11"
+    },
+    {
+      "id": "1712",
+      "country_id": "82",
+      "city_escaped": "nice",
+      "name": "Niza",
+      "user_count": "17"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "Francia",
+        "schemaText": "",
+        "title": "Escorts y putas en Francia",
+        "url": "https://topescortbabes.com/es/france/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "París",
+        "schemaText": "",
+        "title": "Escorts y putas en París",
+        "url": "https://topescortbabes.com/es/paris/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Okami",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con Okami?",
+      "content": "<p>Puedes reservar una cita con Okami de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: WhatsApp, Telegram.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla Okami?",
+      "content": "Okami habla habla portugués y inglés.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con Okami?",
+      "content": "Okami se encuentra actualmente en París. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de Okami son reales y verificadas?",
+      "content": "Todas las fotos de Okami han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 6 meses.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#person",
+        "name": "Okami",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=7320c626633a6552267c66621e68e115",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "París",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "48.8566",
+            "longitude": "2.3522"
+          }
+        },
+        "description": "Ready for an adventure where every minute is pure debauchery? I'm your lustful little vixen who can't resist touching and sucking your hard shaft. I love purring dirty things while my tits rub against you, and I bring you to the point where cum flows like a river through my body. I'm so wet from thinking about you that I'm already dripping, imagining you entering and tearing me apart with pleasure. Waiting to make you happy and empty 😏💋<br />\n",
+        "nationality": {
+          "@type": "Country",
+          "name": "Brazil"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "163",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "50",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "Portuguese",
+            "alternateName": "pt"
+          },
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "400",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-16",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#organization",
+        "name": "Okami",
+        "url": "https://topescortbabes.com/es/paris/escorts/Okami_4101522",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=7320c626633a6552267c66621e68e115",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#service",
+        "name": "Okami Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#person"
+        },
+        "url": "https://topescortbabes.com/es/paris/escorts/Okami_4101522",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/1/522/Okami--4101522-6907836c03e71.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=7320c626633a6552267c66621e68e115",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "París",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "48.8566",
+            "longitude": "2.3522"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "400",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "2 horas",
+            "price": "800",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "3 horas",
+            "price": "1200",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "24 horas",
+            "price": "2000",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/paris/escorts/Okami_4101522",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "Francia",
+              "@id": "https://topescortbabes.com/es/france/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "París",
+              "@id": "https://topescortbabes.com/es/paris/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Okami",
+              "@id": "https://topescortbabes.com/es/paris/escorts/Okami_4101522"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con Okami?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con Okami de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: WhatsApp, Telegram.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla Okami?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Okami habla habla portugués y inglés."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con Okami?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Okami se encuentra actualmente en París. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de Okami son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de Okami han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 6 meses."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts París",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en París"
+}

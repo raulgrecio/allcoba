@@ -1,4 +1,4 @@
-import { jsonb, pgTable, real, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { jsonb, pgTable, primaryKey, real, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 /**
  * Scraper persistence schema — canonical design.
@@ -51,3 +51,26 @@ export const verticalTables = {
 
 export type ScrapedProviderRow = typeof datingProviders.$inferSelect;
 export type NewScrapedProviderRow = typeof datingProviders.$inferInsert;
+
+/**
+ * Raw payload table — opaque source payload preserved as-is before any
+ * mapping to the canonical model. PK is (source, source_id) so a re-scrape
+ * overwrites the previous capture. `payload` is JSONB; each adapter knows
+ * its own shape.
+ */
+export const rawPayloads = pgTable(
+  'scraped_raw',
+  {
+    source: text('source').notNull(),
+    sourceId: text('source_id').notNull(),
+    sourceUrl: text('source_url'),
+    payload: jsonb('payload').notNull(),
+    capturedAt: timestamp('captured_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.source, table.sourceId] }),
+  }),
+);
+
+export type RawPayloadRow = typeof rawPayloads.$inferSelect;
+export type NewRawPayloadRow = typeof rawPayloads.$inferInsert;

@@ -50,6 +50,9 @@ export type PriceLabelType = 'lower' | 'upper' | 'exact';
 
 export type MeetingWith = 'man' | 'woman' | 'couple' | 'group' | 'other';
 
+/** Self-declared gender of the profile. Source: Schema.org Person.gender. */
+export type Gender = 'female' | 'male' | 'trans' | 'other';
+
 export type MeetingPlace = 'incall' | 'outcall' | 'event' | 'other';
 
 export type Orientation = 'hetero' | 'bi' | 'lesbian' | 'gay' | 'other';

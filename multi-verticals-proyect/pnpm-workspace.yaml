@@ -7,13 +7,16 @@ allowBuilds:
   '[': true
   ']': true
   b: true
+  cpu-features: set this to true or false
   d: true
   e: true
   esbuild: true
   i: true
   l: true
   msw: true
+  protobufjs: set this to true or false
   s: true
   sharp: true
+  ssh2: set this to true or false
   u: true
   unrs-resolver: true

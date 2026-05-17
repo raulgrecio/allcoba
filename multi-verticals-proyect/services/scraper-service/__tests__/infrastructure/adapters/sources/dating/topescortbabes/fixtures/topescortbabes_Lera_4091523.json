@@ -1,0 +1,773 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "6043",
+      "country_id": "226",
+      "city_escaped": "blanes",
+      "url_segment": "blanes",
+      "distance": "37.6039062675703",
+      "name": "Blanes",
+      "user_count": "1"
+    },
+    {
+      "id": "3687",
+      "country_id": "226",
+      "city_escaped": "tarragona",
+      "url_segment": "tarragona",
+      "distance": "51.810572022897006",
+      "name": "Tarragona",
+      "user_count": "2"
+    },
+    {
+      "id": "3625",
+      "country_id": "226",
+      "city_escaped": "lleida",
+      "url_segment": "lleida",
+      "distance": "81.37086746299558",
+      "name": "Lleida",
+      "user_count": "1"
+    },
+    {
+      "id": "10850",
+      "country_id": "226",
+      "city_escaped": "marratxi",
+      "url_segment": "marratxi",
+      "distance": "124.10338795796851",
+      "name": "Marratxi",
+      "user_count": "12"
+    },
+    {
+      "id": "9059",
+      "country_id": "226",
+      "city_escaped": "calvia",
+      "url_segment": "calvia",
+      "distance": "126.76056151747643",
+      "name": "Calviá",
+      "user_count": "1"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "url_segment": "mallorca",
+      "distance": "129.33500773789513",
+      "name": "Mallorca",
+      "user_count": "55"
+    },
+    {
+      "id": "3036",
+      "country_id": "226",
+      "city_escaped": "castellon-de-la-plana",
+      "url_segment": "castellon-de-la-plana",
+      "distance": "151.80145156149626",
+      "name": "Castellón de la Plana",
+      "user_count": "1"
+    },
+    {
+      "id": "973",
+      "country_id": "226",
+      "city_escaped": "zaragoza-es",
+      "url_segment": "zaragoza-es",
+      "distance": "159.09165268262268",
+      "name": "Zaragoza",
+      "user_count": "2"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "url_segment": "ibiza",
+      "distance": "175.54645269805076",
+      "name": "Ibiza",
+      "user_count": "54"
+    },
+    {
+      "id": "854",
+      "country_id": "226",
+      "city_escaped": "valencia",
+      "url_segment": "valencia",
+      "distance": "189.77955212319162",
+      "name": "Valencia",
+      "user_count": "14"
+    },
+    {
+      "id": "7607",
+      "country_id": "226",
+      "city_escaped": "benidorm",
+      "url_segment": "benidorm",
+      "distance": "233.03602686795352",
+      "name": "Benidorm",
+      "user_count": "14"
+    },
+    {
+      "id": "8009",
+      "country_id": "226",
+      "city_escaped": "irun",
+      "url_segment": "irun",
+      "distance": "240.79592633648346",
+      "name": "Irún",
+      "user_count": "2"
+    },
+    {
+      "id": "3386",
+      "country_id": "226",
+      "city_escaped": "logrono",
+      "url_segment": "logrono",
+      "distance": "247.22811573012754",
+      "name": "Logroño",
+      "user_count": "2"
+    },
+    {
+      "id": "1739",
+      "country_id": "226",
+      "city_escaped": "alicante",
+      "url_segment": "alicante",
+      "distance": "254.61411987274107",
+      "name": "Alicante",
+      "user_count": "18"
+    },
+    {
+      "id": "11726",
+      "country_id": "226",
+      "city_escaped": "santa-pola",
+      "url_segment": "santa-pola",
+      "distance": "265.8937264592612",
+      "name": "Santa Pola",
+      "user_count": "1"
+    },
+    {
+      "id": "2220",
+      "country_id": "226",
+      "city_escaped": "vitoria-gasteiz",
+      "url_segment": "vitoria-gasteiz",
+      "distance": "266.29227266873306",
+      "name": "Vitoria-Gasteiz",
+      "user_count": "1"
+    },
+    {
+      "id": "6967",
+      "country_id": "226",
+      "city_escaped": "torrevieja",
+      "url_segment": "torrevieja",
+      "distance": "282.1731933244647",
+      "name": "Torrevieja",
+      "user_count": "2"
+    },
+    {
+      "id": "1670",
+      "country_id": "226",
+      "city_escaped": "bilbao",
+      "url_segment": "bilbao",
+      "distance": "287.52022826396495",
+      "name": "Bilbao",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4091523,
+  "agencyId": 0,
+  "nickname": "Lera",
+  "age": "25",
+  "baseCity": {
+    "id": "158",
+    "name": "Barcelona",
+    "url_segment": "barcelona",
+    "country": {
+      "id": "226",
+      "iso2": "es",
+      "name": "Spain",
+      "subdomain": "spain"
+    },
+    "lat": "41.3825",
+    "lng": "2.1769"
+  },
+  "currentCity": {
+    "id": "158",
+    "name": "Barcelona",
+    "url_segment": "barcelona",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "Spain",
+      "url_segment": "spain"
+    },
+    "lat": "41.3825",
+    "lng": "2.1769"
+  },
+  "minimumPrice": null,
+  "photosCount": 8,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "Active 7 days ago",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "I'm a beautiful, well-groomed, cheerful, and sexy girl. The one in the photo and video, I'm not an agency and I'm not fake. I'm an individual. I accept any payment system in my country. It's a pleasure to spend time with me. 🫶🏻",
+    "original": "I'm a beautiful, well-groomed, cheerful, and sexy girl. The one in the photo and video, I'm not an agency and I'm not fake. I'm an individual. I accept any payment system in my country. It's a pleasure to spend time with me. 🫶🏻",
+    "original_language": ""
+  },
+  "prices": [],
+  "serviceText": " Ask prices by message or phone.",
+  "priceLabelType": null,
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=380&wm=1&s=383771d8f0910f5bd7f8b32cff28475a",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=380&wm=1&s=383771d8f0910f5bd7f8b32cff28475a 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=480&wm=1&s=f271bb05e5cd93e2ae02fde1563a5c89 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=782&wm=1&s=c34063a03597c1f8d946ed6ab1e696f0 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=1023&wm=1&s=552bc3989ed0bd9b82f5f0924a9b4cc8 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=1920&wm=1&s=7024504da2e24f13f01f812e8022753b",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=480&wm=1&s=f271bb05e5cd93e2ae02fde1563a5c89 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=782&wm=1&s=c34063a03597c1f8d946ed6ab1e696f0 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=1023&wm=1&s=552bc3989ed0bd9b82f5f0924a9b4cc8 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034237d3e5.webp?fit=crop&h=0&w=1920&wm=1&s=7024504da2e24f13f01f812e8022753b 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=380&wm=1&s=56ff1ac7aea9e55b8c0ffd98cd775193",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=380&wm=1&s=56ff1ac7aea9e55b8c0ffd98cd775193 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=480&wm=1&s=91feb6736168bcf5ed9f89aaf061f0ef 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=782&wm=1&s=b4b71fac111adf9ed643785043b11f6a 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=1023&wm=1&s=2cd7830b0557f247be03697e1aa7a88c 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=1920&wm=1&s=8f8aedb081437d01b2acf42dc3695d95",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=480&wm=1&s=91feb6736168bcf5ed9f89aaf061f0ef 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=782&wm=1&s=b4b71fac111adf9ed643785043b11f6a 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=1023&wm=1&s=2cd7830b0557f247be03697e1aa7a88c 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e03423a030f.webp?fit=crop&h=0&w=1920&wm=1&s=8f8aedb081437d01b2acf42dc3695d95 1920w",
+      "width": 1262,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=380&wm=1&s=401efdda1901d11b4e457eba4bfd4291",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=380&wm=1&s=401efdda1901d11b4e457eba4bfd4291 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=480&wm=1&s=e6dc40aed14931d7e4d2c525f207e560 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=782&wm=1&s=acb524d395d7954a5cf0f165d2de6d80 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=1023&wm=1&s=3c09be60a264d1e657356a375188a3f3 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=1920&wm=1&s=3cb1505f292da8cfce48fe20056c3001",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=480&wm=1&s=e6dc40aed14931d7e4d2c525f207e560 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=782&wm=1&s=acb524d395d7954a5cf0f165d2de6d80 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=1023&wm=1&s=3c09be60a264d1e657356a375188a3f3 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342505f54.webp?fit=crop&h=0&w=1920&wm=1&s=3cb1505f292da8cfce48fe20056c3001 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=380&wm=1&s=42f5d634f25a0e7b8a4ced15038ef2a4",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=380&wm=1&s=42f5d634f25a0e7b8a4ced15038ef2a4 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=480&wm=1&s=2864d7d7d8ed08cc45ef26270efbbdf4 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=782&wm=1&s=70652496df7353b9679aa3e1e0c33896 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=1023&wm=1&s=b357db18d553e603f828cc181f0f4525 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=1920&wm=1&s=4300aa4d0d59daffa8fbfc37faed3a7a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=480&wm=1&s=2864d7d7d8ed08cc45ef26270efbbdf4 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=782&wm=1&s=70652496df7353b9679aa3e1e0c33896 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=1023&wm=1&s=b357db18d553e603f828cc181f0f4525 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034235d0f0.webp?fit=crop&h=0&w=1920&wm=1&s=4300aa4d0d59daffa8fbfc37faed3a7a 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=380&wm=1&s=aeaeefe43b915659fc5e9e9ff3acca7b",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=380&wm=1&s=aeaeefe43b915659fc5e9e9ff3acca7b 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=480&wm=1&s=8957fad458123605ed530dce5b71a5b4 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=782&wm=1&s=68202000997e0661b4eb310c22290da5 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=1023&wm=1&s=6ef4211b1d921a1e48da280cd5b306a6 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=1920&wm=1&s=8e7d27cc68b2b70e126b5a443bc06560",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=480&wm=1&s=8957fad458123605ed530dce5b71a5b4 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=782&wm=1&s=68202000997e0661b4eb310c22290da5 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=1023&wm=1&s=6ef4211b1d921a1e48da280cd5b306a6 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=1920&wm=1&s=8e7d27cc68b2b70e126b5a443bc06560 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=380&wm=1&s=6c7ab73a52a27f45be78bb8735ba90ff",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=380&wm=1&s=6c7ab73a52a27f45be78bb8735ba90ff 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=480&wm=1&s=2c437253e75232b4f385e7e20ad12a94 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=782&wm=1&s=a9739675b6cb6693bfeedc1dc93e8729 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=1023&wm=1&s=fa84106f09b2a40b633bb02a496f031a 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=1920&wm=1&s=f4a563c59f12f47e281f26c61cf9e8bc",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=480&wm=1&s=2c437253e75232b4f385e7e20ad12a94 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=782&wm=1&s=a9739675b6cb6693bfeedc1dc93e8729 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=1023&wm=1&s=fa84106f09b2a40b633bb02a496f031a 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e0342249602.webp?fit=crop&h=0&w=1920&wm=1&s=f4a563c59f12f47e281f26c61cf9e8bc 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=380&wm=1&s=a2e0eaefdbb38be97915001714714144",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=380&wm=1&s=a2e0eaefdbb38be97915001714714144 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=480&wm=1&s=e8962e01272b8f0e142d6752c229b6fd 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=782&wm=1&s=36ef8d3439930526a6fb837536ebe712 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=1023&wm=1&s=83ec3ae07def6b03f3219752429ff782 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=1920&wm=1&s=28445b7f7da544c139567c1ce8abb57d",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=480&wm=1&s=e8962e01272b8f0e142d6752c229b6fd 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=782&wm=1&s=36ef8d3439930526a6fb837536ebe712 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=1023&wm=1&s=83ec3ae07def6b03f3219752429ff782 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033beb1313.webp?fit=crop&h=0&w=1920&wm=1&s=28445b7f7da544c139567c1ce8abb57d 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=380&wm=1&s=50fe2e121660cbe219736bbab46c35d9",
+      "srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=380&wm=1&s=50fe2e121660cbe219736bbab46c35d9 380w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=480&wm=1&s=aad9431b83e19afb4085a555bd239153 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=782&wm=1&s=baadc7ec649f03d4db87e19252587adc 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=1023&wm=1&s=ca4ea40c5bb10d984edabafdd3733952 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=1920&wm=1&s=d2a23220e2aa2ee798a9641ea1f8ad33",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=480&wm=1&s=aad9431b83e19afb4085a555bd239153 480w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=782&wm=1&s=baadc7ec649f03d4db87e19252587adc 782w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=1023&wm=1&s=ca4ea40c5bb10d984edabafdd3733952 1023w, https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e033ba9c5b7.webp?fit=crop&h=0&w=1920&wm=1&s=d2a23220e2aa2ee798a9641ea1f8ad33 1920w",
+      "width": 1920,
+      "height": 1486,
+      "verification_level": 1,
+      "verification_text": "<b>Looked similar</b>",
+      "verification_at": "3 weeks ago",
+      "uploaded_on": "3 weeks ago"
+    }
+  ],
+  "galleryImgAlt": "Lera, 25 - Cheerful & sexy companion for unforgettable moments.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/spain/escorts\" title=\"Escorts in Spain\">Spain</a>, <a href=\"https://topescortbabes.com/barcelona/escorts\" title=\"Escorts in Barcelona\">Barcelona</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/barcelona/escorts/russian-nationality\" title=\"Russian Escorts in Barcelona\">Russian</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/barcelona/escorts/caucasian-ethnic\" title=\"White Escorts in Barcelona\">White</a>",
+    "meetingWith": "",
+    "meetingPlace": "",
+    "age": "<a href=\"https://topescortbabes.com/barcelona/escorts/college_girl-age\" title=\"College girl Escorts in Barcelona\">25</a>",
+    "height": "<a href=\"https://topescortbabes.com/barcelona/escorts/medium-height\" title=\"Medium height Escorts in Barcelona\">177cm / 5'10\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/barcelona/escorts/50_60-weight\" title=\"Escorts weighing 50-60 kg in Barcelona\">52kg / 115lbs</a>",
+    "bust": "90",
+    "hip": "90",
+    "waist": "60",
+    "hair": "<a href=\"https://topescortbabes.com/barcelona/escorts/blonde-hair\" title=\"Blonde Escorts in Barcelona\">Blonde Hair</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/barcelona/escorts/green-eyes\" title=\"Green-eyed Escorts in Barcelona\">Green Eyes</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/barcelona/escorts/bisexual-sexuality\" title=\"Bisexual Escorts in Barcelona\">Bisexual</a>",
+    "languages": "English and Russian speaking",
+    "drink": "",
+    "music": "",
+    "hobby": ""
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "video",
+    "path": "https://topescortbabes.com/video/get-url/dmlkZW9fZHJvcGxldF9wcm9maWxlLzE1LzIzLzQwOTE1MjMvdGViL2FiYTFmMjM5OGQ3M2FmNzkzNGE2MjcyNTM4NWZjNDkxYTU4OTllMGUvZnVsbC5tcDQ=",
+    "poster": "https://img.topescortbabes.com/videos/profile/15/23/4091523/teb/aba1f2398d73af7934a62725385fc491a5899e0e/full_0.jpg?o=png&wm=1",
+    "fallback": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=575&wm=1&s=a63716cf35668b4cf8291cebeedeb50f",
+    "orientation": "portrait",
+    "width": "1080",
+    "height": "3840",
+    "small_image": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=110&w=110&s=5be723c9e9c861efe7a575d09daacc7d"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": true,
+    "pornstar": false
+  },
+  "updatedAt": "Updated on 18 April 2026",
+  "aiTitle": "Cheerful & sexy companion for unforgettable moments.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://realescorts.com/4091523"
+    }
+  ],
+  "spokenLanguage": "English and Russian speaking",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "RVBUWVlbZWBjbGtv",
+  "encodedTelegram": "JyomNihgY2Y=",
+  "contactOptions": [
+    "Whatsapp",
+    "SMS",
+    "Telegram"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": false,
+    "outcall": false
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4091523,
+    "pic": 9,
+    "vid": 1,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 226,
+    "ci": 158,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "794 views, 31 interactions",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/barcelona/escorts",
+      "text": "More Escorts in Barcelona"
+    }
+  ],
+  "trackHash": "1a4d257c-2fp1f-562577",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/barcelona/escorts/Lera_4091523",
+  "metaTitle": "Lera - Cheerful & sexy companion for unforgettable moments.",
+  "metaDescription": "I'm a beautiful, well-groomed, cheerful, and sexy girl. The one in the photo and video, I'm not an agency and I'm not fake. I'm an individual. I accept any paym…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.webp?fit=crop&h=0&w=575&wm=1&s=a63716cf35668b4cf8291cebeedeb50f",
+  "logoTitle": "Escorts in Spain",
+  "preloadImages": [],
+  "country": {
+    "id": "226",
+    "name": "Spain",
+    "seo_name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "158",
+    "name": "Barcelona",
+    "url_segment": "barcelona",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "Spain",
+      "url_segment": "spain"
+    },
+    "lat": "41.3825",
+    "lng": "2.1769"
+  },
+  "locationName": "Barcelona",
+  "locationUrl": "barcelona",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "9360",
+      "country_id": "226",
+      "city_escaped": "adeje",
+      "name": "Adeje",
+      "user_count": "67"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "name": "Ibiza",
+      "user_count": "26"
+    },
+    {
+      "id": "102",
+      "country_id": "226",
+      "city_escaped": "madrid",
+      "name": "Madrid",
+      "user_count": "169"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "name": "Mallorca",
+      "user_count": "20"
+    },
+    {
+      "id": "2588",
+      "country_id": "226",
+      "city_escaped": "santa-cruz",
+      "name": "Santa Cruz",
+      "user_count": "17"
+    },
+    {
+      "id": "17452",
+      "country_id": "226",
+      "city_escaped": "tenerife",
+      "name": "Tenerife",
+      "user_count": "37"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Top Escorts Worldwide",
+        "url": "https://topescortbabes.com/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "Spain",
+        "schemaText": "",
+        "title": "Escorts in Spain",
+        "url": "https://topescortbabes.com/spain/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "Barcelona",
+        "schemaText": "",
+        "title": "Escorts in Barcelona",
+        "url": "https://topescortbabes.com/barcelona/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Lera",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "How can I book an appointment with Lera?",
+      "content": "<p>You can book an appointment with Lera in two ways:</p><ul><li>Send a secret message directly on the platform.</li><li>Contact via the following phone contact options: SMS, WhatsApp, Telegram.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "What languages does Lera speak?",
+      "content": "Lera speaks English and Russian.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "Where can I meet Lera?",
+      "content": "Lera is currently located in Barcelona. She’s not travelling at the moment, but feel free to message her if you’d like to meet her in your city.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "Are Lera’s photos real and verified?",
+      "content": "All photos of Lera have been verified by the TopEscortBabes security and quality control team. The latest picture was checked and authenticated 3 weeks ago.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523#person",
+        "name": "Lera",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=12be16a8a6376c765e245937fb8ab2cb",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "Barcelona",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "41.3825",
+            "longitude": "2.1769"
+          }
+        },
+        "description": "I'm a beautiful, well-groomed, cheerful, and sexy girl. The one in the photo and video, I'm not an agency and I'm not fake. I'm an individual. I accept any payment system in my country. It's a pleasure to spend time with me. 🫶🏻",
+        "nationality": {
+          "@type": "Country",
+          "name": "Russia"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "177",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "52",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "Russian",
+            "alternateName": "ru"
+          }
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523#organization",
+        "name": "Lera",
+        "url": "https://topescortbabes.com/barcelona/escorts/Lera_4091523",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=12be16a8a6376c765e245937fb8ab2cb",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523#service",
+        "name": "Lera Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523#person"
+        },
+        "url": "https://topescortbabes.com/barcelona/escorts/Lera_4091523",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/409/1/523/Lera--4091523-69e034242e439.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=12be16a8a6376c765e245937fb8ab2cb",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Barcelona",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "41.3825",
+            "longitude": "2.1769"
+          }
+        }
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/barcelona/escorts/Lera_4091523",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/",
+              "name": "Home"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "Spain",
+              "@id": "https://topescortbabes.com/spain/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "Barcelona",
+              "@id": "https://topescortbabes.com/barcelona/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Lera",
+              "@id": "https://topescortbabes.com/barcelona/escorts/Lera_4091523"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How can I book an appointment with Lera?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>You can book an appointment with Lera in two ways:</p><ul><li>Send a secret message directly on the platform.</li><li>Contact via the following phone contact options: SMS, WhatsApp, Telegram.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What languages does Lera speak?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lera speaks English and Russian."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where can I meet Lera?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lera is currently located in Barcelona. She’s not travelling at the moment, but feel free to message her if you’d like to meet her in your city."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are Lera’s photos real and verified?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "All photos of Lera have been verified by the TopEscortBabes security and quality control team. The latest picture was checked and authenticated 3 weeks ago."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Escort Reviews Barcelona",
+  "reviewPageHeaderTitle": "Escort Reviews in Barcelona"
+}
