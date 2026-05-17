@@ -2,8 +2,9 @@ import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
 import type { CurrencyCode, GeoPoint, Vertical } from '@allcoba/shared-types';
-import { Phone } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
+
+import { normalizePhone } from '#domain/canonical/phone.js';
 
 import type {
   CrawlerOptions,
@@ -183,11 +184,8 @@ export abstract class BaseSourceAdapter implements SourcePort {
 
     const rawPhones = await this.extractPhones($, url);
     const phones = rawPhones
-      .map((raw) => {
-        const r = Phone.create(raw, this.defaultCountry as 'ES');
-        return r.success ? r.value.e164 : null;
-      })
-      .filter((p): p is string => p !== null);
+      .map((raw) => normalizePhone(raw, this.defaultCountry as 'ES'))
+      .filter((p): p is NonNullable<ReturnType<typeof normalizePhone>> => p !== null) as string[];
 
     const attributes = this.extractAttributes($, url);
 
