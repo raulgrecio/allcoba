@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import type { Coordinates, ValidationResult } from '@allcoba/domain';
-import { failOne, ok, ValueObject } from '@allcoba/domain';
+import type { Coordinates, ValidationResult } from '@allcoba/legacy-domain';
+import { failOne, ok, ValueObject } from '@allcoba/legacy-domain';
 
 export interface ScrapedLocationData {
   address?: string;

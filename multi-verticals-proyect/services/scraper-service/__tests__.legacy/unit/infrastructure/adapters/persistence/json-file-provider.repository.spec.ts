@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Email, Phone, ProviderId } from '@allcoba/domain';
+import { Email, Phone, ProviderId } from '@allcoba/legacy-domain';
 
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
 import { ContactPlatform } from '#domain/entities/contact-platform.js';

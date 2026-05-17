@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { Phone } from '@allcoba/domain';
+import { Phone } from '@allcoba/legacy-domain';
 
 import type { SocialContact } from '#domain/aggregates/scraped-provider.aggregate.js';
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';

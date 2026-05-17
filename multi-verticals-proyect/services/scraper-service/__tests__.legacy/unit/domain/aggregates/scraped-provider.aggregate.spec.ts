@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
+import { ImageHash, Phone, Price, ProviderId } from '@allcoba/legacy-domain';
 
 import type {
   ScrapedImage,

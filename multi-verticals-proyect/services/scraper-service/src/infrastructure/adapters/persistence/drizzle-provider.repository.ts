@@ -1,7 +1,7 @@
 import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq, sql } from 'drizzle-orm';
 
-import { Email, ImageHash, Phone, Price, ProviderId, valueOrUndefined } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, ProviderId, valueOrUndefined } from '@allcoba/legacy-domain';
 
 import type {
   ProviderCriteria,

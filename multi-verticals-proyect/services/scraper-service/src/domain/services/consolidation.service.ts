@@ -1,4 +1,4 @@
-import type { Email, Phone } from '@allcoba/domain';
+import type { Email, Phone } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
 import type {

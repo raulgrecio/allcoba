@@ -1,8 +1,8 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { Coordinates, CountryCode, CurrencyCode } from '@allcoba/domain';
-import { Phone } from '@allcoba/domain';
+import type { Coordinates, CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import { Phone } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
 import type {

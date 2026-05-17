@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
 
 import type { SelectorDef } from '../base-source.adapter.js';
 import type { DatingAttributes, EscortRate, EscortService } from './dating-attributes.js';

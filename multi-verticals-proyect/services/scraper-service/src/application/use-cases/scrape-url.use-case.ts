@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-import { Email, ImageHash, Phone, Price, valueOrUndefined } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, valueOrUndefined } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';

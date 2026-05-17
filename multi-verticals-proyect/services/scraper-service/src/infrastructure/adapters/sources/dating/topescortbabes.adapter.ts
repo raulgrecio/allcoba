@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
 
 import type { SecurityStrategy } from '#application/ports/crawler.port.js';
 import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { ImageHash, Phone, ProviderId, unwrap } from '@allcoba/domain';
+import { ImageHash, Phone, ProviderId, unwrap } from '@allcoba/legacy-domain';
 
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
 import { ContactPlatform } from '#domain/entities/contact-platform.js';

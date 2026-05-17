@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { ImageHash, unwrap } from '@allcoba/domain';
+import { ImageHash, unwrap } from '@allcoba/legacy-domain';
 
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';

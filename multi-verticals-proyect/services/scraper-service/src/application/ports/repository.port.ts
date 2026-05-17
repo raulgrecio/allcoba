@@ -1,4 +1,4 @@
-import type { Email, ImageHash, Phone, ProviderId } from '@allcoba/domain';
+import type { Email, ImageHash, Phone, ProviderId } from '@allcoba/legacy-domain';
 
 import type { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
 import type { ContactPlatform } from '#domain/entities/contact-platform.js';

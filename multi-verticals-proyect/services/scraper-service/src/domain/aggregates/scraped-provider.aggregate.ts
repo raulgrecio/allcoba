@@ -1,5 +1,5 @@
-import type { Email, ImageHash, Phone, Price } from '@allcoba/domain';
-import { ProviderId } from '@allcoba/domain';
+import type { Email, ImageHash, Phone, Price } from '@allcoba/legacy-domain';
+import { ProviderId } from '@allcoba/legacy-domain';
 
 import type { ContactPlatform } from '../entities/contact-platform.js';
 import type { Vertical } from '../entities/vertical.js';

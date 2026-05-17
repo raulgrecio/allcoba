@@ -1,4 +1,4 @@
-import { ProviderId } from '@allcoba/domain';
+import { ProviderId } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';

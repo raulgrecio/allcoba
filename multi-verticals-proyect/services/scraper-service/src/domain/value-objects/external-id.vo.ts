@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import type { ValidationResult } from '@allcoba/domain';
-import { failOne, ok, ValueObject } from '@allcoba/domain';
+import type { ValidationResult } from '@allcoba/legacy-domain';
+import { failOne, ok, ValueObject } from '@allcoba/legacy-domain';
 
 const sourceSchema = z.string().trim().min(1).max(64);
 const idSchema = z.string().trim().min(1).max(256);

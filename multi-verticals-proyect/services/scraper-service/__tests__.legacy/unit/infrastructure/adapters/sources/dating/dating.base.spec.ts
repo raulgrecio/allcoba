@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/domain';
+import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
 
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
 import type {

@@ -1,4 +1,4 @@
-import type { ProviderId } from '@allcoba/domain';
+import type { ProviderId } from '@allcoba/legacy-domain';
 
 import type {
   ProviderCriteria,

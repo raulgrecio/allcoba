@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'node',
     pool: 'forks',
     isolate: true,
+    exclude: ['**/node_modules/**', '**/dist/**', '__tests__.legacy/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],

@@ -1,8 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-import type { Coordinates } from '@allcoba/domain';
-import { Email, ImageHash, Phone, Price, ProviderId, valueOrUndefined } from '@allcoba/domain';
+import type { Coordinates } from '@allcoba/legacy-domain';
+import { Email, ImageHash, Phone, Price, ProviderId, valueOrUndefined } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
 import type {

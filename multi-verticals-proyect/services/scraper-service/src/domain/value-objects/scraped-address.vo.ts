@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import type { Coordinates, ValidationResult } from '@allcoba/domain';
-import { failOne, ok, ValueObject } from '@allcoba/domain';
+import type { Coordinates, ValidationResult } from '@allcoba/legacy-domain';
+import { failOne, ok, ValueObject } from '@allcoba/legacy-domain';
 
 const textSchema = z.string().min(1).max(500);
 
