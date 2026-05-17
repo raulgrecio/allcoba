@@ -2,7 +2,7 @@ import type { CheerioAPI } from 'cheerio';
 
 import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
 
-import { Vertical } from '#domain/entities/vertical.js';
+
 
 import type { SelectorDef } from '../base-source.adapter.js';
 import type { DatingAttributes, EscortRate, EscortService } from './dating-attributes.js';
@@ -74,7 +74,7 @@ interface Madrid69ApiResponse {
  */
 export class Madrid69Adapter extends DatingBaseAdapter {
   readonly identifier = 'madrid69';
-  readonly defaultVertical = Vertical.DATING;
+  readonly defaultVertical = 'dating' as const;
   readonly defaultCountry: CountryCode = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 

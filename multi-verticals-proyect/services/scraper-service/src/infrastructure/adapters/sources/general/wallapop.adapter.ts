@@ -1,8 +1,8 @@
 import type { CheerioAPI } from 'cheerio';
 
-import type { Coordinates, CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode, GeoPoint, Vertical } from '@allcoba/shared-types';
 
-import { Vertical } from '#domain/entities/vertical.js';
+
 
 import type { SelectorDef } from '../base-source.adapter.js';
 import { BaseSourceAdapter } from '../base-source.adapter.js';
@@ -26,8 +26,8 @@ interface WallapopItem {
 
 export class WallapopAdapter extends BaseSourceAdapter {
   readonly identifier = 'wallapop';
-  readonly defaultVertical = Vertical.GENERAL;
-  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultVertical = 'general' as const;
+  readonly defaultCountry = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 
   protected override readonly selectors: Record<string, SelectorDef> = {
@@ -78,7 +78,7 @@ export class WallapopAdapter extends BaseSourceAdapter {
     return this.parseNextData($)?.location?.postalCode ?? undefined;
   }
 
-  protected override extractCoordinates($: CheerioAPI): Coordinates | undefined {
+  protected override extractCoordinates($: CheerioAPI): GeoPoint | undefined {
     const loc = this.parseNextData($)?.location;
     if (!loc?.latitude || !loc?.longitude) return undefined;
     return { lat: loc.latitude, lng: loc.longitude };
@@ -102,10 +102,10 @@ export class WallapopAdapter extends BaseSourceAdapter {
   }
 
   protected detectVertical(url: string): Vertical {
-    if (url.includes('c11545-coches')) return Vertical.MOTOR;
-    if (url.includes('c11098-inmobiliaria')) return Vertical.REAL_ESTATE;
-    if (url.includes('c12485-servicios')) return Vertical.SERVICES;
-    return Vertical.GENERAL;
+    if (url.includes('c11545-coches')) return 'motor';
+    if (url.includes('c11098-inmobiliaria')) return 'real-estate';
+    if (url.includes('c12485-servicios')) return 'general'; // services → general (canonical)/
+    return 'general';
   }
 
   protected extractAttributes($: CheerioAPI): any {

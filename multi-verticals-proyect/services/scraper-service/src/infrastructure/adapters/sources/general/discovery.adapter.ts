@@ -2,13 +2,13 @@ import type { CheerioAPI } from 'cheerio';
 
 import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
 
-import { Vertical } from '#domain/entities/vertical.js';
+
 
 import { BaseSourceAdapter } from '../base-source.adapter.js';
 
 export class DiscoveryAdapter extends BaseSourceAdapter {
   readonly identifier = 'discovery';
-  readonly defaultVertical = Vertical.GENERAL;
+  readonly defaultVertical = 'general' as const;
   readonly defaultCountry: CountryCode = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 

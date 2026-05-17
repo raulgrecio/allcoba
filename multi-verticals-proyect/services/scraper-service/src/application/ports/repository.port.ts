@@ -1,15 +1,12 @@
-import type { Email, ImageHash, Phone, ProviderId } from '@allcoba/legacy-domain';
+import type { Email, ImageHash, PhoneE164, ProviderId, Vertical } from '@allcoba/shared-types';
 
-import type { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
-import type { ContactPlatform } from '#domain/entities/contact-platform.js';
-import type { Vertical } from '#domain/entities/vertical.js';
-import type { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
 export interface ProviderCriteria {
-  phone?: Phone;
+  phoneNumber?: PhoneE164;
   email?: Email;
-  contact?: { platform: ContactPlatform; handle: string };
-  externalId?: ExternalId;
+  externalRef?: ExternalRef;
   imageHash?: ImageHash;
   vertical: Vertical;
 }
@@ -17,7 +14,7 @@ export interface ProviderCriteria {
 export interface ProviderRepositoryPort {
   find(criteria: ProviderCriteria): Promise<ScrapedProvider[]>;
   create(provider: ScrapedProvider): Promise<void>;
-  /** Replaces the stored aggregate with the new version (use ScrapedProvider.merge() first). */
+  /** Replaces the stored record. Merge with mergeProvider() before calling. */
   update(id: ProviderId, provider: ScrapedProvider): Promise<void>;
   findById(id: ProviderId): Promise<ScrapedProvider | null>;
 }

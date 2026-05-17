@@ -1,9 +1,10 @@
-import type { CrawlerOptions } from '#application/ports/crawler.port.js';
-import type { ContactPlatform } from '#domain/entities/contact-platform.js';
-import type { Vertical } from '#domain/entities/vertical.js';
+import type { Vertical } from '@allcoba/shared-types';
 
+import type { CrawlerOptions } from '#application/ports/crawler.port.js';
+
+/** Raw contact link extracted from source — platform is a free string, not a canonical ContactOption. */
 export interface RawContact {
-  platform: ContactPlatform;
+  platform: string;
   handle: string;
 }
 

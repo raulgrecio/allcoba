@@ -2,12 +2,12 @@ import type { CheerioAPI } from 'cheerio';
 
 import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
 
-import { Vertical } from '#domain/entities/vertical.js';
+
 
 import { BaseSourceAdapter } from '../base-source.adapter.js';
 
 export abstract class MotorBaseAdapter extends BaseSourceAdapter {
-  readonly defaultVertical = Vertical.MOTOR;
+  readonly defaultVertical = 'motor' as const;
 
   /**
    * Implementación universal del precio para Motor

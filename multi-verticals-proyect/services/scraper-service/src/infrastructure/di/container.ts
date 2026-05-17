@@ -4,7 +4,7 @@ import type { ScraperConfig } from '#application/use-cases/scrape-url.use-case.j
 import { CrawlerEngine } from '#application/ports/crawler.port.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
-import { ConsolidationService } from '#domain/services/consolidation.service.js';
+import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
 import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js';

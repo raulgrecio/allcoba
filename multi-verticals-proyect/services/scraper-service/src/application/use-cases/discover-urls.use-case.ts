@@ -2,12 +2,11 @@ import { logger } from '@allcoba/kernel';
 
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
-import { ExternalId } from '#domain/value-objects/external-id.vo.js';
 
 import type { ScrapeUrlUseCase } from './scrape-url.use-case.js';
 
 export class DiscoverUrlsUseCase {
-  private readonly logger = logger().child({ component: DiscoverUrlsUseCase.name });
+  private readonly logger = logger().child({ component: 'DiscoverUrlsUseCase' });
 
   constructor(
     private readonly sourceResolver: SourceResolverPort,
@@ -64,10 +63,9 @@ export class DiscoverUrlsUseCase {
 
           try {
             const slug = new URL(url).pathname.split('/').filter(Boolean).pop() ?? '';
-            const externalIdResult = ExternalId.create(source.identifier, slug);
-            if (externalIdResult.success) {
+            if (slug) {
               const existing = await this.repository.find({
-                externalId: externalIdResult.value,
+                externalRef: { source: source.identifier, sourceId: slug },
                 vertical: source.defaultVertical,
               });
               if (existing.length > 0) {

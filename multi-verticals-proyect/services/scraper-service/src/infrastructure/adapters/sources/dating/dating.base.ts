@@ -1,8 +1,8 @@
 import type { CheerioAPI } from 'cheerio';
 
+import type { Vertical } from '@allcoba/shared-types';
+
 import type { RawContact } from '#application/ports/source.port.js';
-import { ContactPlatform } from '#domain/entities/contact-platform.js';
-import { Vertical } from '#domain/entities/vertical.js';
 
 import type { SelectorDef } from '../base-source.adapter.js';
 import type {
@@ -35,7 +35,7 @@ import {
  * Individual adapters should extend this class and provide site-specific selectors.
  */
 export abstract class DatingBaseAdapter extends BaseSourceAdapter {
-  readonly defaultVertical = Vertical.DATING;
+  readonly defaultVertical = 'dating' as const;
 
   protected static readonly baseSelectors = {
     independentBadge: {
@@ -126,21 +126,21 @@ export abstract class DatingBaseAdapter extends BaseSourceAdapter {
   ): RawContact[] {
     const contacts: RawContact[] = [];
     const whatsapp = this.extractWhatsapp($);
-    if (whatsapp) contacts.push({ platform: ContactPlatform.WHATSAPP, handle: whatsapp });
+    if (whatsapp) contacts.push({ platform: 'whatsapp', handle: whatsapp });
     const telegram = this.extractTelegram($);
-    if (telegram) contacts.push({ platform: ContactPlatform.TELEGRAM, handle: telegram });
+    if (telegram) contacts.push({ platform: 'telegram', handle: telegram });
     const instagram = this.extractInstagram($);
-    if (instagram) contacts.push({ platform: ContactPlatform.INSTAGRAM, handle: instagram });
+    if (instagram) contacts.push({ platform: 'instagram', handle: instagram });
     const tiktok = this.extractTiktok($);
-    if (tiktok) contacts.push({ platform: ContactPlatform.TIKTOK, handle: tiktok });
+    if (tiktok) contacts.push({ platform: 'tiktok', handle: tiktok });
     const twitter = this.extractTwitter($);
-    if (twitter) contacts.push({ platform: ContactPlatform.TWITTER, handle: twitter });
+    if (twitter) contacts.push({ platform: 'twitter', handle: twitter });
     const onlyfans = this.extractOnlyfans($);
-    if (onlyfans) contacts.push({ platform: ContactPlatform.ONLYFANS, handle: onlyfans });
+    if (onlyfans) contacts.push({ platform: 'onlyfans', handle: onlyfans });
     const fansly = this.extractFansly($);
-    if (fansly) contacts.push({ platform: ContactPlatform.FANSLY, handle: fansly });
+    if (fansly) contacts.push({ platform: 'fansly', handle: fansly });
     const website = this.extractWebsite($);
-    if (website) contacts.push({ platform: ContactPlatform.WEBSITE, handle: website });
+    if (website) contacts.push({ platform: 'website', handle: website });
     return contacts;
   }
 

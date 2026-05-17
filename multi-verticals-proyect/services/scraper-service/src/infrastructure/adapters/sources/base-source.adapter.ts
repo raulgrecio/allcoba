@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { Coordinates, CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode, GeoPoint, Vertical } from '@allcoba/shared-types';
 import { Phone } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
@@ -17,7 +17,6 @@ import type {
   SourcePort,
 } from '#application/ports/source.port.js';
 import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
-import { Vertical } from '#domain/entities/vertical.js';
 
 import { RobotsChecker } from '../../crawler/robots-checker.js';
 
@@ -37,7 +36,7 @@ export interface HealthReport {
 export abstract class BaseSourceAdapter implements SourcePort {
   abstract readonly identifier: string;
   abstract readonly defaultVertical: Vertical;
-  abstract readonly defaultCountry: CountryCode;
+  abstract readonly defaultCountry: string;
   abstract readonly defaultCurrency: CurrencyCode;
   protected robotsChecker = new RobotsChecker();
   protected readonly browser: CrawlerPort;
@@ -185,7 +184,7 @@ export abstract class BaseSourceAdapter implements SourcePort {
     const rawPhones = await this.extractPhones($, url);
     const phones = rawPhones
       .map((raw) => {
-        const r = Phone.create(raw, this.defaultCountry);
+        const r = Phone.create(raw, this.defaultCountry as 'ES');
         return r.success ? r.value.e164 : null;
       })
       .filter((p): p is string => p !== null);
@@ -241,7 +240,7 @@ export abstract class BaseSourceAdapter implements SourcePort {
   protected extractPostalCode(_$: CheerioAPI, _url: string): string | undefined {
     return undefined;
   }
-  protected extractCoordinates(_$: CheerioAPI, _url: string): Coordinates | undefined {
+  protected extractCoordinates(_$: CheerioAPI, _url: string): GeoPoint | undefined {
     return undefined;
   }
   protected extractCountry(_$: CheerioAPI, _url: string): string | undefined {
