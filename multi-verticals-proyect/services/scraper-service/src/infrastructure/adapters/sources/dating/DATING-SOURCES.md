@@ -260,22 +260,25 @@ Example URL: `https://hotvalencia.com/puta-valencia/607413804-hilary-luxury-expe
 
 ---
 
-## loquosex.com
+## loquosex.com ✅ v2
 
 Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-677684329.html/` (Real)
 
-| Campo       | Valor                        |
-| ----------- | ---------------------------- |
-| Tech        | PHP (WordPress o custom)     |
-| Render      | SSR                          |
-| Listing     | TBD                          |
-| Profile URL | `*.html` (excluye `/page/`)  |
-| Paginación  | `a.nextpostslink`            |
-| Teléfono    | **HTML** — `a[href^="tel:"]` |
-| Ciudad      | DOM                          |
-| Servicios   | **HTML** ✅                  |
-| Imágenes    | lazy `data-src`              |
-| Login       | No                           |
+| Campo       | Valor                                                                        |
+| ----------- | ---------------------------------------------------------------------------- |
+| Tech        | PHP (WordPress o custom)                                                     |
+| Render      | SSR                                                                          |
+| Listing     | TBD                                                                          |
+| Profile URL | `*.html` (excluye `/page/`)                                                  |
+| Paginación  | `a.nextpostslink`                                                            |
+| Teléfono    | `.numero-telefono` + fallback `a[href^="tel:"]`                              |
+| WhatsApp    | `a[href*="api.whatsapp.com"]` → `?phone=` param; fallback `a[href*="wa.me"]` |
+| sourceId    | 9-digit phone from URL slug                                                  |
+| Ciudad      | `ul[class^="caracteristicas-detalle"]` → Localidad links (3rd breadcrumb)    |
+| Servicios   | `ul[class^="si-no-"]` icons zip `ul[class^="servicios-"]` names (included=SI)|
+| Imágenes    | `section.caja-fotos li.photo_list img` — strip `?v=` query, deduplicate      |
+| isPremium   | `.cabecera-titulo` text contains "premium"                                   |
+| Login       | No                                                                           |
 
 ---
 
