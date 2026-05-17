@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode } from '@allcoba/shared-types';
 
 import type { SecurityStrategy } from '#application/ports/crawler.port.js';
 import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
@@ -23,7 +23,7 @@ import { DatingBaseAdapter } from './dating.base.js';
  */
 export class TopEscortBabesAdapter extends DatingBaseAdapter {
   readonly identifier = 'topescortbabes';
-  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCountry = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 
   protected override getSecurityStrategy(): SecurityStrategy {

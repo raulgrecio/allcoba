@@ -1,6 +1,6 @@
 import type { CheerioAPI } from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode } from '@allcoba/shared-types';
 
 
 

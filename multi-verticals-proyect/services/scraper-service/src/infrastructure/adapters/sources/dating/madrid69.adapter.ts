@@ -1,6 +1,6 @@
 import type { CheerioAPI } from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode } from '@allcoba/shared-types';
 
 
 
@@ -75,7 +75,7 @@ interface Madrid69ApiResponse {
 export class Madrid69Adapter extends DatingBaseAdapter {
   readonly identifier = 'madrid69';
   readonly defaultVertical = 'dating' as const;
-  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCountry = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 
   private _profile: Madrid69Profile | null = null;

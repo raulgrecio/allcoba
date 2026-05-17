@@ -1,49 +1,65 @@
-import { ProviderId } from '@allcoba/legacy-domain';
 import { logger } from '@allcoba/kernel';
 
-import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '#domain/entities/vertical.js';
-import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
+import { asConfidence } from '#domain/canonical/confidence.js';
 import { PostgresProviderRepository } from '#infrastructure/adapters/persistence/postgres-provider.repository.js';
 
 async function testConnection() {
-  logger().info('🚀 Testing PostgreSQL Connection...');
+  logger().info('Testing PostgreSQL Connection...');
 
   try {
     const repo = new PostgresProviderRepository();
-    const id = ProviderId.generate();
+    const id = crypto.randomUUID() as Parameters<typeof repo.create>[0]['id'];
 
-    const provider = ScrapedProvider.create({
+    const now = new Date().toISOString();
+    const provider = {
       id,
-      displayName: 'Test Provider',
-      vertical: Vertical.GENERAL,
-      confidenceScore: ConfidenceScore.high(),
+      vertical: 'general' as const,
+      nickname: 'Test Provider',
+      active: true,
+      humanVerified: false,
+      badges: { verified: false, trans: false, vip: false, pornstar: false },
+      verificationStatus: 'pending_review' as const,
+      meetingPlaces: { incall: false, outcall: false },
+      contactOptions: [],
+      personalDetails: { ageYears: 0, spokenLanguageCodes: [], meetingWith: [] },
+      prices: [],
+      photos: [],
+      links: {},
+      otherPlatforms: [],
+      reviewsEnabled: false,
+      reviewsCount: 0,
+      reviewsRating: 0,
+      reviews: [],
+      tours: [],
+      createdAt: now,
+      updatedAt: now,
+      externalRefs: [],
+      signals: [],
+      confidence: asConfidence(0.5),
+      images: [],
+      attributes: {},
       metadata: { test: true },
-    });
+      lastScrapedAt: now,
+    };
 
-    logger().info(`📝 Attempting to create provider with ID: ${id.value} in vertical GENERAL...`);
+    logger().info({ id }, 'Attempting to create test provider...');
     await repo.create(provider);
-    logger().info('✅ Provider created successfully.');
+    logger().info('Provider created successfully.');
 
-    logger().info(`🔍 Attempting to find provider by ID...`);
+    logger().info('Attempting to find provider by ID...');
     const found = await repo.findById(id);
 
-    if (found && found.id.value === id.value) {
-      logger().info('✅ Provider retrieved successfully and matches!');
-      logger().info(`DisplayName: ${found.displayName}`);
+    if (found?.id === id) {
+      logger().info('Provider retrieved successfully and matches!');
     } else {
-      logger().error('❌ Provider not found or mismatch!');
+      logger().error('Provider not found or mismatch!');
       process.exit(1);
     }
 
-    logger().info('🎉 PostgreSQL Repository is working correctly!');
+    logger().info('PostgreSQL Repository is working correctly!');
     process.exit(0);
   } catch (error) {
-    logger().error({ error }, `❌ Error during database test`);
-    // Print more details about the error
-    if (error && typeof error === 'object' && 'code' in error) {
-      logger().error(`Error Code: ${(error as any).code}`);
-    }
+    logger().error({ error }, 'Error during database test');
     process.exit(1);
   }
 }

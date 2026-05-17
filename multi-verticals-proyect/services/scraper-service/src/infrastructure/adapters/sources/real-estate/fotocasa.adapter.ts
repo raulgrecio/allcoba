@@ -1,13 +1,13 @@
 import type { CheerioAPI } from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode } from '@allcoba/shared-types';
 
 import type { SelectorDef } from '../base-source.adapter.js';
 import { RealEstateBaseAdapter } from './real-estate.base.js';
 
 export class FotocasaAdapter extends RealEstateBaseAdapter {
   readonly identifier = 'fotocasa';
-  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCountry = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 
   protected override readonly selectors: Record<string, SelectorDef> = {

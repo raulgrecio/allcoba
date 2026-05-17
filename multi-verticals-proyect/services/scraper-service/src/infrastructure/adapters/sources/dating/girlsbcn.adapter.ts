@@ -1,7 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { CountryCode, CurrencyCode } from '@allcoba/legacy-domain';
+import type { CurrencyCode } from '@allcoba/shared-types';
 
 import type { SelectorDef } from '../base-source.adapter.js';
 import type { DatingAttributes, EscortRate, EscortService } from './dating-attributes.js';
@@ -20,7 +20,7 @@ import { DatingBaseAdapter } from './dating.base.js';
  */
 export class GirlsBCNAdapter extends DatingBaseAdapter {
   readonly identifier = 'girlsbcn';
-  readonly defaultCountry: CountryCode = 'ES';
+  readonly defaultCountry = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
 
   protected override readonly selectors = {
