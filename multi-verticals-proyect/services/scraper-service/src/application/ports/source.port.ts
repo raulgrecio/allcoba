@@ -1,11 +1,21 @@
-import type { CountryCode } from '@allcoba/domain';
-
-import type { ContactPlatform } from '#domain/aggregates/scraped-provider.aggregate.js';
+import type { CrawlerOptions } from '#application/ports/crawler.port.js';
+import type { ContactPlatform } from '#domain/entities/contact-platform.js';
 import type { Vertical } from '#domain/entities/vertical.js';
 
 export interface RawContact {
   platform: ContactPlatform;
   handle: string;
+}
+
+export interface LocationInfo {
+  address?: string;
+  country?: string;
+  city?: string;
+  region?: string;
+  zone?: string;
+  postalCode?: string;
+  timezone?: string;
+  coordinates?: { lat: number; lng: number };
 }
 
 export interface RawExtraction<T = Record<string, any>> {
@@ -15,11 +25,9 @@ export interface RawExtraction<T = Record<string, any>> {
   name?: string;
   description?: string;
   phones: string[];
-  country: CountryCode;
   email?: string;
   contacts?: RawContact[];
-  address?: string;
-  coordinates?: { lat: number; lng: number };
+  location: LocationInfo;
   imageUrls: string[];
   vertical: Vertical;
   price?: number;
@@ -35,6 +43,7 @@ export interface RawExtraction<T = Record<string, any>> {
     outboundIp?: string;
     statusCode: number;
     debugFile?: string;
+    networkFiles?: string[];
   };
 }
 
@@ -42,17 +51,45 @@ export interface SourcePort {
   /** Identificador único de la fuente (ej: 'idealista') */
   readonly identifier: string;
 
+  /** Vertical por defecto de esta fuente */
+  readonly defaultVertical: Vertical;
+
   /** Determina si este adaptador puede manejar la URL dada */
   canHandle(url: string): boolean;
 
   /** Extrae los datos crudos de la página y devuelve también el HTML original */
   extract(
     url: string,
+    options?: CrawlerOptions & {
+      html?: string;
+    },
+  ): Promise<{
+    data: RawExtraction;
+    html: string;
+    networkResponses?: Array<{ url: string; status: number; body: string; contentType: string }>;
+  }>;
+
+  /** Determina si una URL pertenece a un perfil individual (vs a un listado) */
+  isProfileUrl(url: string): boolean;
+
+  /** Extrae URLs de perfiles desde el HTML de un listado */
+  extractProfileLinks(html: string, baseUrl: string): string[];
+
+  /** Extrae la URL de la siguiente página desde el HTML de un listado */
+  extractNextPageUrl(html: string, baseUrl: string): string | undefined;
+
+  /** Expone la configuración del Crawler (cookies, interacciones previas) */
+  getCrawlerOptions(url: string, options?: any): any;
+
+  /** Fetches a page HTML using the source's own security strategy */
+  fetchHtml(
+    url: string,
     options?: {
-      onSnapshot?: (html: string, stage: string) => Promise<void>;
+      waitUntil?: CrawlerOptions['waitUntil'];
+      skipInteractions?: boolean;
       headless?: boolean;
     },
-  ): Promise<{ data: RawExtraction; html: string }>;
+  ): Promise<{ html: string }>;
 
   /** Verifica robots.txt para esta fuente */
   isAllowed(url: string): Promise<boolean>;

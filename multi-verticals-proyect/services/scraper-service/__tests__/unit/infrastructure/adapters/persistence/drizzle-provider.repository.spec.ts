@@ -2,10 +2,9 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { ImageHash, Phone, ProviderId, unwrap } from '@allcoba/domain';
 
-import {
-  ScrapedProvider,
-  VerificationStatus,
-} from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ContactPlatform } from '#domain/entities/contact-platform.js';
+import { VerificationStatus } from '#domain/entities/verification-status.js';
 import { Vertical } from '#domain/entities/vertical.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
@@ -21,6 +20,9 @@ describe('DrizzleProviderRepository', () => {
     values: vi.fn().mockReturnThis(),
     update: vi.fn().mockReturnThis(),
     set: vi.fn().mockReturnThis(),
+    execute: vi.fn().mockResolvedValue([]),
+    // Para que el await query funcione si no se llama a .execute()
+    then: vi.fn().mockImplementation((onFulfilled) => Promise.resolve([]).then(onFulfilled)),
   } as any;
 
   const repository = new DrizzleProviderRepository(mockDb);
@@ -31,7 +33,7 @@ describe('DrizzleProviderRepository', () => {
         id: ProviderId.generate(),
         vertical: Vertical.REAL_ESTATE,
         phones: [],
-        contacts: [{ platform: 'TELEGRAM', handle: 'testhandle' }],
+        contacts: [{ platform: ContactPlatform.TELEGRAM, handle: 'testhandle' }],
         externalIds: [],
         verificationStatus: VerificationStatus.PENDING_REVIEW,
         confidenceScore: ConfidenceScore.high(),
@@ -60,7 +62,7 @@ describe('DrizzleProviderRepository', () => {
       const row = (repository as any).toPersistence(provider);
 
       expect(row.id).toBe(provider.id.value);
-      expect(row.contacts[0].platform).toBe('TELEGRAM');
+      expect(row.contacts[0].platform).toBe(ContactPlatform.TELEGRAM);
       expect(row.contacts[0].handle).toBe('testhandle');
       expect(row.images[0].storedUrl).toBe('s1');
       expect(row.signals[0].type).toBe('IMAGE_MATCH');
@@ -75,7 +77,7 @@ describe('DrizzleProviderRepository', () => {
         id: '123e4567-e89b-12d3-a456-426614174000',
         displayName: 'Test Provider',
         phones: ['+34600000000'],
-        contacts: [{ platform: 'TELEGRAM', handle: 'test_tg' }],
+        contacts: [{ platform: ContactPlatform.TELEGRAM, handle: 'test_tg' }],
         address: { text: 'Calle Falsa 123' },
         description: 'A test description',
         price: { amount: 1000, currency: 'EUR' },
@@ -104,7 +106,7 @@ describe('DrizzleProviderRepository', () => {
 
       expect(provider).toBeInstanceOf(ScrapedProvider);
       expect(provider.id.value).toBe(row.id);
-      expect(provider.contacts[0].platform).toBe('TELEGRAM');
+      expect(provider.contacts[0].platform).toBe(ContactPlatform.TELEGRAM);
       expect(provider.contacts[0].handle).toBe('test_tg');
       expect(provider.images[0].hash.toJSON()).toBe('0123456789abcdef');
       expect(provider.signals[0].type).toBe('IMAGE_MATCH');
@@ -116,11 +118,11 @@ describe('DrizzleProviderRepository', () => {
       const id = ProviderId.generate();
       mockDb.select.mockReturnThis();
       mockDb.from.mockReturnThis();
-      mockDb.where.mockReturnValue([]);
+      mockDb.where.mockReturnThis();
 
       await repository.findById(id);
 
-      expect(mockDb.from).toHaveBeenCalledTimes(5);
+      expect(mockDb.from).toHaveBeenCalledTimes(6);
     });
 
     it('create uses the correct vertical table (MOTOR)', async () => {
@@ -163,7 +165,7 @@ describe('DrizzleProviderRepository', () => {
 
     it('find with vertical searches only that table', async () => {
       vi.clearAllMocks();
-      mockDb.where.mockReturnValue([]);
+      mockDb.where.mockReturnThis();
 
       await repository.find({
         vertical: Vertical.SERVICES,
@@ -175,18 +177,19 @@ describe('DrizzleProviderRepository', () => {
     });
 
     it('find without vertical throws (vertical required for isolation)', async () => {
-      await expect(
-        repository.find({ phone: unwrap(Phone.create('+34600000000', 'ES')) }),
-      ).rejects.toThrow('vertical is required');
+      // @ts-ignore
+      await expect(repository.find({ phone: unwrap(Phone.create('+34600000000', 'ES')) })).rejects.toThrow(
+        'vertical is required',
+      );
     });
 
     it('find with contact criteria builds correct filter', async () => {
       vi.clearAllMocks();
-      mockDb.where.mockReturnValue([]);
+      mockDb.where.mockReturnThis();
 
       await repository.find({
         vertical: Vertical.MOTOR,
-        contact: { platform: 'TELEGRAM', handle: 'testhandle' },
+        contact: { platform: ContactPlatform.TELEGRAM, handle: 'testhandle' },
         externalId: unwrap(ExternalId.create('source', 'id')),
         imageHash: unwrap(ImageHash.create('0123456789abcdef')),
       });
@@ -194,11 +197,12 @@ describe('DrizzleProviderRepository', () => {
       expect(mockDb.where).toHaveBeenCalled();
     });
 
-    it('find returns empty array if no criteria match any filter', async () => {
+    it('find with only vertical returns all rows from that vertical', async () => {
       vi.clearAllMocks();
+      mockDb.execute.mockResolvedValue([]);
       const results = await repository.find({ vertical: Vertical.GENERAL });
       expect(results).toEqual([]);
-      expect(mockDb.select).not.toHaveBeenCalled();
+      expect(mockDb.from).toHaveBeenCalledWith(schema.generalProviders);
     });
 
     it('throws if vertical has no mapped table', async () => {
@@ -237,7 +241,7 @@ describe('DrizzleProviderRepository', () => {
 
       const provider = (repository as any).toDomain(row);
       expect(provider.contacts).toHaveLength(0);
-      expect(provider.address).toBeUndefined();
+      expect(provider.location).toBeUndefined();
       expect(provider.price).toBeUndefined();
     });
 

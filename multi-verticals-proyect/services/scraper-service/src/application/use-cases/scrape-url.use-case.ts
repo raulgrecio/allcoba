@@ -1,32 +1,45 @@
 import { Buffer } from 'buffer';
 
-import type { Coordinates } from '@allcoba/domain';
-import { Email, ImageHash, Phone, Price, unwrap, valueOrUndefined } from '@allcoba/domain';
+import { Email, ImageHash, Phone, Price, valueOrUndefined } from '@allcoba/domain';
 import { logger } from '@allcoba/kernel';
 
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
-import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
+import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { RawExtraction } from '#application/ports/source.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
 import type { ScrapedImage, SocialContact } from '#domain/aggregates/scraped-provider.aggregate.js';
 import type { ConsolidationService } from '#domain/services/consolidation.service.js';
-import {
-  ScrapedProvider,
-  VerificationStatus,
-} from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { VerificationStatus } from '#domain/entities/verification-status.js';
 import { Vertical } from '#domain/entities/vertical.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
+import { ScrapedLocation } from '#domain/value-objects/scraped-location.vo.js';
 
 export interface ScraperConfig {
-  maxImagesToProcess: number;
-  saveRawHtml?: boolean;
   headless?: boolean;
+  maxImagesToProcess?: number;
+  saveDebugSnapshots?: boolean;
+  saveRawHtml?: boolean;
+  skipInteractions?: boolean;
+  captureNetworkLogs?: boolean;
+  manualPause?: boolean;
+  skipRobots?: boolean;
+  blockImages?: boolean;
+  proxyStrategy?: ProxyStrategy;
+  solverStrategy?: SolverStrategy;
 }
 
 const DEFAULT_CONFIG: ScraperConfig = {
-  maxImagesToProcess: 5,
-  saveRawHtml: true,
+  maxImagesToProcess: 20,
+  saveRawHtml: false,
+  saveDebugSnapshots: false,
+  skipInteractions: false,
+  captureNetworkLogs: false,
+  skipRobots: false,
+  proxyStrategy: ProxyStrategy.NONE,
+  solverStrategy: SolverStrategy.NONE,
 };
 
 interface ParsedRaw {
@@ -35,15 +48,14 @@ interface ParsedRaw {
   email: Email | undefined;
   contacts: readonly SocialContact[];
   price: Price | undefined;
-  address: ScrapedAddress | undefined;
-  coordinates: Coordinates | undefined;
+  location: ScrapedLocation | undefined;
 }
 
 export class ScrapeUrlUseCase {
   private readonly logger = logger().child({ component: ScrapeUrlUseCase.name });
 
   constructor(
-    private readonly sources: SourcePort[],
+    private readonly sourceResolver: SourceResolverPort,
     private readonly repository: ProviderRepositoryPort,
     private readonly consolidationService: ConsolidationService,
     private readonly imageHasher: ImageHasherPort,
@@ -52,24 +64,45 @@ export class ScrapeUrlUseCase {
   ) {}
 
   async execute(url: string): Promise<void> {
-    const source = this.sources.find((s) => s.canHandle(url));
-    if (!source) throw new Error(`No adapter for: ${url}`);
+    const source = await this.sourceResolver.resolve(url);
 
-    if (!(await source.isAllowed(url))) throw new Error(`robots.txt blocks: ${url}`);
+    if (!this.config.skipRobots && !(await source.isAllowed(url)))
+      throw new Error(`robots.txt blocks: ${url}`);
 
-    const { data: raw, html } = await source.extract(url, {
+    const domain = new URL(url).hostname.replace('www.', '');
+    const baseRawPath = `raw/${domain}`;
+
+    const {
+      data: raw,
+      html,
+      networkResponses,
+    } = await source.extract(url, {
       headless: this.config.headless,
+      skipInteractions: this.config.skipInteractions,
+      captureNetwork: this.config.captureNetworkLogs,
+      manualPause: this.config.manualPause,
+      blockImages: this.config.blockImages,
+      proxyStrategy: this.config.proxyStrategy,
+      solverStrategy: this.config.solverStrategy,
       onSnapshot: async (snapshotHtml, stage) => {
-        if (!this.config.saveRawHtml) return;
-        const slug =
+        if (!this.config.saveRawHtml || !this.config.saveDebugSnapshots) return;
+
+        const fullHash = Buffer.from(url)
+          .toString('base64')
+          .replace(/[^a-z0-9]/gi, '');
+        const urlHash = fullHash.substring(0, 4) + fullHash.substring(fullHash.length - 8);
+        const urlSlug =
           url
             .split('/')
             .filter(Boolean)
             .pop()
             ?.replace(/[^a-z0-9]/gi, '_') ?? 'unknown';
+
+        const slug = `${urlSlug}_${urlHash}`;
+
         await this.storage.upload(
           Buffer.from(snapshotHtml),
-          `raw/debug_${stage}_${source.identifier}_${slug}.html`,
+          `${baseRawPath}/${source.identifier}_${slug}_${stage}_debug.html`,
           'text/html',
         );
       },
@@ -78,15 +111,41 @@ export class ScrapeUrlUseCase {
     if (this.config.saveRawHtml) {
       const slug = raw.externalId.replace(/[^a-z0-9]/gi, '_');
       await this.storage
-        .upload(Buffer.from(html), `raw/${raw.source}_${slug}.html`, 'text/html')
+        .upload(Buffer.from(html), `${baseRawPath}/${raw.source}_${slug}.html`, 'text/html')
         .then(
           () => {
-            raw.metadata.debugFile = `${raw.source}_${slug}.html`;
+            raw.metadata.debugFile = `${domain}/${raw.source}_${slug}.html`;
           },
           () => {
             this.logger.warn('Could not persist debug HTML');
           },
         );
+    }
+
+    // Guardar respuestas de red si están disponibles (independiente de saveRawHtml)
+    if (this.config.captureNetworkLogs && networkResponses && networkResponses.length > 0) {
+      const slug = raw.externalId.replace(/[^a-z0-9]/gi, '_');
+      raw.metadata.networkFiles = [];
+      await Promise.all(
+        networkResponses.map(async (res, i) => {
+          try {
+            const resSlug = new URL(res.url).pathname
+              .split('/')
+              .filter(Boolean)
+              .pop()
+              ?.replace(/[^a-z0-9]/gi, '_');
+            const fileName = `${baseRawPath}/network/${raw.source}_${slug}_${i}_${resSlug}.json`;
+            await this.storage.upload(Buffer.from(res.body), fileName, 'application/json');
+            raw.metadata.networkFiles?.push(fileName);
+          } catch (e) {
+            // Ignorar errores en archivos individuales
+          }
+        }),
+      );
+      this.logger.info(
+        { count: networkResponses.length },
+        'Respuestas de red capturadas y guardadas',
+      );
     }
 
     // Convert raw strings → validated VOs. Invalid externalId → skip whole extraction.
@@ -118,7 +177,7 @@ export class ScrapeUrlUseCase {
       contacts: parsed.contacts,
       email: parsed.email,
       externalId: parsed.externalId,
-      coordinates: parsed.coordinates,
+      coordinates: parsed.location?.coordinates ?? raw.location.coordinates,
       candidates,
     });
 
@@ -138,7 +197,7 @@ export class ScrapeUrlUseCase {
           phones: parsed.phones,
           email: parsed.email,
           contacts: parsed.contacts,
-          address: parsed.address,
+          location: parsed.location,
           description: raw.description,
           price: parsed.price,
           images: processedImages,
@@ -161,7 +220,7 @@ export class ScrapeUrlUseCase {
             phones: parsed.phones,
             email: parsed.email,
             contacts: parsed.contacts,
-            address: parsed.address,
+            location: parsed.location,
             description: raw.description,
             price: parsed.price,
             images: processedImages,
@@ -204,7 +263,7 @@ export class ScrapeUrlUseCase {
 
     const phones: Phone[] = [];
     for (const p of raw.phones) {
-      const r = Phone.create(p, raw.country);
+      const r = Phone.create(p);
       if (r.success) phones.push(r.value);
       else this.logger.debug({ raw: p }, 'Skipping invalid phone');
     }
@@ -217,7 +276,7 @@ export class ScrapeUrlUseCase {
     const contacts: SocialContact[] = raw.contacts ?? [];
 
     const price = valueOrUndefined(Price.create(raw.price, raw.currency));
-    const address = valueOrUndefined(ScrapedAddress.create(raw.address, raw.coordinates));
+    const location = valueOrUndefined(ScrapedLocation.create(raw.location));
 
     return {
       externalId: externalIdResult.value,
@@ -225,8 +284,7 @@ export class ScrapeUrlUseCase {
       email,
       contacts,
       price,
-      address,
-      coordinates: raw.coordinates,
+      location,
     };
   }
 
@@ -274,7 +332,7 @@ export class ScrapeUrlUseCase {
           const slug = externalId.replace(/[^a-z0-9]/gi, '_');
           const storedUrl = await this.storage.upload(
             buffer,
-            `${source}_${slug}_${i}.jpg`,
+            `images/${source}/${slug}/${String(i).padStart(3, '0')}.jpg`,
             'image/jpeg',
           );
 

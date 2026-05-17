@@ -27,36 +27,24 @@ pg-boss (scraping programado) o por jobs manuales desde el panel de admin.
 services/scraper-service/
 ├── src/
 │   ├── index.ts                        ← entry point: suscribe a colas de scraping
-│   ├── crawler/
-│   │   ├── playwright-crawler.ts       ← páginas con JavaScript (SPA, JS rendering)
-│   │   ├── cheerio-crawler.ts          ← páginas estáticas (más rápido, menos recursos)
-│   │   ├── robots-checker.ts           ← respetar robots.txt antes de crawlear
-│   │   └── ssrf-guard.ts              ← bloquear URLs a red interna
-│   ├── normalizers/
-│   │   ├── base-normalizer.ts          ← interfaz común para todos los normalizadores
-│   │   └── by-vertical/
-│   │       ├── massage.ts              ← mapea campos crudos → schema masajes
-│   │       ├── car.ts                  ← mapea campos crudos → schema automoción
-│   │       └── dating.ts              ← mapea campos crudos → schema dating
-│   ├── entity-resolution/
-│   │   ├── resolver.ts                 ← detecta si el Presenter ya existe en BD
-│   │   ├── phone-matcher.ts            ← matching por teléfono normalizado
-│   │   └── address-matcher.ts         ← fuzzy matching de dirección
-│   ├── enrichment/
-│   │   ├── llm-extractor.ts            ← extrae servicios/precios de texto libre
-│   │   └── image-downloader.ts         ← descarga imágenes → publica job moderate-scraper-image
-│   ├── jobs/
-│   │   ├── scrape-vertical.ts          ← job: scrapear una vertical completa
-│   │   ├── scrape-provider.ts          ← job: actualizar un Presenter específico
-│   │   └── entity-resolution-batch.ts  ← job: resolver duplicados en batch
-│   └── sources/
-│       ├── source.port.ts              ← interfaz: cada fuente implementa este port
-│       └── by-vertical/
-│           ├── massage-sources.ts      ← lista de URLs/dominios a scrapear
-│           └── car-sources.ts
-└── fixtures/                           ← HTML de ejemplo para tests (sin red real)
-    ├── massage-sample.html
-    └── car-sample.html
+│   ├── application/                    ← casos de uso y puertos (SourcePort)
+│   ├── domain/                         ← entidades y value objects (Vertical, RawExtraction)
+│   ├── infrastructure/
+│   │   ├── adapters/
+│   │   │   ├── sources/                ← ADAPTADORES (Ver SOURCES.md en esta carpeta)
+│   │   │   │   ├── dating/             ← Vertical de Citas (ver DATING-SOURCES.md)
+│   │   │   │   ├── motor/              ← Vertical de Automoción
+│   │   │   │   ├── real-estate/        ← Vertical Inmobiliaria
+│   │   │   │   └── base-source.adapter.ts ← Clase base común
+│   │   │   ├── persistence/            ← Drizzle / PostgreSQL
+│   │   │   └── queue/                  ← pg-boss
+│   │   └── crawler/
+│   │       ├── playwright-crawler.ts   ← páginas dinámicas (SPA)
+│   │       ├── cheerio-crawler.ts      ← páginas estáticas
+│   │       └── robots-checker.ts       ← respeto a robots.txt
+│   ├── jobs/                           ← handlers de jobs de la cola
+│   └── normalizers/                    ← lógica de mapeo crudo → dominio
+└── fixtures/                           ← HTML de ejemplo para tests
 ```
 
 ---

@@ -1,5 +1,5 @@
-import robotsParser from 'robots-parser';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import robotsParser from 'robots-parser';
 
 import { RobotsChecker } from '#infrastructure/crawler/robots-checker.js';
 

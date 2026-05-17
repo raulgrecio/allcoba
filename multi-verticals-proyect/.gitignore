@@ -27,6 +27,3 @@ logs/
 .next/
 nuxt/
 
-# Storage Data Scraper
-storage/
-

@@ -9,7 +9,11 @@ allowBuilds:
   b: true
   d: true
   e: true
+  esbuild: true
   i: true
   l: true
+  msw: true
   s: true
+  sharp: true
   u: true
+  unrs-resolver: true

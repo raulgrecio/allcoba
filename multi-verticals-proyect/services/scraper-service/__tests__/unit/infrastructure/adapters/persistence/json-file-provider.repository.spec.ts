@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Email, Phone, ProviderId } from '@allcoba/domain';
 
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ContactPlatform } from '#domain/entities/contact-platform.js';
 import { Vertical } from '#domain/entities/vertical.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
@@ -132,25 +133,33 @@ describe('Unit: JsonFileProviderRepository', () => {
   });
 
   it('find() matches by email', async () => {
-    const record = makeJsonRecord(TEST_UUID, { email: 'test@example.com' });
+    const record = makeJsonRecord(TEST_UUID, {
+      email: 'test@example.com',
+      vertical: Vertical.DATING,
+    });
     vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify([record]));
 
     const emailResult = Email.create('test@example.com');
     if (!emailResult.success) throw new Error('Invalid email in test');
 
-    const results = await repository.find({ email: emailResult.value });
+    const results = await repository.find({
+      email: emailResult.value,
+      vertical: Vertical.DATING,
+    });
     expect(results).toHaveLength(1);
     expect(results[0]!.email?.value).toBe('test@example.com');
   });
 
   it('find() matches by contact', async () => {
     const record = makeJsonRecord(TEST_UUID, {
-      contacts: [{ platform: 'TELEGRAM', handle: 'myhandle' }],
+      contacts: [{ platform: ContactPlatform.TELEGRAM, handle: 'myhandle' }],
+      vertical: Vertical.DATING,
     });
     vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify([record]));
 
     const results = await repository.find({
-      contact: { platform: 'TELEGRAM', handle: 'myhandle' },
+      contact: { platform: ContactPlatform.TELEGRAM, handle: 'myhandle' },
+      vertical: Vertical.DATING,
     });
     expect(results).toHaveLength(1);
   });
@@ -172,13 +181,19 @@ describe('Unit: JsonFileProviderRepository', () => {
   });
 
   it('find() matches by phone', async () => {
-    const record = makeJsonRecord(TEST_UUID, { phones: ['+34600000000'] });
+    const record = makeJsonRecord(TEST_UUID, {
+      phones: ['+34600000000'],
+      vertical: Vertical.DATING,
+    });
     vi.mocked(fs.readFile).mockResolvedValue(JSON.stringify([record]));
 
     const phoneResult = Phone.create('+34600000000', 'ES');
     if (!phoneResult.success) throw new Error('Invalid phone in test');
 
-    const results = await repository.find({ phone: phoneResult.value });
+    const results = await repository.find({
+      phone: phoneResult.value,
+      vertical: Vertical.DATING,
+    });
     expect(results).toHaveLength(1);
   });
 });

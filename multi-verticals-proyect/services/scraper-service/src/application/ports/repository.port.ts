@@ -1,9 +1,7 @@
 import type { Email, ImageHash, Phone, ProviderId } from '@allcoba/domain';
 
-import type {
-  ContactPlatform,
-  ScrapedProvider,
-} from '#domain/aggregates/scraped-provider.aggregate.js';
+import type { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import type { ContactPlatform } from '#domain/entities/contact-platform.js';
 import type { Vertical } from '#domain/entities/vertical.js';
 import type { ExternalId } from '#domain/value-objects/external-id.vo.js';
 
@@ -13,7 +11,7 @@ export interface ProviderCriteria {
   contact?: { platform: ContactPlatform; handle: string };
   externalId?: ExternalId;
   imageHash?: ImageHash;
-  vertical?: Vertical;
+  vertical: Vertical;
 }
 
 export interface ProviderRepositoryPort {

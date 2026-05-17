@@ -8,20 +8,18 @@ import type {
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
 import type {
-  ContactPlatform,
   ScrapedImage,
   ScraperSignal,
   SignalType,
   SocialContact,
 } from '#domain/aggregates/scraped-provider.aggregate.js';
-import {
-  ScrapedProvider,
-  VerificationStatus,
-} from '#domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '#domain/entities/vertical.js';
+import type { ContactPlatform } from '#domain/entities/contact-platform.js';
+import type { Vertical } from '#domain/entities/vertical.js';
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { VerificationStatus } from '#domain/entities/verification-status.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
+import { ScrapedLocation } from '#domain/value-objects/scraped-location.vo.js';
 
 import type { NewScrapedProviderRow, ScrapedProviderRow } from './schema/scraper.schema.js';
 import * as schema from './schema/scraper.schema.js';
@@ -74,14 +72,16 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
       );
     }
 
-    if (filters.length === 0) return [];
+    let query = this.db.select().from(table);
 
-    const rows = await this.db
-      .select()
-      .from(table)
-      .where(sql.join(filters, sql` AND `));
+    if (filters.length > 0) {
+      // @ts-ignore
+      query = query.where(sql.join(filters, sql` AND `));
+    }
 
-    return rows.map((row) => this.toDomain(row)).filter((p): p is ScrapedProvider => p !== null);
+    const rows = await query.execute();
+
+    return (rows as any[]).map((row) => this.toDomain(row)).filter((p): p is ScrapedProvider => p !== null);
   }
 
   async findById(id: ProviderId): Promise<ScrapedProvider | null> {
@@ -121,13 +121,17 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
       handle: c.handle,
     }));
 
-    const rawAddress = row.address as {
-      text: string;
+    const rawLocation = row.address as {
+      address?: string;
+      country?: string;
+      city?: string;
+      region?: string;
+      zone?: string;
+      postalCode?: string;
+      timezone?: string;
       coordinates?: { lat: number; lng: number };
     } | null;
-    const address = valueOrUndefined(
-      rawAddress ? ScrapedAddress.create(rawAddress.text, rawAddress.coordinates) : null,
-    );
+    const location = valueOrUndefined(rawLocation ? ScrapedLocation.create(rawLocation) : null);
 
     const rawPrice = row.price as { amount: number; currency: string } | null;
     const price = valueOrUndefined(
@@ -179,7 +183,7 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
       phones,
       email,
       contacts,
-      address,
+      location,
       description: row.description ?? undefined,
       price,
       images,
@@ -203,7 +207,7 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
       phones: p.phones.map((ph) => ph.toJSON()),
       email: p.email?.value ?? null,
       contacts: p.contacts.map((c) => ({ platform: c.platform, handle: c.handle })),
-      address: p.address?.toJSON() ?? null,
+      address: p.location?.toJSON() ?? null,
       description: p.description,
       price: p.price?.toJSON() ?? null,
       images: p.images.map((img) => ({

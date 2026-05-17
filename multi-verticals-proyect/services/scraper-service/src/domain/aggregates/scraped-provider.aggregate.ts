@@ -1,19 +1,12 @@
 import type { Email, ImageHash, Phone, Price } from '@allcoba/domain';
 import { ProviderId } from '@allcoba/domain';
 
+import type { ContactPlatform } from '../entities/contact-platform.js';
 import type { Vertical } from '../entities/vertical.js';
 import type { ConfidenceScore } from '../value-objects/confidence-score.vo.js';
 import type { ExternalId } from '../value-objects/external-id.vo.js';
-import type { ScrapedAddress } from '../value-objects/scraped-address.vo.js';
-
-export enum VerificationStatus {
-  AUTOMATIC_MATCH = 'AUTOMATIC_MATCH',
-  PENDING_REVIEW = 'PENDING_REVIEW',
-  REJECTED = 'REJECTED',
-  VERIFIED_MANUAL = 'VERIFIED_MANUAL',
-}
-
-export type ContactPlatform = 'TELEGRAM' | 'WHATSAPP' | 'INSTAGRAM' | 'TIKTOK';
+import type { ScrapedLocation } from '../value-objects/scraped-location.vo.js';
+import { VerificationStatus } from '../entities/verification-status.js';
 
 export interface SocialContact {
   platform: ContactPlatform;
@@ -50,7 +43,7 @@ export interface CreateScrapedProviderProps {
   phones?: readonly Phone[];
   email?: Email;
   contacts?: readonly SocialContact[];
-  address?: ScrapedAddress;
+  location?: ScrapedLocation;
   description?: string;
   price?: Price;
   images?: readonly ScrapedImage[];
@@ -70,7 +63,7 @@ export type MergeProps = Partial<{
   phones: readonly Phone[];
   email: Email;
   contacts: readonly SocialContact[];
-  address: ScrapedAddress;
+  location: ScrapedLocation;
   description: string;
   price: Price;
   images: readonly ScrapedImage[];
@@ -82,56 +75,98 @@ export type MergeProps = Partial<{
   metadata: Record<string, unknown>;
 }>;
 
+type ScrapedProviderState = {
+  id: ProviderId;
+  displayName: string | undefined;
+  phones: readonly Phone[];
+  email: Email | undefined;
+  contacts: readonly SocialContact[];
+  location: ScrapedLocation | undefined;
+  description: string | undefined;
+  price: Price | undefined;
+  images: readonly ScrapedImage[];
+  vertical: Vertical;
+  externalIds: readonly ExternalId[];
+  verificationStatus: VerificationStatus;
+  confidenceScore: ConfidenceScore;
+  signals: readonly ScraperSignal[];
+  attributes: Record<string, unknown>;
+  metadata: Record<string, unknown>;
+  lastScrapedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 /**
  * Aggregate root for a scraped provider entity.
  * Immutable — state changes return new instances via merge().
  */
 export class ScrapedProvider {
-  private constructor(
-    public readonly id: ProviderId,
-    public readonly displayName: string | undefined,
-    public readonly phones: readonly Phone[],
-    public readonly email: Email | undefined,
-    public readonly contacts: readonly SocialContact[],
-    public readonly address: ScrapedAddress | undefined,
-    public readonly description: string | undefined,
-    public readonly price: Price | undefined,
-    public readonly images: readonly ScrapedImage[],
-    public readonly vertical: Vertical,
-    public readonly externalIds: readonly ExternalId[],
-    public readonly verificationStatus: VerificationStatus,
-    public readonly confidenceScore: ConfidenceScore,
-    public readonly signals: readonly ScraperSignal[],
-    public readonly attributes: Record<string, unknown>,
-    public readonly metadata: Record<string, unknown>,
-    public readonly lastScrapedAt: Date,
-    public readonly createdAt: Date,
-    public readonly updatedAt: Date,
-  ) {}
+  public readonly id: ProviderId;
+  public readonly displayName: string | undefined;
+  public readonly phones: readonly Phone[];
+  public readonly email: Email | undefined;
+  public readonly contacts: readonly SocialContact[];
+  public readonly location: ScrapedLocation | undefined;
+  public readonly description: string | undefined;
+  public readonly price: Price | undefined;
+  public readonly images: readonly ScrapedImage[];
+  public readonly vertical: Vertical;
+  public readonly externalIds: readonly ExternalId[];
+  public readonly verificationStatus: VerificationStatus;
+  public readonly confidenceScore: ConfidenceScore;
+  public readonly signals: readonly ScraperSignal[];
+  public readonly attributes: Record<string, unknown>;
+  public readonly metadata: Record<string, unknown>;
+  public readonly lastScrapedAt: Date;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+
+  private constructor(state: ScrapedProviderState) {
+    this.id = state.id;
+    this.displayName = state.displayName;
+    this.phones = state.phones;
+    this.email = state.email;
+    this.contacts = state.contacts;
+    this.location = state.location;
+    this.description = state.description;
+    this.price = state.price;
+    this.images = state.images;
+    this.vertical = state.vertical;
+    this.externalIds = state.externalIds;
+    this.verificationStatus = state.verificationStatus;
+    this.confidenceScore = state.confidenceScore;
+    this.signals = state.signals;
+    this.attributes = state.attributes;
+    this.metadata = state.metadata;
+    this.lastScrapedAt = state.lastScrapedAt;
+    this.createdAt = state.createdAt;
+    this.updatedAt = state.updatedAt;
+  }
 
   static create(props: CreateScrapedProviderProps): ScrapedProvider {
     const now = new Date();
-    return new ScrapedProvider(
-      props.id ?? ProviderId.generate(),
-      props.displayName,
-      props.phones ?? [],
-      props.email,
-      props.contacts ?? [],
-      props.address,
-      props.description,
-      props.price,
-      props.images ?? [],
-      props.vertical,
-      props.externalIds ?? [],
-      props.verificationStatus ?? VerificationStatus.PENDING_REVIEW,
-      props.confidenceScore,
-      props.signals ?? [],
-      props.attributes ?? {},
-      props.metadata ?? {},
-      props.lastScrapedAt ?? now,
-      props.createdAt ?? now,
-      props.updatedAt ?? now,
-    );
+    return new ScrapedProvider({
+      id: props.id ?? ProviderId.generate(),
+      displayName: props.displayName,
+      phones: props.phones ?? [],
+      email: props.email,
+      contacts: props.contacts ?? [],
+      location: props.location,
+      description: props.description,
+      price: props.price,
+      images: props.images ?? [],
+      vertical: props.vertical,
+      externalIds: props.externalIds ?? [],
+      verificationStatus: props.verificationStatus ?? VerificationStatus.PENDING_REVIEW,
+      confidenceScore: props.confidenceScore,
+      signals: props.signals ?? [],
+      attributes: props.attributes ?? {},
+      metadata: props.metadata ?? {},
+      lastScrapedAt: props.lastScrapedAt ?? now,
+      createdAt: props.createdAt ?? now,
+      updatedAt: props.updatedAt ?? now,
+    });
   }
 
   hasPhone(phone: Phone): boolean {
@@ -181,26 +216,26 @@ export class ScrapedProvider {
       ? [...this.externalIds, ...updates.externalIds.filter((e) => !this.hasExternalId(e))]
       : this.externalIds;
 
-    return new ScrapedProvider(
-      this.id,
-      this.displayName,
-      mergedPhones,
-      this.email ?? updates.email,
-      mergedContacts,
-      this.address ?? updates.address,
-      this.description ?? updates.description,
-      updates.price ?? this.price,
-      mergedImages,
-      this.vertical,
-      mergedExternalIds,
-      updates.verificationStatus ?? this.verificationStatus,
-      updates.confidenceScore ?? this.confidenceScore,
-      updates.signals ? [...this.signals, ...updates.signals] : this.signals,
-      { ...this.attributes, ...updates.attributes },
-      { ...this.metadata, ...updates.metadata, lastMergedAt: now.toISOString() },
-      now,
-      this.createdAt,
-      now,
-    );
+    return new ScrapedProvider({
+      id: this.id,
+      displayName: this.displayName,
+      phones: mergedPhones,
+      email: this.email ?? updates.email,
+      contacts: mergedContacts,
+      location: this.location ?? updates.location,
+      description: this.description ?? updates.description,
+      price: updates.price ?? this.price,
+      images: mergedImages,
+      vertical: this.vertical,
+      externalIds: mergedExternalIds,
+      verificationStatus: updates.verificationStatus ?? this.verificationStatus,
+      confidenceScore: updates.confidenceScore ?? this.confidenceScore,
+      signals: updates.signals ? [...this.signals, ...updates.signals] : this.signals,
+      attributes: { ...this.attributes, ...updates.attributes },
+      metadata: { ...this.metadata, ...updates.metadata, lastMergedAt: now.toISOString() },
+      lastScrapedAt: now,
+      createdAt: this.createdAt,
+      updatedAt: now,
+    });
   }
 }

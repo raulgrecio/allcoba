@@ -1,9 +1,7 @@
-import { pgEnum, pgSchema, real, text, timestamp, uuid, jsonb } from 'drizzle-orm/pg-core';
+import { jsonb, pgEnum, pgTable, real, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
-import { VerificationStatus } from '#domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '#domain/entities/vertical.js';
-
-export const scraperSchema = pgSchema('scraper');
+import { VerificationStatus } from '../../../../domain/entities/verification-status.js';
+import { Vertical } from '../../../../domain/entities/vertical.js';
 
 export const verificationStatusEnum = pgEnum('verification_status', [
   VerificationStatus.AUTOMATIC_MATCH,
@@ -34,17 +32,19 @@ const providerColumns = {
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 };
 
-export const realEstateProviders = scraperSchema.table('scraped_real_estate', providerColumns);
-export const motorProviders = scraperSchema.table('scraped_motor', providerColumns);
-export const jobsProviders = scraperSchema.table('scraped_jobs', providerColumns);
-export const servicesProviders = scraperSchema.table('scraped_services', providerColumns);
-export const generalProviders = scraperSchema.table('scraped_general', providerColumns);
+export const realEstateProviders = pgTable('scraped_real_estate', providerColumns);
+export const motorProviders = pgTable('scraped_motor', providerColumns);
+export const jobsProviders = pgTable('scraped_jobs', providerColumns);
+export const servicesProviders = pgTable('scraped_services', providerColumns);
+export const datingProviders = pgTable('scraped_dating', providerColumns);
+export const generalProviders = pgTable('scraped_general', providerColumns);
 
 export const verticalTables = {
   [Vertical.REAL_ESTATE]: realEstateProviders,
   [Vertical.MOTOR]: motorProviders,
   [Vertical.JOBS]: jobsProviders,
   [Vertical.SERVICES]: servicesProviders,
+  [Vertical.DATING]: datingProviders,
   [Vertical.GENERAL]: generalProviders,
 } as const;
 

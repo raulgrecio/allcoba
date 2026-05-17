@@ -9,7 +9,6 @@ describe('Phone.create — ES', () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.value.e164).toBe('+34612345678');
-      expect(result.value.national).toBe('612345678');
       expect(result.value.country).toBe('ES');
     }
   });
@@ -23,7 +22,7 @@ describe('Phone.create — ES', () => {
   it('accepts number with spaces', () => {
     const result = Phone.create('612 345 678', 'ES');
     expect(result.success).toBe(true);
-    if (result.success) expect(result.value.national).toBe('612345678');
+    if (result.success) expect(result.value.e164).toBe('+34612345678');
   });
 
   it('accepts mobile starting with 7', () => {
@@ -53,16 +52,16 @@ describe('Phone.create — ES', () => {
     expect(Phone.create('ABCDEFGHI', 'ES').success).toBe(false);
   });
 
-  it('fails for number from unsupported country', () => {
-    const result = Phone.create('+33612345678', 'ES');
-    expect(result.success).toBe(false);
-    if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_COUNTRY_UNSUPPORTED');
+  it('accepts number from any valid country', () => {
+    const result = Phone.create('+33612345678');
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.value.country).toBe('FR');
   });
 
-  it('fails when defaultCountry bypasses type system', () => {
-    const result = Phone.create('612345678', 'PT' as CountryCode);
-    expect(result.success).toBe(false);
-    if (!result.success) expect(result.errors[0]!.code).toBe('PHONE_COUNTRY_UNSUPPORTED');
+  it('accepts Portuguese number when defaultCountry is PT', () => {
+    const result = Phone.create('912345678', 'PT' as CountryCode);
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.value.country).toBe('PT');
   });
 });
 

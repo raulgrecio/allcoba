@@ -1,0 +1,44 @@
+{
+  "id": "dee57f7f-4373-44ba-bec4-ba2616eb8613",
+  "displayName": "escorts-y-putas-granadaescortstania-la-mas-tierna-656911565-656911565html",
+  "phones": [],
+  "contacts": [],
+  "location": {
+    "country": "ES",
+    "city": "escorts"
+  },
+  "description": "",
+  "images": [],
+  "vertical": "DATING",
+  "externalIds": [
+    {
+      "source": "milescorts",
+      "id": "tania-la-mas-tierna-656911565-656911565.html"
+    }
+  ],
+  "verificationStatus": "PENDING_REVIEW",
+  "confidenceScore": 0.95,
+  "signals": [],
+  "attributes": {
+    "title": "escorts-y-putas-granadaescortstania-la-mas-tierna-656911565-656911565html",
+    "independent": true,
+    "verified": false,
+    "badges": [],
+    "rates": [],
+    "services": [],
+    "reviews": []
+  },
+  "metadata": {
+    "timestamp": "2026-05-09T11:20:14.078Z",
+    "durationMs": 4976,
+    "sourceUrl": "https://www.milescorts.es/escorts-y-putas-granada/escorts/tania-la-mas-tierna-656911565-656911565.html",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.7727.15 Safari/537.36",
+    "serverIp": "89.46.105.46",
+    "outboundIp": "188.26.198.204",
+    "statusCode": 404,
+    "debugFile": "milescorts.es/milescorts_tania_la_mas_tierna_656911565_656911565_html.html"
+  },
+  "lastScrapedAt": "2026-05-09T11:20:14.087Z",
+  "createdAt": "2026-05-09T11:20:14.087Z",
+  "updatedAt": "2026-05-09T11:20:14.087Z"
+}

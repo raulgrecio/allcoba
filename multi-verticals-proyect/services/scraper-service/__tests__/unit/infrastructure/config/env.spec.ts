@@ -32,9 +32,9 @@ describe('Config', () => {
     expect(config.storagePath).toBe('storage');
   });
 
-  it('throws error when required variables are missing', () => {
-    const env = {};
-    expect(() => parseConfig(env)).toThrow();
+  it('throws error when invalid enum values are provided', () => {
+    const env = { NODE_ENV: 'invalid-env' };
+    expect(() => parseConfig(env as any)).toThrow();
   });
 
   it('throws error for invalid database URL', () => {

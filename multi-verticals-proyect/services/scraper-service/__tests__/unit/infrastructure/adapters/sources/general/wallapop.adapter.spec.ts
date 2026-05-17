@@ -22,12 +22,42 @@ describe('Unit: WallapopAdapter', () => {
     );
   });
 
-  it('debería extraer datos básicos', async () => {
+  it('debería extraer datos básicos desde __NEXT_DATA__', async () => {
+    const nextData = JSON.stringify({
+      props: {
+        pageProps: {
+          item: {
+            title: { original: 'Producto test' },
+            description: { original: 'Descripción...' },
+            price: { cash: { amount: 100 } },
+            location: {
+              city: 'Madrid',
+              postalCode: '28001',
+              countryCode: 'ES',
+              latitude: 40.4,
+              longitude: -3.7,
+            },
+            images: [
+              {
+                urls: {
+                  small: 'http://cdn/img.jpg?pictureSize=W320',
+                  medium: 'http://cdn/img.jpg?pictureSize=W640',
+                  big: 'http://cdn/img.jpg?pictureSize=W800',
+                },
+              },
+            ],
+            characteristics: 'Como nuevo',
+            taxonomies: [{ name: 'Deporte y ocio' }],
+            flags: { sold: false },
+          },
+        },
+      },
+    });
+
     const mockHtml = `
       <html>
         <h1>Producto test</h1>
-        <span class="item-detail-price">100€</span>
-        <div class="item-detail-description">Descripción...</div>
+        <script id="__NEXT_DATA__" type="application/json">${nextData}</script>
       </html>
     `;
 
@@ -41,5 +71,10 @@ describe('Unit: WallapopAdapter', () => {
 
     expect(result.data.name).toBe('Producto test');
     expect(result.data.price).toBe(100);
+    expect(result.data.location.city).toBe('Madrid');
+    expect(result.data.location.postalCode).toBe('28001');
+    expect(result.data.location.country).toBe('ES');
+    expect(result.data.location.coordinates).toEqual({ lat: 40.4, lng: -3.7 });
+    expect(result.data.imageUrls).toContain('http://cdn/img.jpg?pictureSize=W800');
   });
 });

@@ -1,19 +1,33 @@
 import { z } from 'zod';
 
+import type { CrawlerEngine } from '#application/ports/crawler.port.js';
+
 export interface ScraperConfig {
   readonly logLevel: string;
   readonly nodeEnv: string;
   readonly isProduction: boolean;
   readonly isDevelopment: boolean;
-  readonly databaseUrl: string;
+  readonly databaseUrl?: string;
   readonly storagePath: string;
+  readonly scraperStorage: 'json' | 'postgres';
+  readonly crawlerMaxConcurrent: number;
+  readonly crawlerEngine: CrawlerEngine;
+  readonly zyteApiKey?: string;
+  readonly capsolverApiKey?: string;
+  readonly crawlerBlockImages: boolean;
 }
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   LOG_LEVEL: z.enum(['debug', 'info', 'warn', 'error']).default('info'),
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.string().url().optional(),
   STORAGE_PATH: z.string().default('storage'),
+  SCRAPER_STORAGE: z.enum(['json', 'postgres']).default('json'),
+  CRAWLER_MAX_CONCURRENT: z.coerce.number().int().min(1).max(10).default(3),
+  CRAWLER_ENGINE: z.enum(['playwright', 'patchright', 'static'] as const).default('patchright'),
+  ZYTE_API_KEY: z.string().optional(),
+  CAPSOLVER_API_KEY: z.string().optional(),
+  CRAWLER_BLOCK_IMAGES: z.preprocess((val) => val === 'true' || val === '1', z.boolean()).default(false),
 });
 
 export function parseConfig(env: NodeJS.ProcessEnv): ScraperConfig {
@@ -26,6 +40,12 @@ export function parseConfig(env: NodeJS.ProcessEnv): ScraperConfig {
     isDevelopment: parsed.NODE_ENV === 'development',
     databaseUrl: parsed.DATABASE_URL,
     storagePath: parsed.STORAGE_PATH,
+    scraperStorage: parsed.SCRAPER_STORAGE,
+    crawlerMaxConcurrent: parsed.CRAWLER_MAX_CONCURRENT,
+    crawlerEngine: parsed.CRAWLER_ENGINE,
+    zyteApiKey: parsed.ZYTE_API_KEY,
+    capsolverApiKey: parsed.CAPSOLVER_API_KEY,
+    crawlerBlockImages: parsed.CRAWLER_BLOCK_IMAGES,
   };
 }
 

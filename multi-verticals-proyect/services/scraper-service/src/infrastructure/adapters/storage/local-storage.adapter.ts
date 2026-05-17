@@ -8,7 +8,7 @@ import type { StoragePort } from '#application/ports/storage.port.js';
 export class LocalStorageAdapter implements StoragePort {
   private readonly storageDir: string;
 
-  constructor({ baseDir = 'storage' }: { baseDir?: string } = {}) {
+  constructor({ baseDir = path.join('__data', 'storage') }: { baseDir?: string } = {}) {
     this.storageDir = path.resolve(process.cwd(), baseDir);
   }
 

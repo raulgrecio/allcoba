@@ -1,0 +1,89 @@
+{
+  "id": "87d67372-88cc-4d59-918b-1b22f35cdc8e",
+  "displayName": "Escort en Móstoles. Bonita chica venezolana, dulce y amable.",
+  "phones": ["+34642870108"],
+  "contacts": [
+    {
+      "platform": "WHATSAPP",
+      "handle": "+34642870108"
+    }
+  ],
+  "location": {
+    "country": "ES"
+  },
+  "description": "¿Sientes que la soledad no es lo tuyo? ¿Estás triste por no tener la compañía de una bella chica? Por fin, tus preocupaciones han terminado. Soy una chica atractiva con figura sinuosa y estoy deseando conocerte para compartir momentos únicos contigo tanto tiempo como busques. Mis fotos son completamente actuales. Además, realizo desplazamientos a hoteles y domicilios en cualquier momento.",
+  "images": [
+    {
+      "storedUrl": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/__data/storage/images/citapasion/17533/000.jpg",
+      "originalUrl": "https://citapasion-cdn.b-cdn.net/panel/docs/MED_fotos-foto233526-795.webp",
+      "hash": "ffe8c0c1c103c3ff"
+    },
+    {
+      "storedUrl": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/__data/storage/images/citapasion/17533/001.jpg",
+      "originalUrl": "https://citapasion-cdn.b-cdn.net/panel/docs/MED_fotos-foto233527-191.webp",
+      "hash": "0206040087e7e7f3"
+    },
+    {
+      "storedUrl": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/__data/storage/images/citapasion/17533/002.jpg",
+      "originalUrl": "https://citapasion-cdn.b-cdn.net/panel/docs/MED_fotos-foto233523-258.webp",
+      "hash": "f8f4f8c8c43f8e9d"
+    },
+    {
+      "storedUrl": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/__data/storage/images/citapasion/17533/003.jpg",
+      "originalUrl": "https://citapasion-cdn.b-cdn.net/panel/docs/MED_fotos-foto233524-314.webp",
+      "hash": "fff7e7e3c7c7c787"
+    },
+    {
+      "storedUrl": "file:///home/rgr/source/marketplace/multi-verticals-proyect/services/scraper-service/__data/storage/images/citapasion/17533/004.jpg",
+      "originalUrl": "https://citapasion-cdn.b-cdn.net/panel/docs/MED_fotos-foto233525-857.webp",
+      "hash": "80c38000c3fbdbdf"
+    }
+  ],
+  "vertical": "DATING",
+  "externalIds": [
+    {
+      "source": "citapasion",
+      "id": "17533"
+    }
+  ],
+  "verificationStatus": "PENDING_REVIEW",
+  "confidenceScore": 0.95,
+  "signals": [],
+  "attributes": {
+    "nickname": "Verónica",
+    "title": "Escort en Móstoles. Bonita chica venezolana, dulce y amable.",
+    "age": 21,
+    "hairColor": "Negro",
+    "hairLength": "-",
+    "eyeColor": "Negros",
+    "tattoos": true,
+    "piercings": false,
+    "ethnicity": "Latina",
+    "nationality": "Venezolana",
+    "smoker": false,
+    "languages": ["Español"],
+    "independent": true,
+    "verified": false,
+    "badges": [],
+    "rates": [],
+    "services": [],
+    "reviews": [],
+    "siteRating": {
+      "score": 4.5,
+      "count": 6
+    }
+  },
+  "metadata": {
+    "timestamp": "2026-05-09T11:18:04.844Z",
+    "durationMs": 36436,
+    "sourceUrl": "https://citapasion.com/escorts/17533",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.7727.15 Safari/537.36",
+    "serverIp": "185.209.62.20",
+    "outboundIp": "188.26.198.204",
+    "statusCode": 200,
+    "debugFile": "citapasion.com/citapasion_17533.html"
+  },
+  "lastScrapedAt": "2026-05-09T11:18:05.167Z",
+  "createdAt": "2026-05-09T11:18:05.167Z",
+  "updatedAt": "2026-05-09T11:18:05.167Z"
+}

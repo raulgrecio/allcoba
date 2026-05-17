@@ -4,11 +4,12 @@ import { Phone } from '@allcoba/domain';
 
 import type { SocialContact } from '#domain/aggregates/scraped-provider.aggregate.js';
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ContactPlatform } from '#domain/entities/contact-platform.js';
 import { Vertical } from '#domain/entities/vertical.js';
 import { ConsolidationService } from '#domain/services/consolidation.service.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
+import { ScrapedLocation } from '#domain/value-objects/scraped-location.vo.js';
 
 function phone(raw: string): Phone {
   const r = Phone.create(raw, 'ES');
@@ -28,8 +29,8 @@ function makeProvider(opts: {
   contacts?: SocialContact[];
   coordinates?: { lat: number; lng: number };
 }): ScrapedProvider {
-  const addressResult = opts.coordinates
-    ? ScrapedAddress.create('Test address', opts.coordinates)
+  const locationResult = opts.coordinates
+    ? ScrapedLocation.create({ address: 'Test address', coordinates: opts.coordinates })
     : null;
 
   return ScrapedProvider.create({
@@ -38,7 +39,7 @@ function makeProvider(opts: {
     externalIds: opts.externalIds ?? [],
     phones: opts.phones ?? [],
     contacts: opts.contacts ?? [],
-    address: addressResult?.success ? addressResult.value : undefined,
+    location: locationResult?.success ? locationResult.value : undefined,
   });
 }
 
@@ -60,7 +61,7 @@ describe('Unit: ConsolidationService', () => {
   });
 
   it('returns FLAG_FOR_REVIEW on contact match (score 0.8)', () => {
-    const contact: SocialContact = { platform: 'TELEGRAM', handle: 'testuser' };
+    const contact: SocialContact = { platform: ContactPlatform.TELEGRAM, handle: 'testuser' };
     const candidate = makeProvider({ contacts: [contact] });
 
     const result = service.consolidate({
@@ -131,7 +132,7 @@ describe('Unit: ConsolidationService', () => {
 
   it('picks the candidate with the highest score when multiple candidates exist', () => {
     const weakCandidate = makeProvider({
-      contacts: [{ platform: 'TELEGRAM', handle: 'weakuser' }],
+      contacts: [{ platform: ContactPlatform.TELEGRAM, handle: 'weakuser' }],
     });
     const strongCandidate = makeProvider({
       externalIds: [externalId('fotocasa', '123')],

@@ -10,20 +10,18 @@ import type {
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
 import type {
-  ContactPlatform,
   ScrapedImage,
   ScraperSignal,
   SignalType,
   SocialContact,
 } from '#domain/aggregates/scraped-provider.aggregate.js';
-import {
-  ScrapedProvider,
-  VerificationStatus,
-} from '#domain/aggregates/scraped-provider.aggregate.js';
-import { Vertical } from '#domain/entities/vertical.js';
+import type { ContactPlatform } from '#domain/entities/contact-platform.js';
+import type { Vertical } from '#domain/entities/vertical.js';
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { VerificationStatus } from '#domain/entities/verification-status.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
+import { ScrapedLocation } from '#domain/value-objects/scraped-location.vo.js';
 
 /** Plain JSON shape stored on disk — no VOs, only primitives. */
 interface JsonRecord {
@@ -32,7 +30,16 @@ interface JsonRecord {
   phones: string[];
   email?: string;
   contacts: { platform: string; handle: string }[];
-  address?: { text: string; coordinates?: Coordinates };
+  location?: {
+    address?: string;
+    country?: string;
+    city?: string;
+    region?: string;
+    zone?: string;
+    postalCode?: string;
+    timezone?: string;
+    coordinates?: Coordinates;
+  };
   description?: string;
   price?: { amount: number; currency: string };
   images: { storedUrl: string; originalUrl: string; hash: string }[];
@@ -60,7 +67,7 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
 
   constructor({
     fileName = 'providers.json',
-    basePath = 'storage',
+    basePath = '__data/storage',
   }: { fileName?: string; basePath?: string } = {}) {
     this.filePath = path.resolve(process.cwd(), basePath, fileName);
   }
@@ -103,9 +110,7 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
       handle: c.handle,
     }));
 
-    const address = valueOrUndefined(
-      r.address ? ScrapedAddress.create(r.address.text, r.address.coordinates) : null,
-    );
+    const location = valueOrUndefined(r.location ? ScrapedLocation.create(r.location) : null);
 
     const price = valueOrUndefined(r.price ? Price.create(r.price.amount, r.price.currency) : null);
 
@@ -146,7 +151,7 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
       phones,
       email,
       contacts,
-      address,
+      location,
       description: r.description,
       price,
       images,
@@ -170,7 +175,7 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
       phones: p.phones.map((ph) => ph.toJSON()),
       email: p.email?.value,
       contacts: p.contacts.map((c) => ({ platform: c.platform, handle: c.handle })),
-      address: p.address?.toJSON(),
+      location: p.location?.toJSON(),
       description: p.description,
       price: p.price?.toJSON(),
       images: p.images.map((img) => ({
@@ -194,13 +199,27 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
   async find(criteria: ProviderCriteria): Promise<ScrapedProvider[]> {
     const providers = await this.load();
     return Array.from(providers.values()).filter((p) => {
+      // Primero comprobamos la vertical (obligatoria)
+      if (p.vertical !== criteria.vertical) return false;
+ 
+      // Si no hay más criterios, devolvemos true (trae todos los de la vertical)
+      if (
+        !criteria.phone &&
+        !criteria.email &&
+        !criteria.contact &&
+        !criteria.externalId &&
+        !criteria.imageHash
+      ) {
+        return true;
+      }
+ 
+      // Aplicamos el resto de filtros (OR)
       if (criteria.phone && p.hasPhone(criteria.phone)) return true;
       if (criteria.email && p.email?.equals(criteria.email)) return true;
       if (criteria.contact && p.hasContact(criteria.contact.platform, criteria.contact.handle))
         return true;
       if (criteria.externalId && p.hasExternalId(criteria.externalId)) return true;
       if (criteria.imageHash && p.hasImageHash(criteria.imageHash)) return true;
-      if (criteria.vertical && p.vertical === criteria.vertical) return true;
       return false;
     });
   }

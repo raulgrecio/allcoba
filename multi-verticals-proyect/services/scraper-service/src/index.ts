@@ -1,45 +1,159 @@
+import { Command } from 'commander';
+
 import { logger } from '@allcoba/kernel';
 
-import { ScrapeUrlUseCase } from './application/use-cases/scrape-url.use-case.js';
-import { ConsolidationService } from './domain/services/consolidation.service.js';
-import { SharpHasherAdapter } from './infrastructure/adapters/images/sharp-hasher.adapter.js';
-import { JsonFileProviderRepository } from './infrastructure/adapters/persistence/json-file-provider.repository.js';
-import { FotocasaAdapter } from './infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
-import { IdealistaAdapter } from './infrastructure/adapters/sources/real-estate/idealista.adapter.js';
-import { LocalStorageAdapter } from './infrastructure/adapters/storage/local-storage.adapter.js';
+import type { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
+
+import { createScraperServices } from './infrastructure/di/container.js';
+
+let activeCrawler: { close(): Promise<void> } | undefined;
+
+async function shutdown() {
+  if (activeCrawler) {
+    logger().info('Cerrando navegadores...');
+    await activeCrawler.close().catch(() => {});
+    activeCrawler = undefined;
+  }
+}
+
+process.on('SIGTERM', () => void shutdown());
+process.on('SIGINT', () => void shutdown());
 
 async function main() {
   logger().info('Iniciando scraper-service...');
 
-  // 1. Inicializar dependencias
-  const repository = new JsonFileProviderRepository();
-  const consolidationService = new ConsolidationService();
-  const imageHasher = new SharpHasherAdapter();
-  const storage = new LocalStorageAdapter();
+  const program = new Command();
 
-  // Adaptadores organizados por su nueva ruta
-  const sources = [new IdealistaAdapter(), new FotocasaAdapter()];
+  program.name('scraper').description('Herramientas de scraping multi-vertical').version('1.0.0');
 
-  const scrapeUrlUseCase = new ScrapeUrlUseCase(
-    sources,
-    repository,
-    consolidationService,
-    imageHasher,
-    storage,
-    { maxImagesToProcess: 5, saveRawHtml: true, headless: false },
-  );
+  // Subcomando Scrape
+  program
+    .command('scrape')
+    .description('Extraer un perfil individual')
+    .requiredOption('-u, --url <url>', 'URL del perfil a extraer')
+    .option('--max-images <number>', 'Límite de imágenes (default: 20)')
+    .option('--debug', 'Guardar HTML crudo y snapshots de depuración')
+    .option('--network', 'Capturar respuestas de red (JSON)')
+    .option('--pause', 'Mantener ventana abierta al finalizar (solo si no es headless)')
+    .option('--headless', 'Ejecutar en modo silencioso (sin ventana)', true)
+    .option('--no-headless', 'Desactivar modo silencioso (mostrar ventana)')
+    .option('--skip-robots', 'Ignorar reglas de robots.txt', false)
+    .option('--block-images', 'Bloquea la descarga de imágenes para ahorrar ancho de banda')
+    .option('--save-html', 'Guardar HTML crudo de cada perfil (sin snapshots de debug)', false)
+    .option('--proxy-strategy <strategy>', 'Estrategia de proxy (none, rotating, zyte)', 'zyte')
+    .option('--solver-strategy <strategy>', 'Estrategia de captcha (none, auto)', 'auto')
+    .action(async (options) => {
+      try {
+        const {
+          url,
+          maxImages,
+          debug,
+          network,
+          pause,
+          headless,
+          skipRobots,
+          saveHtml,
+          blockImages,
+          proxyStrategy,
+          solverStrategy,
+        } = options;
 
-  // 2. Procesar argumentos de CLI
-  const urlArg = process.argv.find((arg: string) => arg.startsWith('--url='));
-  if (urlArg) {
-    const url = urlArg.split('=')[1];
-    if (url) {
-      logger().info({ url }, 'Procesando URL desde CLI');
-      await scrapeUrlUseCase.execute(url);
-    }
-  }
+        const config = {
+          maxImagesToProcess: maxImages ? parseInt(maxImages, 10) : 20,
+          saveRawHtml: !!debug || !!saveHtml,
+          saveDebugSnapshots: !!debug,
+          captureNetworkLogs: !!network,
+          manualPause: !!pause,
+          headless: !!headless,
+          skipRobots: !!skipRobots,
+          blockImages: !!blockImages,
+          proxyStrategy: proxyStrategy as ProxyStrategy,
+          solverStrategy: solverStrategy as SolverStrategy,
+        };
 
-  logger().info('Proceso completado con éxito');
+        const { scrapeUrlUseCase, crawler } = await createScraperServices(config);
+        activeCrawler = crawler;
+
+        logger().info({ url, config }, 'Procesando perfil individual');
+        await scrapeUrlUseCase.execute(url);
+        logger().info('Extracción completada con éxito');
+        await shutdown();
+      } catch (err: any) {
+        logger().error({ err: err.message }, 'Error fatal en scrape');
+        process.exitCode = 1;
+      }
+    });
+
+  // Subcomando Discover
+  program
+    .command('discover')
+    .description('Descubrimiento masivo a partir de un listado')
+    .requiredOption('-u, --url <url>', 'URL del listado')
+    .option('-l, --limit <number>', 'Límite de perfiles a procesar')
+    .option('-s, --skip <number>', 'Saltar N primeros perfiles')
+    .option('--max-images <number>', 'Límite de imágenes (default: 20)')
+    .option('--debug', 'Guardar HTML crudo y snapshots de depuración')
+    .option('--network', 'Capturar respuestas de red (JSON)')
+    .option('--pause', 'Mantener ventana abierta al finalizar cada perfil')
+    .option('--headless', 'Ejecutar en modo silencioso (sin ventana)', true)
+    .option('--no-headless', 'Desactivar modo silencioso (mostrar ventana)')
+    .option('--skip-robots', 'Ignorar reglas de robots.txt', false)
+    .option('--block-images', 'Bloquea la descarga de imágenes a nivel de red')
+    .option('--save-html', 'Guardar HTML crudo de cada perfil (sin snapshots de debug)', false)
+    .option('--proxy-strategy <strategy>', 'Estrategia de proxy (none, rotating, zyte)', 'zyte')
+    .option('--solver-strategy <strategy>', 'Estrategia de captcha (none, auto)', 'auto')
+    .action(async (options) => {
+      try {
+        const {
+          url,
+          limit,
+          skip,
+          maxImages,
+          debug,
+          network,
+          pause,
+          headless,
+          skipRobots,
+          saveHtml,
+          blockImages,
+          proxyStrategy,
+          solverStrategy,
+        } = options;
+
+        const config = {
+          maxImagesToProcess: maxImages ? parseInt(maxImages, 10) : 20,
+          saveRawHtml: !!debug || !!saveHtml,
+          saveDebugSnapshots: !!debug,
+          captureNetworkLogs: !!network,
+          manualPause: !!pause,
+          headless: !!headless,
+          skipInteractions: true,
+          skipRobots: !!skipRobots,
+          blockImages: !!blockImages,
+          proxyStrategy: proxyStrategy as any,
+          solverStrategy: solverStrategy as any,
+        };
+
+        const limitNumber = limit ? parseInt(limit, 10) : undefined;
+        const skipNumber = skip ? parseInt(skip, 10) : undefined;
+
+        const { discoverUrlsUseCase, crawler } = await createScraperServices(config);
+        activeCrawler = crawler;
+
+        logger().info(
+          { url, limit: limitNumber, skip: skipNumber, config },
+          'Iniciando descubrimiento masivo',
+        );
+        await discoverUrlsUseCase.execute(url, limitNumber, skipNumber, config.headless);
+        logger().info('Descubrimiento completado con éxito');
+        await shutdown();
+      } catch (err: any) {
+        logger().error({ err: err.message }, 'Error fatal en discover');
+        process.exitCode = 1;
+      }
+    });
+
+  await program.parseAsync(process.argv);
 }
 
 main().catch((error) => {

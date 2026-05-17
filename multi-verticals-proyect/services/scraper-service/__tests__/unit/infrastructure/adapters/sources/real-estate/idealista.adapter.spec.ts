@@ -36,7 +36,7 @@ describe('Unit: IdealistaAdapter', () => {
 
     expect(result.data.name).toBe('Piso en venta');
     expect(result.data.price).toBe(450000);
-    expect(result.data.address).toBe('Calle Mayor, Madrid');
-    expect(result.data.phones).toContain('600111222');
+    expect(result.data.location?.address).toBe('Calle Mayor, Madrid');
+    expect(result.data.phones).toContain('+34600111222');
   });
 });

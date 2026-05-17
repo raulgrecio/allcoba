@@ -3,15 +3,13 @@ import { ParseError, parsePhoneNumberWithError } from 'libphonenumber-js';
 
 import type { CountryCode } from '../shared/country-code.js';
 import type { ValidationResult } from '../shared/validation-result.js';
-import { SUPPORTED_COUNTRIES } from '../shared/country-code.js';
 import { failOne, ok } from '../shared/validation-result.js';
 import { ValueObject } from './value-object.base.js';
 
 export class Phone extends ValueObject {
   private constructor(
     public readonly e164: string,
-    public readonly country: CountryCode,
-    public readonly national: string,
+    public readonly country: string,
   ) {
     super();
   }
@@ -27,15 +25,11 @@ export class Phone extends ValueObject {
         return failOne('PHONE_INVALID', 'Invalid phone number', ['phone']);
       }
 
-      const resolvedCountry = parsed.country;
-      if (
-        !resolvedCountry ||
-        !(SUPPORTED_COUNTRIES as readonly string[]).includes(resolvedCountry)
-      ) {
-        return failOne('PHONE_COUNTRY_UNSUPPORTED', 'Phone country not supported', ['phone']);
+      if (!parsed.country) {
+        return failOne('PHONE_INVALID', 'Could not determine phone country', ['phone']);
       }
 
-      return ok(new Phone(parsed.number, resolvedCountry as CountryCode, parsed.nationalNumber));
+      return ok(new Phone(parsed.number, parsed.country));
     } catch (e) {
       /* v8 ignore next */
       if (!(e instanceof ParseError)) throw e;

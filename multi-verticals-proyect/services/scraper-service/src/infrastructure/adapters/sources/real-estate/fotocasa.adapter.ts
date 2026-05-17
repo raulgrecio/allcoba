@@ -2,12 +2,42 @@ import type { CheerioAPI } from 'cheerio';
 
 import type { CountryCode, CurrencyCode } from '@allcoba/domain';
 
+import type { SelectorDef } from '../base-source.adapter.js';
 import { RealEstateBaseAdapter } from './real-estate.base.js';
 
 export class FotocasaAdapter extends RealEstateBaseAdapter {
   readonly identifier = 'fotocasa';
   readonly defaultCountry: CountryCode = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
+
+  protected override readonly selectors: Record<string, SelectorDef> = {
+    title: { selector: 'h1', expectedType: 'text', required: true },
+    description: {
+      selector: '.re-DetailDescription-text, [class*="Description"]',
+      expectedType: 'text',
+      required: false,
+    },
+    address: {
+      selector: '.re-DetailMap-address, [class*="Map-address"]',
+      expectedType: 'text',
+      required: false,
+    },
+    gallery: {
+      selector: '[data-testid="mosaic-section"] picture',
+      expectedType: 'image-list',
+      required: true,
+    },
+    phone: {
+      selector: '[data-testid="view-phone-button"] strong, [href^="tel:"]',
+      expectedType: 'exists',
+      required: false,
+    },
+    price: {
+      selector: '.re-DetailHeader-price, .re-DetailHeader-price--primary',
+      expectedType: 'text',
+      required: false,
+    },
+  };
 
   canHandle(url: string): boolean {
     return url.includes('fotocasa.es');
@@ -19,15 +49,15 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
   }
 
   protected extractTitle($: CheerioAPI): string {
-    return $('h1').first().text().trim();
+    return $(this.selectors['title']!.selector).first().text().trim();
   }
 
   protected extractDescription($: CheerioAPI): string {
-    return $('.re-DetailDescription-text, [class*="Description"]').text().trim();
+    return $(this.selectors['description']!.selector).text().trim();
   }
 
-  protected extractAddress($: CheerioAPI): string {
-    return $('.re-DetailMap-address, [class*="Map-address"]').text().trim();
+  protected override extractAddress($: CheerioAPI): string | undefined {
+    return $(this.selectors['address']!.selector).text().trim() || undefined;
   }
 
   protected getCookieSelectors(): string[] {
@@ -35,7 +65,6 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
   }
 
   protected async onBeforeCapture(page: any): Promise<void> {
-    // Intentar ver el teléfono si hay un botón de "Llamar" o "Contactar"
     try {
       const contactBtn = page
         .locator(
@@ -44,7 +73,6 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
         .first();
       if (await contactBtn.isVisible({ timeout: 3000 })) {
         await contactBtn.click();
-        // Esperamos 2 segundos para asegurar que el componente del teléfono se cargue
         await page.waitForTimeout(2000);
       }
     } catch (e) {
@@ -52,28 +80,13 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
     }
   }
 
-  protected getImageSelectors(): string[] {
-    return [
-      '.re-DetailPhotos-image',
-      '.re-DetailMultimedia-image',
-      '.re-DetailMultimedia-slider img',
-      'img[src*="fotocasa.es/images"]',
-    ];
-  }
-
   protected extractRawPrice($: CheerioAPI): string {
-    return $('.re-DetailHeader-price, .re-DetailHeader-price--primary').first().text().trim();
+    return $(this.selectors['price']!.selector).first().text().trim();
   }
 
   protected async extractPhones($: CheerioAPI): Promise<string[]> {
     const phones: string[] = [];
-    // Selector ultra-específico basado en el data-testid revelado
-    const phoneText = $(
-      '[data-testid="view-phone-button"] strong, .re-DetailContact-phone, [href^="tel:"]',
-    )
-      .first()
-      .text()
-      .trim();
+    const phoneText = $(this.selectors['phone']!.selector).first().text().trim();
     if (phoneText) {
       phones.push(phoneText.replace(/\s/g, ''));
     }
@@ -81,7 +94,6 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
   }
 
   protected extractRooms($: CheerioAPI): number | undefined {
-    // 1. Intento por Clase específica (Fotocasa)
     const element = $(
       '.re-DetailHeader-rooms, .re-DetailHeader-featuresItem:contains("hab")',
     ).first();
@@ -89,14 +101,13 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
     const match = text.match(/(\d+)/);
     if (match && match[1]) return parseInt(match[1], 10);
 
-    // 2. Fallback por Texto en descripción
     const description = this.extractDescription($);
     return description
       ? this.parseFromText(description, [/(\d+)\s*hab/i, /(\d+)\s*dormitorio/i, /(\d+)\s*studi/i])
       : undefined;
   }
+
   protected extractBathrooms($: CheerioAPI): number | undefined {
-    // 1. Intento por Clase específica (Fotocasa)
     const element = $(
       '.re-DetailHeader-bathrooms, .re-DetailHeader-featuresItem:contains("baño")',
     ).first();
@@ -104,14 +115,13 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
     const match = text.match(/(\d+)/);
     if (match && match[1]) return parseInt(match[1], 10);
 
-    // 2. Fallback por Texto en descripción
     const description = this.extractDescription($);
     return description
       ? this.parseFromText(description, [/(\d+)\s*baño/i, /(\d+)\s*aseo/i])
       : undefined;
   }
+
   protected extractSurface($: CheerioAPI): number | undefined {
-    // 1. Intento por Clase específica (Fotocasa)
     const element = $(
       '.re-DetailHeader-surface, .re-DetailHeader-featuresItem:contains("m²")',
     ).first();
@@ -119,17 +129,15 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
     const match = text.match(/(\d+)/);
     if (match && match[1]) return parseInt(match[1], 10);
 
-    // 2. Fallback por Texto en descripción
     const description = this.extractDescription($);
     return description
       ? this.parseFromText(description, [/(\d+)\s*m²/i, /(\d+)\s*metros/i])
       : undefined;
   }
+
   protected extractHasAscensor($: CheerioAPI): boolean | undefined {
-    // En los extras, buscamos cualquier elemento que mencione el ascensor por accesibilidad
     const hasAscensor = $('[aria-label*="ascensor"], [aria-labelledby*="elevator"]').length > 0;
     if (hasAscensor) return true;
-    // Fallback: buscar en el texto de los elementos que tengan etiquetas de características
     const allFeatures = $('[aria-label], [aria-labelledby]').text().toLowerCase();
     return allFeatures.includes('ascensor') ? true : undefined;
   }
@@ -145,5 +153,27 @@ export class FotocasaAdapter extends RealEstateBaseAdapter {
         '.re-DetailFeaturesList-feature, .re-ContentDetail-featuresListWrapper li',
       ),
     };
+  }
+
+  getCrawlerOptions(url: string, options?: { skipInteractions?: boolean }): any {
+    return {
+      ...super.getCrawlerOptions(url, options),
+      waitUntil: 'domcontentloaded',
+      timeout: 45000,
+    };
+  }
+
+  protected override extractAdditionalImageUrls($: CheerioAPI): string[] {
+    // Fotocasa embeds all listing images (rule=original, full quality) in window.__INITIAL_DATA__
+    // The mosaic section shows only 5; the JSON has every photo without any modal click.
+    const scriptText =
+      $('script')
+        .filter((_, el) => ($(el).html() ?? '').includes('__INITIAL_DATA__'))
+        .html() ?? '';
+
+    const matches = scriptText.matchAll(
+      /https:\/\/static\.fotocasa\.es\/images\/ads\/[^"\\]+\?rule=original/g,
+    );
+    return [...new Set([...matches].map((m) => m[0]))];
   }
 }

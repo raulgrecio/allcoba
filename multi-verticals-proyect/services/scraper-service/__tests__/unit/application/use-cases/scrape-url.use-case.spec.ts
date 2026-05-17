@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { ImageHash, unwrap } from '@allcoba/domain';
+
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
 import { Vertical } from '#domain/entities/vertical.js';
@@ -9,6 +11,7 @@ const VALID_PHASH = 'abcdef0123456789'; // 16 lowercase hex = valid pHash
 
 describe('Unit: ScrapeUrlUseCase', () => {
   let mockSource: any;
+  let mockSourceResolver: any;
   let mockRepository: any;
   let mockConsolidationService: any;
   let mockImageHasher: any;
@@ -27,6 +30,7 @@ describe('Unit: ScrapeUrlUseCase', () => {
           phones: ['+34600000000'],
           imageUrls: ['http://example.com/img1.jpg'],
           vertical: Vertical.REAL_ESTATE,
+          location: { country: 'ES' },
           metadata: { timestamp: '', durationMs: 0, sourceUrl: '', userAgent: '', statusCode: 200 },
           attributes: {},
         },
@@ -61,8 +65,10 @@ describe('Unit: ScrapeUrlUseCase', () => {
       arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
     });
 
+    mockSourceResolver = { resolve: vi.fn().mockResolvedValue(mockSource) };
+
     useCase = new ScrapeUrlUseCase(
-      [mockSource],
+      mockSourceResolver,
       mockRepository,
       mockConsolidationService,
       mockImageHasher,
@@ -73,7 +79,6 @@ describe('Unit: ScrapeUrlUseCase', () => {
   it('runs full CREATE flow: extract → consolidate → persist', async () => {
     await useCase.execute('https://example.com/property/123');
 
-    expect(mockSource.canHandle).toHaveBeenCalled();
     expect(mockSource.extract).toHaveBeenCalled();
     expect(mockImageHasher.generateHash).toHaveBeenCalled();
     expect(mockConsolidationService.consolidate).toHaveBeenCalled();
@@ -117,7 +122,7 @@ describe('Unit: ScrapeUrlUseCase', () => {
   });
 
   it('throws when no adapter matches the URL', async () => {
-    mockSource.canHandle.mockReturnValue(false);
+    mockSourceResolver.resolve.mockRejectedValue(new Error('No adapter for https://unknown.com'));
 
     await expect(useCase.execute('https://unknown.com')).rejects.toThrow('No adapter for');
   });
@@ -127,6 +132,113 @@ describe('Unit: ScrapeUrlUseCase', () => {
 
     await expect(useCase.execute('https://example.com/forbidden')).rejects.toThrow(
       'robots.txt blocks',
+    );
+  });
+
+  it('logs debug when email is invalid', async () => {
+    mockSource.extract.mockResolvedValue({
+      data: {
+        source: 'test-source',
+        externalId: '123',
+        phones: ['+34600000000'],
+        imageUrls: [],
+        vertical: Vertical.REAL_ESTATE,
+        email: 'invalid-email',
+        location: { country: 'ES' },
+        metadata: { timestamp: '', durationMs: 0, sourceUrl: '', userAgent: '', statusCode: 200 },
+        attributes: {},
+      },
+      html: '<html></html>',
+    });
+    const loggerSpy = vi.spyOn(useCase['logger'], 'debug');
+
+    await useCase.execute('https://example.com/property/123');
+
+    expect(loggerSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ raw: 'invalid-email' }),
+      'Skipping invalid email',
+    );
+  });
+
+  it('reuses existing image if hash already exists in repository', async () => {
+    const existingProvider = ScrapedProvider.create({
+      vertical: Vertical.REAL_ESTATE,
+      confidenceScore: ConfidenceScore.high(),
+      images: [
+        {
+          hash: unwrap(ImageHash.create(VALID_PHASH)),
+          storedUrl: 'http://already-stored.com/img.jpg',
+          originalUrl: 'http://old.com/img.jpg',
+        },
+      ],
+    });
+
+    mockRepository.find.mockResolvedValueOnce([existingProvider]); // First call for processing images
+
+    await useCase.execute('https://example.com/property/123');
+
+    expect(mockStorage.upload).not.toHaveBeenCalledWith(
+      expect.any(Buffer),
+      expect.stringContaining('.jpg'),
+      'image/jpeg',
+    );
+  });
+
+  it('handles image processing errors gracefully', async () => {
+    global.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
+    const loggerSpy = vi.spyOn(useCase['logger'], 'error');
+
+    await useCase.execute('https://example.com/property/123');
+
+    expect(loggerSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ error: expect.any(Error) }),
+      'Error processing image',
+    );
+  });
+
+  it('saves debug snapshots when configured', async () => {
+    const debugUseCase = new ScrapeUrlUseCase(
+      mockSourceResolver,
+      mockRepository,
+      mockConsolidationService,
+      mockImageHasher,
+      mockStorage,
+      { saveRawHtml: true, saveDebugSnapshots: true },
+    );
+
+    mockSource.extract.mockImplementation(async (url: string, opts: any) => {
+      await opts.onSnapshot('<html>stage1</html>', 'initial');
+      return {
+        data: {
+          source: 'test-source',
+          externalId: '123',
+          phones: [],
+          imageUrls: [],
+          vertical: Vertical.REAL_ESTATE,
+          location: { country: 'ES' },
+          metadata: { timestamp: '', durationMs: 0, sourceUrl: '', userAgent: '', statusCode: 200 },
+          attributes: {},
+        },
+        html: '<html>final</html>',
+      };
+    });
+
+    await debugUseCase.execute('https://example.com/p1');
+
+    expect(mockStorage.upload).toHaveBeenCalledWith(
+      expect.any(Buffer),
+      expect.stringContaining('test-source_p1_'),
+      'text/html',
+    );
+    expect(mockStorage.upload).toHaveBeenCalledWith(
+      expect.any(Buffer),
+      expect.stringContaining('_initial_debug.html'),
+      'text/html',
+    );
+    expect(mockStorage.upload).toHaveBeenCalledWith(
+      expect.any(Buffer),
+      expect.stringContaining('test-source_123.html'),
+      'text/html',
     );
   });
 });

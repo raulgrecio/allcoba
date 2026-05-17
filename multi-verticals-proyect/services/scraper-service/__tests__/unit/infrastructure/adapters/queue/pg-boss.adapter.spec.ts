@@ -1,5 +1,5 @@
-import PgBoss from 'pg-boss';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import PgBoss from 'pg-boss';
 
 import { PgBossQueueAdapter } from '#infrastructure/adapters/queue/pg-boss.adapter.js';
 

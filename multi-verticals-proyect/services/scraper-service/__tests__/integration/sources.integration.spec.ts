@@ -1,14 +1,20 @@
 import fs from 'fs/promises';
 import path from 'path';
-import * as cheerio from 'cheerio';
 import { describe, expect, it } from 'vitest';
+import * as cheerio from 'cheerio';
 
 import { FotocasaAdapter } from '#infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
 import { IdealistaAdapter } from '#infrastructure/adapters/sources/real-estate/idealista.adapter.js';
 
 describe('Integration: Source Adapters with Real HTML', () => {
-  const fixturesDir = path.resolve(__dirname, '../fixtures/html');
-  const jsonFixturesDir = path.resolve(__dirname, '../fixtures/json');
+  const fixturesDir = path.resolve(
+    __dirname,
+    '../fixtures/infrastructure/adapters/sources/real-estate',
+  );
+  const jsonFixturesDir = path.resolve(
+    __dirname,
+    '../fixtures/infrastructure/adapters/sources/real-estate',
+  );
 
   it('extracts correct RawExtraction from Fotocasa HTML', async () => {
     const html = await fs.readFile(path.join(fixturesDir, 'fotocasa_188764809.html'), 'utf-8');
@@ -17,7 +23,7 @@ describe('Integration: Source Adapters with Real HTML', () => {
     );
     const expected = providersJson[0];
 
-    const adapter = new FotocasaAdapter();
+    const adapter = new FotocasaAdapter({} as any);
     const $ = cheerio.load(html);
     const url =
       'https://www.fotocasa.es/es/comprar/vivienda/madrid-capital/aire-acondicionado-calefaccion-ascensor-amueblado/188764809/d';
@@ -36,7 +42,7 @@ describe('Integration: Source Adapters with Real HTML', () => {
 
   it('survives Idealista HTML (may be captcha/block page)', async () => {
     const html = await fs.readFile(path.join(fixturesDir, 'idealista_110715434.html'), 'utf-8');
-    const adapter = new IdealistaAdapter();
+    const adapter = new IdealistaAdapter({} as any);
     const $ = cheerio.load(html);
     const url = 'https://www.idealista.com/inmueble/110715434/';
 

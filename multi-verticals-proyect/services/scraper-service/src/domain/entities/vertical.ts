@@ -3,5 +3,6 @@ export enum Vertical {
   MOTOR = 'MOTOR',
   JOBS = 'JOBS',
   SERVICES = 'SERVICES',
+  DATING = 'DATING',
   GENERAL = 'GENERAL',
 }

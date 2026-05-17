@@ -3,19 +3,17 @@ import { describe, expect, it } from 'vitest';
 import { ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
 
 import type {
-  ContactPlatform,
   ScrapedImage,
   ScraperSignal,
   SocialContact,
 } from '#domain/aggregates/scraped-provider.aggregate.js';
-import {
-  ScrapedProvider,
-  VerificationStatus,
-} from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ContactPlatform } from '#domain/entities/contact-platform.js';
+import { VerificationStatus } from '#domain/entities/verification-status.js';
 import { Vertical } from '#domain/entities/vertical.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
-import { ScrapedAddress } from '#domain/value-objects/scraped-address.vo.js';
+import { ScrapedLocation } from '#domain/value-objects/scraped-location.vo.js';
 
 // --- VO factories ---
 
@@ -47,9 +45,9 @@ function price(amount: number): Price {
   return r.value;
 }
 
-function addr(text: string): ScrapedAddress {
-  const r = ScrapedAddress.create(text);
-  if (!r.success) throw new Error(`Bad address: ${text}`);
+function loc(address: string): ScrapedLocation {
+  const r = ScrapedLocation.create({ address });
+  if (!r.success) throw new Error(`Bad location: ${address}`);
   return r.value;
 }
 
@@ -111,7 +109,7 @@ describe('ScrapedProvider', () => {
       const p = makeProvider({
         displayName: 'Piso Sol',
         phones: [ph('+34919032747')],
-        contacts: [sc('TELEGRAM', 'pisolsol')],
+        contacts: [sc(ContactPlatform.TELEGRAM, 'pisolsol')],
         description: 'Precioso piso',
         price: price(500000),
         externalIds: [eid('fotocasa', 'fc123')],
@@ -122,7 +120,7 @@ describe('ScrapedProvider', () => {
 
       expect(p.displayName).toBe('Piso Sol');
       expect(p.phones).toHaveLength(1);
-      expect(p.findContact('TELEGRAM')?.handle).toBe('pisolsol');
+      expect(p.findContact(ContactPlatform.TELEGRAM)?.handle).toBe('pisolsol');
       expect(p.description).toBe('Precioso piso');
       expect(p.price?.amount).toBe(500000);
       expect(p.externalIds).toHaveLength(1);
@@ -156,48 +154,51 @@ describe('ScrapedProvider', () => {
 
   describe('hasContact', () => {
     it('returns true for matching platform+handle', () => {
-      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
-      expect(p.hasContact('TELEGRAM', 'pisolsol')).toBe(true);
+      const p = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'pisolsol')] });
+      expect(p.hasContact(ContactPlatform.TELEGRAM, 'pisolsol')).toBe(true);
     });
 
     it('matching is case-insensitive', () => {
-      const p = makeProvider({ contacts: [sc('TELEGRAM', 'PisoSol')] });
-      expect(p.hasContact('TELEGRAM', 'pisosol')).toBe(true);
+      const p = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'PisoSol')] });
+      expect(p.hasContact(ContactPlatform.TELEGRAM, 'pisosol')).toBe(true);
     });
 
     it('returns false for different handle', () => {
-      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
-      expect(p.hasContact('TELEGRAM', 'otrocasa')).toBe(false);
+      const p = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'pisolsol')] });
+      expect(p.hasContact(ContactPlatform.TELEGRAM, 'otrocasa')).toBe(false);
     });
 
     it('returns false for same handle but different platform', () => {
-      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
-      expect(p.hasContact('INSTAGRAM', 'pisolsol')).toBe(false);
+      const p = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'pisolsol')] });
+      expect(p.hasContact(ContactPlatform.INSTAGRAM, 'pisolsol')).toBe(false);
     });
 
     it('returns false when no contacts', () => {
       const p = makeProvider();
-      expect(p.hasContact('TELEGRAM', 'someone')).toBe(false);
+      expect(p.hasContact(ContactPlatform.TELEGRAM, 'someone')).toBe(false);
     });
 
     it('matches multiple platforms independently', () => {
       const p = makeProvider({
-        contacts: [sc('TELEGRAM', 'pisolsol'), sc('INSTAGRAM', 'pisolsol')],
+        contacts: [
+          sc(ContactPlatform.TELEGRAM, 'pisolsol'),
+          sc(ContactPlatform.INSTAGRAM, 'pisolsol'),
+        ],
       });
-      expect(p.hasContact('TELEGRAM', 'pisolsol')).toBe(true);
-      expect(p.hasContact('WHATSAPP', 'pisolsol')).toBe(false);
+      expect(p.hasContact(ContactPlatform.TELEGRAM, 'pisolsol')).toBe(true);
+      expect(p.hasContact(ContactPlatform.WHATSAPP, 'pisolsol')).toBe(false);
     });
   });
 
   describe('findContact', () => {
     it('returns contact for matching platform', () => {
-      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
-      expect(p.findContact('TELEGRAM')?.handle).toBe('pisolsol');
+      const p = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'pisolsol')] });
+      expect(p.findContact(ContactPlatform.TELEGRAM)?.handle).toBe('pisolsol');
     });
 
     it('returns undefined for missing platform', () => {
-      const p = makeProvider({ contacts: [sc('TELEGRAM', 'pisolsol')] });
-      expect(p.findContact('INSTAGRAM')).toBeUndefined();
+      const p = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'pisolsol')] });
+      expect(p.findContact(ContactPlatform.INSTAGRAM)).toBeUndefined();
     });
   });
 
@@ -289,34 +290,34 @@ describe('ScrapedProvider', () => {
     });
 
     it('existing contact is kept when incoming has same platform but different handle', () => {
-      const original = makeProvider({ contacts: [sc('TELEGRAM', 'original')] });
-      const merged = original.merge({ contacts: [sc('TELEGRAM', 'incoming')] });
+      const original = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'original')] });
+      const merged = original.merge({ contacts: [sc(ContactPlatform.TELEGRAM, 'incoming')] });
       expect(merged.contacts).toHaveLength(2); // both kept — different handles
     });
 
     it('incoming contact fills gap for new platform', () => {
-      const original = makeProvider({ contacts: [sc('TELEGRAM', 'myhandle')] });
-      const merged = original.merge({ contacts: [sc('INSTAGRAM', 'myhandle')] });
+      const original = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'myhandle')] });
+      const merged = original.merge({ contacts: [sc(ContactPlatform.INSTAGRAM, 'myhandle')] });
       expect(merged.contacts).toHaveLength(2);
-      expect(merged.findContact('INSTAGRAM')?.handle).toBe('myhandle');
+      expect(merged.findContact(ContactPlatform.INSTAGRAM)?.handle).toBe('myhandle');
     });
 
     it('does not duplicate same platform+handle', () => {
-      const original = makeProvider({ contacts: [sc('TELEGRAM', 'myhandle')] });
-      const merged = original.merge({ contacts: [sc('TELEGRAM', 'myhandle')] });
+      const original = makeProvider({ contacts: [sc(ContactPlatform.TELEGRAM, 'myhandle')] });
+      const merged = original.merge({ contacts: [sc(ContactPlatform.TELEGRAM, 'myhandle')] });
       expect(merged.contacts).toHaveLength(1);
     });
 
-    it('existing address is kept when incoming provides one', () => {
-      const original = makeProvider({ address: addr('Calle Alcalá 1') });
-      const merged = original.merge({ address: addr('Gran Vía 10') });
-      expect(merged.address?.text).toBe('Calle Alcalá 1');
+    it('existing location is kept when incoming provides one', () => {
+      const original = makeProvider({ location: loc('Calle Alcalá 1') });
+      const merged = original.merge({ location: loc('Gran Vía 10') });
+      expect(merged.location?.address).toBe('Calle Alcalá 1');
     });
 
-    it('incoming address is used when original has none', () => {
+    it('incoming location is used when original has none', () => {
       const original = makeProvider();
-      const merged = original.merge({ address: addr('Gran Vía 10') });
-      expect(merged.address?.text).toBe('Gran Vía 10');
+      const merged = original.merge({ location: loc('Gran Vía 10') });
+      expect(merged.location?.address).toBe('Gran Vía 10');
     });
 
     it('existing description is kept', () => {
@@ -390,11 +391,7 @@ describe('ScrapedProvider', () => {
     it('deduplicates across multiple incoming images', () => {
       const original = makeProvider({ images: [img('aaaaaaaaaaaaaaaa')] });
       const merged = original.merge({
-        images: [
-          img('aaaaaaaaaaaaaaaa'),
-          img('bbbbbbbbbbbbbbbb'),
-          img('cccccccccccccccc'),
-        ],
+        images: [img('aaaaaaaaaaaaaaaa'), img('bbbbbbbbbbbbbbbb'), img('cccccccccccccccc')],
       });
       expect(merged.images).toHaveLength(3);
     });

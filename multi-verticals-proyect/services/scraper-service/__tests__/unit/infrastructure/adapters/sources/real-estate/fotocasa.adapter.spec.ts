@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import { describe, expect, it } from 'vitest';
 
 import { FotocasaAdapter } from '#infrastructure/adapters/sources/real-estate/fotocasa.adapter.js';
-import { PlaywrightCrawler } from '#infrastructure/crawler/playwright-crawler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,7 +14,7 @@ describe('Unit: FotocasaAdapter (Offline)', () => {
     async () => {
       const htmlPath = path.resolve(
         __dirname,
-        '../../../../../../storage/raw/fotocasa_188764809.html',
+        '../../../../../fixtures/infrastructure/adapters/sources/real-estate/fotocasa_188764809.html',
       );
       const html = await fs.readFile(htmlPath, 'utf-8');
 

@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { ImageHash, Phone, Price, ProviderId } from '@allcoba/domain';
 
 import { ScrapedProvider } from '#domain/aggregates/scraped-provider.aggregate.js';
+import { ContactPlatform } from '#domain/entities/contact-platform.js';
 import { Vertical } from '#domain/entities/vertical.js';
 import { ConfidenceScore } from '#domain/value-objects/confidence-score.vo.js';
 import { ExternalId } from '#domain/value-objects/external-id.vo.js';
@@ -15,7 +16,6 @@ function ph(raw: string): Phone {
   if (!r.success) throw new Error(`Bad phone: ${raw}`);
   return r.value;
 }
-
 
 function eid(source: string, id: string): ExternalId {
   const r = ExternalId.create(source, id);
@@ -42,7 +42,7 @@ function makeProvider(): ScrapedProvider {
     vertical: Vertical.REAL_ESTATE,
     confidenceScore: ConfidenceScore.high(),
     phones: [ph('+34600000000')],
-    contacts: [{ platform: 'TELEGRAM' as const, handle: 'testhandle' }],
+    contacts: [{ platform: ContactPlatform.TELEGRAM as const, handle: 'testhandle' }],
     externalIds: [eid('fotocasa', 'fc123')],
     images: [
       {
@@ -92,7 +92,7 @@ describe('Unit: InMemoryProviderRepository', () => {
     await repository.create(makeProvider());
 
     const results = await repository.find({
-      contact: { platform: 'TELEGRAM', handle: 'testhandle' },
+      contact: { platform: ContactPlatform.TELEGRAM, handle: 'testhandle' },
     });
 
     expect(results).toHaveLength(1);

@@ -140,8 +140,8 @@ export class ConsolidationService {
       });
     }
 
-    if (coordinates && candidate.address?.coordinates) {
-      const dist = this.haversineKm(coordinates, candidate.address.coordinates);
+    if (coordinates && candidate.location?.coordinates) {
+      const dist = this.haversineKm(coordinates, candidate.location.coordinates);
       if (dist < 0.1) {
         score += 0.3;
         signals.push({

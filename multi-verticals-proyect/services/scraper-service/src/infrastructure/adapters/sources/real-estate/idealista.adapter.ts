@@ -2,12 +2,22 @@ import type { CheerioAPI } from 'cheerio';
 
 import type { CountryCode, CurrencyCode } from '@allcoba/domain';
 
+import type { SelectorDef } from '../base-source.adapter.js';
 import { RealEstateBaseAdapter } from './real-estate.base.js';
 
 export class IdealistaAdapter extends RealEstateBaseAdapter {
   readonly identifier = 'idealista';
   readonly defaultCountry: CountryCode = 'ES';
   readonly defaultCurrency: CurrencyCode = 'EUR';
+
+  protected override readonly selectors: Record<string, SelectorDef> = {
+    title: { selector: '.main-info__title-main', expectedType: 'text', required: true },
+    description: { selector: '.adCommentsLanguageSelector', expectedType: 'text', required: false },
+    address: { selector: '.main-info__title-minor', expectedType: 'text', required: false },
+    gallery: { selector: '#main-multimedia img', expectedType: 'image-list', required: true },
+    price: { selector: '.info-data-price', expectedType: 'text', required: false },
+    phone: { selector: '.phone-number, .contact-phone', expectedType: 'exists', required: false },
+  };
 
   canHandle(url: string): boolean {
     return url.includes('idealista.com');
@@ -19,15 +29,15 @@ export class IdealistaAdapter extends RealEstateBaseAdapter {
   }
 
   protected extractTitle($: CheerioAPI): string {
-    return $('.main-info__title-main').text().trim();
+    return $(this.selectors['title']!.selector).text().trim();
   }
 
   protected extractDescription($: CheerioAPI): string {
-    return $('.adCommentsLanguageSelector').text().trim();
+    return $(this.selectors['description']!.selector).text().trim();
   }
 
-  protected extractAddress($: CheerioAPI): string {
-    return $('.main-info__title-minor').text().trim();
+  protected override extractAddress($: CheerioAPI): string | undefined {
+    return $(this.selectors['address']!.selector).text().trim() || undefined;
   }
 
   protected getCookieSelectors(): string[] {
@@ -46,17 +56,13 @@ export class IdealistaAdapter extends RealEstateBaseAdapter {
     }
   }
 
-  protected getImageSelectors(): string[] {
-    return ['#main-multimedia img'];
-  }
-
   protected extractRawPrice($: CheerioAPI): string {
-    return $('.info-data-price').text().trim();
+    return $(this.selectors['price']!.selector).text().trim();
   }
 
   protected async extractPhones($: CheerioAPI): Promise<string[]> {
     const phones: string[] = [];
-    const phoneText = $('.phone-number, .contact-phone').text().trim();
+    const phoneText = $(this.selectors['phone']!.selector).text().trim();
     if (phoneText) {
       phones.push(phoneText.replace(/\s/g, ''));
     }

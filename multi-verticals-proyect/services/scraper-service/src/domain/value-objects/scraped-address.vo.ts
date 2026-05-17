@@ -14,18 +14,18 @@ export class ScrapedAddress extends ValueObject {
   }
 
   /**
-   * Creates a ScrapedAddress from raw data.
-   * @param candidate - The address string (e.g., from a web scraper)
+   * Creates a ScrapedAddress from input data.
+   * @param input - The address string (e.g., from a web scraper)
    * @param coordinates - Optional object with Coordinates type { lat: number, lng: number }
    */
-  static create(candidate: unknown, coordinates?: unknown): ValidationResult<ScrapedAddress> {
-    if (typeof candidate !== 'string' || !candidate) {
+  static create(input: unknown, coordinates?: unknown): ValidationResult<ScrapedAddress> {
+    if (typeof input !== 'string' || !input) {
       return failOne('SCRAPED_ADDRESS_REQUIRED', 'Address text is required and must be a string', [
         'address',
       ]);
     }
 
-    const result = textSchema.safeParse(candidate.trim());
+    const result = textSchema.safeParse(input.trim());
     if (!result.success) {
       return failOne('SCRAPED_ADDRESS_INVALID', 'Address text must be 1–500 characters', [
         'address',
