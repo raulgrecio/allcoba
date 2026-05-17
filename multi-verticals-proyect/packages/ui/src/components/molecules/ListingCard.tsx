@@ -2,6 +2,7 @@
 
 import { Heart, MapPin, Truck } from "lucide-react";
 import { motion } from "motion/react";
+
 import { cn } from "../../lib/utils";
 import { formatPrice, timeAgo } from "../../lib/format";
 import type { Listing } from "../../types";

@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 export interface BaseLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {

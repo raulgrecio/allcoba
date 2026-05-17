@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Car, Bike, HeartPulse, Dumbbell, Wrench, Package,
   ShoppingBag, Home, Smartphone, Camera, BookOpen, Music,

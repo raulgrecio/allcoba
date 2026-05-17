@@ -11,7 +11,6 @@
 @import "@fontsource/plus-jakarta-sans/600.css";
 @import "@fontsource/plus-jakarta-sans/700.css";
 @import "@fontsource/plus-jakarta-sans/800.css";
-@import "@fontsource/plus-jakarta-sans/900.css";
 @import "@fontsource-variable/geist-mono";
 
 :root {
@@ -20,7 +19,7 @@
   --font-geist-mono: "Geist Mono Variable", monospace;
 }
 
-@source "../node_modules/@allcoba/ui";
+@source "../../node_modules/@allcoba/ui";
 
 /* ─── Fuente de verdad: design-tokens ─── */
 @import "@allcoba/design-tokens/tokens.css";

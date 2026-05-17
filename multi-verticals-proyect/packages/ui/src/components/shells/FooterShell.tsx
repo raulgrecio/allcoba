@@ -1,3 +1,5 @@
+"use client";
+
 import { AppLogo } from "../molecules/AppLogo";
 import { useLinkComponent } from "../providers/LinkProvider";
 
