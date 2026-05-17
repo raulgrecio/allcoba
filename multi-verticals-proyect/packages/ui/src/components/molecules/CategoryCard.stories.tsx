@@ -22,7 +22,7 @@ export const AllCategories: Story = {
   render: () => (
     <div className="grid grid-cols-4 gap-3 max-w-sm">
       {CATEGORY_FIXTURES.map((c) => (
-        <CategoryCard key={c.id} category={c} />
+        <CategoryCard key={c.slug} category={c} />
       ))}
     </div>
   ),

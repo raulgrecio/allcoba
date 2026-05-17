@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@allcoba/ui";
+import NextLink from "next/link";
+import { Toaster, LinkProvider } from "@allcoba/ui";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -47,7 +48,9 @@ export default function RootLayout({
       className={`${inter.variable} ${plusJakartaSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
-        {children}
+        <LinkProvider component={NextLink}>
+          {children}
+        </LinkProvider>
         <Toaster richColors position="bottom-center" />
       </body>
     </html>

@@ -6,11 +6,18 @@ import { ListingCard } from "../molecules/ListingCard";
 import { cn } from "../../lib/utils";
 import type { Listing } from "../../types";
 
-interface ListingCarouselProps {
-  listings: Listing[];
+interface BaseLinkProps {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
 }
 
-export function ListingCarousel({ listings }: ListingCarouselProps) {
+interface ListingCarouselProps {
+  listings: Listing[];
+  LinkComponent?: React.ComponentType<BaseLinkProps>;
+}
+
+export function ListingCarousel({ listings, LinkComponent }: ListingCarouselProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "left" | "right") => {
@@ -28,7 +35,7 @@ export function ListingCarousel({ listings }: ListingCarouselProps) {
             key={listing.id}
             className="snap-start flex-none w-[10rem] sm:w-[11rem] md:w-[12rem]"
           >
-            <ListingCard listing={listing} index={i} variant="carousel" />
+            <ListingCard listing={listing} index={i} variant="carousel" LinkComponent={LinkComponent} />
           </div>
         ))}
       </div>

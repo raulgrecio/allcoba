@@ -1,4 +1,5 @@
 import { AppLogo } from "../molecules/AppLogo";
+import { useLinkComponent } from "../providers/LinkProvider";
 
 interface BaseLinkProps {
   href: string;
@@ -21,7 +22,7 @@ export interface FooterShellProps {
   brandName?: string;
   tagline?: string;
   year?: number;
-  LinkComponent: React.ComponentType<BaseLinkProps>;
+  LinkComponent?: React.ComponentType<BaseLinkProps>;
 }
 
 export function FooterShell({
@@ -31,6 +32,9 @@ export function FooterShell({
   year = new Date().getFullYear(),
   LinkComponent,
 }: FooterShellProps) {
+  const ContextLink = useLinkComponent();
+  const ActiveLink = LinkComponent || ContextLink;
+
   return (
     <footer className="mt-auto border-t border-border bg-card text-sm text-muted-foreground">
       <div className="container mx-auto px-4 py-10">
@@ -41,9 +45,9 @@ export function FooterShell({
               <ul className="space-y-2">
                 {links.map(({ label, href }) => (
                   <li key={href}>
-                    <LinkComponent href={href} className="hover:text-primary transition-colors">
+                    <ActiveLink href={href} className="hover:text-primary transition-colors">
                       {label}
-                    </LinkComponent>
+                    </ActiveLink>
                   </li>
                 ))}
               </ul>

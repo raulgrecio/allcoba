@@ -5,16 +5,13 @@ import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
 import { formatPrice, timeAgo } from "../../lib/format";
 import type { Listing } from "../../types";
+import { useLinkComponent } from "../providers/LinkProvider";
 
 interface BaseLinkProps {
   href: string;
   className?: string;
   children: React.ReactNode;
 }
-
-const DefaultLink = ({ href, className, children }: BaseLinkProps) => (
-  <a href={href} className={className}>{children}</a>
-);
 
 interface ListingCardProps {
   listing: Listing;
@@ -23,8 +20,10 @@ interface ListingCardProps {
   LinkComponent?: React.ComponentType<BaseLinkProps>;
 }
 
-export function ListingCard({ listing, index = 0, variant = "grid", LinkComponent = DefaultLink }: ListingCardProps) {
+export function ListingCard({ listing, index = 0, variant = "grid", LinkComponent }: ListingCardProps) {
   const isCarousel = variant === "carousel";
+  const ContextLink = useLinkComponent();
+  const ActiveLink = LinkComponent || ContextLink;
 
   return (
     <motion.article
@@ -33,7 +32,7 @@ export function ListingCard({ listing, index = 0, variant = "grid", LinkComponen
       transition={{ duration: 0.2, delay: index * 0.03 }}
       className="group"
     >
-      <LinkComponent href={`/${listing.vertical}/${listing.id}`} className={cn("block", !isCarousel && "h-full")}>
+      <ActiveLink href={`/${listing.vertical}/${listing.id}`} className={cn("block", !isCarousel && "h-full")}>
         <div
           className={cn(
             "flex flex-col overflow-hidden transition-all duration-300",
@@ -139,7 +138,7 @@ export function ListingCard({ listing, index = 0, variant = "grid", LinkComponen
             )}
           </div>
         </div>
-      </LinkComponent>
+      </ActiveLink>
     </motion.article>
   );
 }

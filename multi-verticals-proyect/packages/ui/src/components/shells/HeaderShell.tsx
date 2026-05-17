@@ -15,6 +15,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../primitives/avatar";
 import { cn } from "../../lib/utils";
 
+import { useLinkComponent } from "../providers/LinkProvider";
+
 export interface HeaderNavItem {
   label: string;
   href: string;
@@ -38,7 +40,7 @@ export interface HeaderShellProps {
   user?: HeaderUser;
   onSearch: (query: string) => void;
   onNavigate: (href: string) => void;
-  LinkComponent: React.ComponentType<BaseLinkProps>;
+  LinkComponent?: React.ComponentType<BaseLinkProps>;
   searchPlaceholder?: string;
 }
 
@@ -47,10 +49,11 @@ export function HeaderShell({
   user,
   onSearch,
   onNavigate,
-  LinkComponent,
+  LinkComponent: propLinkComponent,
   searchPlaceholder = "Busca coches, motos, servicios...",
 }: HeaderShellProps) {
   const [query, setQuery] = useState("");
+  const LinkComponent = propLinkComponent || useLinkComponent();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

@@ -3,6 +3,7 @@ import {
   ShoppingBag, Home, Smartphone, Camera, BookOpen, Music,
 } from "lucide-react";
 import type { Category } from "../../types";
+import { useLinkComponent } from "../providers/LinkProvider";
 
 const ICON_MAP: Record<string, React.ElementType> = {
   car: Car,
@@ -25,20 +26,18 @@ interface BaseLinkProps {
   children: React.ReactNode;
 }
 
-const DefaultLink = ({ href, className, children }: BaseLinkProps) => (
-  <a href={href} className={className}>{children}</a>
-);
-
 interface CategoryCardProps {
   category: Category;
   LinkComponent?: React.ComponentType<BaseLinkProps>;
 }
 
-export function CategoryCard({ category, LinkComponent = DefaultLink }: CategoryCardProps) {
+export function CategoryCard({ category, LinkComponent }: CategoryCardProps) {
   const Icon = ICON_MAP[category.icon] ?? Package;
+  const ContextLink = useLinkComponent();
+  const ActiveLink = LinkComponent || ContextLink;
 
   return (
-    <LinkComponent href={`/${category.vertical}?categoria=${category.slug}`} className="block">
+    <ActiveLink href={`/${category.vertical}?categoria=${category.slug}`} className="block">
       <div className="group flex flex-col items-center gap-[0.625rem] p-[1rem] rounded-[1rem] bg-card border border-border hover-elevate cursor-pointer text-center transition-all duration-300">
         <div className="p-[0.75rem] rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
           <Icon className="w-[1.5rem] h-[1.5rem]" />
@@ -50,6 +49,6 @@ export function CategoryCard({ category, LinkComponent = DefaultLink }: Category
           </p>
         </div>
       </div>
-    </LinkComponent>
+    </ActiveLink>
   );
 }

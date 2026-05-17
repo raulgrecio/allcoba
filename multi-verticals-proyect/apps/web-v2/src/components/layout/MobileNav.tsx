@@ -1,9 +1,10 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { Home, Search, PlusCircle, Heart, User } from "lucide-react";
-import { MobileNavShell } from "@allcoba/ui";
+import { Link as TSRLink, useLocation } from "@tanstack/react-router";
+import { Heart, Home, PlusCircle, Search, User } from "lucide-react";
+
 import type { MobileNavItem } from "@allcoba/ui";
+import { MobileNavShell } from "@allcoba/ui";
 
 const NAV_ITEMS: MobileNavItem[] = [
   { href: "/", icon: Home, label: "Inicio" },
@@ -14,12 +15,8 @@ const NAV_ITEMS: MobileNavItem[] = [
 ];
 
 export function MobileNav() {
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
-  return (
-    <MobileNavShell
-      items={NAV_ITEMS}
-      pathname={pathname}
-    />
-  );
+  return <MobileNavShell items={NAV_ITEMS} pathname={pathname} />;
 }

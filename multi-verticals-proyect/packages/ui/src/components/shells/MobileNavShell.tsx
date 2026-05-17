@@ -1,4 +1,5 @@
 import { cn } from "../../lib/utils";
+import { useLinkComponent } from "../providers/LinkProvider";
 
 interface BaseLinkProps {
   href: string;
@@ -16,10 +17,15 @@ export interface MobileNavItem {
 export interface MobileNavShellProps {
   items: MobileNavItem[];
   pathname: string;
-  LinkComponent: React.ComponentType<BaseLinkProps>;
+  LinkComponent?: React.ComponentType<BaseLinkProps>;
 }
 
-export function MobileNavShell({ items, pathname, LinkComponent }: MobileNavShellProps) {
+export function MobileNavShell({
+  items,
+  pathname,
+  LinkComponent: propLinkComponent,
+}: MobileNavShellProps) {
+  const LinkComponent = propLinkComponent || useLinkComponent();
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-card/95 backdrop-blur-md border-t border-border pb-safe">
       <div className="flex items-center justify-around h-[4.5rem] px-[0.5rem]">

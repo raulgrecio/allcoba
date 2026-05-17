@@ -67,3 +67,7 @@ export type { MobileNavShellProps, MobileNavItem } from "./components/shells/Mob
 // Patterns
 export { ListingCarousel } from "./components/patterns/ListingCarousel";
 export { ListingGrid } from "./components/patterns/ListingGrid";
+
+// Providers & Agnostic Link
+export { LinkProvider, useLinkComponent, Link } from "./components/providers/LinkProvider";
+export type { BaseLinkProps, LinkProviderProps } from "./components/providers/LinkProvider";
