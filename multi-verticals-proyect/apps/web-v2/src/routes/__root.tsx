@@ -37,7 +37,7 @@ TanStackLinkAdapter.displayName = "TanStackLinkAdapter";
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="antialiased">
+    <html lang="es" className="h-full antialiased">
       <head>
         <HeadContent />
       </head>

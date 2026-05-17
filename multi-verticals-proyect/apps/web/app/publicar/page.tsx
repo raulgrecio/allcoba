@@ -61,8 +61,8 @@ export default function PublicarPage() {
                     i < step
                       ? "bg-primary text-primary-foreground cursor-pointer"
                       : i === step
-                      ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
-                      : "bg-muted text-muted-foreground"
+                        ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
+                        : "bg-muted text-muted-foreground"
                   )}
                 >
                   {i < step ? <Check className="w-[0.875rem] h-[0.875rem]" /> : i + 1}

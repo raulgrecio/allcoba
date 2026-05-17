@@ -54,19 +54,21 @@ function PublicarPage() {
 
   return (
     <SiteLayout>
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-display font-bold mb-6 text-foreground">Publicar anuncio</h1>
+      <div className="max-w-[80rem] mx-auto px-[1rem] py-[2rem]">
+        <div className="max-w-[32rem] mx-auto">
+          <h1 className="text-[1.5rem] font-display font-bold mb-[1.5rem] text-foreground">
+            Publicar anuncio
+          </h1>
 
           {/* Stepper */}
-          <div className="flex items-center gap-1 mb-8">
+          <div className="flex items-center gap-[0.25rem] mb-[2rem]">
             {STEPS.map((label, i) => (
-              <div key={label} className="flex items-center gap-1 flex-1">
+              <div key={label} className="flex items-center gap-[0.25rem] flex-1">
                 <button
                   type="button"
                   onClick={() => i < step && setStep(i)}
                   className={cn(
-                    "w-7 h-7 rounded-full text-xs font-bold flex items-center justify-center shrink-0 transition-colors",
+                    "w-[1.75rem] h-[1.75rem] rounded-full text-[0.75rem] font-bold flex items-center justify-center flex-shrink-0 transition-colors",
                     i < step
                       ? "bg-primary text-primary-foreground cursor-pointer"
                       : i === step
@@ -74,46 +76,46 @@ function PublicarPage() {
                       : "bg-muted text-muted-foreground"
                   )}
                 >
-                  {i < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
+                  {i < step ? <Check className="w-[0.875rem] h-[0.875rem]" /> : i + 1}
                 </button>
                 <span
                   className={cn(
-                    "text-xs hidden sm:block",
+                    "text-[0.75rem] hidden sm:block",
                     i === step ? "font-bold text-foreground" : "text-muted-foreground"
                   )}
                 >
                   {label}
                 </span>
-                {i < STEPS.length - 1 && <div className="flex-1 h-px bg-border mx-1" />}
+                {i < STEPS.length - 1 && <div className="flex-1 h-px bg-border mx-[0.25rem]" />}
               </div>
             ))}
           </div>
 
           {/* Step content */}
-          <div className="bg-card border border-border rounded-2xl p-6 mb-6 shadow-sm">
+          <div className="bg-card border border-border rounded-[1rem] p-[1.5rem] mb-[1.5rem] shadow-sm">
             {step === 0 && (
               <div className="space-y-4">
                 <h2 className="font-semibold text-foreground">Añade fotos</h2>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-[0.875rem] text-muted-foreground">
                   La primera foto será la portada. Añade hasta 10 fotos.
                 </p>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-[0.75rem]">
                   <button
                     type="button"
-                    className="aspect-square rounded-xl border-2 border-dashed border-border flex flex-col items-center justify-center gap-2 text-muted-foreground hover:border-primary hover:text-primary transition-colors bg-muted/30"
+                    className="aspect-square rounded-[0.75rem] border-2 border-dashed border-border flex flex-col items-center justify-center gap-[0.5rem] text-muted-foreground hover:border-primary hover:text-primary transition-colors bg-muted/30"
                   >
-                    <ImagePlus className="w-6 h-6" />
-                    <span className="text-xs font-medium">Añadir foto</span>
+                    <ImagePlus className="w-[1.5rem] h-[1.5rem]" />
+                    <span className="text-[0.75rem] font-medium">Añadir foto</span>
                   </button>
                 </div>
               </div>
             )}
 
             {step === 1 && (
-              <div className="space-y-5">
+              <div className="space-y-[1.25rem]">
                 <h2 className="font-bold text-foreground">Describe tu artículo</h2>
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="text-sm font-bold">
+                <div className="space-y-[0.5rem]">
+                  <Label htmlFor="title" className="text-[0.875rem] font-bold">
                     Título *
                   </Label>
                   <Input
@@ -121,19 +123,19 @@ function PublicarPage() {
                     placeholder="Ej. BMW Serie 3 2019, Masaje relajante 60min..."
                     value={form.title}
                     onChange={(e) => setForm({ ...form, title: e.target.value })}
-                    className="h-11 rounded-lg"
+                    className="h-[2.75rem] rounded-[0.5rem]"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-sm font-bold">Categoría *</Label>
+                <div className="space-y-[0.5rem]">
+                  <Label className="text-[0.875rem] font-bold">Categoría *</Label>
                   <Select
                     value={form.category}
                     onValueChange={(v) => v && setForm({ ...form, category: v })}
                   >
-                    <SelectTrigger className="h-11 rounded-lg">
+                    <SelectTrigger className="h-[2.75rem] rounded-[0.5rem]">
                       <SelectValue placeholder="Elige una categoría" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent className="rounded-[0.75rem]">
                       {CATEGORIES.map((cat) => (
                         <SelectItem key={cat.slug} value={cat.slug} className="cursor-pointer">
                           {cat.name}
@@ -142,15 +144,15 @@ function PublicarPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <Label className="text-sm font-bold">Estado *</Label>
-                  <div className="flex flex-wrap gap-2">
+                <div className="space-y-[0.5rem]">
+                  <Label className="text-[0.875rem] font-bold">Estado *</Label>
+                  <div className="flex flex-wrap gap-[0.5rem]">
                     {CONDITIONS.map(({ value, label }) => (
                       <Badge
                         key={value}
                         variant={form.condition === value ? "default" : "outline"}
                         className={cn(
-                          "cursor-pointer text-sm px-3 py-1 font-medium rounded-full",
+                          "cursor-pointer text-[0.875rem] px-[0.75rem] py-[0.25rem] font-medium rounded-full",
                           form.condition === value && "bg-primary text-primary-foreground"
                         )}
                         onClick={() => setForm({ ...form, condition: value })}
@@ -160,8 +162,8 @@ function PublicarPage() {
                     ))}
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="description" className="text-sm font-bold">
+                <div className="space-y-[0.5rem]">
+                  <Label htmlFor="description" className="text-[0.875rem] font-bold">
                     Descripción
                   </Label>
                   <textarea
@@ -170,21 +172,21 @@ function PublicarPage() {
                     placeholder="Describe el artículo con detalle..."
                     value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
-                    className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                    className="w-full rounded-[0.5rem] border border-input bg-background px-[0.75rem] py-[0.5rem] text-[0.875rem] resize-none focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                   />
                 </div>
               </div>
             )}
 
             {step === 2 && (
-              <div className="space-y-5">
+              <div className="space-y-[1.25rem]">
                 <h2 className="font-bold text-foreground">Precio y ubicación</h2>
-                <div className="space-y-2">
-                  <Label htmlFor="price" className="text-sm font-bold">
+                <div className="space-y-[0.5rem]">
+                  <Label htmlFor="price" className="text-[0.875rem] font-bold">
                     Precio (€) *
                   </Label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-bold">
+                    <span className="absolute left-[0.75rem] top-1/2 -translate-y-1/2 text-muted-foreground font-bold">
                       €
                     </span>
                     <Input
@@ -194,12 +196,12 @@ function PublicarPage() {
                       placeholder="0"
                       value={form.price}
                       onChange={(e) => setForm({ ...form, price: e.target.value })}
-                      className="pl-8 h-11 rounded-lg"
+                      className="pl-[2rem] h-[2.75rem] rounded-[0.5rem]"
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="city" className="text-sm font-bold">
+                <div className="space-y-[0.5rem]">
+                  <Label htmlFor="city" className="text-[0.875rem] font-bold">
                     Ciudad *
                   </Label>
                   <Input
@@ -207,17 +209,17 @@ function PublicarPage() {
                     placeholder="Ej. Madrid, Barcelona..."
                     value={form.city}
                     onChange={(e) => setForm({ ...form, city: e.target.value })}
-                    className="h-11 rounded-lg"
+                    className="h-[2.75rem] rounded-[0.5rem]"
                   />
                 </div>
-                <label className="flex items-center gap-3 cursor-pointer group">
+                <label className="flex items-center gap-[0.75rem] cursor-pointer group">
                   <input
                     type="checkbox"
                     checked={form.shipping}
                     onChange={(e) => setForm({ ...form, shipping: e.target.checked })}
-                    className="w-4 h-4 rounded border-border accent-primary"
+                    className="w-[1rem] h-[1rem] rounded border-border accent-primary"
                   />
-                  <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                  <span className="text-[0.875rem] font-medium text-foreground group-hover:text-primary transition-colors">
                     Acepto envíos
                   </span>
                 </label>
@@ -225,15 +227,15 @@ function PublicarPage() {
             )}
 
             {step === 3 && (
-              <div className="space-y-5 text-center py-4">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                  <Check className="w-8 h-8 text-primary" />
+              <div className="space-y-[1.25rem] text-center py-[1rem]">
+                <div className="w-[4rem] h-[4rem] rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Check className="w-[2rem] h-[2rem] text-primary" />
                 </div>
-                <h2 className="font-bold text-lg text-foreground">¡Listo para publicar!</h2>
-                <p className="text-sm text-muted-foreground">
+                <h2 className="font-bold text-[1.125rem] text-foreground">¡Listo para publicar!</h2>
+                <p className="text-[0.875rem] text-muted-foreground">
                   Tu anuncio se publicará y será visible para miles de usuarios.
                 </p>
-                <div className="bg-muted/50 rounded-xl p-4 text-left space-y-1 text-sm border border-border">
+                <div className="bg-muted/50 rounded-[0.75rem] p-[1rem] text-left space-y-[0.25rem] text-[0.875rem] border border-border">
                   <p>
                     <span className="font-bold text-foreground">Título:</span> {form.title || "—"}
                   </p>
@@ -250,27 +252,27 @@ function PublicarPage() {
           </div>
 
           {/* Navigation */}
-          <div className="flex gap-3">
+          <div className="flex gap-[0.75rem]">
             {step > 0 && (
               <Button
                 variant="outline"
                 onClick={() => setStep((s: number) => s - 1)}
-                className="rounded-full flex-1 h-11 font-bold"
+                className="rounded-full flex-1 h-[2.75rem] font-bold"
               >
-                <ArrowLeft className="w-4 h-4 mr-1.5" /> Atrás
+                <ArrowLeft className="w-[1rem] h-[1rem] mr-[0.375rem]" /> Atrás
               </Button>
             )}
             <Button
               onClick={handleNext}
-              className="rounded-full flex-1 h-11 font-bold bg-accent text-accent-foreground hover:bg-accent/90 shadow-md"
+              className="rounded-full flex-1 h-[2.75rem] font-bold bg-accent text-accent-foreground hover:bg-accent/90 shadow-md"
             >
               {isLastStep ? (
                 <>
-                  <Check className="w-4 h-4 mr-1.5" /> Publicar
+                  <Check className="w-[1rem] h-[1rem] mr-[0.375rem]" /> Publicar
                 </>
               ) : (
                 <>
-                  Siguiente <ArrowRight className="w-4 h-4 ml-1.5" />
+                  Siguiente <ArrowRight className="w-[1rem] h-[1rem] ml-[0.375rem]" />
                 </>
               )}
             </Button>
