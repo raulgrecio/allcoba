@@ -298,23 +298,26 @@ Example URL: `https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ter
 
 ---
 
-## milescorts.es
+## milescorts.es ✅ v2
 
-Example URL: `https://www.milescorts.es/escorts-y-putas-granada/escorts/tania-la-mas-tierna-656911565-656911565.html` (Real)
+Example URL: `https://www.milescorts.es/escorts-y-putas/madrid-ciudad/631594827-escort-sexy-396681.htm` (Real)
 
-| Campo       | Valor                                             |
-| ----------- | ------------------------------------------------- |
-| Tech        | Bootstrap 3 + PHP                                 |
-| Render      | SSR                                               |
-| Listing     | `/escorts-y-putas/{city}`                         |
-| Profile URL | `/escorts-y-putas/{city}/{phone}-{slug}-{id}.htm` |
-| Paginación  | `?page=N`                                         |
-| Teléfono    | **URL** — primer segmento `\d{9,}` del filename   |
-| Ciudad      | **URL** — penúltimo segmento del path             |
-| Imágenes    | `#fotos-anuncio img[data-original]` (lazy)        |
-| Tarifas     | ❌ stub                                           |
-| Servicios   | ❌ stub                                           |
-| Login       | No                                                |
+| Campo       | Valor                                                                     |
+| ----------- | ------------------------------------------------------------------------- |
+| Tech        | Bootstrap 3 + PHP                                                         |
+| Render      | SSR                                                                       |
+| Listing     | `/escorts-y-putas/{city}`                                                 |
+| Profile URL | `/escorts-y-putas/{city}/{phone}-{slug}-{id}.htm`                         |
+| Paginación  | `?page=N`                                                                 |
+| sourceId    | Last numeric segment of filename (`\d+\.htm$`)                            |
+| Teléfono    | **URL** — first `\d{9,}` segment of filename; fallback `a[href^="tel:"]`  |
+| WhatsApp    | `a[href*="wa.me"]` or `a[href*="api.whatsapp.com"]`                       |
+| Ciudad      | **URL** — penultimate path segment (replace `-` → ` `)                    |
+| Imágenes    | `#fotos-anuncio img` — prefer `data-original` (lazy), fallback `src`      |
+| Verificada  | `a.btn-success[href*="fotos-reales"]` or `.label-success:Verificada`      |
+| Tarifas     | ❌ not in HTML                                                            |
+| Servicios   | ❌ not in HTML                                                            |
+| Login       | No                                                                        |
 
 ---
 
