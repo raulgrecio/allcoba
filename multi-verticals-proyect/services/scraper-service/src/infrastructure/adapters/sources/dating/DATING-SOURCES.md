@@ -159,20 +159,28 @@ Example URL: `https://www.erosguia.com/55383.html` (Real)
 
 ---
 
-## escort-advisor.xxx
+## escort-advisor.xxx ✅ v2
 
-Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
+Example URL: `https://www.escort-advisor.xxx/escorts/spain/madrid/diana-667554247/` (Real)
 
-| Campo       | Valor                                          |
-| ----------- | ---------------------------------------------- |
-| Tech        | desconocida                                    |
-| Render      | **CF** — Cloudflare WAF en homepage y listados |
-| Listing     | TBD                                            |
-| Profile URL | `/escorts/{country}/{city}/{slug}/`            |
-| Paginación  | TBD                                            |
-| Teléfono    | TBD post-CF bypass                             |
-| Login       | No (asumido)                                   |
-| Pendiente   | Análisis completo post-CF bypass               |
+| Campo        | Valor                                                                       |
+| ------------ | --------------------------------------------------------------------------- |
+| Tech         | PHP Custom (desconocida)                                                    |
+| Render       | **CF** — Cloudflare WAF — Playwright + CF bypass necesario                  |
+| Listing      | `/escorts/{country}/{city}/`                                                |
+| Profile URL  | `/escorts/{country}/{city}/{slug}/` — sourceId = numeric suffix o slug     |
+| Paginación   | `a[rel="next"], a.next-page, [aria-label="Next"]`                           |
+| Título       | `.username h2`                                                              |
+| Descripción  | `.data-container .content`                                                  |
+| Ciudad       | Breadcrumb `[class*="breadcrumb"] a` eq(2) — no extraído en extractor      |
+| Teléfono     | **HTML** — `a[href^="tel:"]`                                                |
+| Verificada   | `.verified-badge, .icon-ok-circled`                                         |
+| Servicios    | `.preferences .info-list li`                                                |
+| Imágenes     | `.gallery_tray img, .user_image, .banner_image` · fallback `og:image`       |
+| Datos        | `.personal-info .info-list li` → "Label: value" — Edad, Altura, Peso, Nac. |
+| Login        | No                                                                          |
+| País         | ES / Internacional                                                          |
+| Nota         | CF WAF — Playwright con bypass. City en breadcrumb (no extraído aún)        |
 
 ---
 
@@ -486,7 +494,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ### Pendiente análisis (CF WAF)
 
-- **escort-advisor.xxx**
+- ~~**escort-advisor.xxx**~~ — ported to v2 (CF WAF — Playwright + bypass required)
 - ~~**gemidos.tv**~~ — ported to v2 (CF WAF — Playwright + bypass required)
 - **topescortbabes.com** ← datos muy estructurados en filtro, prioritario post-bypass
 
