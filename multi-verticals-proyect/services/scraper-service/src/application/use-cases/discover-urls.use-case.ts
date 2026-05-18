@@ -2,15 +2,10 @@ import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
-import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
-import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
-import type {
-  ListingRepositoryPort,
-  PropertyRepositoryPort,
-  VehicleRepositoryPort,
-} from '#application/ports/scraped-entity-repository.port.js';
+import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 
 import type { ScrapeUrlUseCase } from './scrape-url.use-case.js';
 
@@ -19,12 +14,9 @@ export class DiscoverUrlsUseCase {
 
   constructor(
     private readonly sourceResolver: SourceResolverPort,
-    private readonly repository: ProviderRepositoryPort,
     private readonly scrapeUrlUseCase: ScrapeUrlUseCase,
     private readonly crawler: CrawlerPort,
-    private readonly propertyRepo?: PropertyRepositoryPort,
-    private readonly vehicleRepo?: VehicleRepositoryPort,
-    private readonly listingRepo?: ListingRepositoryPort,
+    private readonly entityRepos: Map<Vertical, ScrapedEntityRepositoryPort<HasExternalRefs>>,
   ) {}
 
   async execute(listUrl: string, limit?: number, skip?: number, headless?: boolean): Promise<void> {
@@ -128,17 +120,8 @@ export class DiscoverUrlsUseCase {
     slug: string,
     vertical: Vertical,
   ): Promise<boolean> {
-    const ref: ExternalRef = { source: sourceId, sourceId: slug };
-    if (vertical === 'real-estate' && this.propertyRepo) {
-      return (await this.propertyRepo.findByExternalRef(ref)) !== null;
-    }
-    if (vertical === 'motor' && this.vehicleRepo) {
-      return (await this.vehicleRepo.findByExternalRef(ref)) !== null;
-    }
-    if (vertical === 'general' && this.listingRepo) {
-      return (await this.listingRepo.findByExternalRef(ref)) !== null;
-    }
-    const existing = await this.repository.find({ externalRef: ref, vertical });
-    return existing.length > 0;
+    const repo = this.entityRepos.get(vertical);
+    if (!repo) return false;
+    return (await repo.findByExternalRef({ source: sourceId, sourceId: slug })) !== null;
   }
 }

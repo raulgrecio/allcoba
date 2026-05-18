@@ -1,17 +1,18 @@
 import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
-import { CrawlerEngine } from '#application/ports/crawler.port.js';
 import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
-import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
-import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
-import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
+import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
 import type { ScraperConfig } from '#application/use-cases/scrape-url.use-case.js';
-import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
+import { CrawlerEngine } from '#application/ports/crawler.port.js';
+import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
+import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
+import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
+import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
@@ -43,9 +44,8 @@ export async function createScraperServices(config: ScraperConfig) {
   let repository;
 
   if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
-    const { PostgresProviderRepository } = await import(
-      '#infrastructure/adapters/persistence/postgres-provider.repository.js'
-    );
+    const { PostgresProviderRepository } =
+      await import('#infrastructure/adapters/persistence/postgres-provider.repository.js');
     repository = new PostgresProviderRepository();
   } else {
     repository = new JsonFileProviderRepository();
@@ -86,13 +86,9 @@ export async function createScraperServices(config: ScraperConfig) {
   const strategies = new Map<Vertical, PersistenceStrategyPort<HasExternalRefs>>([
     [
       'dating',
-      new DatingPersistenceStrategy(
-        repository,
-        consolidationService,
-        imageHasher,
-        storage,
-        { maxImagesToProcess: config.maxImagesToProcess ?? 20 },
-      ) as unknown as PersistenceStrategyPort<HasExternalRefs>,
+      new DatingPersistenceStrategy(repository, consolidationService, imageHasher, storage, {
+        maxImagesToProcess: config.maxImagesToProcess ?? 20,
+      }) as unknown as PersistenceStrategyPort<HasExternalRefs>,
     ],
     [
       'real-estate',
@@ -114,6 +110,17 @@ export async function createScraperServices(config: ScraperConfig) {
     ],
   ]);
 
+  // ── Entity repositories, keyed by vertical ────────────────────────────
+  // Used by DiscoverUrlsUseCase to skip URLs already persisted. Same
+  // dispatch pattern as `strategies`: registration over branching.
+
+  const entityRepos = new Map<Vertical, ScrapedEntityRepositoryPort<HasExternalRefs>>([
+    ['dating', repository as unknown as ScrapedEntityRepositoryPort<HasExternalRefs>],
+    ['real-estate', propertyRepo as unknown as ScrapedEntityRepositoryPort<HasExternalRefs>],
+    ['motor', vehicleRepo as unknown as ScrapedEntityRepositoryPort<HasExternalRefs>],
+    ['general', listingRepo as unknown as ScrapedEntityRepositoryPort<HasExternalRefs>],
+  ]);
+
   const scrapeUrlUseCase = new ScrapeUrlUseCase(
     sourceResolver,
     crawler,
@@ -128,12 +135,9 @@ export async function createScraperServices(config: ScraperConfig) {
 
   const discoverUrlsUseCase = new DiscoverUrlsUseCase(
     sourceResolver,
-    repository,
     scrapeUrlUseCase,
     crawler,
-    propertyRepo,
-    vehicleRepo,
-    listingRepo,
+    entityRepos,
   );
 
   return { scrapeUrlUseCase, discoverUrlsUseCase, crawler };
