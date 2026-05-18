@@ -50,9 +50,9 @@ describe('mapMilpasiones — core fields', () => {
 });
 
 describe('mapMilpasiones — taxonomy resolution', () => {
-  it('resolves city → baseCity.cityId contains "estepona"', async () => {
+  it('resolves city → baseCity.id contains "estepona"', async () => {
     const sp = await mapMilpasiones(BASE_PAYLOAD, new FakeTaxonomyResolver());
-    expect(sp.baseCity?.cityId).toContain('estepona');
+    expect(sp.baseCity?.id).toContain('estepona');
   });
 
   it('city miss → baseCity undefined', async () => {
@@ -68,7 +68,7 @@ describe('mapMilpasiones — photos', () => {
     expect(sp.photos).toHaveLength(2);
     expect(sp.photos[0]!.isPrimary).toBe(true);
     expect(sp.photos[1]!.isPrimary).toBe(false);
-    expect(sp.statistics.photoCount).toBe(2);
+    expect(sp.statistics!.photoCount).toBe(2);
   });
 });
 

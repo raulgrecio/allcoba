@@ -38,6 +38,7 @@ const extractMetaField = ($: CheerioAPI, labelText: string): string | undefined 
       result = $(el).find('span').text().trim() || undefined;
       return false;
     }
+    return;
   });
   return result;
 };
@@ -55,6 +56,7 @@ const extractMetaLanguages = ($: CheerioAPI): string[] => {
         });
       return false;
     }
+    return;
   });
   return langs;
 };

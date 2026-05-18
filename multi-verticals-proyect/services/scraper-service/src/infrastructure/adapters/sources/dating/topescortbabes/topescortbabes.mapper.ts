@@ -24,7 +24,7 @@ import {
   type CurrencyCode,
   type Iso2Code,
   type PersonalDetailsCanonical,
-  type PhotoCanonical,
+
   type PriceCanonical,
   type ProfileVerificationStatus,
   type RatingDistribution,
@@ -42,6 +42,7 @@ import {
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
 
@@ -124,17 +125,13 @@ const buildAboutMe = (
   return i18nFromOriginal(original, originalLanguage);
 };
 
-const mapPhoto = (raw: Photo): PhotoCanonical => ({
-  path: raw.path,
-  srcset: raw.srcset,
-  pathSrcset: raw.path_srcset,
-  thumbnail: raw.thumbnail,
-  width: raw.width,
-  height: raw.height,
-  verificationLevel: raw.verification_level,
-  uploadedAt: parseRelativeTimeEs(raw.uploaded_on) ?? new Date(0).toISOString(),
-  verifiedAt: parseRelativeTimeEs(raw.verification_at),
-  sourceUrl: raw.path,
+const mapPhoto = (raw: Photo, idx: number): ScrapedPhoto => ({
+  id: `topescortbabes:photo:${idx}`,
+  url: raw.path,
+  thumbnail: raw.thumbnail || undefined,
+  isPrimary: idx === 0,
+  isVerified: !!raw.verification_level,
+  order: idx,
 });
 
 const mapPrice = (raw: Price): PriceCanonical => {
@@ -410,7 +407,7 @@ export const mapTopEscortBabes = async (
     serviceText: payload.serviceText ? i18nFromOriginal(payload.serviceText) : undefined,
     topTourText: payload.topTourText ? i18nFromOriginal(payload.topTourText) : undefined,
     tours: [],
-    photos: (payload.photos ?? []).map(mapPhoto),
+    photos: (payload.photos ?? []).map((p, i) => mapPhoto(p, i)),
     mainMedia: payload.mainMedia
       ? {
           type: payload.mainMedia.type,

@@ -46,7 +46,7 @@ describe('mapErosguia — personalDetails', () => {
 });
 
 describe('mapErosguia — baseCity', () => {
-  it('cityId contains madrid', () => expect(sp.baseCity?.cityId).toContain('madrid'));
+  it('cityId contains madrid', () => expect(sp.baseCity?.id).toContain('madrid'));
 
   it('baseCity undefined on city taxonomy miss', async () => {
     const html = loadHtmlFixture('anny_55383.html');

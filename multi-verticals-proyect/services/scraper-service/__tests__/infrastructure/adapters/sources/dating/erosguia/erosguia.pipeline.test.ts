@@ -19,7 +19,7 @@ describe('Erosguia pipeline — HTML → ScrapedProvider', () => {
     expect(sp.vertical).toBe('dating');
     expect(sp.photos.length).toBeGreaterThan(0);
     expect(sp.externalRefs[0]!.source).toBe('erosguia');
-    expect(sp.baseCity?.cityId).toContain('madrid');
+    expect(sp.baseCity?.id).toContain('madrid');
     expect(sp.personalDetails.ageYears).toBe(22);
   });
 

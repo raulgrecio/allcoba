@@ -66,21 +66,21 @@ describe('mapMilescorts — verified badge', () => {
   it('badges.verified = true when isVerified', async () => {
     const sp = await mapMilescorts(BASE_PAYLOAD, new FakeTaxonomyResolver());
     expect(sp.badges.verified).toBe(true);
-    expect(sp.statistics.isVerified).toBe(true);
+    expect(sp.statistics!.isVerified).toBe(true);
   });
 
   it('badges.verified = false when not verified', async () => {
     const payload: MilescortsPayload = { ...BASE_PAYLOAD, isVerified: false };
     const sp = await mapMilescorts(payload, new FakeTaxonomyResolver());
     expect(sp.badges.verified).toBe(false);
-    expect(sp.statistics.isVerified).toBe(false);
+    expect(sp.statistics!.isVerified).toBe(false);
   });
 });
 
 describe('mapMilescorts — taxonomy resolution', () => {
-  it('resolves city → baseCity.cityId contains "madrid-ciudad"', async () => {
+  it('resolves city → baseCity.id contains "madrid-ciudad"', async () => {
     const sp = await mapMilescorts(BASE_PAYLOAD, new FakeTaxonomyResolver());
-    expect(sp.baseCity?.cityId).toContain('madrid-ciudad');
+    expect(sp.baseCity?.id).toContain('madrid-ciudad');
   });
 
   it('resolves nationality → personalDetails.nationalityId contains "espanola"', async () => {
@@ -127,7 +127,7 @@ describe('mapMilescorts — photos', () => {
     expect(sp.photos).toHaveLength(2);
     expect(sp.photos[0]!.isPrimary).toBe(true);
     expect(sp.photos[1]!.isPrimary).toBe(false);
-    expect(sp.statistics.photoCount).toBe(2);
+    expect(sp.statistics!.photoCount).toBe(2);
   });
 });
 

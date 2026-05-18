@@ -43,6 +43,7 @@ const extractFichaField = ($: CheerioAPI, label: string): string | undefined => 
       result = $(el).children('div').not('.font-semibold').first().text().trim() || undefined;
       return false; // break
     }
+    return;
   });
   return result;
 };

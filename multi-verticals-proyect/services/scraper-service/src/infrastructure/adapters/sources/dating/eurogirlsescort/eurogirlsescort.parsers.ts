@@ -3,6 +3,8 @@
  * No I/O, no DB — safe to unit-test in isolation.
  */
 
+import type { PriceSlot } from '@allcoba/shared-types';
+
 // ============================================================================
 // Date parsing
 // ============================================================================
@@ -126,18 +128,16 @@ export const parseEGEMeetingWith = (
  * Map duration label from the rates table → canonical price slot.
  * "0.5 Hour" → 'h0_5', "1 Hour" → 'h1', etc.
  */
-export const parseDurationSlot = (
-  label: string,
-): 'h0_5' | 'h1' | 'h2' | 'h3' | 'h6' | 'h12' | 'h24' | 'h48' | 'custom' => {
+export const parseDurationSlot = (label: string): PriceSlot => {
   const lower = label.toLowerCase().replace(/\s+/g, ' ').trim();
-  if (lower.startsWith('0.5') || lower.startsWith('half')) return 'h0_5';
+  if (lower.startsWith('0.5') || lower.startsWith('half')) return 'custom'; // no h0_5 in PriceSlot
   if (lower.startsWith('1 h')) return 'h1';
   if (lower.startsWith('2 h')) return 'h2';
   if (lower.startsWith('3 h')) return 'h3';
-  if (lower.startsWith('6 h')) return 'h6';
+  if (lower.startsWith('6 h')) return 'custom'; // no h6 in PriceSlot
   if (lower.startsWith('12 h')) return 'h12';
   if (lower.startsWith('24 h') || lower === '24 hours' || lower === '1 day') return 'h24';
-  if (lower.startsWith('48 h') || lower.startsWith('2 day')) return 'h48';
+  if (lower.startsWith('48 h') || lower.startsWith('2 day')) return 'overnight'; // nearest fit
   return 'custom';
 };
 

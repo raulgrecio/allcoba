@@ -102,21 +102,21 @@ describe('mergeProvider — existing wins', () => {
   });
 
   it('keeps existing aboutMe when both present', () => {
-    const existing = makeProvider({ aboutMe: { original: 'My original bio', language: 'es' } });
-    const result = mergeProvider(existing, { aboutMe: { original: 'New bio', language: 'es' } });
+    const existing = makeProvider({ aboutMe: { original: 'My original bio', originalLanguage: 'es', content: null, contentLocale: 'es' } });
+    const result = mergeProvider(existing, { aboutMe: { original: 'New bio', originalLanguage: 'es', content: null, contentLocale: 'es' } });
     expect(result.aboutMe?.original).toBe('My original bio');
   });
 
   it('takes incoming aboutMe when existing is undefined', () => {
     const existing = makeProvider({ aboutMe: undefined });
-    const result = mergeProvider(existing, { aboutMe: { original: 'New bio', language: 'es' } });
+    const result = mergeProvider(existing, { aboutMe: { original: 'New bio', originalLanguage: 'es', content: null, contentLocale: 'es' } });
     expect(result.aboutMe?.original).toBe('New bio');
   });
 
   it('keeps existing baseCity', () => {
-    const existing = makeProvider({ baseCity: { id: 'city-1' as ScrapedProvider['baseCity']['id'], name: 'Madrid', countryIso2: 'ES' as any } });
-    const result = mergeProvider(existing, { baseCity: { id: 'city-2' as any, name: 'Barcelona', countryIso2: 'ES' as any } });
-    expect(result.baseCity?.name).toBe('Madrid');
+    const existing = makeProvider({ baseCity: { id: 'city-1' as any } });
+    const result = mergeProvider(existing, { baseCity: { id: 'city-2' as any } });
+    expect(result.baseCity?.id).toBe('city-1');
   });
 
   it('keeps existing humanVerified (not overridable by scraper)', () => {
@@ -149,9 +149,9 @@ describe('mergeProvider — incoming wins', () => {
   });
 
   it('takes incoming currentCity', () => {
-    const existing = makeProvider({ currentCity: { id: 'city-1' as any, name: 'Madrid', countryIso2: 'ES' as any } });
-    const result = mergeProvider(existing, { currentCity: { id: 'city-2' as any, name: 'Barcelona', countryIso2: 'ES' as any } });
-    expect(result.currentCity?.name).toBe('Barcelona');
+    const existing = makeProvider({ currentCity: { id: 'city-1' as any } });
+    const result = mergeProvider(existing, { currentCity: { id: 'city-2' as any } });
+    expect(result.currentCity?.id).toBe('city-2');
   });
 
   it('takes incoming prices', () => {
@@ -236,14 +236,29 @@ describe('mergeProvider — merge+dedup', () => {
   });
 
   describe('reviews', () => {
+    const makeReview = (id: string, nick: string) => ({
+      id: id as any,
+      authorNickname: nick,
+      ratings: { place: 0, punctuality: 0, looks: 0, attitude: 0, services: 0, photosAccuracy: 0 },
+      averageRating: 4,
+      meetingPlace: 'incall' as const,
+      meetAgain: null,
+      meetGood: true,
+      liked: true,
+      likedCount: 0,
+      createdAt: '2024-01-01T00:00:00.000Z',
+      text: { original: 'Good', originalLanguage: 'en', content: null, contentLocale: 'en' },
+      aspects: {},
+    });
+
     it('appends novel reviews by id', () => {
-      const existing = makeProvider({ reviews: [{ id: 'r1' as any, authorNickname: 'A', averageRating: 4, meetingPlace: 'incall', meetAgain: true, meetGood: true, ratings: {} as any }] });
-      const result = mergeProvider(existing, { reviews: [{ id: 'r2' as any, authorNickname: 'B', averageRating: 5, meetingPlace: 'incall', meetAgain: true, meetGood: true, ratings: {} as any }] });
+      const existing = makeProvider({ reviews: [makeReview('r1', 'A')] });
+      const result = mergeProvider(existing, { reviews: [makeReview('r2', 'B')] });
       expect(result.reviews).toHaveLength(2);
     });
 
     it('deduplicates reviews by id', () => {
-      const review = { id: 'r1' as any, authorNickname: 'A', averageRating: 4, meetingPlace: 'incall' as const, meetAgain: true, meetGood: true, ratings: {} as any };
+      const review = makeReview('r1', 'A');
       const existing = makeProvider({ reviews: [review] });
       const result = mergeProvider(existing, { reviews: [review] });
       expect(result.reviews).toHaveLength(1);
@@ -270,14 +285,22 @@ describe('mergeProvider — merge+dedup', () => {
 // ── signals: always append ───────────────────────────────────────────────────
 
 describe('mergeProvider — signals', () => {
+  const makeSignal = (type: 'PHONE_MATCH' | 'EMAIL_MATCH', date: string) => ({
+    type,
+    sourceKey: 'source:1',
+    confidence: 0.9 as any,
+    metadata: {},
+    createdAt: date,
+  });
+
   it('appends incoming signals to existing (never discards)', () => {
-    const existing = makeProvider({ signals: [{ type: 'PHONE_MATCH', weight: 0.9, detectedAt: '2024-01-01T00:00:00.000Z' }] });
-    const result = mergeProvider(existing, { signals: [{ type: 'EMAIL_MATCH', weight: 0.9, detectedAt: '2024-01-02T00:00:00.000Z' }] });
+    const existing = makeProvider({ signals: [makeSignal('PHONE_MATCH', '2024-01-01T00:00:00.000Z')] });
+    const result = mergeProvider(existing, { signals: [makeSignal('EMAIL_MATCH', '2024-01-02T00:00:00.000Z')] });
     expect(result.signals).toHaveLength(2);
   });
 
   it('keeps existing signals when incoming has none', () => {
-    const existing = makeProvider({ signals: [{ type: 'PHONE_MATCH', weight: 0.9, detectedAt: '2024-01-01T00:00:00.000Z' }] });
+    const existing = makeProvider({ signals: [makeSignal('PHONE_MATCH', '2024-01-01T00:00:00.000Z')] });
     const result = mergeProvider(existing, {});
     expect(result.signals).toHaveLength(1);
   });

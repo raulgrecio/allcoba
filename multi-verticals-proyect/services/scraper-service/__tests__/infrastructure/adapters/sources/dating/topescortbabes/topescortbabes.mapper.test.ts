@@ -38,10 +38,8 @@ describe('mapTopEscortBabes — Chanel_1178 (golden path)', () => {
   it('builds geo refs through the resolver', async () => {
     const { payload } = loadFixture('topescortbabes_Chanel_1178.json');
     const sp = await mapTopEscortBabes(payload, resolver, { now: NOW });
-    expect(sp.baseCity?.slug).toBe('madrid');
-    expect(sp.baseCity?.lat).toBeCloseTo(40.4167);
-    expect(sp.baseCity?.lng).toBeCloseTo(-3.7167);
-    expect(sp.currentCity?.slug).toBe('madrid');
+    expect(sp.baseCity?.id).toContain('madrid');
+    expect(sp.currentCity?.id).toContain('madrid');
   });
 
   it('maps personalDetails using Schema.org first', async () => {
@@ -61,7 +59,7 @@ describe('mapTopEscortBabes — Chanel_1178 (golden path)', () => {
     expect(pd.eyesId).toBe('eye:brown');
     expect(pd.orientationId).toBe('orientation:bisexual');
     expect(pd.spokenLanguageCodes).toEqual(['EN', 'ES']);
-    expect(pd.meetingWith.sort()).toEqual(['couple', 'man']);
+    expect([...pd.meetingWith].sort()).toEqual(['couple', 'man']);
     expect(pd.drink?.original).toBe('vodka');
     expect(pd.music?.original).toBe('HOUSE');
     expect(pd.hobby?.original).toBe('deportes');
@@ -75,12 +73,12 @@ describe('mapTopEscortBabes — Chanel_1178 (golden path)', () => {
     expect(sp.aboutMe?.original).toContain('My name is Chanel');
   });
 
-  it('maps photos with verification level', async () => {
+  it('maps photos', async () => {
     const { payload } = loadFixture('topescortbabes_Chanel_1178.json');
     const sp = await mapTopEscortBabes(payload, resolver, { now: NOW });
     expect(sp.photos.length).toBeGreaterThan(0);
-    expect([1, 2, -1]).toContain(sp.photos[0]!.verificationLevel);
-    expect(sp.photos[0]!.uploadedAt).toMatch(/T\d{2}:/);
+    expect(sp.photos[0]!.url).toMatch(/^https?:/);
+    expect(sp.photos[0]!.isPrimary).toBe(true);
   });
 
   it('maps mainMedia video', async () => {
@@ -182,9 +180,9 @@ describe('mapTopEscortBabes — bulk invariants over 51 fixtures', () => {
         expect(['EUR', 'GBP', 'AED']).toContain(p.currency);
       }
 
-      // photos verification level in known set
+      // photos have url and order
       for (const photo of sp.photos) {
-        expect([-1, 1, 2]).toContain(photo.verificationLevel);
+        expect(photo.url).toMatch(/^https?:/);
       }
 
       // ScraperMeta

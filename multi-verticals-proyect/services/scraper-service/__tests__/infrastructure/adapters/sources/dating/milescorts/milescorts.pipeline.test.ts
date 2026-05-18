@@ -28,7 +28,7 @@ describe('milescorts pipeline — HTML → ScrapedProvider', () => {
     const payload = extractMilescorts(html, FIXTURE_URL);
     const sp = await mapMilescorts(payload, new FakeTaxonomyResolver());
 
-    expect(sp.baseCity?.cityId).toContain('madrid-ciudad');
+    expect(sp.baseCity?.id).toContain('madrid-ciudad');
   });
 
   it('phone from URL filename first digit segment', async () => {

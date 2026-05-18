@@ -28,7 +28,7 @@ describe('milpasiones pipeline — HTML → ScrapedProvider', () => {
     const payload = extractMilpasiones(html, FIXTURE_URL);
     const sp = await mapMilpasiones(payload, new FakeTaxonomyResolver());
 
-    expect(sp.baseCity?.cityId).toContain('estepona');
+    expect(sp.baseCity?.id).toContain('estepona');
   });
 
   it('phone from URL', async () => {

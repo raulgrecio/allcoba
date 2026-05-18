@@ -14,13 +14,14 @@ import {
   asPhoneE164,
   asProviderId,
   type PersonalDetailsCanonical,
-  type PhotoCanonical,
+
   type ProfileVerificationStatus,
   i18nFromOriginal,
 } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { Confidence } from '#domain/canonical/confidence.js';
 
@@ -42,7 +43,7 @@ export interface MapperOptions {
 // Photos
 // ============================================================================
 
-const mapPhoto = (photo: LoquosexPayload['photos'][number], idx: number): PhotoCanonical => ({
+const mapPhoto = (photo: LoquosexPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `loquosex:photo:${idx}`,
   url: photo.src,
   thumbnail: photo.src,
@@ -88,7 +89,7 @@ export const mapLoquosex = async (
 
   const citySlug = slugifyLoquosex(payload.params.city);
   const cityId = citySlug ? await resolver.resolveCity(citySlug, 'ES') : null;
-  const baseCity = cityId ? { cityId } : undefined;
+  const baseCity = cityId ? { id: cityId } : undefined;
 
   const verificationStatus: ProfileVerificationStatus = 'pending_review';
 

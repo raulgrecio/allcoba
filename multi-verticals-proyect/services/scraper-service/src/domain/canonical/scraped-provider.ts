@@ -9,11 +9,12 @@
  * search, gateway) consume only `Profile`.
  */
 
-import type { Profile } from '@allcoba/shared-types';
+import type { CityId, Profile } from '@allcoba/shared-types';
 
 import type { Confidence } from './confidence.js';
 import type { ExternalRef } from './external-ref.js';
 import type { ProfileImage } from './profile-image.js';
+import type { ScrapedPhoto } from './scraped-photo.js';
 import type { ScraperSignal } from './signals.js';
 
 /**
@@ -44,10 +45,27 @@ export interface ScraperMeta {
 }
 
 /**
+ * Minimal city reference valid at scrape time (only id is available).
+ * Downstream services receive a full CityRef after catalog enrichment.
+ */
+export interface ScrapedCityRef {
+  readonly id: CityId;
+}
+
+/**
  * The full record the scraper-service stores and merges.
  * Decompose to `profile` when sending to other services.
+ *
+ * Overrides:
+ *   - photos: ScrapedPhoto[] (source URLs, not yet uploaded to R2)
+ *   - baseCity/currentCity: ScrapedCityRef (id only, no slug/countryId yet)
  */
-export type ScrapedProvider = Profile & ScraperMeta;
+export type ScrapedProvider = Omit<Profile, 'photos' | 'baseCity' | 'currentCity'> &
+  ScraperMeta & {
+    readonly photos: readonly ScrapedPhoto[];
+    readonly baseCity?: ScrapedCityRef;
+    readonly currentCity?: ScrapedCityRef;
+  };
 
 /**
  * Strip scraper metadata to obtain the pure Profile suitable for emission
@@ -64,5 +82,7 @@ export const toProfile = (sp: ScrapedProvider): Profile => {
     lastScrapedAt: _lastScrapedAt,
     ...profile
   } = sp;
-  return profile;
+  // ScrapedProvider.photos is ScrapedPhoto[] (source URLs, not yet R2-uploaded).
+  // Profile.photos expects PhotoCanonical[] (post-R2). Cast is intentional.
+  return profile as unknown as Profile;
 };

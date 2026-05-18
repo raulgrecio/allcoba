@@ -42,6 +42,7 @@ const extractCharacteristicField = (
       result = text.replace(label, '').replace(/\s*-\s*/g, ' ').trim() || undefined;
       return false; // break
     }
+    return;
   });
   return result;
 };
@@ -78,6 +79,7 @@ const extractParams = ($: CheerioAPI): LoquosexParams => {
       zone = links.eq(3).text().trim() || undefined;
       return false; // break
     }
+    return;
   });
 
   const catRaw = extractCharacteristicField($, 'Categoría:');
@@ -114,9 +116,7 @@ const extractServices = ($: CheerioAPI): LoquosexService[] => {
 
     icons.forEach((img, i) => {
       const alt = $(img).attr('alt') ?? '';
-      const name = $(names[i] ?? null)
-        ?.text()
-        .trim();
+      const name = names[i] ? $(names[i]).text().trim() : undefined;
       if (!name) return;
       const included = /\sSI$/i.test(alt);
       services.push({ name, included });

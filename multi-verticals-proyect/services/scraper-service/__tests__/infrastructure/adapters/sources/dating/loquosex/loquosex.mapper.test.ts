@@ -73,9 +73,9 @@ describe('mapLoquosex — core fields', () => {
 });
 
 describe('mapLoquosex — taxonomy resolution', () => {
-  it('resolves city → baseCity.cityId contains "murcia"', async () => {
+  it('resolves city → baseCity.id contains "murcia"', async () => {
     const sp = await mapLoquosex(BASE_PAYLOAD, new FakeTaxonomyResolver());
-    expect(sp.baseCity?.cityId).toContain('murcia');
+    expect(sp.baseCity?.id).toContain('murcia');
   });
 
   it('resolves nationality → personalDetails.nationalityId contains "venezolana"', async () => {
@@ -126,7 +126,7 @@ describe('mapLoquosex — badges & statistics', () => {
   it('vip badge from isPremium=false', async () => {
     const sp = await mapLoquosex(BASE_PAYLOAD, new FakeTaxonomyResolver());
     expect(sp.badges.vip).toBe(false);
-    expect(sp.statistics.isVip).toBe(false);
+    expect(sp.statistics!.isVip).toBe(false);
   });
 
   it('vip badge from isPremium=true', async () => {
@@ -136,12 +136,12 @@ describe('mapLoquosex — badges & statistics', () => {
     };
     const sp = await mapLoquosex(payload, new FakeTaxonomyResolver());
     expect(sp.badges.vip).toBe(true);
-    expect(sp.statistics.isVip).toBe(true);
+    expect(sp.statistics!.isVip).toBe(true);
   });
 
   it('photoCount matches photos array length', async () => {
     const sp = await mapLoquosex(BASE_PAYLOAD, new FakeTaxonomyResolver());
-    expect(sp.statistics.photoCount).toBe(BASE_PAYLOAD.photos.length);
+    expect(sp.statistics!.photoCount).toBe(BASE_PAYLOAD.photos.length);
   });
 });
 

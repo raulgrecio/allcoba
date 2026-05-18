@@ -27,7 +27,7 @@ describe('loquosex pipeline — HTML → ScrapedProvider', () => {
     const payload = extractLoquosex(html, FIXTURE_URL);
     const sp = await mapLoquosex(payload, new FakeTaxonomyResolver());
 
-    expect(sp.baseCity?.cityId).toContain('murcia');
+    expect(sp.baseCity?.id).toContain('murcia');
   });
 
   it('nationalityId resolved from HTML nationality', async () => {

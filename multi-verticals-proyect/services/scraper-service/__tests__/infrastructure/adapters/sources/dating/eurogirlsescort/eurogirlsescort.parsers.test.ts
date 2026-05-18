@@ -159,14 +159,14 @@ describe('parseEGEMeetingWith', () => {
 // ============================================================================
 describe('parseDurationSlot', () => {
   it.each([
-    ['0.5 Hour', 'h0_5'],
+    ['0.5 Hour', 'custom'],
     ['1 Hour', 'h1'],
     ['2 Hours', 'h2'],
     ['3 Hours', 'h3'],
-    ['6 Hours', 'h6'],
+    ['6 Hours', 'custom'],
     ['12 Hours', 'h12'],
     ['24 Hours', 'h24'],
-    ['48 Hours', 'h48'],
+    ['48 Hours', 'overnight'],
     ['Another 24h', 'custom'],
   ])('"%s" → "%s"', (input, expected) => {
     expect(parseDurationSlot(input)).toBe(expected);

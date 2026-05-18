@@ -137,6 +137,7 @@ const extractPhone = ($: CheerioAPI): string | undefined => {
         return false; // break
       }
     }
+    return;
   });
   return phoneFromAlt;
 };

@@ -17,16 +17,18 @@ import {
   asProviderId,
   type ContactOption,
   type PersonalDetailsCanonical,
-  type PhotoCanonical,
+
   type PriceCanonical,
   type ProfileVerificationStatus,
   type ReviewCanonical,
+  type ReviewSubratings,
   asReviewId,
   i18nFromOriginal,
 } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
 
@@ -62,7 +64,7 @@ export interface MapperOptions {
 const mapPhoto = (
   photo: EuroGirlsEscortPayload['photos'][number],
   idx: number,
-): PhotoCanonical => ({
+): ScrapedPhoto => ({
   id: `${EUROGIRLSESCORT_SOURCE}:photo:${idx}`,
   url: photo.href,
   thumbnail: photo.href,
@@ -82,21 +84,15 @@ const mapRate = (rate: EuroGirlsEscortRate): PriceCanonical[] => {
   if (rate.incallAmount !== undefined && rate.incallCurrency) {
     prices.push({
       slot,
-      label: rate.duration,
       amount: rate.incallAmount,
       currency: rate.incallCurrency as PriceCanonical['currency'],
-      incall: true,
-      outcall: false,
     });
   }
   if (rate.outcallAmount !== undefined && rate.outcallCurrency) {
     prices.push({
       slot,
-      label: rate.duration,
       amount: rate.outcallAmount,
       currency: rate.outcallCurrency as PriceCanonical['currency'],
-      incall: false,
-      outcall: true,
     });
   }
   return prices;
@@ -119,16 +115,31 @@ const mapContactOptions = (phones: EuroGirlsEscortPhone[]): ContactOption[] => {
 // Reviews
 // ============================================================================
 
+const ZERO_RATINGS: ReviewSubratings = {
+  place: 0,
+  punctuality: 0,
+  looks: 0,
+  attitude: 0,
+  services: 0,
+  photosAccuracy: 0,
+};
+
 const mapReview = (
   raw: EuroGirlsEscortReview,
   idx: number,
   contentLocale: string,
 ): ReviewCanonical => ({
   id: asReviewId(`${EUROGIRLSESCORT_SOURCE}:review:${idx}`),
-  author: raw.author,
-  date: parseEGEDate(raw.date) ?? raw.date,
-  rating: raw.rating,
-  text: raw.text ? i18nFromOriginal(raw.text, contentLocale) : undefined,
+  authorNickname: raw.author,
+  ratings: ZERO_RATINGS,
+  averageRating: raw.rating,
+  meetingPlace: 'incall',
+  meetAgain: null,
+  meetGood: raw.rating >= 3,
+  liked: true,
+  likedCount: 0,
+  createdAt: parseEGEDate(raw.date) ?? new Date(0).toISOString(),
+  text: i18nFromOriginal(raw.text ?? '', contentLocale),
   aspects: {},
 });
 
@@ -195,7 +206,7 @@ export const mapEuroGirlsEscort = async (
   const cityId =
     citySlug ? await resolver.resolveCity(citySlug, countrySlug?.slice(0, 2).toUpperCase()) : null;
 
-  const baseCity = cityId ? { cityId, countryId: countryId ?? undefined } : undefined;
+  const baseCity = cityId ? { id: cityId } : undefined;
 
   const verificationStatus: ProfileVerificationStatus = payload.verified
     ? 'verified'

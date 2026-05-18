@@ -165,7 +165,7 @@ describe('mapEuroGirlsEscort — Sofia golden path', () => {
 
   it('maps baseCity from city slug', async () => {
     const sp = await mapEuroGirlsEscort(sofiaPayload, resolver, { now: NOW });
-    expect(sp.baseCity?.cityId).toContain('kuala-lumpur');
+    expect(sp.baseCity?.id).toContain('kuala-lumpur');
   });
 
   it('maps meetingPlaces incall + outcall', async () => {
@@ -197,19 +197,17 @@ describe('mapEuroGirlsEscort — Sofia golden path', () => {
     expect(sp.photos[1]!.isPrimary).toBe(false);
   });
 
-  it('maps rates: 0.5 Hour incall → h0_5, 600 MYR', async () => {
+  it('maps rates: 0.5 Hour incall → custom, 600 MYR', async () => {
     const sp = await mapEuroGirlsEscort(sofiaPayload, resolver, { now: NOW });
-    const rate = sp.prices.find((p) => p.slot === 'h0_5' && p.incall);
+    const rate = sp.prices.find((p) => p.slot === 'custom' && p.amount === 600);
     expect(rate).toBeDefined();
-    expect(rate!.amount).toBe(600);
     expect(rate!.currency).toBe('MYR');
   });
 
   it('maps rates: 1 Hour outcall → h1, 1200 MYR', async () => {
     const sp = await mapEuroGirlsEscort(sofiaPayload, resolver, { now: NOW });
-    const rate = sp.prices.find((p) => p.slot === 'h1' && p.outcall);
+    const rate = sp.prices.find((p) => p.slot === 'h1' && p.amount === 1200);
     expect(rate).toBeDefined();
-    expect(rate!.amount).toBe(1200);
   });
 
   it('maps aboutMe from bio', async () => {
@@ -322,6 +320,6 @@ describe('mapEuroGirlsEscort — edge cases', () => {
     expect(sp.reviewsCount).toBe(2);
     expect(sp.reviewsRating).toBe(4);
     expect(sp.reviews).toHaveLength(2);
-    expect(sp.reviews[0]!.author).toBe('John');
+    expect(sp.reviews[0]!.authorNickname).toBe('John');
   });
 });

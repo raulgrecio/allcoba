@@ -28,7 +28,7 @@ describe('ardienteplacer pipeline — HTML → ScrapedProvider', () => {
     const payload = extractArdienteplacer(html, FIXTURE_URL);
     const sp = await mapArdienteplacer(payload, new FakeTaxonomyResolver());
 
-    expect(sp.baseCity?.cityId).toContain('madrid');
+    expect(sp.baseCity?.id).toContain('madrid');
   });
 
   it('rate mapped to prices', async () => {
@@ -36,7 +36,7 @@ describe('ardienteplacer pipeline — HTML → ScrapedProvider', () => {
     const payload = extractArdienteplacer(html, FIXTURE_URL);
     const sp = await mapArdienteplacer(payload, new FakeTaxonomyResolver());
 
-    expect(sp.prices[0]).toMatchObject({ label: '1h', amount: 80 });
+    expect(sp.prices[0]).toMatchObject({ slot: 'h1', amount: 80 });
   });
 
   it('services in attributes', async () => {

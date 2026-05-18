@@ -54,7 +54,7 @@ describe('mapGirlsBcn — camila105', () => {
   });
 
   describe('baseCity', () => {
-    it('cityId resolved', () => expect(sp.baseCity?.cityId).toContain('barcelona'));
+    it('cityId resolved', () => expect(sp.baseCity?.id).toContain('barcelona'));
   });
 
   describe('meetingPlaces', () => {
@@ -82,9 +82,9 @@ describe('mapGirlsBcn — camila105', () => {
   });
 
   describe('statistics', () => {
-    it('videoCount is 1', () => expect(sp.statistics.videoCount).toBe(1));
+    it('videoCount is 1', () => expect(sp.statistics!.videoCount).toBe(1));
     it('photoCount matches photos array', () =>
-      expect(sp.statistics.photoCount).toBe(sp.photos.length));
+      expect(sp.statistics!.photoCount).toBe(sp.photos.length));
   });
 
   describe('metadata', () => {

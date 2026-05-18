@@ -54,9 +54,9 @@ describe('mapArdienteplacer — core fields', () => {
 });
 
 describe('mapArdienteplacer — taxonomy resolution', () => {
-  it('resolves city → baseCity.cityId contains "madrid"', async () => {
+  it('resolves city → baseCity.id contains "madrid"', async () => {
     const sp = await mapArdienteplacer(BASE_PAYLOAD, new FakeTaxonomyResolver());
-    expect(sp.baseCity?.cityId).toContain('madrid');
+    expect(sp.baseCity?.id).toContain('madrid');
   });
 
   it('resolves nationality → nationalityId contains "espana"', async () => {
@@ -97,7 +97,7 @@ describe('mapArdienteplacer — prices from rate', () => {
   it('maps rate to prices array', async () => {
     const sp = await mapArdienteplacer(BASE_PAYLOAD, new FakeTaxonomyResolver());
     expect(sp.prices).toHaveLength(1);
-    expect(sp.prices[0]).toMatchObject({ label: '1h', amount: 80, currency: 'EUR' });
+    expect(sp.prices[0]).toMatchObject({ slot: 'h1', amount: 80, currency: 'EUR' });
   });
 
   it('empty prices when no rate', async () => {
@@ -116,7 +116,7 @@ describe('mapArdienteplacer — photos', () => {
     expect(sp.photos).toHaveLength(2);
     expect(sp.photos[0]!.isPrimary).toBe(true);
     expect(sp.photos[1]!.isPrimary).toBe(false);
-    expect(sp.statistics.photoCount).toBe(2);
+    expect(sp.statistics!.photoCount).toBe(2);
   });
 });
 

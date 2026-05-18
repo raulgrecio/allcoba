@@ -14,10 +14,10 @@ import type {
   CrossPlatformLink,
   Iso2Code,
   PersonalDetailsCanonical,
-  PhotoCanonical,
   ReviewCanonical,
 } from '@allcoba/shared-types';
-import { photoEquals as _photoEquals } from '@allcoba/shared-types';
+
+import type { ScrapedPhoto } from '../../canonical/scraped-photo.js';
 
 import type { ProfileImage } from '../../canonical/profile-image.js';
 import type { ScrapedProvider } from '../../canonical/scraped-provider.js';
@@ -123,11 +123,12 @@ function mergeExternalRefs(
 }
 
 function mergePhotos(
-  existing: readonly PhotoCanonical[],
-  incoming: readonly PhotoCanonical[] | undefined,
-): readonly PhotoCanonical[] {
+  existing: readonly ScrapedPhoto[],
+  incoming: readonly ScrapedPhoto[] | undefined,
+): readonly ScrapedPhoto[] {
   if (!incoming?.length) return existing;
-  const novel = incoming.filter((p) => !existing.some((e) => _photoEquals(e, p)));
+  const existingUrls = new Set(existing.map((p) => p.url));
+  const novel = incoming.filter((p) => !existingUrls.has(p.url));
   return [...existing, ...novel];
 }
 

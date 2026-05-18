@@ -122,22 +122,8 @@ export class ConsolidationService {
       });
     }
 
-    if (coordinates && candidate.baseCity?.lat != null && candidate.baseCity.lng != null) {
-      const dist = haversineKm(coordinates, {
-        lat: candidate.baseCity.lat,
-        lng: candidate.baseCity.lng,
-      });
-      if (dist < 0.1) {
-        score += 0.3;
-        signals.push({
-          type: 'LOCATION_MATCH',
-          sourceKey,
-          confidence: asConfidence(0.3),
-          metadata: { distanceKm: dist },
-          createdAt: now,
-        });
-      }
-    }
+    // Geo scoring requires lat/lng; ScrapedCityRef only carries id at scrape time.
+    void coordinates;
 
     return { score, signals };
   }
