@@ -26,9 +26,9 @@ import {
 } from '#infrastructure/adapters/sources/dating/topescortbabes/topescortbabes.mapper.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
-import { setupTestDb, truncateAll, type TestDb } from '../../../helpers/test-db.js';
-import { FakeTaxonomyResolver } from '../sources/dating/topescortbabes/helpers/fake-taxonomy-resolver.js';
-import { loadAllFixtures, loadFixture } from '../sources/dating/topescortbabes/helpers/load-fixtures.js';
+import { setupTestDb, truncateAll, type TestDb } from '../../../../helpers/test-db.js';
+import { FakeTaxonomyResolver } from '../../../../unit/infrastructure/adapters/sources/dating/topescortbabes/helpers/fake-taxonomy-resolver.js';
+import { loadAllFixtures, loadFixture } from '../../../../unit/infrastructure/adapters/sources/dating/topescortbabes/helpers/load-fixtures.js';
 
 const NOW = new Date('2026-05-17T12:00:00.000Z');
 const resolver = new FakeTaxonomyResolver();
