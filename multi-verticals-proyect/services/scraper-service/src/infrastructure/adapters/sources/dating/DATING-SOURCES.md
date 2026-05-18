@@ -376,7 +376,7 @@ Example URL: `https://www.nuevoloquo.ch/masaje-erotico/madrid/masajista-espanola
 
 ---
 
-## nuevapasion.com
+## nuevapasion.com ✅ v2
 
 Example URL: `https://nuevapasion.com/anuncio/quieres-disfrutar-ven-j9ZZ3vFBjb` (Real)
 
@@ -418,6 +418,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ### v2 adapter completo ✅
 
+- **nuevapasion.com** — SSR PHP, phone tel:, og:image fallback, 33 tests
 - **nuevoloquo.ch/com/es** — SSR, detalle completo, sin teléfono (Playwright), 57 tests
 - **topescortbabes.com** — CF, JSON embebido, 105 tests (51 JSON fixtures + 2 HTML)
 - **eurogirlsescort.es/com** — SSR, tarifas + servicios + reviews, 105 tests (1 HTML fixture)
@@ -433,7 +434,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 ### Requiere Playwright (age gate / JS-render)
 
 - ~~**nuevoloquo.ch/com/es**~~ — ported to v2 (phone still needs Playwright click)
-- **nuevapasion.com** — age gate `#edadPopup`
+- ~~**nuevapasion.com**~~ — ported to v2 (age gate needs Playwright for listing)
 - **bluemove.es** — JS-rendered
 - **chicasmalas.es** — listing JS (Elementor)
 - **citapasion.com** — listing AJAX
