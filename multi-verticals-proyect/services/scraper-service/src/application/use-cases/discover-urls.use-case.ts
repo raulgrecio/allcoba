@@ -1,9 +1,16 @@
+import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
 import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import type {
+  ListingRepositoryPort,
+  PropertyRepositoryPort,
+  VehicleRepositoryPort,
+} from '#application/ports/scraped-entity-repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
 
 import type { ScrapeUrlUseCase } from './scrape-url.use-case.js';
 
@@ -15,6 +22,9 @@ export class DiscoverUrlsUseCase {
     private readonly repository: ProviderRepositoryPort,
     private readonly scrapeUrlUseCase: ScrapeUrlUseCase,
     private readonly crawler: CrawlerPort,
+    private readonly propertyRepo?: PropertyRepositoryPort,
+    private readonly vehicleRepo?: VehicleRepositoryPort,
+    private readonly listingRepo?: ListingRepositoryPort,
   ) {}
 
   async execute(listUrl: string, limit?: number, skip?: number, headless?: boolean): Promise<void> {
@@ -74,11 +84,12 @@ export class DiscoverUrlsUseCase {
           try {
             const slug = new URL(url).pathname.split('/').filter(Boolean).pop() ?? '';
             if (slug) {
-              const existing = await this.repository.find({
-                externalRef: { source: source.identifier, sourceId: slug },
-                vertical: source.defaultVertical,
-              });
-              if (existing.length > 0) {
+              const alreadyPersisted = await this.isAlreadyPersisted(
+                source.identifier,
+                slug,
+                source.defaultVertical,
+              );
+              if (alreadyPersisted) {
                 this.logger.info({ url }, 'Already in DB, skipping');
                 processedUrls.add(url);
                 continue;
@@ -110,5 +121,24 @@ export class DiscoverUrlsUseCase {
     }
 
     this.logger.info({ processedCount }, 'URL discovery finished successfully');
+  }
+
+  private async isAlreadyPersisted(
+    sourceId: string,
+    slug: string,
+    vertical: Vertical,
+  ): Promise<boolean> {
+    const ref: ExternalRef = { source: sourceId, sourceId: slug };
+    if (vertical === 'real-estate' && this.propertyRepo) {
+      return (await this.propertyRepo.findByExternalRef(ref)) !== null;
+    }
+    if (vertical === 'motor' && this.vehicleRepo) {
+      return (await this.vehicleRepo.findByExternalRef(ref)) !== null;
+    }
+    if (vertical === 'general' && this.listingRepo) {
+      return (await this.listingRepo.findByExternalRef(ref)) !== null;
+    }
+    const existing = await this.repository.find({ externalRef: ref, vertical });
+    return existing.length > 0;
   }
 }

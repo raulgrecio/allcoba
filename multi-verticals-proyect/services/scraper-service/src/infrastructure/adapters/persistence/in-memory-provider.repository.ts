@@ -5,7 +5,7 @@ import type {
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { externalRefEquals } from '#domain/canonical/external-ref.js';
+import { externalRefEquals, type ExternalRef } from '#domain/canonical/external-ref.js';
 
 export class InMemoryProviderRepository implements ProviderRepositoryPort {
   private readonly providers: Map<string, ScrapedProvider> = new Map();
@@ -21,11 +21,23 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
     });
   }
 
+  async findByExternalRef(ref: ExternalRef): Promise<ScrapedProvider | null> {
+    for (const p of this.providers.values()) {
+      if (p.externalRefs.some((r) => externalRefEquals(r, ref))) return p;
+    }
+    return null;
+  }
+
   async create(provider: ScrapedProvider): Promise<void> {
     this.providers.set(provider.id, provider);
   }
 
-  async update(id: ProviderId, provider: ScrapedProvider): Promise<void> {
+  async update(ref: ExternalRef, provider: ScrapedProvider): Promise<void> {
+    const existing = await this.findByExternalRef(ref);
+    if (existing) this.providers.set(existing.id, provider);
+  }
+
+  async updateById(id: ProviderId, provider: ScrapedProvider): Promise<void> {
     this.providers.set(id, provider);
   }
 

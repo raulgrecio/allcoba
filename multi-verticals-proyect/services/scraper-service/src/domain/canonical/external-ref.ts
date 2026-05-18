@@ -24,3 +24,13 @@ export const externalRefKey = (ref: ExternalRef): string =>
 
 export const externalRefEquals = (a: ExternalRef, b: ExternalRef): boolean =>
   a.source === b.source && a.sourceId === b.sourceId;
+
+/**
+ * Marker structural type: any canonical scraped entity that carries
+ * external references back to its source records. All `Scraped*` types
+ * (`ScrapedProvider`, `ScrapedProperty`, `ScrapedVehicle`, `ScrapedListing`)
+ * satisfy this — used as a generic constraint for entity-resolution-by-ref.
+ */
+export interface HasExternalRefs {
+  readonly externalRefs: readonly ExternalRef[];
+}

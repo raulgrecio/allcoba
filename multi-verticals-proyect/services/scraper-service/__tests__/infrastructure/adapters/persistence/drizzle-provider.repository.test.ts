@@ -106,7 +106,7 @@ describe('DrizzleProviderRepository — round-trip from mapper output', () => {
     await repo.create(sp);
 
     const updated: ScrapedProvider = { ...sp, nickname: 'Chanel Updated' };
-    await repo.update(sp.id, updated);
+    await repo.updateById(sp.id, updated);
 
     const got = await repo.findById(sp.id);
     expect(got?.nickname).toBe('Chanel Updated');

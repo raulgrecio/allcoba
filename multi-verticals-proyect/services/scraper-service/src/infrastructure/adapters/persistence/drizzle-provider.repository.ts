@@ -8,7 +8,7 @@ import type {
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { externalRefKey } from '#domain/canonical/external-ref.js';
+import { externalRefKey, type ExternalRef } from '#domain/canonical/external-ref.js';
 
 import type { NewScrapedProviderRow, ScrapedProviderRow } from './schema/scraper.schema.js';
 import * as schema from './schema/scraper.schema.js';
@@ -70,12 +70,40 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
     return null;
   }
 
+  async findByExternalRef(ref: ExternalRef): Promise<ScrapedProvider | null> {
+    for (const table of Object.values(schema.verticalTables)) {
+      const [row] = await this.db
+        .select()
+        .from(table)
+        .where(
+          sql`${table.externalRefs} @> ${JSON.stringify([
+            { source: ref.source, sourceId: ref.sourceId },
+          ])}::jsonb`,
+        )
+        .limit(1);
+      if (row) return this.toDomain(row as ScrapedProviderRow);
+    }
+    return null;
+  }
+
   async create(provider: ScrapedProvider): Promise<void> {
     const table = this.getTable(provider.vertical);
     await this.db.insert(table).values(this.toPersistence(provider));
   }
 
-  async update(id: ProviderId, provider: ScrapedProvider): Promise<void> {
+  async update(ref: ExternalRef, provider: ScrapedProvider): Promise<void> {
+    const table = this.getTable(provider.vertical);
+    await this.db
+      .update(table)
+      .set(this.toPersistence(provider))
+      .where(
+        sql`${table.externalRefs} @> ${JSON.stringify([
+          { source: ref.source, sourceId: ref.sourceId },
+        ])}::jsonb`,
+      );
+  }
+
+  async updateById(id: ProviderId, provider: ScrapedProvider): Promise<void> {
     const table = this.getTable(provider.vertical);
     await this.db.update(table).set(this.toPersistence(provider)).where(eq(table.id, id));
   }

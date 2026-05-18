@@ -9,7 +9,7 @@ import type {
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { externalRefEquals } from '#domain/canonical/external-ref.js';
+import { externalRefEquals, type ExternalRef } from '#domain/canonical/external-ref.js';
 
 /**
  * JsonFileProviderRepository — dev/test persistence for ScrapedProvider.
@@ -79,13 +79,32 @@ export class JsonFileProviderRepository implements ProviderRepositoryPort {
     return providers.get(id) ?? null;
   }
 
+  async findByExternalRef(ref: ExternalRef): Promise<ScrapedProvider | null> {
+    const providers = await this.load();
+    for (const p of providers.values()) {
+      if (p.externalRefs.some((r) => externalRefEquals(r, ref))) return p;
+    }
+    return null;
+  }
+
   async create(provider: ScrapedProvider): Promise<void> {
     const providers = await this.load();
     providers.set(provider.id, provider);
     await this.save(providers);
   }
 
-  async update(id: ProviderId, provider: ScrapedProvider): Promise<void> {
+  async update(ref: ExternalRef, provider: ScrapedProvider): Promise<void> {
+    const providers = await this.load();
+    const existing = Array.from(providers.values()).find((p) =>
+      p.externalRefs.some((r) => externalRefEquals(r, ref)),
+    );
+    if (existing) {
+      providers.set(existing.id, provider);
+      await this.save(providers);
+    }
+  }
+
+  async updateById(id: ProviderId, provider: ScrapedProvider): Promise<void> {
     const providers = await this.load();
     if (providers.has(id)) {
       providers.set(id, provider);
