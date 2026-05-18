@@ -36,23 +36,32 @@ Example URL: `https://www.ardienteplacer.com/index.php/escort/putas-guarras-puta
 
 ---
 
-## bluemove.es
+## bluemove.es ✅ v2
 
 Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
-| Campo       | Valor                                                                |
-| ----------- | -------------------------------------------------------------------- |
-| Tech        | desconocido (probablemente React/Vue)                                |
-| Render      | JS                                                                   |
-| Listing     | `/{province}/{city}/escorts/`                                        |
-| Profile URL | `/{province}/{city}/escorts/{slug}` — no encontrado en HTML estático |
-| Paginación  | `a[rel="next"]`                                                      |
-| Teléfono    | `a[href^="tel:"]`                                                    |
-| Ciudad      | URL — segmento antes de `escorts`                                    |
-| Tarifas     | ❌ stub                                                              |
-| Servicios   | ❌ stub                                                              |
-| Login       | No                                                                   |
-| Pendiente   | Confirmar estructura de perfil con Playwright                        |
+| Campo        | Valor                                                                     |
+| ------------ | ------------------------------------------------------------------------- |
+| Tech         | Bootstrap 5 / Swiper, SSR perfiles                                        |
+| Render       | SSR perfiles · age gate JS (Playwright para discovery y age gate)         |
+| Listing      | `/{city}/escorts/` — cards con `data-ficha-id` → `#{id}` URLs             |
+| Profile URL  | `/{city}/escorts/#{numericId}` — hash fragment es sourceId                |
+| Paginación   | `a[rel="next"]`                                                           |
+| Título       | Primera imagen `.ficha-images-slider img` → alt                           |
+| Nickname     | alt.split(',')[0] title-cased · fallback `#services h4` "Servicios de…"  |
+| Descripción  | `#fichaContent .ad-description-text`                                      |
+| Ciudad       | `#fichaContent .ficha-data-row` "Ciudad" → strip `(Province)` · URL path |
+| Teléfono     | **HTML** — `#phoneCallSection a[href^="tel:"]`                            |
+| WhatsApp     | `#phoneCallSection a[href*="wa.me"]`                                      |
+| Telegram     | `#phoneCallSection a[href*="t.me"]`                                       |
+| Instagram    | `.ficha-social-media a[href*="instagram.com"]` → guardado en attributes  |
+| Verificada   | `.ficha-top-line img[src*="verificada"]` o `.ficha-verified-images-info`  |
+| Servicios    | `#services ul:not(.not-services) li a`                                    |
+| Pagos        | `#extra-info .not-services li a` filtrado por keywords                    |
+| Imágenes     | `.ficha-images-slider img` · fallback `og:image`                          |
+| Login        | No                                                                        |
+| País         | ES                                                                        |
+| Nota         | Datos: Edad, Estatura, Peso, Pelo, Ojos, Nac., Idiomas, Tatuajes, Pubis  |
 
 ---
 
@@ -453,7 +462,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 - ~~**nuevoloquo.ch/com/es**~~ — ported to v2 (phone still needs Playwright click)
 - ~~**nuevapasion.com**~~ — ported to v2 (age gate needs Playwright for listing)
-- **bluemove.es** — JS-rendered
+- ~~**bluemove.es**~~ — ported to v2 (Playwright needed for age gate + listing discovery)
 - **chicasmalas.es** — listing JS (Elementor)
 - ~~**citapasion.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 - **madrid69.com** — CSR Next.js
