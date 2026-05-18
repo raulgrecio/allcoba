@@ -357,7 +357,7 @@ Example URL: `https://mislios.com/escorts/valencia/amber-38203/` (Real)
 
 ---
 
-## nuevoloquo.ch / .com / .es
+## nuevoloquo.ch / .com / .es ✅ v2
 
 Example URL: `https://www.nuevoloquo.ch/masaje-erotico/madrid/masajista-espanola-por-aqui-llamame-no-lo-dudes/629971/` (Real)
 
@@ -371,6 +371,8 @@ Example URL: `https://www.nuevoloquo.ch/masaje-erotico/madrid/masajista-espanola
 | Ciudad      | DOM                                                        |
 | Imágenes    | lazy `data-src`                                            |
 | Login       | No                                                         |
+
+| v2 adapter  | `src/infrastructure/adapters/sources/dating/nuevoloquo/` — 57 tests |
 
 ---
 
@@ -416,25 +418,21 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ### v2 adapter completo ✅
 
+- **nuevoloquo.ch/com/es** — SSR, detalle completo, sin teléfono (Playwright), 57 tests
 - **topescortbabes.com** — CF, JSON embebido, 105 tests (51 JSON fixtures + 2 HTML)
 - **eurogirlsescort.es/com** — SSR, tarifas + servicios + reviews, 105 tests (1 HTML fixture)
 - **girlsbcn.net** — SSR PHP, atributos dl-horizontal, WA, video, rango precio — shared types+parsers+mapper
 - **girlsmadrid.com** — SSR PHP, template diferente, ciudad hardcoded, usa tipos/mapper de girlsbcn
 - **erosguia.com** — SSR Laravel, dual panel data-position, call≠WA phone, telegram, 82 tests (1 HTML fixture)
-
-### Implementación completa (SSR + todos los campos — pendiente port v2)
-- **loquosex.com** — SSR, teléfono + servicios
-- **milescorts.es** — SSR, teléfono + ciudad desde URL
-
-### Parcial (teléfono desde URL, resto stub)
-
-- **ardienteplacer.com** — SSR, teléfono en modal estático HTML, tarifa, edad, nacionalidad, WhatsApp
-- **milpasiones.com** — teléfono en URL, OG tags para título/ciudad/imagen
-- **destacamos.net** — teléfono en DOM
+- **loquosex.com** — SSR, teléfono + servicios, 75 tests
+- **milescorts.es** — SSR, teléfono + ciudad desde URL, 54 tests
+- **ardienteplacer.com** — SSR, teléfono en modal estático HTML, tarifa, edad, nacionalidad, WhatsApp, 57 tests
+- **milpasiones.com** — teléfono en URL, OG tags para título/ciudad/imagen, 36 tests
+- **destacamos.net** — teléfono en DOM, isPremium, altura, 56 tests
 
 ### Requiere Playwright (age gate / JS-render)
 
-- **nuevoloquo.ch/com/es** — `onBeforeCapture`
+- ~~**nuevoloquo.ch/com/es**~~ — ported to v2 (phone still needs Playwright click)
 - **nuevapasion.com** — age gate `#edadPopup`
 - **bluemove.es** — JS-rendered
 - **chicasmalas.es** — listing JS (Elementor)
