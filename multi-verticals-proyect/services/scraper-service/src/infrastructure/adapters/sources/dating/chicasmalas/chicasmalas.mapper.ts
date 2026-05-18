@@ -87,7 +87,7 @@ export const mapChicasmalas = async (
     vertical: 'dating',
     category: 'escorts',
     agencyId: undefined,
-    nickname: payload.nickname || payload.title,
+    nickname: payload.nickname ?? payload.title ?? payload.sourceId,
     active: true,
     humanVerified: false,
     badges: {
