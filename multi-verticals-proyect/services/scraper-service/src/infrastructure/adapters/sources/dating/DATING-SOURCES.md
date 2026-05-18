@@ -341,19 +341,28 @@ Example URL: `https://milpasiones.com/anuncio/662583238-carinosa-morbosa-muy-imp
 
 ---
 
-## mislios.com
+## mislios.com ✅ v2
 
-Example URL: `https://mislios.com/escorts/valencia/amber-38203/` (Real)
+Example URL: `https://mislios.com/anuncios/ana-escort-madrid/` (Real)
 
-| Campo       | Valor                               |
-| ----------- | ----------------------------------- |
-| Tech        | WordPress + plugin propio "mislios" |
-| Render      | JS (listing AJAX)                   |
-| Listing     | TBD                                 |
-| Profile URL | `/anuncios/{slug}` (especulativo)   |
-| Teléfono    | TBD                                 |
-| Login       | No                                  |
-| Pendiente   | Análisis de perfil con Playwright   |
+| Campo        | Valor                                                             |
+| ------------ | ----------------------------------------------------------------- |
+| Tech         | WordPress + plugin propio "mislios" (SSR perfiles)                |
+| Render       | SSR — perfiles individuales SSR · listing AJAX                    |
+| Listing      | Listing AJAX — no scrapeable con Cheerio                          |
+| Profile URL  | `/anuncios/{slug}/` — slug es el sourceId                         |
+| Paginación   | N/A (listing AJAX)                                                |
+| Título       | `h1` · fallback `.msl-profile-name`                               |
+| Descripción  | `.msl-profile-desc` · fallback `.profile-text`                    |
+| Ciudad       | ❌ — no disponible en HTML estático                               |
+| Teléfono     | **HTML** — `a[href^="tel:"]`                                      |
+| WhatsApp     | ❌ — no detectado                                                 |
+| Tarifas      | ❌ — no disponible                                                |
+| Servicios    | ❌ — no disponible                                                |
+| Imágenes     | `.msl-gallery img` (`src` o `data-src`) · fallback `og:image`     |
+| Login        | No                                                                |
+| País         | ES (España — fuente exclusivamente española)                      |
+| Nota         | Edad/Nacionalidad/Ciudad no en HTML estático de perfil            |
 
 ---
 
@@ -440,7 +449,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 - **citapasion.com** — listing AJAX
 - **madrid69.com** — CSR Next.js
 - **milpasiones.com** — body JS (head SSR)
-- **mislios.com** — listing AJAX
+- ~~**mislios.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 
 ### Login necesario para datos clave
 
