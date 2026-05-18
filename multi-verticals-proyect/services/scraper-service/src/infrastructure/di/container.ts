@@ -17,8 +17,10 @@ import { ConsolidationService } from '#domain/services/canonical/consolidation.s
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
+import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
 import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
 import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js';
+import * as scraperSchema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
 import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
 import { LocalStorageAdapter } from '#infrastructure/adapters/storage/local-storage.adapter.js';
@@ -71,12 +73,32 @@ export async function createScraperServices(config: ScraperConfig) {
   const taxonomyResolver = new NullTaxonomyResolver();
 
   // ── Vertical-specific scraped-entity repositories ─────────────────────
-  // Process-lifetime only. For cross-session persistence, swap with
-  // Drizzle implementations of the same ScrapedEntityRepositoryPort.
+  // Drizzle-backed when scraperStorage=postgres; in-memory otherwise.
+  // Each Drizzle instance binds to its vertical's table (one table per vertical).
 
-  const propertyRepo = new InMemoryScrapedEntityRepository<ScrapedProperty>();
-  const vehicleRepo = new InMemoryScrapedEntityRepository<ScrapedVehicle>();
-  const listingRepo = new InMemoryScrapedEntityRepository<ScrapedListing>();
+  let propertyRepo: ScrapedEntityRepositoryPort<ScrapedProperty>;
+  let vehicleRepo: ScrapedEntityRepositoryPort<ScrapedVehicle>;
+  let listingRepo: ScrapedEntityRepositoryPort<ScrapedListing>;
+
+  if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
+    const { db } = await import('#infrastructure/adapters/persistence/db-client.js');
+    propertyRepo = new DrizzleScrapedEntityRepository<ScrapedProperty>(
+      db,
+      scraperSchema.realEstateProviders,
+    );
+    vehicleRepo = new DrizzleScrapedEntityRepository<ScrapedVehicle>(
+      db,
+      scraperSchema.motorProviders,
+    );
+    listingRepo = new DrizzleScrapedEntityRepository<ScrapedListing>(
+      db,
+      scraperSchema.generalProviders,
+    );
+  } else {
+    propertyRepo = new InMemoryScrapedEntityRepository<ScrapedProperty>();
+    vehicleRepo = new InMemoryScrapedEntityRepository<ScrapedVehicle>();
+    listingRepo = new InMemoryScrapedEntityRepository<ScrapedListing>();
+  }
 
   // ── Persistence strategies, keyed by vertical ─────────────────────────
   // Adding a new vertical = registering one entry here. The use case
