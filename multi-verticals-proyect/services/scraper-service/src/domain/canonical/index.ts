@@ -20,4 +20,5 @@ export * from './confidence.js';
 export * from './signals.js';
 export * from './profile-image.js';
 export * from './scraped-provider.js';
+export * from './scraped-property.js';
 export * from './phone.js';
