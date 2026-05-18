@@ -1,0 +1,29 @@
+{
+  "data": {
+    "id": 44064,
+    "nombre": "Kheila",
+    "edad": 25,
+    "descripcion": "Soy Kheila, una chica auténtica, educada y elegante. Tengo ganas de conocer gente nueva.",
+    "ciudad": "Madrid",
+    "zona": "P.º de la Castellana",
+    "telefono": "644417235",
+    "whatsapp": "+34644417235",
+    "verificado": false,
+    "vip": false,
+    "nacionalidad": "Colombia",
+    "altura": 168,
+    "peso": 58,
+    "idiomas": ["Español", "Inglés"],
+    "fotos": [
+      { "ruta": "images/635db4800e5904eb1ce78ab6/foto1.jpg" },
+      { "ruta": "images/635db4800e5904eb1ce78ab6/foto2.jpg" }
+    ],
+    "servicios": [
+      { "nombre": "Besos", "slug": "besos" },
+      { "nombre": "Novia", "slug": "novia" }
+    ],
+    "tarifas": [
+      { "duracion": 60, "precio": 150, "modalidad": "incall" }
+    ]
+  }
+}

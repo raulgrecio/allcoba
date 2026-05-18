@@ -324,19 +324,28 @@ Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-67
 
 ---
 
-## madrid69.com
+## madrid69.com ✅ v2
 
 Example URL: `https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235` (Real)
 
-| Campo       | Valor                                              |
-| ----------- | -------------------------------------------------- |
-| Tech        | Next.js — **CSR puro** (no `__NEXT_DATA__` SSR)    |
-| Render      | JS                                                 |
-| Listing     | `/citas/{city}`                                    |
-| Profile URL | TBD — sin SSR, URLs no visibles en HTML estático   |
-| Teléfono    | TBD                                                |
-| Login       | No                                                 |
-| Pendiente   | Interceptar llamadas de API Next.js con Playwright |
+| Campo         | Valor                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------ |
+| Tech          | Next.js (CSR) + Laravel backend (`api.madrid69.com`)                                       |
+| Render        | JS — body is empty; data in SSR `<head>` meta tags + Playwright-intercepted API response   |
+| Listing       | `/citas/{city}` — paginación via API (pendiente)                                           |
+| Profile URL   | `/citas-chicas-{city}-{id}-{name}-{phone}` (old) · `/citas/{city}/{slug}` (new)           |
+| sourceId      | Numeric ID from URL slug (e.g. `44064`)                                                    |
+| Teléfono      | From `<title>` "tel: XXXXXXXXX" pattern (head) · `telefono` field (API)                   |
+| WhatsApp      | `whatsapp` field from API (normalized to 9 digits)                                         |
+| Nickname      | First word of `<title>` before comma (head) · `nombre` (API)                              |
+| Bio           | `<meta name="description">` (head) · `descripcion` (API)                                  |
+| Ciudad        | URL slug segment (head) · `ciudad` (API)                                                   |
+| Imágenes      | `<link rel="preload" as="image">` with `madrid69.b-cdn.net/image/` (head) · `fotos[].ruta` → `api.madrid69.com/storage/` (API) |
+| Datos ricos   | `edad`, `altura`, `peso`, `nacionalidad`, `idiomas`, `servicios` — solo vía API           |
+| API interc.   | Playwright intercepta `api.madrid69.com` responses (filtro: status 200, JSON con `nombre`/`id`) |
+| Login         | No                                                                                         |
+| Confidence    | `medium` (0.8) si API disponible (tiene edad/nacionalidad) · `low` (0.5) si solo head     |
+| v2 adapter    | `src/infrastructure/adapters/sources/dating/madrid69/`                                     |
 
 ---
 
@@ -489,7 +498,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 - ~~**bluemove.es**~~ — ported to v2 (Playwright needed for age gate + listing discovery)
 - **chicasmalas.es** — listing JS (Elementor)
 - ~~**citapasion.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
-- **madrid69.com** — CSR Next.js
+- ~~**madrid69.com**~~ — ported to v2 (CSR Next.js; data from SSR head + Playwright API interception)
 - **milpasiones.com** — body JS (head SSR)
 - ~~**mislios.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 
