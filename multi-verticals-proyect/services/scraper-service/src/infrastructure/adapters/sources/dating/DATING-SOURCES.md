@@ -500,7 +500,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 - ~~**chicasmalas.es**~~ — ported to v2 (Playwright-rendered Elementor; age gate + cookies click required)
 - ~~**citapasion.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 - ~~**madrid69.com**~~ — ported to v2 (CSR Next.js; data from SSR head + Playwright API interception)
-- **milpasiones.com** — body JS (head SSR)
+- ~~**milpasiones.com**~~ — ported to v2 (head SSR used; body JS not needed for key data)
 - ~~**mislios.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 
 ### Login necesario para datos clave
