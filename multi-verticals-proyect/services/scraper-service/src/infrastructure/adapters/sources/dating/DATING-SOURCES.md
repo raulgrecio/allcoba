@@ -65,7 +65,7 @@ Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
 ---
 
-## chicasmalas.es
+## chicasmalas.es ✅ v2
 
 **NOTA:** Esta pagina es muyy mala!!!! no scrappear
 
@@ -113,7 +113,7 @@ Example URL: `https://citapasion.com/escorts/17533` (Real)
 
 ---
 
-## destacamos.net
+## destacamos.net ✅ v2
 
 Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
@@ -457,7 +457,7 @@ Example URL: `https://nuevapasion.com/anuncio/quieres-disfrutar-ven-j9ZZ3vFBjb` 
 
 ---
 
-## topescortbabes.com
+## topescortbabes.com ✅ v2
 
 Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
@@ -476,42 +476,36 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ## Resumen por estado
 
-### v2 adapter completo ✅
+### v2 adapter completo ✅ (20 / 20)
 
-- **nuevapasion.com** — SSR PHP, phone tel:, og:image fallback, 33 tests
-- **nuevoloquo.ch/com/es** — SSR, detalle completo, sin teléfono (Playwright), 57 tests
-- **topescortbabes.com** — CF, JSON embebido, 105 tests (51 JSON fixtures + 2 HTML)
-- **eurogirlsescort.es/com** — SSR, tarifas + servicios + reviews, 105 tests (1 HTML fixture)
+SSR / fácil:
+
+- **ardienteplacer.com** — teléfono en modal estático HTML, tarifa, edad, nacionalidad, WhatsApp, 57 tests
+- **destacamos.net** — teléfono en DOM, isPremium, altura, 56 tests
+- **erosguia.com** — SSR Laravel, dual panel data-position, call≠WA phone, telegram, 82 tests
+- **eurogirlsescort.es/com** — SSR, tarifas + servicios + reviews, 105 tests
 - **girlsbcn.net** — SSR PHP, atributos dl-horizontal, WA, video, rango precio — shared types+parsers+mapper
 - **girlsmadrid.com** — SSR PHP, template diferente, ciudad hardcoded, usa tipos/mapper de girlsbcn
-- **erosguia.com** — SSR Laravel, dual panel data-position, call≠WA phone, telegram, 82 tests (1 HTML fixture)
 - **loquosex.com** — SSR, teléfono + servicios, 75 tests
 - **milescorts.es** — SSR, teléfono + ciudad desde URL, 54 tests
-- **ardienteplacer.com** — SSR, teléfono en modal estático HTML, tarifa, edad, nacionalidad, WhatsApp, 57 tests
-- **milpasiones.com** — teléfono en URL, OG tags para título/ciudad/imagen, 36 tests
-- **destacamos.net** — teléfono en DOM, isPremium, altura, 56 tests
-- **chicasmalas.es** — Playwright-rendered Elementor, tel: + WA + e-gallery-item + maps iframe, 53 tests
+- **nuevapasion.com** — SSR PHP, phone tel:, og:image fallback, 33 tests
+- **nuevoloquo.ch/com/es** — SSR, detalle completo, sin teléfono (Playwright), 57 tests
 
-### Requiere Playwright (age gate / JS-render)
+Playwright-render (age gate / JS-render / login):
 
-- ~~**nuevoloquo.ch/com/es**~~ — ported to v2 (phone still needs Playwright click)
-- ~~**nuevapasion.com**~~ — ported to v2 (age gate needs Playwright for listing)
-- ~~**bluemove.es**~~ — ported to v2 (Playwright needed for age gate + listing discovery)
-- ~~**chicasmalas.es**~~ — ported to v2 (Playwright-rendered Elementor; age gate + cookies click required)
-- ~~**citapasion.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
-- ~~**madrid69.com**~~ — ported to v2 (CSR Next.js; data from SSR head + Playwright API interception)
-- ~~**milpasiones.com**~~ — ported to v2 (head SSR used; body JS not needed for key data)
-- ~~**mislios.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
+- **bluemove.es** — Playwright para age gate + listing discovery
+- **chicasmalas.es** — Playwright-rendered Elementor; age gate + cookies click required, 53 tests
+- **citapasion.com** — listing AJAX — Playwright para discovery
+- **hotvalencia.com** — listing members-only (login); profiles accesibles directos, 30 tests
+- **madrid69.com** — CSR Next.js; SSR head + Playwright API interception, 74 tests
+- **milpasiones.com** — head SSR; body JS no necesario para key data, 36 tests
+- **mislios.com** — listing AJAX — Playwright para discovery
 
-### Login necesario para datos clave
+Cloudflare WAF (Playwright + bypass):
 
-- ~~**hotvalencia.com**~~ — ported to v2 (listing members-only; profiles accessible directly)
-
-### Pendiente análisis (CF WAF)
-
-- ~~**escort-advisor.xxx**~~ — ported to v2 (CF WAF — Playwright + bypass required)
-- ~~**gemidos.tv**~~ — ported to v2 (CF WAF — Playwright + bypass required)
-- **topescortbabes.com** ← datos muy estructurados en filtro, prioritario post-bypass
+- **escort-advisor.xxx** — CF WAF
+- **gemidos.tv** — CF WAF
+- **topescortbabes.com** — CF + JSON embebido, 105 tests (51 JSON fixtures + 2 HTML)
 
 ### Pendiente de añadir adapador
 
