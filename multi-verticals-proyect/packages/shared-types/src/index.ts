@@ -13,6 +13,7 @@ export * from './domain/media.js';
 export * from './domain/personal-details.js';
 export * from './domain/price.js';
 export * from './domain/profile.js';
+export * from './domain/property.js';
 export * from './domain/review.js';
 export * from './errors.js';
 export * from './page/page-i18n.js';
