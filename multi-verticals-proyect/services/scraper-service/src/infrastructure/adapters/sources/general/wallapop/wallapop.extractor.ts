@@ -78,12 +78,15 @@ export function extractWallapop(html: string, sourceUrl: string): WallapopPayloa
       : item?.description?.original?.trim();
 
   const photos: WallapopPhoto[] = (item?.images ?? [])
-    .map((img, i) => {
+    .map((img, i): WallapopPhoto | null => {
       const big = takeBest(img.urls);
       if (!big) return null;
-      return { position: i + 1, url: big, thumbnail: img.urls?.small };
+      const thumb = img.urls?.small;
+      return thumb !== undefined
+        ? { position: i + 1, url: big, thumbnail: thumb }
+        : { position: i + 1, url: big };
     })
-    .filter((p): p is WallapopPhoto => p !== null);
+    .filter((p: WallapopPhoto | null): p is WallapopPhoto => p !== null);
 
   const coords =
     item?.location?.latitude != null && item?.location?.longitude != null

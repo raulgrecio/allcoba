@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
+import { isScrapingPipelinePort } from '#application/ports/scraping-pipeline.port.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
@@ -36,7 +37,7 @@ async function main() {
   console.log(`Source file: ${absolutePath}\n`);
 
   try {
-    if (isDatingPipelinePort(adapter)) {
+    if (isDatingPipelinePort(adapter) || isScrapingPipelinePort(adapter)) {
       const payload = adapter.extract(html, url);
       const scraped = await adapter.map(payload, new NullTaxonomyResolver());
       console.log(JSON.stringify(scraped, null, 2));

@@ -11,45 +11,45 @@ type SourceDefinition = {
   load: (crawler: CrawlerPort) => Promise<ResolvedSource>;
 };
 
-// ─── Real Estate ─────────────────────────────────────────────────────────────
+// ─── Real Estate (v2 pipeline wrappers) ──────────────────────────────────────
 
 const definitionsRealEstate: SourceDefinition[] = [
   {
     pattern: /idealista\.com/,
-    load: async (c) => {
-      const { IdealistaAdapter } = await import('./real-estate/idealista.adapter.js');
-      return new IdealistaAdapter(c);
+    load: async () => {
+      const { IdealistaPipeline } = await import('./real-estate/idealista/idealista.pipeline.js');
+      return new IdealistaPipeline();
     },
   },
   {
     pattern: /fotocasa\.es/,
-    load: async (c) => {
-      const { FotocasaAdapter } = await import('./real-estate/fotocasa.adapter.js');
-      return new FotocasaAdapter(c);
+    load: async () => {
+      const { FotocasaPipeline } = await import('./real-estate/fotocasa/fotocasa.pipeline.js');
+      return new FotocasaPipeline();
     },
   },
 ];
 
-// ─── Motor ───────────────────────────────────────────────────────────────────
+// ─── Motor (v2 pipeline wrappers) ────────────────────────────────────────────
 
 const definitionsMotor: SourceDefinition[] = [
   {
     pattern: /coches\.net/,
-    load: async (c) => {
-      const { CochesNetAdapter } = await import('./motor/coches-net.adapter.js');
-      return new CochesNetAdapter(c);
+    load: async () => {
+      const { CochesNetPipeline } = await import('./motor/coches-net/coches-net.pipeline.js');
+      return new CochesNetPipeline();
     },
   },
 ];
 
-// ─── General ─────────────────────────────────────────────────────────────────
+// ─── General (v2 pipeline wrappers) ──────────────────────────────────────────
 
 const definitionsGeneral: SourceDefinition[] = [
   {
     pattern: /wallapop\.com/,
-    load: async (c) => {
-      const { WallapopAdapter } = await import('./general/wallapop.adapter.js');
-      return new WallapopAdapter(c);
+    load: async () => {
+      const { WallapopPipeline } = await import('./general/wallapop/wallapop.pipeline.js');
+      return new WallapopPipeline();
     },
   },
 ];

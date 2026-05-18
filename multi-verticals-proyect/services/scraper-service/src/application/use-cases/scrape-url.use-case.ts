@@ -12,6 +12,10 @@ import {
 } from '#application/ports/dating-pipeline.port.js';
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import {
+  isScrapingPipelinePort,
+  type AnyPipelinePort,
+} from '#application/ports/scraping-pipeline.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
 import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
@@ -67,7 +71,41 @@ export class ScrapeUrlUseCase {
       await this.executeV2(source, url);
       return;
     }
+    if (isScrapingPipelinePort(source)) {
+      // real-estate / motor / general v2 path — extract + map but defer
+      // persistence until a vertical-specific repository lands.
+      await this.executeV2NonDating(source, url);
+      return;
+    }
     await this.executeV1(source as SourcePort, url);
+  }
+
+  // ── v2 path — non-dating (Property / Vehicle / Listing) ──────────────────
+  // Extract + map run end-to-end; the resulting ScrapedProperty / ScrapedVehicle
+  // / ScrapedListing is logged but not persisted yet — the dating-only
+  // ProviderRepositoryPort cannot store it. Wire a per-vertical repository to
+  // close the loop.
+
+  private async executeV2NonDating(pipeline: AnyPipelinePort, url: string): Promise<void> {
+    if (!this.config.skipRobots && !(await pipeline.isAllowed(url))) {
+      throw new Error(`robots.txt blocks: ${url}`);
+    }
+    const crawlerOptions = pipeline.getCrawlerOptions(url, {
+      headless: this.config.headless,
+      skipInteractions: this.config.skipInteractions,
+      captureNetwork: this.config.captureNetworkLogs,
+      manualPause: this.config.manualPause,
+      blockImages: this.config.blockImages,
+      proxyStrategy: this.config.proxyStrategy,
+      solverStrategy: this.config.solverStrategy,
+    });
+    const result = await this.crawler.fetch(url, crawlerOptions);
+    const payload = pipeline.extract(result.html, url);
+    const scraped = await pipeline.map(payload, this.taxonomyResolver);
+    this.log.info(
+      { source: pipeline.identifier, vertical: pipeline.defaultVertical, scraped },
+      'V2 non-dating extraction (persistence pending)',
+    );
   }
 
   // ── v2 path — DatingPipelinePort ───────────────────────────────────────────
