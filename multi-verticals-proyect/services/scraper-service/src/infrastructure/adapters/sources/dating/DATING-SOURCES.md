@@ -78,20 +78,29 @@ Example URL: `https://www.chicasmalas.es/anuncios/ruby-escort-colombiana-murcia/
 
 ---
 
-## citapasion.com
+## citapasion.com ✅ v2
 
 Example URL: `https://citapasion.com/escorts/17533` (Real)
 
-| Campo       | Valor                                                             |
-| ----------- | ----------------------------------------------------------------- |
-| Tech        | PHP + custom JS                                                   |
-| Render      | JS (listing AJAX)                                                 |
-| Listing     | `/escorts/{province}/{city}`                                      |
-| Profile URL | TBD — cards se cargan por AJAX, URL de perfil desconocida         |
-| Paginación  | TBD                                                               |
-| Teléfono    | TBD                                                               |
-| Login       | No                                                                |
-| Pendiente   | Interceptar petición AJAX del listing para extraer URLs de perfil |
+| Campo        | Valor                                                                   |
+| ------------ | ----------------------------------------------------------------------- |
+| Tech         | PHP + Slick slider, SSR profiles                                        |
+| Render       | SSR perfiles · listing AJAX (necesita Playwright para discovery)        |
+| Listing      | `/escorts/{province}/{city}` — AJAX                                     |
+| Profile URL  | `/escorts/{numericId}` — ID numérico es sourceId                        |
+| Paginación   | N/A (listing AJAX)                                                      |
+| Título       | `h1` split por `|`                                                      |
+| Descripción  | `.card-perfil.sobre__mi .text__description`                             |
+| Ciudad       | `.card-perfil.datos_interes li` → "Ciudad:" row                         |
+| Teléfono     | **HTML** — `[data-href^="tel:"]` (AJAX-revealed) · fallback `a[href^="tel:"]` |
+| WhatsApp     | `[data-accion*="wa.me"]` · fallback `a[href*="wa.me"]`                 |
+| Tarifas      | ❌ — no disponible en HTML estático                                     |
+| Servicios    | ❌ — no disponible                                                      |
+| Imágenes     | `.slider-fichas a[data-fslightbox="gallery"]` → `href` (full-size)     |
+| Rating       | `.reviews .stars` style `--rating:X` · `.reviews span` count `(N)`     |
+| Login        | No                                                                      |
+| País         | ES                                                                      |
+| Nota         | Datos: Edad, Altura, Peso, Pelo, Ojos, Etnia, Nac., Idiomas en DOM     |
 
 ---
 
@@ -446,7 +455,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 - ~~**nuevapasion.com**~~ — ported to v2 (age gate needs Playwright for listing)
 - **bluemove.es** — JS-rendered
 - **chicasmalas.es** — listing JS (Elementor)
-- **citapasion.com** — listing AJAX
+- ~~**citapasion.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 - **madrid69.com** — CSR Next.js
 - **milpasiones.com** — body JS (head SSR)
 - ~~**mislios.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
