@@ -56,6 +56,42 @@ const CREATE_RAW = sql`
   )
 `;
 
+export const CREATE_CATALOG_SCHEMA = sql.raw(`CREATE SCHEMA IF NOT EXISTS catalog`);
+
+export const CREATE_CATALOG_TABLES = sql.raw(`
+  CREATE TABLE IF NOT EXISTS catalog.countries (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    iso2 text NOT NULL UNIQUE
+  );
+  CREATE TABLE IF NOT EXISTS catalog.cities (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL,
+    country_id uuid NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS catalog.nationalities (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    iso2_country text
+  );
+  CREATE TABLE IF NOT EXISTS catalog.ethnics (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL UNIQUE
+  );
+  CREATE TABLE IF NOT EXISTS catalog.hairs (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL UNIQUE
+  );
+  CREATE TABLE IF NOT EXISTS catalog.eyes (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL UNIQUE
+  );
+  CREATE TABLE IF NOT EXISTS catalog.orientations (
+    id uuid PRIMARY KEY,
+    slug text NOT NULL UNIQUE
+  )
+`);
+
 export const setupTestDb = async (): Promise<TestDb> => {
   const container = await new PostgreSqlContainer('postgres:16-alpine')
     .withUsername('test')

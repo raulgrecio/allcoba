@@ -15,6 +15,7 @@ import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-ca
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
+import { DrizzleTaxonomyResolver } from '#infrastructure/adapters/catalog/drizzle-taxonomy-resolver.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
 import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
@@ -70,7 +71,13 @@ export async function createScraperServices(config: ScraperConfig) {
     globalConfig.crawlerMaxConcurrent,
   );
   const sourceResolver = new SourceRegistry(crawler);
-  const taxonomyResolver = new NullTaxonomyResolver();
+
+  const taxonomyResolver =
+    globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl
+      ? new DrizzleTaxonomyResolver(
+          (await import('#infrastructure/adapters/persistence/db-client.js')).db as never,
+        )
+      : new NullTaxonomyResolver();
 
   // ── Vertical-specific scraped-entity repositories ─────────────────────
   // Drizzle-backed when scraperStorage=postgres; in-memory otherwise.
