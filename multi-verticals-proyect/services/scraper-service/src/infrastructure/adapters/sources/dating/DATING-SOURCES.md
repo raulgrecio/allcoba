@@ -198,19 +198,30 @@ Example URL: `https://www.eurogirlsescort.com/escort/sofia/1053224/?list=netqc` 
 
 ---
 
-## gemidos.tv
+## gemidos.tv ✅ v2
 
-Example URL: `https://gemidos.tv/helena-negrini` (Real)
+Example URL: `https://gemidos.tv/anuncio/lucia-escort-madrid/` (Real)
 
-| Campo       | Valor                             |
-| ----------- | --------------------------------- |
-| Tech        | desconocida                       |
-| Render      | **CF** — Cloudflare WAF           |
-| Listing     | `/espana`, `/madrid`, etc.        |
-| Profile URL | `/anuncio/{slug}/` (especulativo) |
-| Teléfono    | TBD                               |
-| Login       | No (asumido)                      |
-| Pendiente   | Análisis completo post-CF bypass  |
+| Campo        | Valor                                                                         |
+| ------------ | ----------------------------------------------------------------------------- |
+| Tech         | Desconocida (CF WAF protected)                                                |
+| Render       | **CF** — Cloudflare WAF — Playwright + CF bypass necesario                   |
+| Listing      | `/espana`, `/{city}`, etc.                                                    |
+| Profile URL  | `/anuncio/{slug}/` — slug es sourceId                                         |
+| Paginación   | `a[rel="next"]`                                                               |
+| Título       | `.pub-title` (puede contener emojis)                                          |
+| Nickname     | Primer \w+ del título (strip emoji)                                           |
+| Descripción  | `.pub-about-full`                                                             |
+| Ciudad       | ❌ — no disponible en HTML estático                                           |
+| Teléfono     | **HTML** — `.pub-phone span` (texto plano, no href)                           |
+| Tarifas      | ❌ — no disponible                                                            |
+| Servicios    | `.pub-services .pub-tags-item, .pub-tags-item.pub_services`                   |
+| Imágenes     | `.pub-picture img, .pub-book-item img, .story img` · fallback `og:image`      |
+| Verificada   | `.badge-verified, .fa-shield-check`                                           |
+| Tags datos   | `.pub-tags-item.number` → `Años`/`CM`/`KG` · `.pub-tags-item small` → labels |
+| Login        | No                                                                            |
+| País         | ES                                                                            |
+| Nota         | CF WAF — Playwright con bypass necesario para acceder a perfiles              |
 
 ---
 
@@ -476,7 +487,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 ### Pendiente análisis (CF WAF)
 
 - **escort-advisor.xxx**
-- **gemidos.tv**
+- ~~**gemidos.tv**~~ — ported to v2 (CF WAF — Playwright + bypass required)
 - **topescortbabes.com** ← datos muy estructurados en filtro, prioritario post-bypass
 
 ### Pendiente de añadir adapador
