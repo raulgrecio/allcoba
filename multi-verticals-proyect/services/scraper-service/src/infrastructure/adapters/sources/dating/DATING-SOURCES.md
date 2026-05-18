@@ -277,23 +277,28 @@ Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 
 ---
 
-## hotvalencia.com
+## hotvalencia.com ✅ v2
 
-Example URL: `https://hotvalencia.com/puta-valencia/607413804-hilary-luxury-experience-639873/` (Real)
+Example URL: `https://hotvalencia.com/putas-valencia/valentina-escortvalencia/` (Fixture)
 
 | Campo       | Valor                                                          |
 | ----------- | -------------------------------------------------------------- |
 | Tech        | WordPress + Elementor + JetEngine (custom post types)          |
-| Render      | JS (listing members-only)                                      |
+| Render      | SSR (perfiles), JS (listing members-only)                      |
 | Listing     | **LOGIN requerido** — miembros únicamente                      |
 | Profile URL | `/putas-valencia/{slug}/`                                      |
-| Paginación  | `a[rel="next"]`, `.next.page-numbers`                          |
-| Teléfono    | `a[href^="tel:"]`                                              |
-| WhatsApp    | `a[href*="wa.me"]`                                             |
-| Vídeo       | `video` element → badge `video`                                |
-| Tarifas     | ❌ stub                                                        |
+| sourceId    | último segmento de la URL                                      |
+| Nickname    | primera palabra del `h1` (`.entry-title`, `.elementor-heading-title`, `h1`) |
+| Bio         | `.elementor-text-editor`, `.entry-content p`                   |
+| Teléfono    | `a[href^="tel:"]` → 9 dígitos                                  |
+| WhatsApp    | ❌ no detectado                                                |
+| Imágenes    | `.elementor-image img, .wp-post-image` → `src`; fallback `og:image` |
+| Vídeo       | `video` element → `hasVideo = true` → `statistics.videoCount = 1` |
+| Ciudad      | ❌ no extraíble sin login                                      |
 | Servicios   | ❌ stub                                                        |
-| Login       | Sí — listing inasequible sin cuenta; perfiles quizá accesibles |
+| Login       | Sí — listing inasequible; perfiles accesibles directamente     |
+| Confidence  | `low` (0.5) — listing requiere login                           |
+| v2 adapter  | `src/infrastructure/adapters/sources/dating/hotvalencia/`      |
 
 ---
 
@@ -490,7 +495,7 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 
 ### Login necesario para datos clave
 
-- **hotvalencia.com** — listing members-only (perfiles posiblemente públicos)
+- ~~**hotvalencia.com**~~ — ported to v2 (listing members-only; profiles accessible directly)
 
 ### Pendiente análisis (CF WAF)
 
