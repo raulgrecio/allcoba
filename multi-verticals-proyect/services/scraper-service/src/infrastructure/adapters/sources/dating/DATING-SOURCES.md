@@ -490,13 +490,14 @@ Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
 - **ardienteplacer.com** — SSR, teléfono en modal estático HTML, tarifa, edad, nacionalidad, WhatsApp, 57 tests
 - **milpasiones.com** — teléfono en URL, OG tags para título/ciudad/imagen, 36 tests
 - **destacamos.net** — teléfono en DOM, isPremium, altura, 56 tests
+- **chicasmalas.es** — Playwright-rendered Elementor, tel: + WA + e-gallery-item + maps iframe, 53 tests
 
 ### Requiere Playwright (age gate / JS-render)
 
 - ~~**nuevoloquo.ch/com/es**~~ — ported to v2 (phone still needs Playwright click)
 - ~~**nuevapasion.com**~~ — ported to v2 (age gate needs Playwright for listing)
 - ~~**bluemove.es**~~ — ported to v2 (Playwright needed for age gate + listing discovery)
-- **chicasmalas.es** — listing JS (Elementor)
+- ~~**chicasmalas.es**~~ — ported to v2 (Playwright-rendered Elementor; age gate + cookies click required)
 - ~~**citapasion.com**~~ — ported to v2 (listing AJAX — Playwright needed for discovery)
 - ~~**madrid69.com**~~ — ported to v2 (CSR Next.js; data from SSR head + Playwright API interception)
 - **milpasiones.com** — body JS (head SSR)
