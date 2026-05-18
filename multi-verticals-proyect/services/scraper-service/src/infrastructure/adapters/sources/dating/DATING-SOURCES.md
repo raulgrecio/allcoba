@@ -11,7 +11,7 @@ Leyenda columnas:
 
 ---
 
-## ardienteplacer.com
+## ardienteplacer.com ✅ v2
 
 Example URL: `https://www.ardienteplacer.com/index.php/escort/putas-guarras-putas-particulares/madrid/632277902/92010` (Real)
 
