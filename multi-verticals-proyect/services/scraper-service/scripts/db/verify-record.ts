@@ -9,7 +9,7 @@ if (!config.databaseUrl) {
 }
 
 async function verify() {
-  const sql = postgres(config.databaseUrl);
+  const sql = postgres(config.databaseUrl!);
   const [_node, _script, vertical, id] = process.argv;
 
   if (!vertical || !id) {

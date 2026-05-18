@@ -1,3 +1,4 @@
+import { SolverStrategy } from '#application/ports/crawler.port.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
 import { TopEscortBabesAdapter } from '#infrastructure/adapters/sources/dating/topescortbabes.adapter.js';
@@ -20,7 +21,7 @@ async function main() {
     const result = await adapter.extract(url, {
       engine: 'patchright',
       headless: true,
-      solverStrategy: 'capsolver',
+      solverStrategy: SolverStrategy.SOLVER,
     });
 
     if (result.data) {

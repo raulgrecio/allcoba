@@ -10,7 +10,7 @@ async function getBrowserMemory(execPath: string): Promise<number> {
     let totalRSS = 0;
     lines.forEach(line => {
       const parts = line.trim().split(/\s+/);
-      if (parts.length < 6) return;
+      if (parts.length < 6 || !parts[5]) return;
       const rss = parseInt(parts[5], 10);
       if (!isNaN(rss)) totalRSS += rss;
     });

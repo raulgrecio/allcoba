@@ -12,7 +12,7 @@ async function main() {
   log.info({ url }, 'Starting full scrape test with NuevoLoquo');
 
   // Inicializamos servicios con configuración por defecto (headless: true)
-  const services = createScraperServices({
+  const services = await createScraperServices({
     headless: true,
     saveRawHtml: false,
     skipRobots: true,
