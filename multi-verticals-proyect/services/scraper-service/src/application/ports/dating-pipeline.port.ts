@@ -78,3 +78,20 @@ export interface DatingPipelinePort<Payload = unknown> {
   /** Listing → next-page URL (pagination). Undefined when the page is the last. */
   extractNextPageUrl(html: string, baseUrl: string): string | undefined;
 }
+
+/**
+ * Type guard — distinguishes v2 `DatingPipelinePort` instances from legacy
+ * `SourcePort` adapters in `SourceRegistry.resolve`'s union return type. v2
+ * pipelines expose a `map(payload, resolver, …)` method that v1 adapters do not.
+ */
+export function isDatingPipelinePort(source: unknown): source is DatingPipelinePort {
+  return (
+    typeof source === 'object' &&
+    source !== null &&
+    'map' in source &&
+    typeof (source as { map: unknown }).map === 'function' &&
+    'extract' in source &&
+    typeof (source as { extract: unknown }).extract === 'function' &&
+    'identifier' in source
+  );
+}

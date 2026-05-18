@@ -1,5 +1,7 @@
 import { logger } from '@allcoba/kernel';
 
+import type { CrawlerPort } from '#application/ports/crawler.port.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
 
@@ -12,11 +14,11 @@ export class DiscoverUrlsUseCase {
     private readonly sourceResolver: SourceResolverPort,
     private readonly repository: ProviderRepositoryPort,
     private readonly scrapeUrlUseCase: ScrapeUrlUseCase,
+    private readonly crawler: CrawlerPort,
   ) {}
 
   async execute(listUrl: string, limit?: number, skip?: number, headless?: boolean): Promise<void> {
     const source = await this.sourceResolver.resolve(listUrl);
-    // Ya no usamos el singleton, usamos la instancia inyectada
 
     let processedCount = 0;
     let skippedCount = 0;
@@ -32,11 +34,19 @@ export class DiscoverUrlsUseCase {
       this.logger.info({ url: currentUrl }, 'Extracting list page');
 
       try {
-        const listResult = await source.fetchHtml(currentUrl, {
-          waitUntil: 'domcontentloaded',
-          skipInteractions: true,
-          headless: headless,
-        });
+        const crawlerOptions = isDatingPipelinePort(source)
+          ? source.getCrawlerOptions(currentUrl, {
+              waitUntil: 'domcontentloaded',
+              skipInteractions: true,
+              headless,
+            })
+          : {
+              ...source.getCrawlerOptions(currentUrl, { skipInteractions: true }),
+              waitUntil: 'domcontentloaded' as const,
+              headless,
+            };
+
+        const listResult = await this.crawler.fetch(currentUrl, crawlerOptions);
 
         const profileLinks = source.extractProfileLinks(listResult.html, currentUrl);
         const uniqueLinks = [...new Set(profileLinks)].filter((link) => !processedUrls.has(link));
@@ -83,17 +93,18 @@ export class DiscoverUrlsUseCase {
             processedUrls.add(url);
             processedCount++;
 
-            // Respectful delay between 3-8 seconds
             const delay = Math.floor(Math.random() * 3000) + 5000;
             await new Promise((res) => setTimeout(res, delay));
-          } catch (err: any) {
-            this.logger.error({ url, err: err.message }, 'Error processing profile');
+          } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
+            this.logger.error({ url, err: message }, 'Error processing profile');
           }
         }
 
         currentUrl = source.extractNextPageUrl(listResult.html, currentUrl);
-      } catch (err: any) {
-        this.logger.error({ err: err.message, url: currentUrl }, 'Error processing list page');
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        this.logger.error({ err: message, url: currentUrl }, 'Error processing list page');
         break;
       }
     }

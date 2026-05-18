@@ -4,17 +4,23 @@ import type { Vertical } from '@allcoba/shared-types';
 import { asImageHash, asPhoneE164 } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
+import type { CrawlerPort } from '#application/ports/crawler.port.js';
+import { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
+import {
+  isDatingPipelinePort,
+  type DatingPipelinePort,
+} from '#application/ports/dating-pipeline.port.js';
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
-import type { RawExtraction } from '#application/ports/source.port.js';
+import type { RawExtraction, SourcePort } from '#application/ports/source.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
-import type { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
 import type { ProfileImage } from '#domain/canonical/profile-image.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
-import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
 import { mergeProvider } from '#domain/services/canonical/merge-provider.js';
+import type { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 
 export interface ScraperConfig {
   headless?: boolean;
@@ -50,14 +56,124 @@ export class ScrapeUrlUseCase {
     private readonly consolidationService: ConsolidationService,
     private readonly imageHasher: ImageHasherPort,
     private readonly storage: StoragePort,
+    private readonly crawler: CrawlerPort,
+    private readonly taxonomyResolver: TaxonomyResolverPort,
     private readonly config: ScraperConfig = DEFAULT_CONFIG,
   ) {}
 
   async execute(url: string): Promise<void> {
     const source = await this.sourceResolver.resolve(url);
+    if (isDatingPipelinePort(source)) {
+      await this.executeV2(source, url);
+      return;
+    }
+    await this.executeV1(source as SourcePort, url);
+  }
 
-    if (!this.config.skipRobots && !(await source.isAllowed(url)))
+  // ── v2 path — DatingPipelinePort ───────────────────────────────────────────
+
+  private async executeV2(pipeline: DatingPipelinePort, url: string): Promise<void> {
+    if (!this.config.skipRobots && !(await pipeline.isAllowed(url))) {
       throw new Error(`robots.txt blocks: ${url}`);
+    }
+
+    const crawlerOptions = pipeline.getCrawlerOptions(url, {
+      headless: this.config.headless,
+      skipInteractions: this.config.skipInteractions,
+      captureNetwork: this.config.captureNetworkLogs,
+      manualPause: this.config.manualPause,
+      blockImages: this.config.blockImages,
+      proxyStrategy: this.config.proxyStrategy,
+      solverStrategy: this.config.solverStrategy,
+    });
+
+    const result = await this.crawler.fetch(url, crawlerOptions);
+    const payload = pipeline.extract(result.html, url);
+    const scraped = await pipeline.map(payload, this.taxonomyResolver);
+
+    const externalRef = scraped.externalRefs[0];
+    if (!externalRef) {
+      this.log.error({ url, source: pipeline.identifier }, 'V2 pipeline returned no externalRef');
+      return;
+    }
+    const phones = scraped.phoneNumber ? [scraped.phoneNumber] : [];
+
+    const candidates = await this.repository.find({
+      vertical: scraped.vertical,
+      phoneNumber: phones[0],
+      externalRef,
+    });
+
+    const consolidation = this.consolidationService.consolidate({
+      phones,
+      externalRef,
+      candidates,
+    });
+
+    this.log.info(
+      {
+        source: pipeline.identifier,
+        action: consolidation.action,
+        signals: consolidation.signals.map((s) => s.type),
+      },
+      'V2 consolidation result',
+    );
+
+    const now = new Date().toISOString();
+    const processedImages = await this.processImages({
+      imageUrls: scraped.photos.map((p) => p.url),
+      externalId: externalRef.sourceId,
+      source: pipeline.identifier,
+      vertical: scraped.vertical,
+    });
+
+    const enriched: ScrapedProvider = {
+      ...scraped,
+      confidence: consolidation.confidence,
+      signals: [...consolidation.signals],
+      images: processedImages,
+      lastScrapedAt: now,
+    };
+
+    switch (consolidation.action) {
+      case 'CREATE':
+        await this.repository.create(enriched);
+        this.log.info({ id: enriched.id }, 'V2 provider created');
+        break;
+      case 'MERGE':
+      case 'FLAG_FOR_REVIEW':
+        if (consolidation.target) {
+          const patch: Partial<ScrapedProvider> = {
+            phoneNumber: phones[0],
+            images: processedImages,
+            externalRefs: [externalRef],
+            confidence: consolidation.confidence,
+            verificationStatus:
+              consolidation.action === 'FLAG_FOR_REVIEW'
+                ? 'pending_review'
+                : consolidation.target.verificationStatus,
+            signals: [...consolidation.signals],
+            attributes: enriched.attributes,
+            metadata: enriched.metadata,
+            lastScrapedAt: now,
+          };
+          const merged = mergeProvider(consolidation.target, patch);
+          await this.repository.update(merged.id, merged);
+          this.log.info({ id: merged.id, action: consolidation.action }, 'V2 provider updated');
+        }
+        break;
+      case 'IGNORE':
+        this.log.info('V2 extraction ignored');
+        break;
+    }
+  }
+
+  // ── v1 path — legacy SourcePort (motor / real-estate / general) ────────────
+
+  private async executeV1(source: SourcePort, url: string): Promise<void> {
+    if (!this.config.skipRobots && !(await source.isAllowed(url))) {
+      throw new Error(`robots.txt blocks: ${url}`);
+    }
 
     const domain = new URL(url).hostname.replace('www.', '');
     const baseRawPath = `raw/${domain}`;
@@ -101,8 +217,12 @@ export class ScrapeUrlUseCase {
       await this.storage
         .upload(Buffer.from(html), `${baseRawPath}/${raw.source}_${slug}.html`, 'text/html')
         .then(
-          () => { raw.metadata.debugFile = `${domain}/${raw.source}_${slug}.html`; },
-          () => { this.log.warn('Could not persist debug HTML'); },
+          () => {
+            raw.metadata.debugFile = `${domain}/${raw.source}_${slug}.html`;
+          },
+          () => {
+            this.log.warn('Could not persist debug HTML');
+          },
         );
     }
 
@@ -112,11 +232,17 @@ export class ScrapeUrlUseCase {
       await Promise.all(
         networkResponses.map(async (res, i) => {
           try {
-            const resSlug = new URL(res.url).pathname.split('/').filter(Boolean).pop()?.replace(/[^a-z0-9]/gi, '_');
+            const resSlug = new URL(res.url)
+              .pathname.split('/')
+              .filter(Boolean)
+              .pop()
+              ?.replace(/[^a-z0-9]/gi, '_');
             const fileName = `${baseRawPath}/network/${raw.source}_${slug}_${i}_${resSlug}.json`;
             await this.storage.upload(Buffer.from(res.body), fileName, 'application/json');
             raw.metadata.networkFiles?.push(fileName);
-          } catch { /* ignore per-file errors */ }
+          } catch {
+            /* ignore per-file errors */
+          }
         }),
       );
       this.log.info({ count: networkResponses.length }, 'Network responses captured');
@@ -132,7 +258,13 @@ export class ScrapeUrlUseCase {
     });
 
     const phones = raw.phones
-      .map((p) => { try { return asPhoneE164(p); } catch { return null; } })
+      .map((p) => {
+        try {
+          return asPhoneE164(p);
+        } catch {
+          return null;
+        }
+      })
       .filter((p): p is NonNullable<typeof p> => p !== null);
 
     const candidates = await this.repository.find({
@@ -168,7 +300,6 @@ export class ScrapeUrlUseCase {
         this.log.info({ id: provider.id }, 'Provider created');
         break;
       }
-
       case 'MERGE':
       case 'FLAG_FOR_REVIEW': {
         if (result.target) {
@@ -177,7 +308,10 @@ export class ScrapeUrlUseCase {
             images: processedImages,
             externalRefs: [externalRef],
             confidence: result.confidence,
-            verificationStatus: result.action === 'FLAG_FOR_REVIEW' ? 'pending_review' : result.target.verificationStatus,
+            verificationStatus:
+              result.action === 'FLAG_FOR_REVIEW'
+                ? 'pending_review'
+                : result.target.verificationStatus,
             signals: [...result.signals],
             attributes: raw.attributes as Record<string, unknown>,
             metadata: raw.metadata as Record<string, unknown>,
@@ -189,7 +323,6 @@ export class ScrapeUrlUseCase {
         }
         break;
       }
-
       case 'IGNORE':
         this.log.info('Extraction ignored');
         break;
@@ -243,7 +376,7 @@ export class ScrapeUrlUseCase {
   }
 }
 
-// ── factory helper ────────────────────────────────────────────────────────────
+// ── factory helper (v1 path only) ─────────────────────────────────────────────
 
 function buildMinimalScrapedProvider({
   raw,
@@ -261,11 +394,16 @@ function buildMinimalScrapedProvider({
   now: string;
 }): ScrapedProvider {
   const phones = raw.phones
-    .map((p) => { try { return asPhoneE164(p); } catch { return null; } })
+    .map((p) => {
+      try {
+        return asPhoneE164(p);
+      } catch {
+        return null;
+      }
+    })
     .filter((p): p is NonNullable<typeof p> => p !== null);
 
   return {
-    // Profile — identity
     id: crypto.randomUUID() as ScrapedProvider['id'],
     vertical: raw.vertical,
     nickname: raw.name ?? '',
@@ -273,45 +411,36 @@ function buildMinimalScrapedProvider({
     humanVerified: false,
     badges: { verified: false, trans: false, vip: false, pornstar: false },
     verificationStatus: 'pending_review',
-
-    // Profile — geo (raw location deferred to geo-resolution step)
     meetingPlaces: { incall: false, outcall: false },
     contactOptions: (raw.contacts?.map((c) => c.platform).filter((p) =>
       ['calls', 'sms', 'whatsapp', 'telegram'].includes(p),
     ) ?? []) as ScrapedProvider['contactOptions'],
-
-    // Profile — personal details (minimal, enriched by adapters)
     personalDetails: {
       ageYears: 0,
       spokenLanguageCodes: [],
       meetingWith: [],
     },
-
-    // Profile — prices
-    prices: raw.price != null
-      ? [{ slot: 'h1' as const, amount: raw.price, currency: (raw.currency ?? 'EUR') as ScrapedProvider['prices'][number]['currency'] }]
-      : [],
-
-    // Profile — media
+    prices:
+      raw.price != null
+        ? [
+            {
+              slot: 'h1' as const,
+              amount: raw.price,
+              currency: (raw.currency ?? 'EUR') as ScrapedProvider['prices'][number]['currency'],
+            },
+          ]
+        : [],
     photos: [],
-
-    // Profile — PII
     phoneNumber: phones[0],
     links: {},
     otherPlatforms: [],
-
-    // Profile — reviews
     reviewsEnabled: true,
     reviewsCount: 0,
     reviewsRating: 0,
     reviews: [],
     tours: [],
-
-    // Profile — timestamps
     createdAt: now,
     updatedAt: now,
-
-    // ScraperMeta
     externalRefs: [externalRef],
     signals,
     confidence,
@@ -321,3 +450,6 @@ function buildMinimalScrapedProvider({
     lastScrapedAt: now,
   };
 }
+
+// Re-export Confidence so DI containers can pass defaults if needed.
+export { Confidence };

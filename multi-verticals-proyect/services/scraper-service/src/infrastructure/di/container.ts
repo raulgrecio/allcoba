@@ -6,6 +6,7 @@ import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-ca
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
+import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
 import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
@@ -58,6 +59,7 @@ export async function createScraperServices(config: ScraperConfig) {
     globalConfig.crawlerMaxConcurrent,
   );
   const sourceResolver = new SourceRegistry(crawler);
+  const taxonomyResolver = new NullTaxonomyResolver();
 
   const scrapeUrlUseCase = new ScrapeUrlUseCase(
     sourceResolver,
@@ -65,10 +67,17 @@ export async function createScraperServices(config: ScraperConfig) {
     consolidationService,
     imageHasher,
     storage,
+    crawler,
+    taxonomyResolver,
     config,
   );
 
-  const discoverUrlsUseCase = new DiscoverUrlsUseCase(sourceResolver, repository, scrapeUrlUseCase);
+  const discoverUrlsUseCase = new DiscoverUrlsUseCase(
+    sourceResolver,
+    repository,
+    scrapeUrlUseCase,
+    crawler,
+  );
 
   return { scrapeUrlUseCase, discoverUrlsUseCase, crawler };
 }
