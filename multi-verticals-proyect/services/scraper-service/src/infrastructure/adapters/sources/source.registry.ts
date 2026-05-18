@@ -1,12 +1,14 @@
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
-import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
-import type { SourcePort } from '#application/ports/source.port.js';
+import type {
+  ResolvedSource,
+  SourceResolverPort,
+} from '#application/ports/source-resolver.port.js';
 
 import { DiscoveryAdapter } from './general/discovery.adapter.js';
 
 type SourceDefinition = {
   pattern: RegExp;
-  load: (crawler: CrawlerPort) => Promise<SourcePort>;
+  load: (crawler: CrawlerPort) => Promise<ResolvedSource>;
 };
 
 // ─── Real Estate ─────────────────────────────────────────────────────────────
@@ -52,147 +54,155 @@ const definitionsGeneral: SourceDefinition[] = [
   },
 ];
 
-// ─── Dating ──────────────────────────────────────────────────────────────────
+// ─── Dating (v2 pipeline wrappers) ───────────────────────────────────────────
 
 const definitionsDating: SourceDefinition[] = [
   {
     pattern: /ardienteplacer\.com/,
-    load: async (c) => {
-      const { ArdientePlacer } = await import('./dating/ardienteplacer.adapter.js');
-      return new ArdientePlacer(c);
+    load: async () => {
+      const { ArdienteplacerPipeline } = await import(
+        './dating/ardienteplacer/ardienteplacer.pipeline.js'
+      );
+      return new ArdienteplacerPipeline();
     },
   },
   {
     pattern: /bluemove\.es/,
-    load: async (c) => {
-      const { BluemoveAdapter } = await import('./dating/bluemove.adapter.js');
-      return new BluemoveAdapter(c);
+    load: async () => {
+      const { BluemovePipeline } = await import('./dating/bluemove/bluemove.pipeline.js');
+      return new BluemovePipeline();
     },
   },
   {
     pattern: /chicasmalas\.es/,
-    load: async (c) => {
-      const { ChicasmalasAdapter } = await import('./dating/chicasmalas.adapter.js');
-      return new ChicasmalasAdapter(c);
+    load: async () => {
+      const { ChicasmalasPipeline } = await import('./dating/chicasmalas/chicasmalas.pipeline.js');
+      return new ChicasmalasPipeline();
     },
   },
   {
     pattern: /citapasion\.com/,
-    load: async (c) => {
-      const { CitapasionAdapter } = await import('./dating/citapasion.adapter.js');
-      return new CitapasionAdapter(c);
+    load: async () => {
+      const { CitapasionPipeline } = await import('./dating/citapasion/citapasion.pipeline.js');
+      return new CitapasionPipeline();
     },
   },
   {
     pattern: /destacamos\.net/,
-    load: async (c) => {
-      const { DestacamosAdapter } = await import('./dating/destacamos.adapter.js');
-      return new DestacamosAdapter(c);
+    load: async () => {
+      const { DestacamosPipeline } = await import('./dating/destacamos/destacamos.pipeline.js');
+      return new DestacamosPipeline();
     },
   },
   {
     pattern: /erosguia\.com/,
-    load: async (c) => {
-      const { ErosguiaAdapter } = await import('./dating/erosguia.adapter.js');
-      return new ErosguiaAdapter(c);
+    load: async () => {
+      const { ErosguiaPipeline } = await import('./dating/erosguia/erosguia.pipeline.js');
+      return new ErosguiaPipeline();
     },
   },
   {
     pattern: /escort-advisor\.xxx/,
-    load: async (c) => {
-      const { EscortAdvisorAdapter } = await import('./dating/escort-advisor.adapter.js');
-      return new EscortAdvisorAdapter(c);
+    load: async () => {
+      const { EscortAdvisorPipeline } = await import(
+        './dating/escort-advisor/escort-advisor.pipeline.js'
+      );
+      return new EscortAdvisorPipeline();
     },
   },
   {
     pattern: /eurogirlsescort\.(es|com)/,
-    load: async (c) => {
-      const { EuroGirlsEscortAdapter } = await import('./dating/eurogirlsescort.adapter.js');
-      return new EuroGirlsEscortAdapter(c);
+    load: async () => {
+      const { EuroGirlsEscortPipeline } = await import(
+        './dating/eurogirlsescort/eurogirlsescort.pipeline.js'
+      );
+      return new EuroGirlsEscortPipeline();
     },
   },
   {
     pattern: /gemidos\.tv/,
-    load: async (c) => {
-      const { GemidosAdapter } = await import('./dating/gemidos.adapter.js');
-      return new GemidosAdapter(c);
+    load: async () => {
+      const { GemidosPipeline } = await import('./dating/gemidos/gemidos.pipeline.js');
+      return new GemidosPipeline();
     },
   },
   {
     pattern: /girlsbcn\.(net|com)/,
-    load: async (c) => {
-      const { GirlsBCNAdapter } = await import('./dating/girlsbcn.adapter.js');
-      return new GirlsBCNAdapter(c);
+    load: async () => {
+      const { GirlsBcnPipeline } = await import('./dating/girlsbcn/girlsbcn.pipeline.js');
+      return new GirlsBcnPipeline();
     },
   },
   {
     pattern: /girlsmadrid\.com/,
-    load: async (c) => {
-      const { GirlsMadridAdapter } = await import('./dating/girlsmadrid.adapter.js');
-      return new GirlsMadridAdapter(c);
+    load: async () => {
+      const { GirlsmadridPipeline } = await import('./dating/girlsmadrid/girlsmadrid.pipeline.js');
+      return new GirlsmadridPipeline();
     },
   },
   {
     pattern: /hotvalencia\.com/,
-    load: async (c) => {
-      const { HotValenciaAdapter } = await import('./dating/hotvalencia.adapter.js');
-      return new HotValenciaAdapter(c);
+    load: async () => {
+      const { HotvalenciaPipeline } = await import('./dating/hotvalencia/hotvalencia.pipeline.js');
+      return new HotvalenciaPipeline();
     },
   },
   {
     pattern: /loquosex\.com/,
-    load: async (c) => {
-      const { LoquosexAdapter } = await import('./dating/loquosex.adapter.js');
-      return new LoquosexAdapter(c);
+    load: async () => {
+      const { LoquosexPipeline } = await import('./dating/loquosex/loquosex.pipeline.js');
+      return new LoquosexPipeline();
     },
   },
   {
     pattern: /madrid69\.com/,
-    load: async (c) => {
-      const { Madrid69Adapter } = await import('./dating/madrid69.adapter.js');
-      return new Madrid69Adapter(c);
+    load: async () => {
+      const { Madrid69Pipeline } = await import('./dating/madrid69/madrid69.pipeline.js');
+      return new Madrid69Pipeline();
     },
   },
   {
     pattern: /milescorts\.es/,
-    load: async (c) => {
-      const { MilescortsAdapter } = await import('./dating/milescorts.adapter.js');
-      return new MilescortsAdapter(c);
+    load: async () => {
+      const { MilescortsPipeline } = await import('./dating/milescorts/milescorts.pipeline.js');
+      return new MilescortsPipeline();
     },
   },
   {
     pattern: /milpasiones\.com/,
-    load: async (c) => {
-      const { MilpasionesAdapter } = await import('./dating/milpasiones.adapter.js');
-      return new MilpasionesAdapter(c);
+    load: async () => {
+      const { MilpasionesPipeline } = await import('./dating/milpasiones/milpasiones.pipeline.js');
+      return new MilpasionesPipeline();
     },
   },
   {
     pattern: /mislios\.com/,
-    load: async (c) => {
-      const { MisliosAdapter } = await import('./dating/mislios.adapter.js');
-      return new MisliosAdapter(c);
+    load: async () => {
+      const { MisliosPipeline } = await import('./dating/mislios/mislios.pipeline.js');
+      return new MisliosPipeline();
     },
   },
   {
     pattern: /nuevoloquo\.(ch|com|es)/,
-    load: async (c) => {
-      const { NuevoloquoAdapter } = await import('./dating/nuevoloquo.adapter.js');
-      return new NuevoloquoAdapter(c);
+    load: async () => {
+      const { NuevoloquoPipeline } = await import('./dating/nuevoloquo/nuevoloquo.pipeline.js');
+      return new NuevoloquoPipeline();
     },
   },
   {
     pattern: /nuevapasion\.com/,
-    load: async (c) => {
-      const { NuevapasionAdapter } = await import('./dating/nuevapasion.adapter.js');
-      return new NuevapasionAdapter(c);
+    load: async () => {
+      const { NuevapasionPipeline } = await import('./dating/nuevapasion/nuevapasion.pipeline.js');
+      return new NuevapasionPipeline();
     },
   },
   {
     pattern: /topescortbabes\.com/,
-    load: async (c) => {
-      const { TopEscortBabesAdapter } = await import('./dating/topescortbabes.adapter.js');
-      return new TopEscortBabesAdapter(c);
+    load: async () => {
+      const { TopEscortBabesPipeline } = await import(
+        './dating/topescortbabes/topescortbabes.pipeline.js'
+      );
+      return new TopEscortBabesPipeline();
     },
   },
 ];
@@ -213,7 +223,7 @@ export class SourceRegistry implements SourceResolverPort {
     this.discovery = new DiscoveryAdapter(crawler);
   }
 
-  async resolve(url: string): Promise<SourcePort> {
+  async resolve(url: string): Promise<ResolvedSource> {
     const definition = allDefinitions.find((d) => d.pattern.test(url));
     if (definition) return definition.load(this.crawler);
     return this.discovery;
