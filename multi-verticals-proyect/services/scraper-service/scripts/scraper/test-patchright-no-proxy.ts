@@ -1,6 +1,9 @@
+import { CrawlerEngine, ProxyStrategy } from '#application/ports/crawler.port.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
+import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
-import { TopEscortBabesAdapter } from '#infrastructure/adapters/sources/dating/topescortbabes.adapter.js';
+import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
 import { config } from '#infrastructure/config/env.js';
 import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js';
 
@@ -11,25 +14,33 @@ async function run() {
   const captchaSolver = new CapsolverAdapter(config.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(config.zyteApiKey || '');
   const crawler = new CrawlerDispatcher(captchaSolver, proxyProvider);
-  const adapter = new TopEscortBabesAdapter(crawler);
+  const registry = new SourceRegistry(crawler);
 
   try {
     console.log(`Intentando acceder a: ${url} ...`);
-    const result = await adapter.extract(url, {
+    const pipeline = await registry.resolve(url);
+    if (!isDatingPipelinePort(pipeline)) {
+      throw new Error(`URL did not resolve to a v2 dating pipeline: ${url}`);
+    }
+
+    const crawlerOpts = pipeline.getCrawlerOptions(url, {
       headless: true,
-      engine: 'patchright',
-      proxyStrategy: 'none',
+      engine: CrawlerEngine.PATCHRIGHT,
+      proxyStrategy: ProxyStrategy.NONE,
     });
+    const fetched = await crawler.fetch(url, crawlerOpts);
+    const payload = pipeline.extract(fetched.html, url);
+    const scraped = await pipeline.map(payload, new NullTaxonomyResolver());
 
     console.log('\n✅ ¡ÉXITO! Patchright ha pasado sin proxy.');
     console.log('--- Resultado de Extracción ---');
-    console.log(`ID: ${result.data.externalId}`);
-    console.log(`Nombre: ${result.data.name}`);
-    console.log(`Nick: ${result.data.attributes?.nickname}`);
-    console.log(`Fotos: ${result.data.imageUrls.length}`);
+    console.log(`ID: ${scraped.id}`);
+    console.log(`Nick: ${scraped.nickname}`);
+    console.log(`Fotos: ${scraped.photos.length}`);
     console.log('-------------------------------\n');
-  } catch (err: any) {
-    console.error(`❌ FALLO: ${err.message}`);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`❌ FALLO: ${message}`);
   } finally {
     await crawler.close();
   }

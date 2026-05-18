@@ -3,9 +3,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
+import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
-import { TopEscortBabesAdapter } from '#infrastructure/adapters/sources/dating/topescortbabes.adapter.js';
+import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
 import { config } from '#infrastructure/config/env.js';
 import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js';
 
@@ -34,31 +36,40 @@ async function main() {
   const captchaSolver = new CapsolverAdapter(config.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(config.zyteApiKey || '');
   const crawler = new CrawlerDispatcher(captchaSolver, proxyProvider, CrawlerEngine.PATCHRIGHT);
-  const adapter = new TopEscortBabesAdapter(crawler);
+  const registry = new SourceRegistry(crawler);
+  const resolver = new NullTaxonomyResolver();
 
   try {
     for (const url of urls) {
       console.log(`Navegando vía Zyte a: ${url}`);
 
-      const result = await adapter.extract(url, {
+      const pipeline = await registry.resolve(url);
+      if (!isDatingPipelinePort(pipeline)) {
+        throw new Error(`URL did not resolve to a v2 dating pipeline: ${url}`);
+      }
+
+      const crawlerOpts = pipeline.getCrawlerOptions(url, {
         proxyStrategy: ProxyStrategy.PROXY,
         solverStrategy: SolverStrategy.NONE,
         sessionProfile: undefined,
         headless: true,
         blockImages: true,
       });
+      const fetched = await crawler.fetch(url, crawlerOpts);
 
       const slug = url.split('/').filter(Boolean).pop();
       const snapshotPath = path.join(__dirname, `snapshot-zyte-patchright-${slug}.html`);
-      await fs.writeFile(snapshotPath, result?.html || '', 'utf-8');
+      await fs.writeFile(snapshotPath, fetched.html || '', 'utf-8');
+
+      const payload = pipeline.extract(fetched.html, url);
+      const scraped = await pipeline.map(payload, resolver);
 
       console.log('✅ ¡ÉXITO! Hemos extraído los datos correctamente.');
-      console.log(
-        `Datos extraídos: ${result.data.name}, Nick: ${result.data.attributes?.nickname}`,
-      );
+      console.log(`Datos extraídos: ${scraped.nickname}`);
     }
-  } catch (err: any) {
-    console.error(`❌ Fallo en el test: ${err.message}`);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`❌ Fallo en el test: ${message}`);
   } finally {
     await crawler.close();
   }

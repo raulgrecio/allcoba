@@ -1,9 +1,10 @@
 import path from 'path';
 import { chromium } from 'patchright';
 
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
+import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
-import { EuroGirlsEscortAdapter } from '#infrastructure/adapters/sources/dating/eurogirlsescort.adapter.js';
 import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
 import { config } from '#infrastructure/config/env.js';
 import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js';
@@ -20,7 +21,6 @@ async function main() {
   console.log('\n=== FASE 2: Prueba de Persistencia (Headless: true) ===');
   console.log(`Usando perfil: ${profilePath}`);
 
-  // Lanzamos el navegador con el contexto persistente que creamos antes
   const context = await chromium.launchPersistentContext(profilePath, {
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -32,7 +32,6 @@ async function main() {
     console.log(`Navegando a: ${url}`);
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
-    // Esperamos un poco para ver si nos reconoce
     await new Promise((r) => setTimeout(r, 5000));
 
     const content = await page.content();
@@ -45,14 +44,17 @@ async function main() {
       );
     } else {
       console.log('✅ ¡ÉXITO! La sesión persistente ha funcionado en modo invisible.');
-      const adapter = new EuroGirlsEscortAdapter(crawler);
-      const result = await adapter.extract(url, { html: content });
-      console.log(
-        `Extraído: ${result.data?.attributes?.nickname}, ${result.data?.attributes?.age} años`,
-      );
+      const pipeline = await registry.resolve(url);
+      if (!isDatingPipelinePort(pipeline)) {
+        throw new Error(`URL did not resolve to a v2 dating pipeline: ${url}`);
+      }
+      const payload = pipeline.extract(content, url);
+      const scraped = await pipeline.map(payload, new NullTaxonomyResolver());
+      console.log(`Extraído: ${scraped.nickname}, ${scraped.personalDetails.ageYears} años`);
     }
-  } catch (err: any) {
-    console.error(`Error: ${err.message}`);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`Error: ${message}`);
   } finally {
     await context.close();
   }
