@@ -234,10 +234,6 @@ run_portal "loquosex" "discover" \
   "none" \
   "Listing TBD — puede fallar si URL incorrecta"
 
-run_portal "madrid69" "discover" \
-  "https://www.madrid69.com/" \
-  "none"
-
 run_portal "milescorts" "discover" \
   "https://www.milescorts.es/escorts-y-putas/madrid-ciudad/" \
   "none"
@@ -282,6 +278,11 @@ fi
 run_portal "eurogirlsescort" "discover" \
   "https://www.eurogirlsescort.com/escorts/spain/madrid/" \
   "zyte"
+
+run_portal "madrid69" "discover" \
+  "https://www.madrid69.com/" \
+  "zyte" \
+  "Bunny Shield anti-bot — requiere proxy"
 
 run_portal "escort-advisor" "discover" \
   "https://www.escort-advisor.xxx/escort/madrid1" \

@@ -1,3 +1,5 @@
+import type { CrawlerOptions } from '#application/ports/crawler.port.js';
+
 import type { Madrid69Payload } from './madrid69.types.js';
 import { DatingPipelineBase } from '../dating-pipeline.base.js';
 import { extractMadrid69 } from './madrid69.extractor.js';
@@ -21,6 +23,23 @@ export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
   }
 
   map = mapMadrid69;
+
+  /**
+   * Home/listado es Next.js CSR: las cards de perfil se renderizan por JS.
+   * Forzamos networkidle + espera a que aparezcan los enlaces de perfil
+   * (el waitUntil del use-case se sobreescribe colocándolo tras el spread).
+   */
+  override getCrawlerOptions(url: string, options?: Partial<CrawlerOptions>): CrawlerOptions {
+    return {
+      ...super.getCrawlerOptions(url, options),
+      waitUntil: 'networkidle',
+      onBeforeCapture: async (page) => {
+        await page
+          .waitForSelector('a[href*="citas-chicas-"]', { timeout: 15000 })
+          .catch(() => {});
+      },
+    };
+  }
 
   override extractNextPageUrl(_html: string, _baseUrl: string): string | undefined {
     // CSR Next.js: pagination via API — needs Playwright endpoint interception.
