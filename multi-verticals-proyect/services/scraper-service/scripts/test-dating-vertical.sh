@@ -225,10 +225,6 @@ run_portal "erosguia" "discover" \
   "https://www.erosguia.com/escorts-espana" \
   "none"
 
-run_portal "eurogirlsescort" "discover" \
-  "https://www.eurogirlsescort.com/escorts/spain/madrid/" \
-  "none"
-
 run_portal "girlsbcn" "discover" \
   "https://www.girlsbcn.net/escorts-girl/" \
   "none"
@@ -282,6 +278,10 @@ if ! $DRY_RUN && ! $CF_ONLY; then
   log "Pausa de ${DELAY_BEFORE_CF}s antes de empezar CF portales..."
   sleep "$DELAY_BEFORE_CF"
 fi
+
+run_portal "eurogirlsescort" "discover" \
+  "https://www.eurogirlsescort.com/escorts/spain/madrid/" \
+  "zyte"
 
 run_portal "escort-advisor" "discover" \
   "https://www.escort-advisor.xxx/escort/madrid1" \

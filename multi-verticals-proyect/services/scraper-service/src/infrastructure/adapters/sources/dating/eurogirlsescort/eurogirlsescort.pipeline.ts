@@ -16,7 +16,8 @@ export class EuroGirlsEscortPipeline extends DatingPipelineBase<EuroGirlsEscortP
   }
 
   isProfileUrl(url: string): boolean {
-    return url.includes('/escort/') && !url.includes('?list=');
+    // Profile: /escort/{slug}/{numericId}/
+    return /\/escort\/[^/]+\/\d+/.test(new URL(url).pathname);
   }
 
   extract(html: string, _sourceUrl: string): EuroGirlsEscortPayload {
