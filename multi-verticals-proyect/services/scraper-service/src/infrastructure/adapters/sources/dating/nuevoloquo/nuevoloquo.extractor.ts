@@ -35,9 +35,15 @@ export const extractNuevoloquo = (html: string, sourceUrl: string): NuevoloquoPa
     $('h1.ad-name').text().trim() ||
     '';
 
-  const nickname = title.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim() || title;
+  // nickname: primer token tras quitar emojis/símbolos iniciales
+  const cleanTitle = title.replace(/^[^\p{L}\p{N}]+/u, '').trim();
+  const nickname =
+    cleanTitle.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim() || cleanTitle || title;
 
-  const bio = $('#description-container p').first().text().trim() || undefined;
+  const bio =
+    $('#description-container').text().trim() ||
+    $('#description-container p').first().text().trim() ||
+    undefined;
 
   const locationCity =
     $('.card-zone .location a').first().text().trim().replace(/\s*\(.*?\)/, '').trim() ||
@@ -51,8 +57,11 @@ export const extractNuevoloquo = (html: string, sourceUrl: string): NuevoloquoPa
         .filter(Boolean)
     : undefined;
 
+  // Edad: campo estructurado si existe, si no se infiere del texto del bio
+  const ageFromBio = bio?.match(/\b(1[89]|[2-5]\d)\s*años?\b/i)?.[1];
+
   const params: NuevoloquoParams = {
-    age: extractDetailField($, 'Edad'),
+    age: extractDetailField($, 'Edad') ?? ageFromBio,
     gender: extractDetailField($, 'Género'),
     ethnicity: extractDetailField($, 'Etnia'),
     hairColor: extractDetailField($, 'Color de pelo'),
