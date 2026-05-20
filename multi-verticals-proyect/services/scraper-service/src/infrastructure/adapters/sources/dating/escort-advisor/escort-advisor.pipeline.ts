@@ -26,8 +26,8 @@ export class EscortAdvisorPipeline extends DatingPipelineBase<EscortAdvisorPaylo
   }
 
   isProfileUrl(url: string): boolean {
-    const path = new URL(url).pathname;
-    return path.startsWith('/escorts/') && path.split('/').filter(Boolean).length >= 4;
+    // Profile: /opiniones/{numericId}
+    return /^\/opiniones\/\d+/.test(new URL(url).pathname);
   }
 
   extract(html: string, sourceUrl: string): EscortAdvisorPayload {

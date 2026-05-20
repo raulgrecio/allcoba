@@ -115,17 +115,18 @@ const extractWhatsapp = ($: CheerioAPI): { href?: string; phone?: string } => {
   return { href, phone: extractArdientePlacerWhatsappPhone(href) };
 };
 
-const extractPhotos = ($: CheerioAPI): ArdientePlacerPhoto[] => {
+const extractPhotos = ($: CheerioAPI, sourceUrl: string): ArdientePlacerPhoto[] => {
   const photos: ArdientePlacerPhoto[] = [];
   const seen = new Set<string>();
 
   // Full-size from data-lightbox hrefs: /anuncios/{id}/{id}-{imgid}-g.jpg
   $('a[data-lightbox][href^="/anuncios/"]').each((_, el) => {
-    const src = $(el).attr('href') ?? '';
-    if (!src || seen.has(src)) return;
+    const href = $(el).attr('href') ?? '';
+    if (!href || seen.has(href)) return;
     // Skip thumbnails accidentally grabbed as hrefs
-    if (src.includes('-m.jpg') || src.includes('-s.jpg')) return;
-    seen.add(src);
+    if (href.includes('-m.jpg') || href.includes('-s.jpg')) return;
+    seen.add(href);
+    const src = new URL(href, sourceUrl).href;
     const alt = $(el).find('img').attr('alt');
     photos.push({ src, ...(alt ? { alt } : {}) });
   });
@@ -155,7 +156,7 @@ export const extractArdientePlacerFromCheerio = (
     phone: extractPhone($, sourceUrl),
     ...(wa.phone ? { whatsappPhone: wa.phone } : {}),
     ...(wa.href ? { whatsappHref: wa.href } : {}),
-    photos: extractPhotos($),
+    photos: extractPhotos($, sourceUrl),
   };
 };
 

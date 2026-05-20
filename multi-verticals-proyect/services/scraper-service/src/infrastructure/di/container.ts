@@ -167,6 +167,8 @@ export async function createScraperServices(config: ScraperConfig) {
     scrapeUrlUseCase,
     crawler,
     entityRepos,
+    storage,
+    config,
   );
 
   return { scrapeUrlUseCase, discoverUrlsUseCase, crawler };

@@ -51,6 +51,15 @@ const makeScrapeUrlUseCase = () => ({
   execute: vi.fn().mockResolvedValue(undefined),
 });
 
+const makeStorage = () => ({
+  upload: vi.fn().mockResolvedValue('file:///tmp/x'),
+  delete: vi.fn().mockResolvedValue(undefined),
+  exists: vi.fn().mockResolvedValue(false),
+});
+
+// saveRawHtml off → no listing HTML dump in unit tests
+const TEST_CONFIG = { saveRawHtml: false };
+
 // ── entity repos ──────────────────────────────────────────────────────────────
 
 const makeEntityRepos = () => {
@@ -82,6 +91,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       crawler as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 10);
@@ -100,6 +111,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 3);
@@ -136,6 +149,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       entityRepos,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 10);
@@ -152,6 +167,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list');
@@ -173,6 +190,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 10);
@@ -191,6 +210,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 10, 2);
@@ -212,6 +233,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any, // only has 'general'
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await expect(useCase.execute('https://example.com/list', 10)).resolves.not.toThrow();
@@ -228,6 +251,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       crawler as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await expect(useCase.execute('https://example.com/list')).resolves.not.toThrow();
@@ -249,6 +274,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 1);
@@ -271,6 +298,8 @@ describe('DiscoverUrlsUseCase', () => {
       scraper as any,
       makeCrawler() as any,
       makeEntityRepos() as any,
+      makeStorage() as any,
+      TEST_CONFIG as any,
     );
 
     await useCase.execute('https://example.com/list', 10);

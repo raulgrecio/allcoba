@@ -22,7 +22,8 @@ export class GemidosPipeline extends DatingPipelineBase<GemidosPayload> {
   }
 
   isProfileUrl(url: string): boolean {
-    return url.includes('/anuncio/');
+    // Profile: /{slug}-{numericId}  (e.g. /ana-431892)
+    return /^\/[a-z0-9][a-z0-9-]*-\d+$/.test(new URL(url).pathname);
   }
 
   extract(html: string, sourceUrl: string): GemidosPayload {

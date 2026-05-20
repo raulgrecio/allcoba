@@ -4,10 +4,11 @@ import { logger } from '@allcoba/kernel';
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
 import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { StoragePort } from '#application/ports/storage.port.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 
-import type { ScrapeUrlUseCase } from './scrape-url.use-case.js';
+import type { ScrapeUrlUseCase, ScraperConfig } from './scrape-url.use-case.js';
 
 export class DiscoverUrlsUseCase {
   private readonly logger = logger().child({ component: 'DiscoverUrlsUseCase' });
@@ -17,7 +18,22 @@ export class DiscoverUrlsUseCase {
     private readonly scrapeUrlUseCase: ScrapeUrlUseCase,
     private readonly crawler: CrawlerPort,
     private readonly entityRepos: Map<Vertical, ScrapedEntityRepositoryPort<HasExternalRefs>>,
+    private readonly storage: StoragePort,
+    private readonly config: ScraperConfig,
   ) {}
+
+  /** Guarda el HTML del listado en raw/listings/ cuando --save-html está activo. */
+  private async saveListingHtml(identifier: string, url: string, html: string): Promise<void> {
+    if (!this.config.saveRawHtml) return;
+    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileName = `raw/listings/${identifier}_${ts}.html`;
+    try {
+      await this.storage.upload(Buffer.from(html), fileName, 'text/html');
+      this.logger.info({ url, fileName }, 'Listing HTML guardado');
+    } catch {
+      this.logger.warn({ url }, 'No se pudo guardar el HTML del listado');
+    }
+  }
 
   async execute(listUrl: string, limit?: number, skip?: number, headless?: boolean): Promise<void> {
     const source = await this.sourceResolver.resolve(listUrl);
@@ -49,6 +65,8 @@ export class DiscoverUrlsUseCase {
             };
 
         const listResult = await this.crawler.fetch(currentUrl, crawlerOptions);
+
+        await this.saveListingHtml(source.identifier, currentUrl, listResult.html);
 
         const profileLinks = source.extractProfileLinks(listResult.html, currentUrl);
         const uniqueLinks = [...new Set(profileLinks)].filter((link) => !processedUrls.has(link));
