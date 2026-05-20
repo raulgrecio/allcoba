@@ -13,8 +13,9 @@ export class MisliosPipeline extends DatingPipelineBase<MisliosPayload> {
   }
 
   isProfileUrl(url: string): boolean {
+    // Profile: /escorts/{ciudad}/{slug}-{id}/
     const parts = new URL(url).pathname.split('/').filter(Boolean);
-    return parts.length >= 2 && parts[0] === 'anuncios';
+    return parts.length === 3 && parts[0] === 'escorts';
   }
 
   extract(html: string, sourceUrl: string): MisliosPayload {

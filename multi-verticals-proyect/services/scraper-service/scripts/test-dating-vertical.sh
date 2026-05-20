@@ -213,11 +213,11 @@ run_portal "chicasmalas" "discover" \
   "none"
 
 run_portal "citapasion" "discover" \
-  "https://citapasion.com/escorts/madrid/madrid" \
+  "https://citapasion.com/escorts/madrid" \
   "none"
 
 run_portal "destacamos" "discover" \
-  "https://www.destacamos.net/escorts/madrid/" \
+  "https://www.destacamos.com/localidad-Madrid/listings.html" \
   "none" \
   "Listing TBD — puede fallar si URL incorrecta"
 
@@ -235,7 +235,7 @@ run_portal "loquosex" "discover" \
   "Listing TBD — puede fallar si URL incorrecta"
 
 run_portal "madrid69" "discover" \
-  "https://www.madrid69.com/citas/madrid/" \
+  "https://www.madrid69.com/" \
   "none"
 
 run_portal "milescorts" "discover" \
@@ -248,12 +248,12 @@ run_portal "milpasiones" "discover" \
   "Listing TBD — puede fallar si URL incorrecta"
 
 run_portal "mislios" "discover" \
-  "https://mislios.com/anuncios/madrid/" \
+  "https://mislios.com/escorts/" \
   "none" \
   "Listing AJAX — puede no extraer enlaces de perfil"
 
 run_portal "nuevoloquo" "discover" \
-  "https://www.nuevoloquo.ch/escort/madrid/" \
+  "https://www.nuevoloquo.ch/anuncios-eroticos/madrid/" \
   "none" \
   "Listing TBD — puede fallar si URL incorrecta"
 

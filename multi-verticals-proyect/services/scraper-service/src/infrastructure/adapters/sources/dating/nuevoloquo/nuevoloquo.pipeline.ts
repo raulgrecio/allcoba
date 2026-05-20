@@ -22,7 +22,8 @@ export class NuevoloquoPipeline extends DatingPipelineBase<NuevoloquoPayload> {
   }
 
   isProfileUrl(url: string): boolean {
-    return /\/escort\/[^/]+\/[^/]+\/\d+\/?$/.test(url);
+    // Profile: /{categoria}/{ciudad}/{slug}/{id}/  (escort, masaje-erotico, ...)
+    return /^\/[^/]+\/[^/]+\/[^/]+\/\d+\/?$/.test(new URL(url).pathname);
   }
 
   extract(html: string, sourceUrl: string): NuevoloquoPayload {

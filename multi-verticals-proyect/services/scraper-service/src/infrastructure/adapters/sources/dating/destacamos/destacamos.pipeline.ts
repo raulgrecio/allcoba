@@ -12,7 +12,7 @@ export class DestacamosPipeline extends DatingPipelineBase<DestacamosPayload> {
   readonly identifier = 'destacamos';
 
   canHandle(url: string): boolean {
-    return url.includes('destacamos.net');
+    return url.includes('destacamos.net') || url.includes('destacamos.com');
   }
 
   isProfileUrl(url: string): boolean {

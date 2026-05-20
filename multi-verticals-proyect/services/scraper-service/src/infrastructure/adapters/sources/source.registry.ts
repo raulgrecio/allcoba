@@ -88,7 +88,7 @@ const definitionsDating: SourceDefinition[] = [
     },
   },
   {
-    pattern: /destacamos\.net/,
+    pattern: /destacamos\.(net|com)/,
     load: async () => {
       const { DestacamosPipeline } = await import('./dating/destacamos/destacamos.pipeline.js');
       return new DestacamosPipeline();

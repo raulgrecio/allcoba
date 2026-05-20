@@ -11,8 +11,9 @@ export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
   }
 
   isProfileUrl(url: string): boolean {
+    // Profile: /citas-chicas-{city}-{id}-{slug}-{phone} (un solo segmento)
     const parts = new URL(url).pathname.split('/').filter(Boolean);
-    return parts[0] === 'citas' && parts.length >= 3;
+    return parts.length === 1 && /^citas-chicas-/.test(parts[0]!);
   }
 
   extract(html: string, sourceUrl: string): Madrid69Payload {
