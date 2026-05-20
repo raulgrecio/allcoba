@@ -162,7 +162,12 @@ Example URL: `https://www.erosguia.com/55383.html` (Real)
 
 ## escort-advisor.xxx ✅ v2
 
-Example URL: `https://www.escort-advisor.xxx/escorts/spain/madrid/diana-667554247/` (Real)
+> WordPress: **No** (verificado 20/05/2026).
+> Listado real: `https://www.escort-advisor.xxx/escort/madrid1`
+> Profile URL real: `/opiniones/{numericId}` (NO `/escorts/.../slug/`)
+> 20/05/2026 (real): `https://www.escort-advisor.xxx/opiniones/667554247` · `https://www.escort-advisor.xxx/opiniones/606792233`
+
+Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
 | Campo        | Valor                                                                       |
 | ------------ | --------------------------------------------------------------------------- |
@@ -209,7 +214,13 @@ Example URL: `https://www.eurogirlsescort.com/escort/sofia/1053224/?list=netqc` 
 
 ## gemidos.tv ✅ v2
 
-Example URL: `https://gemidos.tv/anuncio/lucia-escort-madrid/` (Real)
+> WordPress: **No** (verificado 20/05/2026).
+> Listado real: `https://gemidos.tv/espana-comunidad-de-madrid`
+> Profile URL real: `/{slug}` un solo segmento, con o SIN id numérico
+> (cards `<a class="listing-link">` en `.listing-pub`).
+> 20/05/2026 (real): `https://gemidos.tv/anitta-brasil` · `https://gemidos.tv/pau-535603`
+
+Example URL: `https://gemidos.tv/pau-535603` (Real)
 
 | Campo        | Valor                                                                         |
 | ------------ | ----------------------------------------------------------------------------- |
