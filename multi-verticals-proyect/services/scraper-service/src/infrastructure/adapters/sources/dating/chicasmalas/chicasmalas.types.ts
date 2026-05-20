@@ -13,4 +13,11 @@ export interface ChicasmalasPayload {
   photos: ChicasmalasPhoto[];
   city?: string;
   isVerified: boolean;
+  age?: number;
+  nationality?: string;
+  heightCm?: number;
+  weightKg?: number;
+  languages?: string[];
+  services?: string[];
+  rates?: string;
 }

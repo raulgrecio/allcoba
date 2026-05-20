@@ -33,6 +33,18 @@ export interface MapperOptions {
   readonly contentLocale?: string;
 }
 
+const slugify = (text: string | undefined): string | undefined => {
+  if (!text) return undefined;
+  return (
+    text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '') || undefined
+  );
+};
+
 const mapPhoto = (photo: ChicasmalasPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `chicasmalas:photo:${idx}`,
   url: photo.src,
@@ -75,9 +87,16 @@ export const mapChicasmalas = async (
 
   const primaryPhone = payload.phone ?? payload.whatsappPhone;
 
+  const nationalitySlug = slugify(payload.nationality);
+  const nationalityId = nationalitySlug
+    ? await resolver.resolveNationality(nationalitySlug)
+    : null;
+
   const personalDetails: PersonalDetailsCanonical = {
-    ageYears: 0,
-    nationalityId: undefined,
+    ageYears: payload.age ?? 0,
+    heightCm: payload.heightCm,
+    weightKg: payload.weightKg,
+    nationalityId: nationalityId ?? undefined,
     spokenLanguageCodes: [],
     meetingWith: [],
   };
@@ -141,6 +160,9 @@ export const mapChicasmalas = async (
     images: [],
     attributes: {
       isVerified: payload.isVerified,
+      ...(payload.services ? { services: payload.services } : {}),
+      ...(payload.languages ? { languages: payload.languages } : {}),
+      ...(payload.rates ? { rates: payload.rates } : {}),
     },
     metadata: { source: CHICASMALAS_SOURCE, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),
