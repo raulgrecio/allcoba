@@ -56,6 +56,10 @@ export function extractMadrid69(html: string, sourceUrl: string, apiJson?: unkno
     if (og) photos.push({ src: og });
   }
 
+  // Edad: visible en el DOM renderizado — "<span>Edad: 19</span>"
+  const ageMatch = $('body').text().match(/Edad:\s*(\d{2})/);
+  const ageFromDom = ageMatch ? parseInt(ageMatch[1]!, 10) : undefined;
+
   let payload: Madrid69Payload = {
     sourceId,
     sourceUrl,
@@ -67,6 +71,7 @@ export function extractMadrid69(html: string, sourceUrl: string, apiJson?: unkno
     city: cityFromUrl,
     isVerified: false,
     isVip: false,
+    ...(ageFromDom ? { age: ageFromDom } : {}),
   };
 
   if (apiJson != null) {

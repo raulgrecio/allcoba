@@ -23,14 +23,13 @@ export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
     sourceUrl: string,
     networkResponses?: ReadonlyArray<{ url: string; body: string }>,
   ): Madrid69Payload {
-    // Enriquecer con el JSON de la API interna (api.madrid69.com) capturado
-    // por el crawler — aporta edad, medidas, fotos que no están en el SSR.
+    // El JSON de la API interna (api-prod.valenciacitas.com) enriquece el
+    // payload si llega a capturarse entre las respuestas de red.
     let apiJson: unknown;
     for (const res of networkResponses ?? []) {
-      // API interna: api-prod.valenciacitas.com/v3/profiles/{id}
       if (!/valenciacitas\.com\/v3\/profiles\/\d+(?:$|\?)/.test(res.url)) continue;
       try {
-        const parsed = JSON.parse(res.body);
+        const parsed: unknown = JSON.parse(res.body);
         if (parsed && typeof parsed === 'object') {
           apiJson = parsed;
           break;
@@ -45,9 +44,8 @@ export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
   map = mapMadrid69;
 
   /**
-   * Home/listado es Next.js CSR: las cards de perfil se renderizan por JS.
-   * Forzamos networkidle + espera a que aparezcan los enlaces de perfil
-   * (el waitUntil del use-case se sobreescribe colocándolo tras el spread).
+   * Listado: Next.js CSR — esperar a que rendericen las cards de perfil.
+   * Perfil: networkidle garantiza que la app haya hidratado el contenido.
    */
   override getCrawlerOptions(url: string, options?: Partial<CrawlerOptions>): CrawlerOptions {
     const isProfile = this.isProfileUrl(url);
@@ -56,8 +54,6 @@ export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
       waitUntil: 'networkidle',
       captureNetwork: true,
       onBeforeCapture: async (page) => {
-        // Listado: esperar las cards CSR. Perfil: networkidle ya garantiza
-        // que la llamada a api.madrid69.com ha terminado.
         if (isProfile) return;
         await page
           .waitForSelector('a[href*="citas-chicas-"]', { timeout: 15000 })
