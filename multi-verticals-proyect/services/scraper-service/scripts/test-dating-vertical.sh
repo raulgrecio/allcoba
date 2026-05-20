@@ -209,7 +209,7 @@ run_portal "bluemove" "discover" \
   "none"
 
 run_portal "chicasmalas" "discover" \
-  "https://www.chicasmalas.es/escorts/madrid/" \
+  "https://www.chicasmalas.es/wp-json/wp/v2/ficha-escort?per_page=20" \
   "none"
 
 run_portal "citapasion" "discover" \

@@ -1,3 +1,5 @@
+import * as cheerio from 'cheerio';
+
 import { DatingPipelineBase } from '../dating-pipeline.base.js';
 import { extractChicasmalas } from './chicasmalas.extractor.js';
 import { mapChicasmalas } from './chicasmalas.mapper.js';
@@ -24,8 +26,29 @@ export class ChicasmalasPipeline extends DatingPipelineBase<ChicasmalasPayload> 
   }
 
   isProfileUrl(url: string): boolean {
-    const parts = new URL(url).pathname.split('/').filter(Boolean);
-    return parts.length === 3 && parts[0] === 'escorts' && !url.includes('?');
+    // Profile: /anuncios/{slug}/
+    return /^\/anuncios\/[^/]+\/?$/.test(new URL(url).pathname);
+  }
+
+  /**
+   * chicasmalas es WordPress. El descubrimiento usa la REST API
+   * (`/wp-json/wp/v2/ficha-escort`) en vez de scrapear el listado HTML:
+   * el crawler devuelve el JSON dentro de un <pre>.
+   */
+  override extractProfileLinks(html: string): string[] {
+    const $ = cheerio.load(html);
+    const raw = $('pre').text() || $('body').text() || html;
+    try {
+      const items = JSON.parse(raw) as Array<{ link?: string }>;
+      return items.map((i) => i.link).filter((l): l is string => !!l);
+    } catch {
+      return [];
+    }
+  }
+
+  /** REST: sin anchor rel=next; la paginación se controla con el límite. */
+  override extractNextPageUrl(): string | undefined {
+    return undefined;
   }
 
   extract(html: string, sourceUrl: string): ChicasmalasPayload {

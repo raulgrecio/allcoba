@@ -67,27 +67,26 @@ Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
 ## chicasmalas.es ✅ v2
 
-**NOTA:** Esta pagina es muyy mala!!!! no scrappear
+Example URL: `https://www.chicasmalas.es/anuncios/sofia-deluxe/` (Real)
 
-Example URL: `https://www.chicasmalas.es/maria-escort-espanola-en-orihuela-697394223/` (Real)
-Example URL: `https://www.chicasmalas.es/anuncios/ruby-escort-colombiana-murcia/` (Real)
-
-| Campo       | Valor                                 |
-| ----------- | ------------------------------------- |
-| Tech        | WordPress + Elementor + WooCommerce   |
-| Render      | JS (listing cards Elementor)          |
-| Listing     | `/escorts/{city}/`                    |
-| Profile URL | WooCommerce product o CPT — TBD       |
-| Paginación  | `a[rel="next"]`, `.next.page-numbers` |
-| Teléfono    | `a[href^="tel:"]`                     |
-| Imágenes    | `.woocommerce-product-gallery img`    |
-| Tarifas     | ❌ stub                               |
-| Servicios   | ❌ stub                               |
-| Login       | No                                    |
+| Campo       | Valor                                                                  |
+| ----------- | ---------------------------------------------------------------------- |
+| WordPress   | **Sí** — WP 6.9.4. Discovery vía REST API (no scrapear el listado HTML) |
+| Tech        | WordPress + Elementor                                                  |
+| Discovery   | `GET /wp-json/wp/v2/ficha-escort?per_page=N` → JSON, campo `link`       |
+| Profile URL | `/anuncios/{slug}/` (CPT `ficha-escort`)                               |
+| Paginación  | REST `?page=N`                                                         |
+| Teléfono    | `a[href^="tel:"]` ✅                                                    |
+| Imágenes    | ✅                                                                     |
+| Edad / bio / servicios | ❌ extractor contra markup incorrecto — pendiente reescritura |
+| Login       | No                                                                     |
+| 20/05/2026  | (real) `https://www.chicasmalas.es/anuncios/sofia-deluxe/`             |
 
 ---
 
 ## citapasion.com ✅ v2
+
+> WordPress: **No** (verificado 20/05/2026).
 
 Example URL: `https://citapasion.com/escorts/17533` (Real)
 
@@ -114,6 +113,8 @@ Example URL: `https://citapasion.com/escorts/17533` (Real)
 ---
 
 ## destacamos.net ✅ v2
+
+> WordPress: **No** (verificado 20/05/2026).
 
 Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
@@ -304,6 +305,8 @@ Example URL: `https://hotvalencia.com/putas-valencia/valentina-escortvalencia/` 
 
 ## loquosex.com ✅ v2
 
+> WordPress: **No** (verificado 20/05/2026).
+
 Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-677684329.html/` (Real)
 
 | Campo       | Valor                                                                        |
@@ -325,6 +328,8 @@ Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-67
 ---
 
 ## madrid69.com ✅ v2
+
+> WordPress: **No** — Next.js (verificado 20/05/2026).
 
 Example URL: `https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235` (Real)
 
@@ -394,6 +399,8 @@ Example URL: `https://milpasiones.com/anuncio/662583238-carinosa-morbosa-muy-imp
 
 ## mislios.com ✅ v2
 
+> WordPress: **Sí** (`/wp-content/` detectado 20/05/2026). Posible discovery vía REST API como chicasmalas — pendiente verificar el custom post type.
+
 Example URL: `https://mislios.com/anuncios/ana-escort-madrid/` (Real)
 
 | Campo        | Valor                                                             |
@@ -418,6 +425,8 @@ Example URL: `https://mislios.com/anuncios/ana-escort-madrid/` (Real)
 ---
 
 ## nuevoloquo.ch / .com / .es ✅ v2
+
+> WordPress: **No** (verificado 20/05/2026).
 
 Example URL: `https://www.nuevoloquo.ch/masaje-erotico/madrid/masajista-espanola-por-aqui-llamame-no-lo-dudes/629971/` (Real)
 
