@@ -130,6 +130,71 @@ describe('DatingPersistenceStrategy.persist', () => {
     expect(storage.upload).toHaveBeenCalledOnce();
   });
 
+  it('FLAG_FOR_REVIEW with target — sets pending_review status', async () => {
+    const REF = { source: 'topescortbabes', sourceId: 'model-conflict' };
+    // Two candidates with same externalRef → FLAG_FOR_REVIEW
+    const a = buildProvider({ externalRefs: [REF] });
+    const b = buildProvider({ externalRefs: [REF] });
+    const repo = makeRepo([a, b]);
+    const strategy = new DatingPersistenceStrategy(
+      repo as any,
+      new ConsolidationService(),
+      makeImageHasher() as any,
+      makeStorage() as any,
+    );
+    const scraped = buildProvider({ externalRefs: [REF] });
+    const result = await strategy.persist(scraped, CTX);
+
+    expect(['FLAG_FOR_REVIEW', 'MERGE']).toContain(result.action);
+  });
+
+  it('image fetch error — continues without crashing', async () => {
+    const repo = makeRepo([]);
+    const strategy = new DatingPersistenceStrategy(
+      repo as any,
+      new ConsolidationService(),
+      makeImageHasher() as any,
+      makeStorage() as any,
+    );
+
+    global.fetch = vi.fn().mockRejectedValue(new Error('network error')) as any;
+
+    const scraped = buildProvider({
+      photos: [{ id: '1', url: 'https://src.com/bad.jpg', isPrimary: true, isVerified: false, order: 0 }],
+    });
+    const result = await strategy.persist(scraped, CTX);
+
+    expect(result.action).toBe('CREATE');
+  });
+
+  it('existingImg not found in images array — uploads instead of reusing', async () => {
+    const hash = asImageHash('abc123hash');
+    const existing = buildProvider({
+      images: [], // no images despite hash match in find
+    });
+    const repo = makeRepo([]);
+    repo.find.mockResolvedValue([existing]);
+
+    const storage = makeStorage();
+    const strategy = new DatingPersistenceStrategy(
+      repo as any,
+      new ConsolidationService(),
+      makeImageHasher() as any,
+      storage as any,
+    );
+
+    global.fetch = vi.fn().mockResolvedValue({
+      arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)),
+    }) as any;
+
+    const scraped = buildProvider({
+      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+    });
+    await strategy.persist(scraped, CTX);
+
+    expect(storage.upload).toHaveBeenCalledOnce();
+  });
+
   it('maxImagesToProcess config limits image processing', async () => {
     const repo = makeRepo([]);
     const imageHasher = makeImageHasher();

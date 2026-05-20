@@ -98,6 +98,49 @@ describe('loquosex extractor — fixture: 677684329.html', () => {
   });
 });
 
+describe('loquosex extractor — edge case branches', () => {
+  const BASE_URL = 'https://loquosex.com/test-677684329.html/';
+
+  it('tel: href fallback when .numero-telefono absent (L135 truthy arm)', () => {
+    const html = `<html><body>
+      <article><h1>Test</h1></article>
+      <a href="tel:677684329">677684329</a>
+    </body></html>`;
+    const payload = extractLoquosex(html, BASE_URL);
+    expect(payload.phone).toBe('677684329');
+  });
+
+  it('extractCharacteristicField returns undefined when text empty after strip (L42)', () => {
+    const html = `<html><body>
+      <ul class="caracteristicas-detalle-xxx">
+        <li>Edad:</li>
+      </ul>
+    </body></html>`;
+    const payload = extractLoquosex(html, BASE_URL);
+    expect(payload.params.age).toBeUndefined();
+  });
+
+  it('city fallback chain — 1 Localidad link covers L78 inner || arms', () => {
+    const html = `<html><body>
+      <ul class="caracteristicas-detalle-xxx">
+        <li>Localidad: <a href="/sevilla">Sevilla</a></li>
+      </ul>
+    </body></html>`;
+    const payload = extractLoquosex(html, BASE_URL);
+    expect(payload.params.city).toBe('Sevilla');
+  });
+
+  it('zone extracted from 4th Localidad link (L97 truthy spread)', () => {
+    const html = `<html><body>
+      <ul class="caracteristicas-detalle-xxx">
+        <li>Localidad: <a>City</a><a>Country</a><a>Region</a><a>Zone</a></li>
+      </ul>
+    </body></html>`;
+    const payload = extractLoquosex(html, BASE_URL);
+    expect(payload.params.zone).toBe('Zone');
+  });
+});
+
 describe('loquosex extractor — all fixtures parse without throwing', () => {
   const fixtures = listHtmlFixtures();
 

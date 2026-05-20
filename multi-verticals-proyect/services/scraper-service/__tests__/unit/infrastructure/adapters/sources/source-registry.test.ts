@@ -61,4 +61,84 @@ describe('SourceRegistry.resolve', () => {
     const source = await registry.resolve('https://erosguia.com/escort/test');
     expect((source as any).identifier).toBe('erosguia');
   });
+
+  it('returns BluemovePipeline for bluemove.es', async () => {
+    const source = await registry.resolve('https://bluemove.es/perfil/test-user');
+    expect((source as any).identifier).toBe('bluemove');
+  });
+
+  it('returns ChicasmalasPipeline for chicasmalas.es', async () => {
+    const source = await registry.resolve('https://chicasmalas.es/escorts/madrid/username');
+    expect((source as any).identifier).toBe('chicasmalas');
+  });
+
+  it('returns CitapasionPipeline for citapasion.com', async () => {
+    const source = await registry.resolve('https://citapasion.com/escorts/17533');
+    expect((source as any).identifier).toBe('citapasion');
+  });
+
+  it('returns DestacamosPipeline for destacamos.net', async () => {
+    const source = await registry.resolve('https://destacamos.net/escort/test-user');
+    expect((source as any).identifier).toBe('destacamos');
+  });
+
+  it('returns EscortAdvisorPipeline for escort-advisor.xxx', async () => {
+    const source = await registry.resolve('https://escort-advisor.xxx/escorts/spain/madrid/diana/');
+    expect((source as any).identifier).toBe('escort-advisor');
+  });
+
+  it('returns EuroGirlsEscortPipeline for eurogirlsescort.es', async () => {
+    const source = await registry.resolve('https://eurogirlsescort.es/escort/test');
+    expect((source as any).identifier).toBe('eurogirlsescort');
+  });
+
+  it('returns GemidosPipeline for gemidos.tv', async () => {
+    const source = await registry.resolve('https://gemidos.tv/anuncio/test-escort');
+    expect((source as any).identifier).toBe('gemidos');
+  });
+
+  it('returns GirlsmadridPipeline for girlsmadrid.com', async () => {
+    const source = await registry.resolve('https://girlsmadrid.com/escort/test');
+    expect((source as any).identifier).toBe('girlsmadrid');
+  });
+
+  it('returns HotvalenciaPipeline for hotvalencia.com', async () => {
+    const source = await registry.resolve('https://hotvalencia.com/putas-valencia/escort-name');
+    expect((source as any).identifier).toBe('hotvalencia');
+  });
+
+  it('returns LoquosexPipeline for loquosex.com', async () => {
+    const source = await registry.resolve('https://loquosex.com/escort/test');
+    expect((source as any).identifier).toBe('loquosex');
+  });
+
+  it('returns Madrid69Pipeline for madrid69.com', async () => {
+    const source = await registry.resolve('https://madrid69.com/escort/test');
+    expect((source as any).identifier).toBe('madrid69');
+  });
+
+  it('returns MilescortsPipeline for milescorts.es', async () => {
+    const source = await registry.resolve('https://milescorts.es/escort/test');
+    expect((source as any).identifier).toBe('milescorts');
+  });
+
+  it('returns MilpasionesPipeline for milpasiones.com', async () => {
+    const source = await registry.resolve('https://milpasiones.com/escort/test');
+    expect((source as any).identifier).toBe('milpasiones');
+  });
+
+  it('returns MisliosPipeline for mislios.com', async () => {
+    const source = await registry.resolve('https://mislios.com/escort/test');
+    expect((source as any).identifier).toBe('mislios');
+  });
+
+  it('returns NuevoloquoPipeline for nuevoloquo.es', async () => {
+    const source = await registry.resolve('https://nuevoloquo.es/escort/test');
+    expect((source as any).identifier).toBe('nuevoloquo');
+  });
+
+  it('returns NuevapasionPipeline for nuevapasion.com', async () => {
+    const source = await registry.resolve('https://nuevapasion.com/escort/test');
+    expect((source as any).identifier).toBe('nuevapasion');
+  });
 });

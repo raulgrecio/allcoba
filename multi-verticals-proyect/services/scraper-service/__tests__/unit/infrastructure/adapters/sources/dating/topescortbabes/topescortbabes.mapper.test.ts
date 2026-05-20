@@ -195,6 +195,91 @@ describe('mapTopEscortBabes — bulk invariants over 51 fixtures', () => {
   );
 });
 
+describe('mapTopEscortBabes — stripped payload (absent optional fields)', () => {
+  it('handles all null/undefined optional fields without throwing', async () => {
+    const { payload: base } = loadFixture('topescortbabes_Chanel_1178.json');
+    const stripped = {
+      ...base,
+      baseCity: undefined,
+      currentCity: undefined,
+      aboutMe: undefined,
+      prices: null,
+      topTourText: 'Winter tour',
+      photos: null,
+      mainMedia: undefined,
+      encodedPhoneNumber: '',
+      otherPlatforms: null,
+      reviewsOverall: null,
+      reviews: null,
+      statisticsData: undefined,
+      contactOptions: undefined,
+      badges: undefined,
+    } as unknown as typeof base;
+
+    const sp = await mapTopEscortBabes(stripped, resolver, { now: NOW });
+
+    expect(sp.baseCity).toBeUndefined();
+    expect(sp.currentCity).toBeUndefined();
+    expect(sp.aboutMe).toBeUndefined();
+    expect(sp.prices).toHaveLength(0);
+    expect(sp.topTourText?.original).toBe('Winter tour');
+    expect(sp.photos).toHaveLength(0);
+    expect(sp.mainMedia).toBeUndefined();
+    expect(sp.encodedPhoneNumber).toBeUndefined();
+    expect(sp.otherPlatforms).toHaveLength(0);
+    expect(sp.reviewsOverall).toBeUndefined();
+    expect(sp.reviews).toHaveLength(0);
+    expect(sp.statistics).toBeUndefined();
+    expect(sp.contactOptions).toHaveLength(0);
+    expect(sp.badges.verified).toBe(false);
+  });
+
+  it('handles statisticsData.ab > 0 (L451 truthy arm)', async () => {
+    const { payload: base } = loadFixture('topescortbabes_Chanel_1178.json');
+    const withAgency = {
+      ...base,
+      statisticsData: { ...base.statisticsData, ab: 5 },
+    } as unknown as typeof base;
+    const sp = await mapTopEscortBabes(withAgency, resolver, { now: NOW });
+    expect(sp.statistics?.agencyId).toContain('5');
+  });
+
+  it('uses current Date when options.now is absent (L360 ?? new Date())', async () => {
+    const { payload } = loadFixture('topescortbabes_Chanel_1178.json');
+    const sp = await mapTopEscortBabes(payload, resolver);
+    expect(sp.lastScrapedAt).toBeDefined();
+    expect(new Date(sp.lastScrapedAt).getFullYear()).toBeGreaterThanOrEqual(2026);
+  });
+});
+
+describe('mapTopEscortBabes — personalDetails without Schema.org Person', () => {
+  it('falls back to parsers when pageSchema has no Person node (L85, L299, L303, L312-317, L331, L339-342)', async () => {
+    const { payload: base } = loadFixture('topescortbabes_Chanel_1178.json');
+    const noPerson = {
+      ...base,
+      age: 'not-a-number',
+      pageSchema: { '@context': 'https://schema.org' as const, '@graph': [] },
+      personalDetails: {
+        ...base.personalDetails,
+        nationality: 'venezolana',
+        ethnic: 'latina',
+        hair: 'morena',
+        eyes: 'marrones',
+        orientation: 'bisexual',
+      },
+    } as unknown as typeof base;
+
+    const sp = await mapTopEscortBabes(noPerson, resolver, { now: NOW });
+
+    expect(sp.personalDetails.ageYears).toBe(0);
+    expect(sp.personalDetails.nationalityId).toBeUndefined();
+    expect(sp.personalDetails.ethnicId).toBeUndefined();
+    expect(sp.personalDetails.hairId).toBeUndefined();
+    expect(sp.personalDetails.eyesId).toBeUndefined();
+    expect(sp.personalDetails.orientationId).toBeUndefined();
+  });
+});
+
 describe('mapTopEscortBabes — taxonomy misses degrade gracefully', () => {
   it('leaves ids undefined when resolver returns null', async () => {
     const { payload } = loadFixture('topescortbabes_Chanel_1178.json');

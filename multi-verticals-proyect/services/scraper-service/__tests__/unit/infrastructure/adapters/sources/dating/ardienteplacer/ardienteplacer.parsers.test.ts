@@ -18,6 +18,15 @@ describe('parseSourceIdFromUrl', () => {
   it('extracts last path segment (ad ID)', () => {
     expect(parseSourceIdFromUrl(FIXTURE_URL)).toBe('92010');
   });
+
+  it('returns empty string for URL with no path segments', () => {
+    expect(parseSourceIdFromUrl('https://ardienteplacer.com/')).toBe('');
+  });
+
+  it('falls back to string split on invalid URL', () => {
+    const result = parseSourceIdFromUrl('not-a-url/path/id');
+    expect(result).toBe('id');
+  });
 });
 
 describe('parsePhoneFromUrl', () => {
@@ -27,6 +36,10 @@ describe('parsePhoneFromUrl', () => {
 
   it('returns undefined when no digit segment', () => {
     expect(parsePhoneFromUrl('https://ardienteplacer.com/page/2')).toBeUndefined();
+  });
+
+  it('returns undefined on invalid URL (catch path)', () => {
+    expect(parsePhoneFromUrl('not-a-url')).toBeUndefined();
   });
 });
 
@@ -42,6 +55,10 @@ describe('parseCityFromUrl', () => {
       ),
     ).toBe('barcelona ciudad');
   });
+
+  it('returns undefined on invalid URL (catch path)', () => {
+    expect(parseCityFromUrl('not-a-url')).toBeUndefined();
+  });
 });
 
 describe('slugifyArdienteplacer', () => {
@@ -52,6 +69,10 @@ describe('slugifyArdienteplacer', () => {
   it('returns undefined for falsy', () => {
     expect(slugifyArdienteplacer(null)).toBeUndefined();
     expect(slugifyArdienteplacer('')).toBeUndefined();
+  });
+
+  it('returns undefined when result is empty after transforms (only dashes)', () => {
+    expect(slugifyArdienteplacer('---')).toBeUndefined();
   });
 });
 
@@ -79,6 +100,10 @@ describe('parseArdientePlacerAge', () => {
     expect(parseArdientePlacerAge(null)).toBeUndefined();
     expect(parseArdientePlacerAge('')).toBeUndefined();
   });
+
+  it('returns undefined when no digits in string', () => {
+    expect(parseArdientePlacerAge('years')).toBeUndefined();
+  });
 });
 
 describe('parseArdientePlacerRate', () => {
@@ -93,6 +118,10 @@ describe('parseArdientePlacerRate', () => {
   it('returns undefined for falsy', () => {
     expect(parseArdientePlacerRate(null)).toBeUndefined();
     expect(parseArdientePlacerRate('')).toBeUndefined();
+  });
+
+  it('returns undefined when pattern does not match', () => {
+    expect(parseArdientePlacerRate('no rate here')).toBeUndefined();
   });
 });
 
@@ -111,5 +140,9 @@ describe('extractArdientePlacerWhatsappPhone', () => {
 
   it('returns undefined for falsy', () => {
     expect(extractArdientePlacerWhatsappPhone(null)).toBeUndefined();
+  });
+
+  it('returns undefined when href does not match either pattern', () => {
+    expect(extractArdientePlacerWhatsappPhone('https://example.com/contact')).toBeUndefined();
   });
 });

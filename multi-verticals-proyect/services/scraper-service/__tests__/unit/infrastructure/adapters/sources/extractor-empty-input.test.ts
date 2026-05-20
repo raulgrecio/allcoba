@@ -27,15 +27,28 @@ import { extractCitapasion } from '#infrastructure/adapters/sources/dating/citap
 import { mapCitapasion } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.mapper.js';
 import { extractBluemove } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.extractor.js';
 import { mapBluemove } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.mapper.js';
+import { extractMilpasiones } from '#infrastructure/adapters/sources/dating/milpasiones/milpasiones.extractor.js';
 import { mapMilpasiones } from '#infrastructure/adapters/sources/dating/milpasiones/milpasiones.mapper.js';
 import { extractNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.extractor.js';
 import { mapNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.mapper.js';
+import { extractErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.extractor.js';
+import { mapErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.mapper.js';
+import { extractHotvalencia } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.extractor.js';
+import { mapHotvalencia } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.mapper.js';
+import { extractNuevapasion } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.extractor.js';
+import { mapNuevapasion } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.mapper.js';
+import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
+import { mapMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.mapper.js';
 import { extractWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.extractor.js';
 import { mapWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.mapper.js';
 import { extractIdealista } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.extractor.js';
 import { mapIdealista } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.mapper.js';
 import { extractFotocasa } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.extractor.js';
 import { mapFotocasa } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.mapper.js';
+import { extractGemidos } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.extractor.js';
+import { mapGemidos } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.mapper.js';
+import { extractEscortAdvisor } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.extractor.js';
+import { mapEscortAdvisor } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.mapper.js';
 import { extractCochesNet } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.extractor.js';
 import { mapCochesNet } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.mapper.js';
 
@@ -119,6 +132,55 @@ describe('Empty-input extractor + mapper sweep — dating', () => {
     const payload = extractNuevoloquo(EMPTY_HTML, BASE);
     expect(payload).toBeDefined();
     const sp = await mapNuevoloquo(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('Gemidos: extract + map empty HTML', async () => {
+    const payload = extractGemidos(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapGemidos(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('EscortAdvisor: extract + map empty HTML', async () => {
+    const payload = extractEscortAdvisor(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapEscortAdvisor(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('Erosguia: extract + map empty HTML', async () => {
+    const payload = extractErosguia(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapErosguia(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('Hotvalencia: extract + map empty HTML', async () => {
+    const payload = extractHotvalencia(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapHotvalencia(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('Milpasiones: extract + map empty HTML', async () => {
+    const payload = extractMilpasiones(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapMilpasiones(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('Nuevapasion: extract + map empty HTML', async () => {
+    const payload = extractNuevapasion(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapNuevapasion(payload, resolver);
+    expect(sp.vertical).toBe('dating');
+  });
+
+  it('Madrid69: extract + map empty HTML', async () => {
+    const payload = extractMadrid69(EMPTY_HTML, BASE);
+    expect(payload).toBeDefined();
+    const sp = await mapMadrid69(payload, resolver);
     expect(sp.vertical).toBe('dating');
   });
 });

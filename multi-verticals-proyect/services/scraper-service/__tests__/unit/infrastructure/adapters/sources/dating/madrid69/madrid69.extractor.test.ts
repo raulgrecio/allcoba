@@ -104,3 +104,43 @@ describe('extractMadrid69 — minimal HTML', () => {
     expect(p.photos).toHaveLength(0);
   });
 });
+
+describe('extractMadrid69 — fallback branches', () => {
+  it('uses og:title when <title> element is absent (L28 || fallback)', () => {
+    const html = `<html><head>
+      <meta property="og:title" content="Carmen - escort Madrid | Madrid69">
+    </head><body></body></html>`;
+    const p = extractMadrid69(html, 'https://www.madrid69.com/citas-chicas-madrid-99999-carmen-699000111');
+    expect(p.title).toBe('Carmen - escort Madrid | Madrid69');
+    expect(p.nickname).toBe('Carmen');
+  });
+
+  it('uses og:description when <meta name=description> is absent (L33 || fallback)', () => {
+    const html = `<html><head>
+      <title>Sofia - tel: 611223344 | Madrid69</title>
+      <meta property="og:description" content="Soy Sofia, escort independiente en Madrid.">
+    </head><body></body></html>`;
+    const p = extractMadrid69(html, 'https://www.madrid69.com/citas-chicas-madrid-99999-sofia-611223344');
+    expect(p.bio).toBe('Soy Sofia, escort independiente en Madrid.');
+  });
+
+  it('skips preload link without href attribute (L44 ?? fallback)', () => {
+    const html = `<html><head>
+      <link rel="preload" as="image">
+      <link rel="preload" as="image" href="https://madrid69.b-cdn.net/image/abc/photo.jpg">
+    </head><body></body></html>`;
+    const p = extractMadrid69(html, SOURCE_URL);
+    expect(p.photos).toHaveLength(1);
+    expect(p.photos[0]!.src).toContain('photo.jpg');
+  });
+
+  it('falls back to head photos when apiJson has empty fotos (L78 false arm)', () => {
+    const html = `<html><head>
+      <link rel="preload" as="image" href="https://madrid69.b-cdn.net/image/abc/head-photo.jpg">
+    </head><body></body></html>`;
+    const apiJson = { data: { nombre: 'Kheila', id: 99, fotos: [] } };
+    const p = extractMadrid69(html, SOURCE_URL, apiJson);
+    expect(p.photos).toHaveLength(1);
+    expect(p.photos[0]!.src).toContain('head-photo.jpg');
+  });
+});

@@ -22,6 +22,10 @@ describe('parseSourceIdFromUrl', () => {
   ])('%s → %s', (url, expected) => {
     expect(parseSourceIdFromUrl(url)).toBe(expected);
   });
+
+  it('returns empty string for root URL with no slug', () => {
+    expect(parseSourceIdFromUrl('https://www.chicasmalas.es/')).toBe('');
+  });
 });
 
 describe('parsePhoneFromSlug', () => {
@@ -42,6 +46,11 @@ describe('parseCityFromSlug', () => {
   ])('%s → %s', (slug, expected) => {
     expect(parseCityFromSlug(slug)).toBe(expected);
   });
+
+  it('returns undefined when last segment after phone removal is empty', () => {
+    // slug like "name--697394223": after removing "-697394223", "name-" → parts = ["name", ""] → last is ""
+    expect(parseCityFromSlug('name--697394223')).toBeUndefined();
+  });
 });
 
 describe('parseNicknameFromMetaTitle', () => {
@@ -55,6 +64,9 @@ describe('parseNicknameFromMetaTitle', () => {
 
   it('returns undefined for empty', () =>
     expect(parseNicknameFromMetaTitle('')).toBeUndefined());
+
+  it('returns undefined when first token trims to empty string', () =>
+    expect(parseNicknameFromMetaTitle(' Escort')).toBeUndefined());
 });
 
 describe('parseChicasmalasPhone', () => {
@@ -83,6 +95,15 @@ describe('parseChicasmalasWhatsapp', () => {
   ])('%s → %s', (href, expected) => {
     expect(parseChicasmalasWhatsapp(href)).toBe(expected);
   });
+
+  it('returns undefined when phone cannot be determined (null phone)', () => {
+    // Non-wa.me, no phone param → phone is null
+    expect(parseChicasmalasWhatsapp('https://telegram.me/username')).toBeUndefined();
+  });
+
+  it('returns undefined on invalid URL (catch path)', () => {
+    expect(parseChicasmalasWhatsapp('not-a-url::invalid')).toBeUndefined();
+  });
 });
 
 describe('parseCityFromMapsUrl', () => {
@@ -96,5 +117,9 @@ describe('parseCityFromMapsUrl', () => {
     ['https://other.com', undefined],
   ])('%s → %s', (src, expected) => {
     expect(parseCityFromMapsUrl(src)).toBe(expected);
+  });
+
+  it('returns undefined on invalid URL (catch path)', () => {
+    expect(parseCityFromMapsUrl('not-a-url::invalid')).toBeUndefined();
   });
 });

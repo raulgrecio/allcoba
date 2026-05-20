@@ -11,7 +11,8 @@ import { asProviderId } from '@allcoba/shared-types';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
 import { resolveCountryCode } from '#infrastructure/utils/country-resolver.js';
-import { asConfidence } from '#domain/canonical/confidence.js';
+import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
 // ── NullTaxonomyResolver ──────────────────────────────────────────────────────
@@ -145,6 +146,68 @@ describe('InMemoryProviderRepository', () => {
     await repo.updateById(p.id, updated);
     const found = await repo.findById(p.id);
     expect(found?.nickname).toBe('ById');
+  });
+});
+
+// ── Confidence value object ───────────────────────────────────────────────────
+
+describe('asConfidence', () => {
+  it('creates valid confidence', () => {
+    expect(asConfidence(0.5)).toBe(0.5);
+    expect(asConfidence(0)).toBe(0);
+    expect(asConfidence(1)).toBe(1);
+  });
+
+  it('throws for negative', () => {
+    expect(() => asConfidence(-0.1)).toThrow(RangeError);
+  });
+
+  it('throws for > 1', () => {
+    expect(() => asConfidence(1.1)).toThrow(RangeError);
+  });
+
+  it('throws for NaN', () => {
+    expect(() => asConfidence(NaN)).toThrow(RangeError);
+  });
+
+  it('throws for Infinity', () => {
+    expect(() => asConfidence(Infinity)).toThrow(RangeError);
+  });
+});
+
+describe('Confidence constants', () => {
+  it('high = 0.95', () => { expect(Confidence.high).toBe(0.95); });
+  it('medium = 0.8', () => { expect(Confidence.medium).toBe(0.8); });
+  it('low = 0.5', () => { expect(Confidence.low).toBe(0.5); });
+
+  it('isHigh true for >= 0.9', () => { expect(Confidence.isHigh(asConfidence(0.95))).toBe(true); });
+  it('isHigh false for < 0.9', () => { expect(Confidence.isHigh(asConfidence(0.5))).toBe(false); });
+
+  it('isMedium true for 0.7-0.89', () => { expect(Confidence.isMedium(asConfidence(0.8))).toBe(true); });
+  it('isMedium false for < 0.7', () => { expect(Confidence.isMedium(asConfidence(0.5))).toBe(false); });
+  it('isMedium false for >= 0.9', () => { expect(Confidence.isMedium(asConfidence(0.95))).toBe(false); });
+});
+
+// ── isDatingPipelinePort type guard ───────────────────────────────────────────
+
+describe('isDatingPipelinePort', () => {
+  it('returns false for null', () => { expect(isDatingPipelinePort(null)).toBe(false); });
+  it('returns false for undefined', () => { expect(isDatingPipelinePort(undefined)).toBe(false); });
+  it('returns false for empty object', () => { expect(isDatingPipelinePort({})).toBe(false); });
+  it('returns false when map missing', () => {
+    expect(isDatingPipelinePort({ extract: () => {}, identifier: 'x' })).toBe(false);
+  });
+  it('returns false when extract missing', () => {
+    expect(isDatingPipelinePort({ map: () => {}, identifier: 'x' })).toBe(false);
+  });
+  it('returns false when map not a function', () => {
+    expect(isDatingPipelinePort({ map: 'not-fn', extract: () => {}, identifier: 'x' })).toBe(false);
+  });
+  it('returns false when identifier missing', () => {
+    expect(isDatingPipelinePort({ map: () => {}, extract: () => {} })).toBe(false);
+  });
+  it('returns true for valid dating pipeline port shape', () => {
+    expect(isDatingPipelinePort({ map: () => {}, extract: () => {}, identifier: 'test' })).toBe(true);
   });
 });
 

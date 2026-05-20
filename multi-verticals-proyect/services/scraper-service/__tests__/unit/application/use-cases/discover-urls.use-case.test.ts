@@ -180,6 +180,82 @@ describe('DiscoverUrlsUseCase', () => {
     expect(scraper.execute).toHaveBeenCalledTimes(2);
   });
 
+  it('respects skip parameter — skips first N profiles', async () => {
+    const source = makeSource({
+      profileLinks: [['https://example.com/item/skip1', 'https://example.com/item/skip2', 'https://example.com/item/actual']],
+      nextPages: [undefined],
+    });
+    const scraper = makeScrapeUrlUseCase();
+    const useCase = new DiscoverUrlsUseCase(
+      makeSourceResolver(source) as any,
+      scraper as any,
+      makeCrawler() as any,
+      makeEntityRepos() as any,
+    );
+
+    await useCase.execute('https://example.com/list', 10, 2);
+
+    expect(scraper.execute).toHaveBeenCalledTimes(1);
+    expect(scraper.execute).toHaveBeenCalledWith('https://example.com/item/actual');
+  });
+
+  it('handles unknown vertical — repo missing, no crash', async () => {
+    const source = makeSource({
+      profileLinks: [['https://example.com/item/unknown-vertical']],
+      nextPages: [undefined],
+    });
+    // Use a source with a vertical that has no repo in entityRepos
+    Object.assign(source, { defaultVertical: 'real-estate' });
+    const scraper = makeScrapeUrlUseCase();
+    const useCase = new DiscoverUrlsUseCase(
+      makeSourceResolver(source) as any,
+      scraper as any,
+      makeCrawler() as any,
+      makeEntityRepos() as any, // only has 'general'
+    );
+
+    await expect(useCase.execute('https://example.com/list', 10)).resolves.not.toThrow();
+    expect(scraper.execute).toHaveBeenCalledOnce();
+  });
+
+  it('breaks on list page fetch error', async () => {
+    const source = makeSource({ profileLinks: [[]], nextPages: [] });
+    const crawler = makeCrawler();
+    crawler.fetch.mockRejectedValueOnce(new Error('fetch failed'));
+    const scraper = makeScrapeUrlUseCase();
+    const useCase = new DiscoverUrlsUseCase(
+      makeSourceResolver(source) as any,
+      scraper as any,
+      crawler as any,
+      makeEntityRepos() as any,
+    );
+
+    await expect(useCase.execute('https://example.com/list')).resolves.not.toThrow();
+    expect(scraper.execute).not.toHaveBeenCalled();
+  });
+
+  it('isDatingPipelinePort truthy path — uses dating getCrawlerOptions', async () => {
+    const datingSource = {
+      ...makeSource({
+        profileLinks: [['https://example.com/item/a']],
+        nextPages: [undefined],
+      }),
+      map: vi.fn(),
+      extract: vi.fn(),
+    };
+    const scraper = makeScrapeUrlUseCase();
+    const useCase = new DiscoverUrlsUseCase(
+      makeSourceResolver(datingSource as any) as any,
+      scraper as any,
+      makeCrawler() as any,
+      makeEntityRepos() as any,
+    );
+
+    await useCase.execute('https://example.com/list', 1);
+
+    expect(scraper.execute).toHaveBeenCalledOnce();
+  });
+
   it('continues after individual profile error', async () => {
     const source = makeSource({
       profileLinks: [['https://example.com/item/bad', 'https://example.com/item/good']],

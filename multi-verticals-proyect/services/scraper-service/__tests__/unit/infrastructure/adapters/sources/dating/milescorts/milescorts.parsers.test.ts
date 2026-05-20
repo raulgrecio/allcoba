@@ -51,6 +51,11 @@ describe('parseCitySlugFromUrl', () => {
       ),
     ).toBe('madrid-ciudad');
   });
+
+  it('falls back to string split on invalid URL (catch path)', () => {
+    const result = parseCitySlugFromUrl('not-a-url/category/file.htm');
+    expect(result).toBe('category');
+  });
 });
 
 describe('citySlugToName', () => {
@@ -68,6 +73,10 @@ describe('slugifyMilescorts', () => {
   it('returns undefined for falsy', () => {
     expect(slugifyMilescorts(null)).toBeUndefined();
     expect(slugifyMilescorts('')).toBeUndefined();
+  });
+
+  it('returns undefined when result is empty after transforms', () => {
+    expect(slugifyMilescorts('---')).toBeUndefined();
   });
 });
 
@@ -95,6 +104,10 @@ describe('parseMilescortsAge', () => {
     expect(parseMilescortsAge(null)).toBeUndefined();
     expect(parseMilescortsAge('')).toBeUndefined();
   });
+
+  it('returns undefined when no digits in string', () => {
+    expect(parseMilescortsAge('years')).toBeUndefined();
+  });
 });
 
 describe('extractMilescortsWhatsappPhone', () => {
@@ -111,5 +124,9 @@ describe('extractMilescortsWhatsappPhone', () => {
   it('returns undefined for falsy', () => {
     expect(extractMilescortsWhatsappPhone(null)).toBeUndefined();
     expect(extractMilescortsWhatsappPhone('')).toBeUndefined();
+  });
+
+  it('returns undefined when href does not match either pattern', () => {
+    expect(extractMilescortsWhatsappPhone('https://example.com/contact')).toBeUndefined();
   });
 });
