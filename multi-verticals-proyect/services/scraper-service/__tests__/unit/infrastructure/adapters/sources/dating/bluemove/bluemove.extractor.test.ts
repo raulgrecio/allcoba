@@ -3,49 +3,63 @@ import { extractBluemove } from '#infrastructure/adapters/sources/dating/bluemov
 import type { BluemovePayload } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.types.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 
-const SOURCE_URL = 'https://bluemove.es/madrid/escorts/#49049';
+const SOURCE_URL = 'https://bluemove.es/madrid/escorts/#56636';
 
-describe('extractBluemove — fixture beatriz_49049', () => {
+describe('extractBluemove — fixture andreia_56636 (modal real)', () => {
   let payload: BluemovePayload;
 
   beforeAll(() => {
-    const html = loadHtml('beatriz_49049.html');
+    const html = loadHtml('andreia_56636.html');
     payload = extractBluemove(html, SOURCE_URL);
   });
 
-  it('sourceId = 49049', () => expect(payload.sourceId).toBe('49049'));
+  it('sourceId = 56636', () => expect(payload.sourceId).toBe('56636'));
   it('sourceUrl', () => expect(payload.sourceUrl).toBe(SOURCE_URL));
-  it('title from img alt', () => expect(payload.title).toContain('BEATRIZ'));
-  it('nickname = Beatriz', () => expect(payload.nickname).toBe('Beatriz'));
-  it('bio extracted', () => expect(payload.bio).toContain('independiente'));
+  it('nickname = Andreia', () => expect(payload.nickname).toBe('Andreia'));
+  it('title from quote', () => expect(payload.title).toBe('Linda y cariñosa'));
+  it('bio extracted', () => expect(payload.bio).toContain('Andreia'));
 
-  it('phone from #phoneCallSection', () => expect(payload.phone).toBe('678797126'));
-  it('whatsapp from #phoneCallSection', () => expect(payload.whatsappPhone).toBe('678797126'));
-  it('telegram from #phoneCallSection', () => expect(payload.telegram).toBe('beatriz_escort'));
-  it('instagram from .ficha-social-media', () => expect(payload.instagram).toBe('beatriz_escort_madrid'));
+  it('phone from em-profile-phone', () => expect(payload.phone).toBe('603841323'));
+  it('whatsapp from em-cta-whatsapp', () => expect(payload.whatsappPhone).toBe('603841323'));
+  it('telegram from em-cta-telegram', () => expect(payload.telegram).toBe('+603841323'));
 
-  it('2 gallery photos', () => expect(payload.photos).toHaveLength(2));
-  it('isVerified = true (verificada badge)', () => expect(payload.isVerified).toBe(true));
+  it('photos extracted', () => expect(payload.photos.length).toBeGreaterThan(3));
+  it('photo src is bluemove CDN', () =>
+    expect(payload.photos[0]!.src).toContain('media3.bluemove.es'));
+  it('isVerified = false (breakdown sin identity/selfie)', () =>
+    expect(payload.isVerified).toBe(false));
 
-  it('age = 27', () => expect(payload.params.age).toBe(27));
+  it('age = 28', () => expect(payload.params.age).toBe(28));
+  it('nationality = Portuguesa', () => expect(payload.params.nationality).toBe('Portuguesa'));
+  it('languages', () =>
+    expect(payload.params.languages).toEqual(['Español', 'Inglés', 'Portugués']));
   it('city = Madrid (province stripped)', () => expect(payload.params.city).toBe('Madrid'));
-  it('heightCm = 168', () => expect(payload.params.heightCm).toBe(168));
-  it('weightKg = 58', () => expect(payload.params.weightKg).toBe(58));
-  it('hairColor = Rubia', () => expect(payload.params.hairColor).toBe('Rubia'));
-  it('eyeColor = Verdes', () => expect(payload.params.eyeColor).toBe('Verdes'));
-  it('nationality = Española', () => expect(payload.params.nationality).toBe('Española'));
-  it('languages = [Español, Inglés]', () => expect(payload.params.languages).toEqual(['Español', 'Inglés']));
-  it('tattoos = false', () => expect(payload.params.tattoos).toBe(false));
-  it('piercings = true', () => expect(payload.params.piercings).toBe(true));
-  it('zone = Centro', () => expect(payload.params.zone).toBe('Centro'));
-  it('services extracted', () => expect(payload.params.services).toContain('GFE'));
+  it('zone = Tetuán', () => expect(payload.params.zone).toBe('Tetuán'));
+  it('services include Girlfriend experience', () =>
+    expect(payload.params.services).toContain('Girlfriend experience'));
+  it('serviceLocations extracted', () =>
+    expect(payload.params.serviceLocations!.length).toBeGreaterThan(0));
+  it('paymentMethods extracted', () =>
+    expect(payload.params.paymentMethods!.length).toBeGreaterThan(0));
+});
+
+describe('extractBluemove — em-profile-highlight fallback', () => {
+  it('deriva age + nationality del highlight cuando no hay em-stat-row', () => {
+    const html = `<html><body><escort-modal>
+      <h2 class="em-profile-name">Sofia</h2>
+      <p class="em-profile-highlight">Española · 31 anos</p>
+    </escort-modal></body></html>`;
+    const p = extractBluemove(html, 'https://bluemove.es/madrid/escorts/#1234');
+    expect(p.params.age).toBe(31);
+    expect(p.params.nationality).toBe('Española');
+  });
 });
 
 describe('extractBluemove — og:image fallback', () => {
-  it('uses og:image when no slider', () => {
+  it('usa og:image cuando no hay em-photo-tile', () => {
     const html = `<html><head>
-      <meta property="og:image" content="https://cdn.bluemove.es/og.jpg">
-    </head><body><div id="fichaContent"></div></body></html>`;
+      <meta property="og:image" content="https://media3.bluemove.es/og.jpg">
+    </head><body><escort-modal></escort-modal></body></html>`;
     const p = extractBluemove(html, 'https://bluemove.es/barcelona/escorts/#99999');
     expect(p.photos).toHaveLength(1);
     expect(p.photos[0]!.src).toContain('og.jpg');
@@ -53,18 +67,19 @@ describe('extractBluemove — og:image fallback', () => {
 });
 
 describe('extractBluemove — city from URL fallback', () => {
-  it('falls back to URL city when no data-row', () => {
-    const html = '<html><body><div id="fichaContent"></div></body></html>';
+  it('usa la ciudad de la URL cuando no hay em-stat-row Ciudad', () => {
+    const html = '<html><body><escort-modal></escort-modal></body></html>';
     const p = extractBluemove(html, 'https://bluemove.es/valencia/escorts/#1111');
     expect(p.params.city).toBe('valencia');
   });
 });
 
 describe('extractBluemove — minimal HTML', () => {
-  it('handles missing data gracefully', () => {
-    const html = '<html><body><div id="fichaContent"></div></body></html>';
+  it('maneja datos ausentes sin romper', () => {
+    const html = '<html><body><escort-modal></escort-modal></body></html>';
     const p = extractBluemove(html, 'https://bluemove.es/madrid/escorts/#5555');
     expect(p.sourceId).toBe('5555');
+    expect(p.nickname).toBeUndefined();
     expect(p.phone).toBeUndefined();
     expect(p.isVerified).toBe(false);
     expect(p.params.age).toBeUndefined();

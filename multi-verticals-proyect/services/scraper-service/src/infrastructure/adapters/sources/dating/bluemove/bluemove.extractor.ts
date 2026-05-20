@@ -2,8 +2,10 @@
  * bluemove extractor — HTML → BluemovePayload.
  *
  * Profile URL: /{city}/escorts/#{numericId}
- * Tech: Bootstrap 5 / Swiper, SSR (despite JS age gate).
- * ID comes from URL hash fragment.
+ * Tech: Astro SSR + JS modal. El perfil completo se renderiza dentro del
+ * elemento `<escort-modal>` cuando el hash #{id} abre el modal; el crawler
+ * espera a que cargue antes de capturar el HTML.
+ * Estructura del modal: clases `em-*`.
  */
 
 import * as cheerio from 'cheerio';
@@ -16,28 +18,45 @@ import {
   parseBluemoveWhatsapp,
   parseTelegramHandle,
   parseInstagramHandle,
-  parseNicknameFromAlt,
   parseFirstInt,
   parseBoolNotNo,
   stripProvince,
 } from './bluemove.parsers.js';
 import type { BluemoveParams, BluemovePayload, BluemovePhoto } from './bluemove.types.js';
 
-const CONTACTS = new Set(['whatsapp', 'telegram', 'instagram', 'tiktok', 'twitter', 'x', 'onlyfans', 'fansly']);
-const PAYMENTS = new Set(['bizum', 'efectivo', 'tarjeta', 'transferencia', 'paypal', 'crypto']);
-const SERVICE_LOCATIONS = new Set(['incall', 'outcall', 'domicilios', 'hoteles', 'apartamento', 'pisos', 'casa']);
+// data-feature de em-service-chip clasificados
+const LOCATION_FEATURES = new Set(['hotel', 'a-domicilio', 'apartamento', 'desplazamientos']);
+const PAYMENT_FEATURES = new Set(['cartao-credito', 'tarjeta-credito', 'bizum', 'paypal']);
 
-const extractFichaDataRow = ($: CheerioAPI, label: string): string | undefined => {
+/** Lee el valor de una fila `em-stat-row` por su etiqueta (case-insensitive). */
+const statValue = ($: CheerioAPI, labels: string[]): string | undefined => {
+  const wanted = labels.map((l) => l.toLowerCase());
   let value: string | undefined;
-  $('#fichaContent .ficha-data-row').each((_, el) => {
+  $('escort-modal .em-stat-row').each((_, el) => {
     if (value) return;
-    const lbl = $(el).find('.ficha-data-row-label span').text().trim();
-    if (lbl === label) {
-      value = $(el).find('.ficha-data-row-value').text().trim() || undefined;
+    const label = $(el).find('.em-stat-label').text().trim().toLowerCase();
+    if (wanted.includes(label)) {
+      value = $(el).find('.em-stat-value').text().trim() || undefined;
     }
-    return;
   });
   return value;
+};
+
+const extractPhotos = ($: CheerioAPI): BluemovePhoto[] => {
+  const photos: BluemovePhoto[] = [];
+  const seen = new Set<string>();
+  $('escort-modal .em-photo-tile img').each((_, el) => {
+    const src = $(el).attr('src') ?? $(el).attr('data-src');
+    if (src && !seen.has(src)) {
+      seen.add(src);
+      photos.push({ src });
+    }
+  });
+  if (photos.length === 0) {
+    const ogImg = $('meta[property="og:image"]').attr('content');
+    if (ogImg) photos.push({ src: ogImg });
+  }
+  return photos;
 };
 
 export const extractBluemove = (html: string, sourceUrl: string): BluemovePayload => {
@@ -45,95 +64,86 @@ export const extractBluemove = (html: string, sourceUrl: string): BluemovePayloa
 
   const sourceId = parseSourceIdFromUrl(sourceUrl);
 
-  // Nickname + title from first slider image alt
-  const firstImgAlt = $('#fichaContent .ficha-images-slider img').first().attr('alt');
-  const nickname =
-    parseNicknameFromAlt(firstImgAlt) ??
-    (() => {
-      const h4 = $('#fichaContent #services h4').text().trim();
-      const m = h4.match(/Servicios de (.+)/i);
-      return m ? m[1]!.trim() : undefined;
-    })();
+  const nickname = $('escort-modal .em-profile-name').first().text().trim() || undefined;
+  const quote = $('escort-modal .em-profile-quote').first().text().trim() || undefined;
+  const title = quote || nickname || '';
 
-  const title = firstImgAlt?.trim() || nickname || '';
+  const bio = $('escort-modal .em-desc-text').first().text().trim() || undefined;
 
-  const bio = $('#fichaContent .ad-description-text').text().trim() || undefined;
+  const phone =
+    parseBluemovePhone($('escort-modal .em-profile-phone').first().attr('href')) ??
+    parseBluemovePhone($('escort-modal .em-cta-call').first().attr('href'));
 
-  const phoneHref = $('#phoneCallSection a[href^="tel:"]').first().attr('href');
-  const phone = parseBluemovePhone(phoneHref);
+  const whatsappPhone = parseBluemoveWhatsapp(
+    $('escort-modal .em-cta-whatsapp').first().attr('href'),
+  );
 
-  const waHref = $('#phoneCallSection a[href*="wa.me"]').first().attr('href');
-  const whatsappPhone = parseBluemoveWhatsapp(waHref);
+  const telegram = parseTelegramHandle($('escort-modal .em-cta-telegram').first().attr('href'));
 
-  const tgHref = $('#phoneCallSection a[href*="t.me"]').first().attr('href');
-  const telegram = parseTelegramHandle(tgHref);
+  const instagram = parseInstagramHandle(
+    $('escort-modal a[href*="instagram.com"]').first().attr('href'),
+  );
 
-  const igHref = $('#fichaContent .ficha-social-media a[href*="instagram.com"]').first().attr('href');
-  const instagram = parseInstagramHandle(igHref);
+  // em-profile-highlight: "Portuguesa · 28 anos"
+  const highlight = $('escort-modal .em-profile-highlight').first().text().trim();
+  const highlightAge = parseFirstInt(highlight);
+  const highlightNationality = highlight.split('·')[0]?.trim() || undefined;
 
-  // Photos
-  const photos: BluemovePhoto[] = [];
-  $('#fichaContent .ficha-images-slider img').each((_, el) => {
-    const src = $(el).attr('src') ?? $(el).attr('data-src') ?? '';
-    if (src && !photos.some((p) => p.src === src)) photos.push({ src });
-    return;
-  });
-  if (photos.length === 0) {
-    const ogImg = $('meta[property="og:image"]').attr('content');
-    if (ogImg) photos.push({ src: ogImg });
-  }
-
-  const isVerified =
-    $('#fichaContent .ficha-top-line img[src*="verificada"]').length > 0 ||
-    $('#fichaContent .ficha-verified-images-info').length > 0;
-
-  // Services / extra-info
+  // Servicios + "Otra información" (chips con data-feature)
   const services: string[] = [];
-  $('#fichaContent #services ul:not(.not-services) li a').each((_, el) => {
-    const name = $(el).text().trim();
-    if (name) services.push(name);
-    return;
-  });
-
   const paymentMethods: string[] = [];
   const serviceLocations: string[] = [];
-  $('#fichaContent #extra-info .not-services li a').each((_, el) => {
-    const raw = $(el).text().trim();
-    const key = raw.toLowerCase();
-    if (CONTACTS.has(key)) return;
-    if (PAYMENTS.has(key)) paymentMethods.push(raw);
-    else if (SERVICE_LOCATIONS.has(key)) serviceLocations.push(raw);
-    return;
+  $('escort-modal .em-service-chip').each((_, el) => {
+    const name = $(el).text().trim();
+    if (!name) return;
+    const feature = $(el).attr('data-feature');
+    if (!feature) {
+      services.push(name);
+    } else if (LOCATION_FEATURES.has(feature)) {
+      serviceLocations.push(name);
+    } else if (PAYMENT_FEATURES.has(feature)) {
+      paymentMethods.push(name);
+    }
   });
 
-  const rawCity = extractFichaDataRow($, 'Ciudad');
-  const city =
-    stripProvince(rawCity) ??
-    parseCityFromUrl(sourceUrl);
-
-  const langRaw = extractFichaDataRow($, 'Idiomas');
+  const langRaw = statValue($, ['Idiomas']);
   const languages = langRaw
     ? langRaw.split(',').map((l) => l.trim()).filter(Boolean)
     : undefined;
 
+  const city =
+    stripProvince(statValue($, ['Ciudad'])) ?? parseCityFromUrl(sourceUrl);
+
   const params: BluemoveParams = {
-    age: parseFirstInt(extractFichaDataRow($, 'Edad')),
-    heightCm: parseFirstInt(extractFichaDataRow($, 'Estatura') ?? extractFichaDataRow($, 'Altura')),
-    weightKg: parseFirstInt(extractFichaDataRow($, 'Peso')),
-    hairColor: extractFichaDataRow($, 'Color de pelo') ?? extractFichaDataRow($, 'Cabello'),
-    eyeColor: extractFichaDataRow($, 'Color de ojos'),
-    breastSize: extractFichaDataRow($, 'Pecho'),
-    pubicHair: extractFichaDataRow($, 'Pubis'),
-    nationality: extractFichaDataRow($, 'Nacionalidad'),
+    age: parseFirstInt(statValue($, ['Edad'])) ?? highlightAge,
+    heightCm: parseFirstInt(statValue($, ['Altura', 'Estatura'])),
+    weightKg: parseFirstInt(statValue($, ['Peso'])),
+    hairColor: statValue($, ['Color de pelo', 'Cabello', 'Pelo']),
+    eyeColor: statValue($, ['Color de ojos', 'Ojos']),
+    breastSize: statValue($, ['Pecho']),
+    pubicHair: statValue($, ['Pubis']),
+    nationality: statValue($, ['Nacionalidad']) ?? highlightNationality,
     languages,
-    tattoos: parseBoolNotNo(extractFichaDataRow($, 'Tatuajes')),
-    piercings: parseBoolNotNo(extractFichaDataRow($, 'Piercings')),
+    tattoos: parseBoolNotNo(statValue($, ['Tatuajes'])),
+    piercings: parseBoolNotNo(statValue($, ['Piercings'])),
     city,
-    zone: extractFichaDataRow($, 'Areas'),
+    zone: statValue($, ['Áreas', 'Areas', 'Zona']),
     services: services.length > 0 ? services : undefined,
     paymentMethods: paymentMethods.length > 0 ? paymentMethods : undefined,
     serviceLocations: serviceLocations.length > 0 ? serviceLocations : undefined,
   };
+
+  // Verificada: ficha-reliability con identity/selfie verificados
+  let isVerified = false;
+  const breakdownRaw = $('escort-modal ficha-reliability').first().attr('data-breakdown');
+  if (breakdownRaw) {
+    try {
+      const b = JSON.parse(breakdownRaw) as Record<string, number>;
+      isVerified = (b.identity_verified ?? 0) > 0 || (b.selfie_verified ?? 0) > 0;
+    } catch {
+      /* breakdown no parseable */
+    }
+  }
 
   return {
     sourceId,
@@ -146,7 +156,7 @@ export const extractBluemove = (html: string, sourceUrl: string): BluemovePayloa
     telegram,
     instagram,
     params,
-    photos,
+    photos: extractPhotos($),
     isVerified,
   };
 };
