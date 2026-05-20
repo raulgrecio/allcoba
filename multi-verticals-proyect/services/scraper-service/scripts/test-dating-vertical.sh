@@ -238,6 +238,10 @@ run_portal "milescorts" "discover" \
   "https://www.milescorts.es/escorts-y-putas/madrid-ciudad/" \
   "none"
 
+run_portal "mundosexanuncio" "discover" \
+  "https://www.mundosexanuncio.com/contactos-mujeres-en-madrid-provincia" \
+  "none"
+
 run_portal "milpasiones" "discover" \
   "https://milpasiones.com/escorts/madrid/" \
   "none" \

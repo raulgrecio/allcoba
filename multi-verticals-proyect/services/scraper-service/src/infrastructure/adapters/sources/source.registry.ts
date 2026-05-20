@@ -183,6 +183,15 @@ const definitionsDating: SourceDefinition[] = [
     },
   },
   {
+    pattern: /mundosexanuncio\.com/,
+    load: async () => {
+      const { MundosexanuncioPipeline } = await import(
+        './dating/mundosexanuncio/mundosexanuncio.pipeline.js'
+      );
+      return new MundosexanuncioPipeline();
+    },
+  },
+  {
     pattern: /nuevoloquo\.(ch|com|es)/,
     load: async () => {
       const { NuevoloquoPipeline } = await import('./dating/nuevoloquo/nuevoloquo.pipeline.js');

@@ -527,6 +527,26 @@ Cloudflare WAF (Playwright + bypass):
 - **gemidos.tv** — CF WAF
 - **topescortbabes.com** — CF + JSON embebido, 105 tests (51 JSON fixtures + 2 HTML)
 
+## mundosexanuncio.com ✅ v2
+
+> WordPress: **No** — PHP SSR (verificado 20/05/2026).
+> Listado real: `https://www.mundosexanuncio.com/contactos-mujeres-en-madrid-provincia`
+> 20/05/2026 (real): `https://www.mundosexanuncio.com/contactos-mujeres/antonella-coslada-video-de-presentacion-99065186` · `https://www.mundosexanuncio.com/contactos-mujeres/sofia-rubia-muy-sexy-paraguaya-cachonda-99537024`
+
+| Campo       | Valor                                                              |
+| ----------- | ------------------------------------------------------------------ |
+| Tech        | PHP SSR                                                            |
+| Listing     | `/contactos-mujeres-en-{zona}`                                     |
+| Profile URL | `/contactos-mujeres/{slug}-{id}` — sourceId = id numérico final    |
+| Anuncio     | `section .main` — `.title`, `.a_content` (bio)                     |
+| Datos       | `.details[data-city]` · `.addr` (zona) · texto libre               |
+| Edad        | inferida del texto del bio (no hay campo estructurado)             |
+| Teléfono    | `.fa_tel a[href^="tel:"]` · WhatsApp `a[href*="api.whatsapp.com"]` |
+| Imágenes    | `#images img[data-src]`                                            |
+| Login       | No                                                                 |
+
+---
+
 ### Pendiente de añadir adapador
 
 - **zukery.com**
