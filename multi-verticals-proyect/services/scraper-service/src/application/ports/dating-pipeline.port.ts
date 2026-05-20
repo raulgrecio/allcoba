@@ -57,8 +57,14 @@ export interface DatingPipelinePort<Payload = unknown> {
   /**
    * Pure extraction: HTML → adapter Payload. No IO, no crawling.
    * The use case owns `crawler.fetch(...)` and passes the resulting html here.
+   * `networkResponses` (cuando el adaptador pide captureNetwork) permite a
+   * portales CSR/API enriquecer el payload con el JSON de su API interna.
    */
-  extract(html: string, sourceUrl: string): Payload;
+  extract(
+    html: string,
+    sourceUrl: string,
+    networkResponses?: ReadonlyArray<{ url: string; body: string }>,
+  ): Payload;
 
   /**
    * Pure mapping: Payload → ScrapedProvider. Resolves catalog slugs via the

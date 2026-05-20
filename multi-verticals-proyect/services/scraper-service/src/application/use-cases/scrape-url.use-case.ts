@@ -108,7 +108,7 @@ export class ScrapeUrlUseCase {
     });
 
     const result = await this.crawler.fetch(url, crawlerOptions);
-    const payload = pipeline.extract(result.html, url);
+    const payload = pipeline.extract(result.html, url, result.networkResponses);
     const scraped = await pipeline.map(payload, this.taxonomyResolver);
 
     const strategy = this.strategies.get(pipeline.defaultVertical);

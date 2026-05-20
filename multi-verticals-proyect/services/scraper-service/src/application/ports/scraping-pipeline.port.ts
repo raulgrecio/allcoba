@@ -41,7 +41,11 @@ export interface ScrapingPipelinePort<TPayload = unknown, TScraped = unknown> {
 
   getCrawlerOptions(url: string, options?: Partial<CrawlerOptions>): CrawlerOptions;
 
-  extract(html: string, sourceUrl: string): TPayload;
+  extract(
+    html: string,
+    sourceUrl: string,
+    networkResponses?: ReadonlyArray<{ url: string; body: string }>,
+  ): TPayload;
   map(
     payload: TPayload,
     resolver: TaxonomyResolverPort,
