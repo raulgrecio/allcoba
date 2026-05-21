@@ -12,6 +12,7 @@ import { CrawlerEngine } from '#application/ports/crawler.port.js';
 import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
 import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
+import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
@@ -171,5 +172,7 @@ export async function createScraperServices(config: ScraperConfig) {
     config,
   );
 
-  return { scrapeUrlUseCase, discoverUrlsUseCase, crawler };
+  const statsUseCase = new ExtractionStatsUseCase(repository);
+
+  return { scrapeUrlUseCase, discoverUrlsUseCase, statsUseCase, crawler };
 }

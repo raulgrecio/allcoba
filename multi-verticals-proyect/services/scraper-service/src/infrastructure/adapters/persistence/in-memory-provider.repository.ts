@@ -13,6 +13,15 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
   async find(criteria: ProviderCriteria): Promise<ScrapedProvider[]> {
     return Array.from(this.providers.values()).filter((p) => {
       if (p.vertical !== criteria.vertical) return false;
+      // Sin criterios de búsqueda → devuelve todos los de la vertical.
+      if (
+        !criteria.phoneNumber &&
+        !criteria.email &&
+        !criteria.externalRef &&
+        !criteria.imageHash
+      ) {
+        return true;
+      }
       if (criteria.phoneNumber && p.phoneNumber === criteria.phoneNumber) return true;
       if (criteria.email && p.email === criteria.email) return true;
       if (criteria.externalRef && p.externalRefs.some((r) => externalRefEquals(r, criteria.externalRef!))) return true;

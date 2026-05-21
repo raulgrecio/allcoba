@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
+import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
 
 const makeProvider = (overrides: Record<string, unknown> = {}) => ({
   id: 'test:1',
@@ -20,7 +21,7 @@ const makeProvider = (overrides: Record<string, unknown> = {}) => ({
   ...overrides,
 });
 
-const uc = new ExtractionStatsUseCase();
+const uc = new ExtractionStatsUseCase(new InMemoryProviderRepository());
 
 describe('ExtractionStatsUseCase.compute', () => {
   it('calculates 100% fill-rate for complete provider', () => {
@@ -90,5 +91,29 @@ describe('ExtractionStatsUseCase.compute', () => {
     const bd = uc.toBaselineData(sources);
     expect(bd['ardienteplacer']!['nickname']).toBe(100);
     expect(bd['ardienteplacer']!['photos']).toBe(100);
+  });
+});
+
+describe('ExtractionStatsUseCase.execute', () => {
+  it('reads providers from the repository and computes stats', async () => {
+    const repo = new InMemoryProviderRepository();
+    await repo.create(makeProvider() as any);
+    const useCase = new ExtractionStatsUseCase(repo);
+
+    const { sources } = await useCase.execute({ vertical: 'dating', baseline: null, thresholdPp: 20 });
+    expect(sources).toHaveLength(1);
+    expect(sources[0]!.source).toBe('ardienteplacer');
+    expect(sources[0]!.fields['nickname']!.rate).toBe(100);
+  });
+
+  it('filters by source when requested', async () => {
+    const repo = new InMemoryProviderRepository();
+    await repo.create(makeProvider({ id: 'a:1', externalRefs: [{ source: 'bluemove', sourceId: '1', sourceUrl: '' }] }) as any);
+    await repo.create(makeProvider({ id: 'b:1', externalRefs: [{ source: 'mislios', sourceId: '2', sourceUrl: '' }] }) as any);
+    const useCase = new ExtractionStatsUseCase(repo);
+
+    const { sources } = await useCase.execute({ vertical: 'dating', baseline: null, thresholdPp: 20, source: 'mislios' });
+    expect(sources).toHaveLength(1);
+    expect(sources[0]!.source).toBe('mislios');
   });
 });

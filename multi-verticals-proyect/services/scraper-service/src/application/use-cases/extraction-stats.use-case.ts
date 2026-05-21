@@ -6,6 +6,9 @@
  * para detectar regresiones.
  */
 
+import type { Vertical } from '@allcoba/shared-types';
+
+import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
 export interface FieldStat {
@@ -35,6 +38,15 @@ export interface StatsResult {
 
 export type BaselineData = Record<string, Record<string, number>>; // source → field → rate
 
+export interface StatsRequest {
+  /** Vertical sobre la que calcular las stats. */
+  vertical: Vertical;
+  baseline: BaselineData | null;
+  thresholdPp: number;
+  /** Filtra a un solo portal; sin valor, calcula todos. */
+  source?: string;
+}
+
 // ── Field extractors (pure) ───────────────────────────────────────────────────
 
 type FieldFn = (p: ScrapedProvider) => boolean;
@@ -51,13 +63,32 @@ const FIELDS: Record<string, FieldFn> = {
   age:         (p) => ((p.personalDetails?.ageYears) ?? 0) > 0,
   nationality: (p) => !!(p.personalDetails?.nationalityId),
   services:    (p) => ((p.attributes?.['services'] as unknown[] | undefined)?.length ?? 0) > 0,
-  isVerified:  (p) => !!(p.badges as Record<string, unknown>)?.['verified'],
-  isVip:       (p) => !!(p.badges as Record<string, unknown>)?.['vip'],
+  isVerified:  (p) => !!p.badges?.verified,
+  isVip:       (p) => !!p.badges?.vip,
 };
+
+function sourceOf(p: ScrapedProvider): string {
+  return (
+    p.externalRefs?.[0]?.source ??
+    ((p.metadata as Record<string, unknown>)?.['source'] as string) ??
+    'unknown'
+  );
+}
 
 // ── Use case ──────────────────────────────────────────────────────────────────
 
 export class ExtractionStatsUseCase {
+  constructor(private readonly repository: ProviderRepositoryPort) {}
+
+  /** Lee los providers de la vertical pedida, opcionalmente filtra por portal, y calcula stats. */
+  async execute(req: StatsRequest): Promise<StatsResult> {
+    let providers = await this.repository.find({ vertical: req.vertical });
+    if (req.source) {
+      providers = providers.filter((p) => sourceOf(p) === req.source);
+    }
+    return this.compute(providers, req.baseline, req.thresholdPp);
+  }
+
   compute(
     providers: readonly ScrapedProvider[],
     baseline: BaselineData | null,
@@ -104,7 +135,7 @@ export class ExtractionStatsUseCase {
   private groupBySource(providers: readonly ScrapedProvider[]): Map<string, ScrapedProvider[]> {
     const map = new Map<string, ScrapedProvider[]>();
     for (const p of providers) {
-      const src = p.externalRefs?.[0]?.source ?? (p.metadata as Record<string, unknown>)?.['source'] as string ?? 'unknown';
+      const src = sourceOf(p);
       if (!map.has(src)) map.set(src, []);
       map.get(src)!.push(p);
     }
