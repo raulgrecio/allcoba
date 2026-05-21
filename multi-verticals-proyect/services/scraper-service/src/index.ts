@@ -1,8 +1,14 @@
+import fs from 'fs/promises';
+import path from 'path';
+
 import { Command } from 'commander';
 
 import { logger } from '@allcoba/kernel';
 
 import type { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
+import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
+import type { BaselineData } from '#application/use-cases/extraction-stats.use-case.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
 import { createScraperServices } from './infrastructure/di/container.js';
 
@@ -150,6 +156,91 @@ async function main() {
       } catch (err: any) {
         logger().error({ err: err.message }, 'Error fatal en discover');
         process.exitCode = 1;
+      }
+    });
+
+  // Subcomando Stats
+  program
+    .command('stats')
+    .description('Fill-rate por portal — detecta regresiones en la extracción')
+    .option('--save-baseline', 'Guardar stats actuales como baseline')
+    .option('--threshold <pp>', 'Caída mínima (puntos porcentuales) para alertar (default: 20)', '20')
+    .option('--source <name>', 'Filtrar por portal')
+    .option('--data-dir <path>', 'Directorio de datos (default: __data/storage)', '__data/storage')
+    .action(async (options) => {
+      const dataDir = path.resolve(process.cwd(), options.dataDir as string);
+      const providersFile = path.join(dataDir, 'providers.json');
+      const baselineFile = path.join(dataDir, '..', 'extraction-baseline.json');
+      const threshold = parseInt(options.threshold as string, 10);
+
+      let providers: ScrapedProvider[] = [];
+      try {
+        const raw = await fs.readFile(providersFile, 'utf-8');
+        const parsed: unknown = JSON.parse(raw);
+        providers = (Array.isArray(parsed) ? parsed : Object.values(parsed)) as ScrapedProvider[];
+      } catch {
+        logger().error({ file: providersFile }, 'No se pudo leer providers.json');
+        process.exitCode = 1;
+        return;
+      }
+
+      let baseline: BaselineData | null = null;
+      try {
+        const raw = await fs.readFile(baselineFile, 'utf-8');
+        baseline = (JSON.parse(raw) as { stats: BaselineData }).stats ?? null;
+      } catch { /* sin baseline */ }
+
+      if (options.source) {
+        providers = providers.filter((p) => {
+          const src = p.externalRefs?.[0]?.source ?? (p.metadata as Record<string, unknown>)?.['source'];
+          return src === options.source;
+        });
+      }
+
+      const uc = new ExtractionStatsUseCase();
+      const { sources, regressions } = uc.compute(providers, baseline, threshold);
+
+      const GREEN  = '\x1b[0;32m';
+      const RED    = '\x1b[0;31m';
+      const YELLOW = '\x1b[1;33m';
+      const CYAN   = '\x1b[0;36m';
+      const BOLD   = '\x1b[1m';
+      const NC     = '\x1b[0m';
+
+      for (const { source, total, fields } of sources) {
+        console.log(`\n${BOLD}${CYAN}${source}${NC}  (${total} perfiles)`);
+        const baseFields = baseline?.[source] ?? {};
+        for (const [fname, stat] of Object.entries(fields)) {
+          const { count, rate } = stat;
+          const base = baseFields[fname];
+          let marker = '';
+          if (base !== undefined) {
+            const diff = rate - base;
+            if (diff <= -threshold) {
+              marker = `  ${RED}⚠ baseline ${base}%  REGRESIÓN (${diff > 0 ? '+' : ''}${diff.toFixed(1)}pp)${NC}`;
+            } else if (diff < 0) {
+              marker = `  ${YELLOW}↓ baseline ${base}% (${diff.toFixed(1)}pp)${NC}`;
+            } else if (diff > 0) {
+              marker = `  ${GREEN}↑ baseline ${base}%${NC}`;
+            }
+          }
+          const color = rate === 0 ? RED : rate < 50 ? YELLOW : GREEN;
+          console.log(`  ${fname.padEnd(12)} ${String(count).padStart(3)}/${String(total).padEnd(3)}  ${color}${rate.toFixed(1).padStart(5)}%${NC}${marker}`);
+        }
+      }
+
+      if (!baseline) {
+        console.log(`\n${YELLOW}Sin baseline — usa --save-baseline para guardar uno.${NC}`);
+      } else if (regressions.length > 0) {
+        console.log(`\n${RED}⚠ ${regressions.length} regresión(es) detectada(s) (umbral: ${threshold}pp)${NC}`);
+      } else {
+        console.log(`\n${GREEN}✅ Sin regresiones respecto al baseline (umbral: ${threshold}pp)${NC}`);
+      }
+
+      if (options.saveBaseline) {
+        const data = { savedAt: new Date().toISOString(), stats: uc.toBaselineData(sources) };
+        await fs.writeFile(baselineFile, JSON.stringify(data, null, 2));
+        console.log(`${GREEN}Baseline guardado en ${baselineFile}${NC}`);
       }
     });
 
