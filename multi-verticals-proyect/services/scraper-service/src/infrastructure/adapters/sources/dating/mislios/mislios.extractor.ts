@@ -1,7 +1,7 @@
 /**
  * mislios extractor — HTML → MisliosPayload.
  *
- * Profile URL: /anuncios/{slug}/
+ * Profile URL: /escorts/{ciudad}/{slug}-{id}/
  * Tech: WordPress + mislios custom plugin (SSR).
  * Listing is AJAX-rendered but individual profiles are SSR.
  */

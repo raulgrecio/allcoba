@@ -414,14 +414,14 @@ Example URL: `https://milpasiones.com/anuncio/662583238-carinosa-morbosa-muy-imp
 
 > WordPress: **Sí** (`/wp-content/` detectado 20/05/2026). WP REST verificado 21/05/2026: CPT `anuncios` **no expuesto** en `/wp-json/wp/v2/`. Discovery vía Playwright + networkidle (listing AJAX) es la única opción.
 
-Example URL: `https://mislios.com/anuncios/ana-escort-madrid/` (Real)
+Example URL: `https://mislios.com/escorts/valencia/amber-38203/` (Real)
 
 | Campo        | Valor                                                             |
 | ------------ | ----------------------------------------------------------------- |
 | Tech         | WordPress + plugin propio "mislios" (SSR perfiles)                |
 | Render       | SSR — perfiles individuales SSR · listing AJAX                    |
-| Listing      | Listing AJAX — no scrapeable con Cheerio                          |
-| Profile URL  | `/anuncios/{slug}/` — slug es el sourceId                         |
+| Listing      | `/escorts/` — listing AJAX, Playwright networkidle para discovery |
+| Profile URL  | `/escorts/{ciudad}/{slug}-{id}/` — último segmento es sourceId    |
 | Paginación   | N/A (listing AJAX)                                                |
 | Título       | `h1` · fallback `.msl-profile-name`                               |
 | Descripción  | `.msl-profile-desc` · fallback `.profile-text`                    |

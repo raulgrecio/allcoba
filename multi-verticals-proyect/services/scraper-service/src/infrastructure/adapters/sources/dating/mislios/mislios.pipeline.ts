@@ -15,9 +15,9 @@ export class MisliosPipeline extends DatingPipelineBase<MisliosPayload> {
   }
 
   isProfileUrl(url: string): boolean {
-    // Profile: /anuncios/{slug}/
+    // Profile: /escorts/{ciudad}/{slug}-{numericId}/ — last segment ends with -NNN
     const parts = new URL(url).pathname.split('/').filter(Boolean);
-    return parts.length === 2 && parts[0] === 'anuncios';
+    return parts.length === 3 && parts[0] === 'escorts' && /\-\d+$/.test(parts[2] ?? '');
   }
 
   extract(html: string, sourceUrl: string): MisliosPayload {
@@ -35,7 +35,7 @@ export class MisliosPipeline extends DatingPipelineBase<MisliosPayload> {
         ? undefined
         : async (page) => {
             await page
-              .waitForSelector('a[href*="/anuncios/"]', { timeout: 15000 })
+              .waitForSelector('a[href*="/escorts/"]', { timeout: 15000 })
               .catch(() => {});
           },
     };
