@@ -192,6 +192,15 @@ const definitionsDating: SourceDefinition[] = [
     },
   },
   {
+    pattern: /valenciacitas\.com/,
+    load: async () => {
+      const { ValenciacitasPipeline } = await import(
+        './dating/valenciacitas/valenciacitas.pipeline.js'
+      );
+      return new ValenciacitasPipeline();
+    },
+  },
+  {
     pattern: /nuevoloquo\.(ch|com|es)/,
     load: async () => {
       const { NuevoloquoPipeline } = await import('./dating/nuevoloquo/nuevoloquo.pipeline.js');

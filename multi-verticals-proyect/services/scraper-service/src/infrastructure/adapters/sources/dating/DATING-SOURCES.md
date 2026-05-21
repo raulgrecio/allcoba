@@ -547,6 +547,25 @@ Cloudflare WAF (Playwright + bypass):
 
 ---
 
+## valenciacitas.com ✅ v2
+
+> WordPress: **No** — Next.js + Bunny Shield (verificado 20/05/2026).
+> Clon de madrid69.com: misma plataforma white-label, mismo backend
+> `api-prod.valenciacitas.com`, mismo HTML. El adaptador reutiliza el
+> extractor y el mapper de madrid69 (`ValenciacitasPipeline extends
+> Madrid69Pipeline`, solo cambia dominio y `source`).
+
+| Campo       | Valor                                                  |
+| ----------- | ------------------------------------------------------ |
+| Tech        | Next.js (App Router, RSC) · Bunny Shield anti-bot      |
+| Proxy       | zyte (requiere proxy por Bunny Shield)                 |
+| Listing     | `/` (home CSR)                                         |
+| Profile URL | `/citas-chicas-{ciudad}-{id}-{slug}-{phone}`           |
+| Edad        | `<span>Edad: NN</span>` en el DOM renderizado          |
+| Login       | No                                                     |
+
+---
+
 ### Pendiente de añadir adapador
 
 - **zukery.com**

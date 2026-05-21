@@ -9,7 +9,8 @@ import {
 } from './madrid69.parsers.js';
 import type { Madrid69Payload } from './madrid69.types.js';
 
-const CDN_PATTERN = /madrid69\.b-cdn\.net\/image\//;
+// CDN de imágenes: madrid69.b-cdn.net y sitios clon (valenciacitas, etc.)
+const CDN_PATTERN = /\.b-cdn\.net\/image\//;
 
 /**
  * Extracts a Madrid69Payload from the Next.js SSR head (metadata tags).

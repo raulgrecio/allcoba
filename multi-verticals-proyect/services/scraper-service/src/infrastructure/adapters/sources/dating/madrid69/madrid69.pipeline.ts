@@ -6,7 +6,7 @@ import { extractMadrid69 } from './madrid69.extractor.js';
 import { mapMadrid69 } from './madrid69.mapper.js';
 
 export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
-  readonly identifier = 'madrid69';
+  readonly identifier: string = 'madrid69';
 
   canHandle(url: string): boolean {
     return /madrid69\.com/.test(url);

@@ -288,6 +288,11 @@ run_portal "madrid69" "discover" \
   "zyte" \
   "Bunny Shield anti-bot — requiere proxy"
 
+run_portal "valenciacitas" "discover" \
+  "https://www.valenciacitas.com/" \
+  "zyte" \
+  "Bunny Shield anti-bot — clon de madrid69"
+
 run_portal "escort-advisor" "discover" \
   "https://www.escort-advisor.xxx/escort/madrid1" \
   "zyte"

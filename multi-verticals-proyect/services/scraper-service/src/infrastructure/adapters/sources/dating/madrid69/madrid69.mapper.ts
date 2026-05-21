@@ -31,6 +31,8 @@ export const MADRID69_SOURCE = 'madrid69';
 export interface MapperOptions {
   readonly now?: Date;
   readonly contentLocale?: string;
+  /** Sobreescribe el identificador de fuente (sitios clon: valenciacitas). */
+  readonly source?: string;
 }
 
 const mapPhoto = (photo: Madrid69Payload['photos'][number], idx: number): ScrapedPhoto => ({
@@ -49,8 +51,9 @@ export const mapMadrid69 = async (
 ): Promise<ScrapedProvider> => {
   const now = options.now ?? new Date();
   const contentLocale = options.contentLocale ?? 'es';
+  const source = options.source ?? MADRID69_SOURCE;
 
-  const providerId = asProviderId(`${MADRID69_SOURCE}:${payload.sourceId}`);
+  const providerId = asProviderId(`${source}:${payload.sourceId}`);
 
   const citySlug = payload.city ? slugifyMadrid69(payload.city) : undefined;
   const cityId = citySlug ? await resolver.resolveCity(citySlug, 'ES') : null;
@@ -66,7 +69,7 @@ export const mapMadrid69 = async (
   const verificationStatus: ProfileVerificationStatus = 'pending_review';
 
   const externalRef: ExternalRef = {
-    source: MADRID69_SOURCE,
+    source,
     sourceId: payload.sourceId,
     sourceUrl: payload.sourceUrl,
   };
@@ -151,7 +154,7 @@ export const mapMadrid69 = async (
       ...(payload.languages?.length ? { languages: payload.languages } : {}),
       ...(payload.services?.length ? { services: payload.services } : {}),
     },
-    metadata: { source: MADRID69_SOURCE, adapterVersion: 'v2' },
+    metadata: { source, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),
   };
 };
