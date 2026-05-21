@@ -291,6 +291,8 @@ Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 
 ## hotvalencia.com ✅ v2
 
+> WordPress + Elementor + JetEngine. WP REST verificado 21/05/2026: CPT de perfiles **no expuesto** en `/wp-json/wp/v2/types`. JetEngine sólo expone listing templates. Perfiles detrás de login — WP REST no viable.
+
 Example URL: `https://hotvalencia.com/putas-valencia/valentina-escortvalencia/` (Fixture)
 
 | Campo       | Valor                                                          |
@@ -410,7 +412,7 @@ Example URL: `https://milpasiones.com/anuncio/662583238-carinosa-morbosa-muy-imp
 
 ## mislios.com ✅ v2
 
-> WordPress: **Sí** (`/wp-content/` detectado 20/05/2026). Posible discovery vía REST API como chicasmalas — pendiente verificar el custom post type.
+> WordPress: **Sí** (`/wp-content/` detectado 20/05/2026). WP REST verificado 21/05/2026: CPT `anuncios` **no expuesto** en `/wp-json/wp/v2/`. Discovery vía Playwright + networkidle (listing AJAX) es la única opción.
 
 Example URL: `https://mislios.com/anuncios/ana-escort-madrid/` (Real)
 
