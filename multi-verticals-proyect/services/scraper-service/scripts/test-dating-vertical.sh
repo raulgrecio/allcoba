@@ -248,7 +248,7 @@ run_portal "milpasiones" "discover" \
   "Listing TBD — puede fallar si URL incorrecta"
 
 run_portal "mislios" "discover" \
-  "https://mislios.com/escorts/" \
+  "https://mislios.com/escorts/madrid/" \
   "none" \
   "Listing AJAX — puede no extraer enlaces de perfil"
 
