@@ -1,5 +1,4 @@
-import * as cheerio from 'cheerio';
-
+import { wpRestLinks } from '../../_shared/tech/index.js';
 import { DatingPipelineBase } from '../dating-pipeline.base.js';
 import { extractChicasmalas } from './chicasmalas.extractor.js';
 import { mapChicasmalas } from './chicasmalas.mapper.js';
@@ -36,14 +35,7 @@ export class ChicasmalasPipeline extends DatingPipelineBase<ChicasmalasPayload> 
    * el crawler devuelve el JSON dentro de un <pre>.
    */
   override extractProfileLinks(html: string): string[] {
-    const $ = cheerio.load(html);
-    const raw = $('pre').text() || $('body').text() || html;
-    try {
-      const items = JSON.parse(raw) as Array<{ link?: string }>;
-      return items.map((i) => i.link).filter((l): l is string => !!l);
-    } catch {
-      return [];
-    }
+    return wpRestLinks(html);
   }
 
   /** REST: sin anchor rel=next; la paginación se controla con el límite. */
