@@ -4,7 +4,7 @@ import type {
   SourceResolverPort,
 } from '#application/ports/source-resolver.port.js';
 
-import { DiscoveryAdapter } from './general/discovery.adapter.js';
+import { DiscoveryPipeline } from './general/discovery/discovery.pipeline.js';
 
 type SourceDefinition = {
   pattern: RegExp;
@@ -235,11 +235,9 @@ const allDefinitions: SourceDefinition[] = [
 ];
 
 export class SourceRegistry implements SourceResolverPort {
-  private readonly discovery: DiscoveryAdapter;
+  private readonly discovery = new DiscoveryPipeline();
 
-  constructor(private readonly crawler: CrawlerPort) {
-    this.discovery = new DiscoveryAdapter(crawler);
-  }
+  constructor(private readonly crawler: CrawlerPort) {}
 
   async resolve(url: string): Promise<ResolvedSource> {
     const definition = allDefinitions.find((d) => d.pattern.test(url));

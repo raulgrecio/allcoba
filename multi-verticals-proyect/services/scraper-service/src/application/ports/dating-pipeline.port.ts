@@ -13,16 +13,16 @@
  *   - `isProfileUrl(url)`        — detail vs. listing classifier
  *   - `isAllowed(url)`           — robots.txt check
  *
- * Differences vs. legacy v1 `SourcePort`:
- *   - `extract` is **pure** (takes html, no crawler IO) → trivially unit-testable
- *     against fixtures. The caller (`ScrapeUrlUseCase`) owns the crawler fetch.
- *   - Output is a full `ScrapedProvider` produced by `map`, not the lossy flat
- *     `RawExtraction` shape. The use case stops needing `buildMinimalScrapedProvider`.
- *   - `map` takes a `TaxonomyResolverPort` injection so city / nationality / hair
- *     slugs resolve to branded ids without each adapter knowing the catalog.
+ * Notas de diseño:
+ *   - `extract` es **puro** (recibe html, sin IO de crawler) → testeable con
+ *     fixtures. El llamador (`ScrapeUrlUseCase`) es dueño del fetch del crawler.
+ *   - La salida es un `ScrapedProvider` completo producido por `map`.
+ *   - `map` recibe un `TaxonomyResolverPort` inyectado para resolver slugs de
+ *     ciudad / nacionalidad / pelo a ids branded sin que el adaptador conozca
+ *     el catálogo.
  *
- * Other verticals (motor / real-estate / general) keep using v1 `SourcePort`
- * until their own v2 ports are introduced (`RealEstatePipelinePort`, etc.).
+ * Las demás verticales (motor / real-estate / general) usan el contrato
+ * genérico `ScrapingPipelinePort` (`scraping-pipeline.port.ts`).
  */
 
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
@@ -86,9 +86,8 @@ export interface DatingPipelinePort<Payload = unknown> {
 }
 
 /**
- * Type guard — distinguishes v2 `DatingPipelinePort` instances from legacy
- * `SourcePort` adapters in `SourceRegistry.resolve`'s union return type. v2
- * pipelines expose a `map(payload, resolver, …)` method that v1 adapters do not.
+ * Type guard — identifica instancias de `DatingPipelinePort` en el union
+ * de retorno de `SourceRegistry.resolve` (mapean a `ScrapedProvider`).
  */
 export function isDatingPipelinePort(source: unknown): source is DatingPipelinePort {
   return (

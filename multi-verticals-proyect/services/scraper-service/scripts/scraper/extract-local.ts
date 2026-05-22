@@ -42,8 +42,8 @@ async function main() {
       const scraped = await adapter.map(payload, new NullTaxonomyResolver());
       console.log(JSON.stringify(scraped, null, 2));
     } else {
-      const result = await adapter.extract(url, { html });
-      console.log(JSON.stringify(result.data, null, 2));
+      console.error('No se resolvió un pipeline v2 para esta URL');
+      process.exit(1);
     }
   } catch (error) {
     console.error('Extraction failed:', error);

@@ -1,15 +1,13 @@
 import type { DatingPipelinePort } from './dating-pipeline.port.js';
 import type { AnyPipelinePort } from './scraping-pipeline.port.js';
-import type { SourcePort } from './source.port.js';
 
 /**
- * Union of legacy v1 adapters (`SourcePort`), v2 dating wrappers
- * (`DatingPipelinePort`) and the generic v2 pipelines for real-estate /
- * motor / general (`AnyPipelinePort`). `ScrapeUrlUseCase` /
- * `DiscoverUrlsUseCase` dispatch via `isDatingPipelinePort()` and
- * `isScrapingPipelinePort()` to call extract/map directly.
+ * Union de los wrappers v2 de dating (`DatingPipelinePort`) y los pipelines
+ * v2 genéricos de real-estate / motor / general (`AnyPipelinePort`).
+ * `ScrapeUrlUseCase` / `DiscoverUrlsUseCase` despachan vía
+ * `isScrapingPipelinePort()` para llamar extract/map directamente.
  */
-export type ResolvedSource = SourcePort | DatingPipelinePort | AnyPipelinePort;
+export type ResolvedSource = DatingPipelinePort | AnyPipelinePort;
 
 export interface SourceResolverPort {
   /**

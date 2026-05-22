@@ -4,7 +4,7 @@
  * Each concrete wrapper sets identifier + URL routing + (optionally) overrides
  * the cookies / age-gate / security strategy / next-page selector. Discovery
  * (`extractProfileLinks`) and pagination (`extractNextPageUrl`) live here with
- * sensible defaults that match what `BaseSourceAdapter` (v1) used to do.
+ * sensible defaults.
  *
  * The pure `extract(html, url)` and `map(payload, resolver, opts)` functions
  * are owned by each adapter's `<source>.extractor.ts` / `<source>.mapper.ts`

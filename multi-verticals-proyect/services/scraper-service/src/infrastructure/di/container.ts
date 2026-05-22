@@ -156,10 +156,6 @@ export async function createScraperServices(config: ScraperConfig) {
     crawler,
     taxonomyResolver,
     strategies,
-    repository,
-    consolidationService,
-    imageHasher,
-    storage,
     config,
   );
 
