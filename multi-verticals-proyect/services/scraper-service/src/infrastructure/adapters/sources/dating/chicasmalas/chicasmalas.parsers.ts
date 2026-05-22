@@ -46,7 +46,9 @@ export function parseChicasmalasWhatsapp(href: string): string | undefined {
     const digits = phone.replace(/\D/g, '');
     if (digits.startsWith('34') && digits.length === 11) return digits.slice(2);
     if (digits.length === 9) return digits;
-  } catch {}
+  } catch {
+    /* ignore */
+  }
   return undefined;
 }
 
@@ -60,6 +62,8 @@ export function parseCityFromMapsUrl(src: string): string | undefined {
       ?.toLowerCase()
       .trim();
     return city || undefined;
-  } catch {}
+  } catch {
+    /* ignore */
+  }
   return undefined;
 }

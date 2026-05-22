@@ -53,9 +53,9 @@ export const parseErosguiaPhoneFromTitle = (
   title: string | undefined | null,
 ): string | undefined => {
   if (!title) return undefined;
-  const m = title.match(/[-–]\s*(\d{3}[\s ]\d{3}[\s ]\d{3})\s*[-–]/);
+  const m = title.match(/[-–]\s*(\d{3}[\s\u00a0]\d{3}[\s\u00a0]\d{3})\s*[-–]/);
   if (!m) return undefined;
-  return m[1]!.replace(/\s| /g, '');
+  return m[1]!.replace(/\s|\u00a0/g, '');
 };
 
 /**

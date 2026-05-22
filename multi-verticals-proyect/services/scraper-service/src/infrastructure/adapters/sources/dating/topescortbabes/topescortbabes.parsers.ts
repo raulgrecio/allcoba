@@ -48,7 +48,7 @@ export const extractTaxonomySlug = (
     | 'weight',
 ): string | undefined => {
   if (!html) return undefined;
-  const hrefMatch = html.match(/href="[^"]*\/escorts\/([^"\/]+)"/);
+  const hrefMatch = html.match(/href="[^"]*\/escorts\/([^"/]+)"/);
   if (!hrefMatch) return undefined;
   const last = hrefMatch[1];
   if (!last) return undefined;

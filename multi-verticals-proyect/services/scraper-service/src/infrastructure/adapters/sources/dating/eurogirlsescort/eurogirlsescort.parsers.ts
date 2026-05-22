@@ -151,7 +151,10 @@ export const parseEGEAmount = (
   raw: string | undefined | null,
 ): { amount: number; currency: string } | undefined => {
   if (!raw) return undefined;
-  const clean = raw.replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
+  const clean = raw
+    .replace(/\u00a0/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
   const m = clean.match(/^([\d,.]+)\s*([A-Z]{2,4})$/);
   if (!m) return undefined;
   const amount = parseFloat(m[1]!.replace(',', ''));

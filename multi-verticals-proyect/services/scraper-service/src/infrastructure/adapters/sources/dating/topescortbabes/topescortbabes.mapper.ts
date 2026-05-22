@@ -28,7 +28,7 @@ import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
 import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
+import { Confidence } from '#domain/canonical/confidence.js';
 
 import type {
   CityRecord,
@@ -48,7 +48,6 @@ import {
   parseMeetingWith,
   parseRelativeTimeEs,
   parseWeightKg,
-  stripHtml,
 } from './topescortbabes.parsers.js';
 
 /**

@@ -17,7 +17,7 @@ export class MisliosPipeline extends DatingPipelineBase<MisliosPayload> {
   isProfileUrl(url: string): boolean {
     // Profile: /escorts/{ciudad}/{slug}-{numericId}/ — last segment ends with -NNN
     const parts = new URL(url).pathname.split('/').filter(Boolean);
-    return parts.length === 3 && parts[0] === 'escorts' && /\-\d+$/.test(parts[2] ?? '');
+    return parts.length === 3 && parts[0] === 'escorts' && /-\d+$/.test(parts[2] ?? '');
   }
 
   extract(html: string, sourceUrl: string): MisliosPayload {

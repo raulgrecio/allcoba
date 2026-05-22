@@ -12,7 +12,7 @@ import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
 import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
+import { Confidence } from '#domain/canonical/confidence.js';
 
 import type {
   EuroGirlsEscortPayload,
@@ -192,9 +192,6 @@ export const mapEuroGirlsEscort = async (
   // City + country resolution from slugs extracted via href
   const citySlug = payload.params.locationCitySlug;
   const countrySlug = payload.params.locationCountrySlug;
-
-  // Derive ISO2 from country slug: "malaysia" → "MY" via resolver
-  const countryId = countrySlug ? await resolver.resolveCountry(countrySlug) : null;
 
   const cityId = citySlug
     ? await resolver.resolveCity(citySlug, countrySlug?.slice(0, 2).toUpperCase())

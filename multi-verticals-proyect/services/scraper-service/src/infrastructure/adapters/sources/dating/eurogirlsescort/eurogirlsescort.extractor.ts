@@ -62,7 +62,7 @@ const extractBio = ($: CheerioAPI): string | undefined => {
     .first()
     .text()
     // Strip zero-width and invisible Unicode chars used as spam guards
-    .replace(/[​‌‍⁠﻿]/g, '')
+    .replace(/\u200b|\u200c|\u200d|\u2060|\ufeff/g, '')
     .replace(/\s+/g, ' ')
     .trim();
   return text || undefined;
@@ -314,10 +314,15 @@ const extractRates = ($: CheerioAPI): EuroGirlsEscortRate[] => {
         .remove()
         .end()
         .text()
-        .replace(/ /g, ' ')
+        .replace(/\u00a0/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
-      const eurText = td.find('small').text().replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
+      const eurText = td
+        .find('small')
+        .text()
+        .replace(/\u00a0/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
 
       const main = parseEGEAmount(mainText);
       if (!main) return {};

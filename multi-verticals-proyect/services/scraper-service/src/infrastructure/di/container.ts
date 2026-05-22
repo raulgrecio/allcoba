@@ -34,7 +34,7 @@ async function ensureDatabaseReady(repository: any): Promise<void> {
     try {
       const { checkConnection } = await import('#infrastructure/adapters/persistence/db-client.js');
       await checkConnection();
-    } catch (err) {
+    } catch {
       // Aquí es donde el orquestador decide qué hacer con el fallo
       process.exit(1);
     }

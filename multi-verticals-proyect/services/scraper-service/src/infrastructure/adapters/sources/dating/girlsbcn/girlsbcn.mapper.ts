@@ -60,13 +60,11 @@ const mapPersonalDetails = async (
   const nationalitySlug = slugifyGBCN(p.nationality);
   const hairSlug = slugifyGBCN(p.hairColor);
   const eyeSlug = slugifyGBCN(p.eyeColor);
-  const citySlug = slugifyGBCN(p.city);
 
-  const [nationalityId, hairId, eyeId, cityId] = await Promise.all([
+  const [nationalityId, hairId, eyeId] = await Promise.all([
     nationalitySlug ? resolver.resolveNationality(nationalitySlug) : null,
     hairSlug ? resolver.resolveHair(hairSlug) : null,
     eyeSlug ? resolver.resolveEye(eyeSlug) : null,
-    citySlug ? resolver.resolveCity(citySlug, 'ES') : null,
   ]);
 
   const { bustCm, waistCm, hipCm } = parseGBCNMeasurements(p.measurements);

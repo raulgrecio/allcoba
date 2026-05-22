@@ -38,7 +38,7 @@ export class LocalStorageAdapter implements StoragePort {
     const filePath = path.join(this.storageDir, fileName);
     try {
       await fs.unlink(filePath);
-    } catch (error) {
+    } catch {
       // Ignorar si no existe
     }
   }
