@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractCochesNet } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.extractor.js';
 import {
   COCHES_NET_SOURCE,
   mapCochesNet,
 } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

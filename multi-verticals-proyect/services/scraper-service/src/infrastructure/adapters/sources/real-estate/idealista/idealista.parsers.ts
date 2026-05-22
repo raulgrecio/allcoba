@@ -1,8 +1,4 @@
-import type {
-  EnergyRating,
-  PropertyListingType,
-  PropertyType,
-} from '@allcoba/shared-types';
+import type { EnergyRating, PropertyListingType, PropertyType } from '@allcoba/shared-types';
 
 /**
  * Idealista detail URLs follow `/inmueble/{numericId}/`.
@@ -111,7 +107,10 @@ export interface IdealistaSubtitleParts {
 
 export function parseSubtitle(subtitle?: string): IdealistaSubtitleParts {
   if (!subtitle) return {};
-  const parts = subtitle.split(',').map((p) => p.trim()).filter(Boolean);
+  const parts = subtitle
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean);
   if (parts.length === 0) return {};
   if (parts.length === 1) return { city: parts[0] };
   return { neighborhood: parts[0], city: parts[parts.length - 1] };

@@ -1,6 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { extractCochesNet } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.extractor.js';
+
 import type { CochesNetPayload } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.types.js';
+import { extractCochesNet } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL =

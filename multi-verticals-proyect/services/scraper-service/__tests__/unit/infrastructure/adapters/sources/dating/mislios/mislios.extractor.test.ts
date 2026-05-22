@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractMislios } from '#infrastructure/adapters/sources/dating/mislios/mislios.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { MisliosPayload } from '#infrastructure/adapters/sources/dating/mislios/mislios.types.js';
+import { extractMislios } from '#infrastructure/adapters/sources/dating/mislios/mislios.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://mislios.com/anuncios/ana-escort-madrid/';

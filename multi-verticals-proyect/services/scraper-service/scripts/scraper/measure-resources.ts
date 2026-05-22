@@ -1,6 +1,6 @@
-import { chromium as playwright } from 'playwright-core';
-import { chromium as patchright } from 'patchright';
 import { execSync } from 'node:child_process';
+import { chromium as patchright } from 'patchright';
+import { chromium as playwright } from 'playwright-core';
 
 async function getBrowserMemory(execPath: string): Promise<number> {
   try {
@@ -8,7 +8,7 @@ async function getBrowserMemory(execPath: string): Promise<number> {
     const psOutput = execSync(`ps aux | grep "${binName}" | grep -v grep`).toString();
     const lines = psOutput.trim().split('\n');
     let totalRSS = 0;
-    lines.forEach(line => {
+    lines.forEach((line) => {
       const parts = line.trim().split(/\s+/);
       if (parts.length < 6 || !parts[5]) return;
       const rss = parseInt(parts[5], 10);
@@ -22,10 +22,10 @@ async function getBrowserMemory(execPath: string): Promise<number> {
 
 async function runMeasurement(engine: any, name: string) {
   console.log(`\n--- Midiendo ${name} ---`);
-  
+
   const browser = await engine.launch({ headless: true });
   const execPath = engine.executablePath();
-  
+
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto('https://www.google.com', { waitUntil: 'domcontentloaded' });
@@ -40,7 +40,7 @@ async function runMeasurement(engine: any, name: string) {
 
 async function compare() {
   console.log('Iniciando comparación de recursos...');
-  
+
   const playwrightResults = await runMeasurement(playwright, 'Playwright (Standard)');
   const patchrightResults = await runMeasurement(patchright, 'Patchright (Stealth)');
 
@@ -49,11 +49,18 @@ async function compare() {
   console.log('================================================');
   console.log(`MOTOR         | NODE RAM   | BROWSER RAM | TOTAL`);
   console.log(`--------------|------------|-------------|-------`);
-  console.log(`Playwright    | ${playwrightResults.nodeMem.toFixed(2)} MB  | ${playwrightResults.browserMem.toFixed(2)} MB   | ${(playwrightResults.nodeMem + playwrightResults.browserMem).toFixed(2)} MB`);
-  console.log(`Patchright    | ${patchrightResults.nodeMem.toFixed(2)} MB  | ${patchrightResults.browserMem.toFixed(2)} MB   | ${(patchrightResults.nodeMem + patchrightResults.browserMem).toFixed(2)} MB`);
+  console.log(
+    `Playwright    | ${playwrightResults.nodeMem.toFixed(2)} MB  | ${playwrightResults.browserMem.toFixed(2)} MB   | ${(playwrightResults.nodeMem + playwrightResults.browserMem).toFixed(2)} MB`,
+  );
+  console.log(
+    `Patchright    | ${patchrightResults.nodeMem.toFixed(2)} MB  | ${patchrightResults.browserMem.toFixed(2)} MB   | ${(patchrightResults.nodeMem + patchrightResults.browserMem).toFixed(2)} MB`,
+  );
   console.log('================================================');
-  
-  const diff = (patchrightResults.nodeMem + patchrightResults.browserMem) - (playwrightResults.nodeMem + playwrightResults.browserMem);
+
+  const diff =
+    patchrightResults.nodeMem +
+    patchrightResults.browserMem -
+    (playwrightResults.nodeMem + playwrightResults.browserMem);
   console.log(`Diferencia: ${diff > 0 ? '+' : ''}${diff.toFixed(2)} MB para Patchright`);
 }
 

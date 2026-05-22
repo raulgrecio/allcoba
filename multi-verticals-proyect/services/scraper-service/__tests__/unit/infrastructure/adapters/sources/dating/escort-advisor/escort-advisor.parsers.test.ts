@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
+  parseCityFromBreadcrumb,
   parseEscortAdvisorPhone,
   parseFirstInt,
-  parseCityFromBreadcrumb,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {

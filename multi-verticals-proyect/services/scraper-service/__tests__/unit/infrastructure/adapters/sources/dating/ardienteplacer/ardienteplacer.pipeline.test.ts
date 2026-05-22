@@ -66,8 +66,7 @@ describe('ardienteplacer pipeline — all fixtures round-trip', () => {
   for (const filename of fixtures) {
     it(`${filename} round-trips without error`, async () => {
       const html = loadHtmlFixture(filename);
-      const url =
-        'https://www.ardienteplacer.com/index.php/escort/cat/madrid/632277902/99999';
+      const url = 'https://www.ardienteplacer.com/index.php/escort/cat/madrid/632277902/99999';
       const payload = extractArdienteplacer(html, url);
       const sp = await mapArdienteplacer(payload, resolver);
 

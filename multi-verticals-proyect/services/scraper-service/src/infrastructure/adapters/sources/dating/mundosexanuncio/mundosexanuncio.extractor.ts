@@ -9,18 +9,15 @@
 
 import * as cheerio from 'cheerio';
 
+import type { MundosexanuncioPayload, MundosexanuncioPhoto } from './mundosexanuncio.types.js';
 import {
-  parseSourceIdFromUrl,
+  parseAgeFromText,
   parseMundoPhone,
   parseMundoWhatsapp,
-  parseAgeFromText,
+  parseSourceIdFromUrl,
 } from './mundosexanuncio.parsers.js';
-import type { MundosexanuncioPayload, MundosexanuncioPhoto } from './mundosexanuncio.types.js';
 
-export const extractMundosexanuncio = (
-  html: string,
-  sourceUrl: string,
-): MundosexanuncioPayload => {
+export const extractMundosexanuncio = (html: string, sourceUrl: string): MundosexanuncioPayload => {
   const $ = cheerio.load(html);
 
   const sourceId = parseSourceIdFromUrl(sourceUrl);
@@ -29,7 +26,11 @@ export const extractMundosexanuncio = (
 
   // nickname: primer token tras quitar emojis/símbolos iniciales
   const cleanTitle = title.replace(/^[^\p{L}\p{N}]+/u, '').trim();
-  const nickname = cleanTitle.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim() || undefined;
+  const nickname =
+    cleanTitle
+      .split(/\s+/)[0]
+      ?.replace(/[,;:]+$/, '')
+      .trim() || undefined;
 
   const bio = $('section .main .a_content').first().text().trim() || undefined;
 
@@ -37,13 +38,16 @@ export const extractMundosexanuncio = (
   const city = details.attr('data-city')?.trim() || undefined;
   const zone =
     $('.details .addr').first().text().trim() ||
-    $('.zona').first().text().trim().replace(/\s*\(.*?\)/, '').trim() ||
+    $('.zona')
+      .first()
+      .text()
+      .trim()
+      .replace(/\s*\(.*?\)/, '')
+      .trim() ||
     undefined;
 
   const phone = parseMundoPhone($('.fa_tel a[href^="tel:"]').first().attr('href'));
-  const whatsappPhone = parseMundoWhatsapp(
-    $('a[href*="api.whatsapp.com"]').first().attr('href'),
-  );
+  const whatsappPhone = parseMundoWhatsapp($('a[href*="api.whatsapp.com"]').first().attr('href'));
 
   const age = parseAgeFromText(bio);
 

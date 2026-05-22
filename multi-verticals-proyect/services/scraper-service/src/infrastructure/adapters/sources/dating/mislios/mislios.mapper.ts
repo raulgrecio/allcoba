@@ -1,3 +1,14 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { MisliosPayload } from './mislios.types.js';
+
 /**
  * mislios mapper — MisliosPayload → ScrapedProvider (pure, async).
  *
@@ -8,22 +19,6 @@
  *   - country: ES (mislios.com is Spain-only)
  *   - Confidence.low (minimal data)
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import type { MisliosPayload } from './mislios.types.js';
 
 export const MISLIOS_SOURCE = 'mislios';
 

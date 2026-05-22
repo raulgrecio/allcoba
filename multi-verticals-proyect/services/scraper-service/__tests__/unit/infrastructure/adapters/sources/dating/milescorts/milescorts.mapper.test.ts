@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { mapMilescorts } from '#infrastructure/adapters/sources/dating/milescorts/milescorts.mapper.js';
 import type { MilescortsPayload } from '#infrastructure/adapters/sources/dating/milescorts/milescorts.types.js';
+import { mapMilescorts } from '#infrastructure/adapters/sources/dating/milescorts/milescorts.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 

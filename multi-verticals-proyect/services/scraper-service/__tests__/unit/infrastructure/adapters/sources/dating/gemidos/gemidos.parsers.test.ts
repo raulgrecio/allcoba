@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
-  parseGemidosPhone,
   parseFirstInt,
+  parseGemidosPhone,
   parseNicknameFromTitle,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {

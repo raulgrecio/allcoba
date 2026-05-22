@@ -1,3 +1,36 @@
+import type {
+  ContactOption,
+  PersonalDetailsCanonical,
+  PriceCanonical,
+  ProfileVerificationStatus,
+  ReviewCanonical,
+  ReviewSubratings,
+} from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, asReviewId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
+
+import type {
+  EuroGirlsEscortPayload,
+  EuroGirlsEscortPhone,
+  EuroGirlsEscortRate,
+  EuroGirlsEscortReview,
+} from './eurogirlsescort.types.js';
+import {
+  normalizeEGEGender,
+  parseDurationSlot,
+  parseEGEAvailableFor,
+  parseEGEDate,
+  parseEGEHeightCm,
+  parseEGEMeetingWith,
+  parseEGEWeightKg,
+  slugify,
+} from './eurogirlsescort.parsers.js';
+
 /**
  * EuroGirlsEscortMapper — pure mapping from raw payload to ScrapedProvider v2.
  *
@@ -12,43 +45,6 @@
  * EuroGirlsEscort does NOT embed Schema.org JSON, so no @graph fallback here.
  */
 
-import {
-  asPhoneE164,
-  asProviderId,
-  type ContactOption,
-  type PersonalDetailsCanonical,
-
-  type PriceCanonical,
-  type ProfileVerificationStatus,
-  type ReviewCanonical,
-  type ReviewSubratings,
-  asReviewId,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
-
-import {
-  normalizeEGEGender,
-  parseEGEAvailableFor,
-  parseEGEDate,
-  parseEGEHeightCm,
-  parseEGEMeetingWith,
-  parseEGEWeightKg,
-  parseDurationSlot,
-  slugify,
-} from './eurogirlsescort.parsers.js';
-import type {
-  EuroGirlsEscortPayload,
-  EuroGirlsEscortPhone,
-  EuroGirlsEscortRate,
-  EuroGirlsEscortReview,
-} from './eurogirlsescort.types.js';
-
 export const EUROGIRLSESCORT_SOURCE = 'eurogirlsescort';
 
 export interface MapperOptions {
@@ -61,10 +57,7 @@ export interface MapperOptions {
 // Photo mapping
 // ============================================================================
 
-const mapPhoto = (
-  photo: EuroGirlsEscortPayload['photos'][number],
-  idx: number,
-): ScrapedPhoto => ({
+const mapPhoto = (photo: EuroGirlsEscortPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `${EUROGIRLSESCORT_SOURCE}:photo:${idx}`,
   url: photo.href,
   thumbnail: photo.href,
@@ -203,8 +196,9 @@ export const mapEuroGirlsEscort = async (
   // Derive ISO2 from country slug: "malaysia" → "MY" via resolver
   const countryId = countrySlug ? await resolver.resolveCountry(countrySlug) : null;
 
-  const cityId =
-    citySlug ? await resolver.resolveCity(citySlug, countrySlug?.slice(0, 2).toUpperCase()) : null;
+  const cityId = citySlug
+    ? await resolver.resolveCity(citySlug, countrySlug?.slice(0, 2).toUpperCase())
+    : null;
 
   const baseCity = cityId ? { id: cityId } : undefined;
 

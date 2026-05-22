@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
-import { extractGirlsBcn } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.extractor.js';
 import type { GirlsBcnPayload } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.types.js';
+import { extractGirlsBcn } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.extractor.js';
 
 import { loadHtmlFixture } from './helpers/load-fixtures.js';
 
@@ -33,7 +33,8 @@ describe('extractGirlsBcn — camila105', () => {
     it('extracts eye color', () => expect(payload.params.eyeColor).toBe('Marrones'));
     it('extracts nationality', () => expect(payload.params.nationality).toBe('Colombiana'));
     it('extracts schedule', () => expect(payload.params.schedule).toBe('Full time'));
-    it('extracts city from disponible-en text', () => expect(payload.params.city).toBe('Barcelona'));
+    it('extracts city from disponible-en text', () =>
+      expect(payload.params.city).toBe('Barcelona'));
     it('extracts languages', () => expect(payload.params.languages).toContain('Castellano'));
     it('extracts price range', () => expect(payload.params.priceRange).toBe(1));
   });
@@ -41,8 +42,7 @@ describe('extractGirlsBcn — camila105', () => {
   describe('contact', () => {
     it('extracts phone', () => expect(payload.phone).toBe('663475960'));
     it('extracts whatsapp phone', () => expect(payload.whatsappPhone).toBe('+34663475960'));
-    it('extracts whatsapp href', () =>
-      expect(payload.whatsappHref).toMatch(/wa\.me\/34663475960/));
+    it('extracts whatsapp href', () => expect(payload.whatsappHref).toMatch(/wa\.me\/34663475960/));
   });
 
   describe('photos', () => {
@@ -58,9 +58,7 @@ describe('extractGirlsBcn — camila105', () => {
   });
 
   describe('video', () => {
-    it('extracts video src', () =>
-      expect(payload.video?.src).toMatch(/camila105.*\.mp4/));
-    it('extracts video poster', () =>
-      expect(payload.video?.poster).toMatch(/camila105.*\.jpg/));
+    it('extracts video src', () => expect(payload.video?.src).toMatch(/camila105.*\.mp4/));
+    it('extracts video poster', () => expect(payload.video?.poster).toMatch(/camila105.*\.jpg/));
   });
 });

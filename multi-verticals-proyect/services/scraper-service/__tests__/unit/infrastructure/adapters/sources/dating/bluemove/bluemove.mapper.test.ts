@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapBluemove, BLUEMOVE_SOURCE } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.mapper.js';
+
 import type { BluemovePayload } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.types.js';
+import {
+  BLUEMOVE_SOURCE,
+  mapBluemove,
+} from '#infrastructure/adapters/sources/dating/bluemove/bluemove.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');

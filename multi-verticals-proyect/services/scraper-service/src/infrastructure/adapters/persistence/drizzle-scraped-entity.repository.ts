@@ -20,10 +20,7 @@ import type { ProviderId, Vertical } from '@allcoba/shared-types';
 import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
 import type { ExternalRef, HasExternalRefs } from '#domain/canonical/external-ref.js';
 
-import type {
-  NewScrapedProviderRow,
-  ScrapedProviderRow,
-} from './schema/scraper.schema.js';
+import type { NewScrapedProviderRow, ScrapedProviderRow } from './schema/scraper.schema.js';
 import * as schema from './schema/scraper.schema.js';
 
 type AnyProviderTable = (typeof schema.verticalTables)[keyof typeof schema.verticalTables];
@@ -35,9 +32,9 @@ interface IdentifiableScrapedEntity extends HasExternalRefs {
   readonly lastScrapedAt?: string;
 }
 
-export class DrizzleScrapedEntityRepository<T extends IdentifiableScrapedEntity>
-  implements ScrapedEntityRepositoryPort<T>
-{
+export class DrizzleScrapedEntityRepository<
+  T extends IdentifiableScrapedEntity,
+> implements ScrapedEntityRepositoryPort<T> {
   constructor(
     private readonly db: PostgresJsDatabase<typeof schema>,
     private readonly table: AnyProviderTable,

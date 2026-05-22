@@ -1,7 +1,7 @@
+import type { IdealistaPayload } from './idealista.types.js';
 import { RealEstatePipelineBase } from '../real-estate-pipeline.base.js';
 import { extractIdealista } from './idealista.extractor.js';
 import { mapIdealista } from './idealista.mapper.js';
-import type { IdealistaPayload } from './idealista.types.js';
 
 const COOKIE_SELECTORS = ['#didomi-notice-agree-button'];
 

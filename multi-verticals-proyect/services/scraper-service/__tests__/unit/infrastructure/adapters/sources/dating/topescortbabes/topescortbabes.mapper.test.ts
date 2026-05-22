@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  TOPESCORTBABES_SOURCE,
   mapTopEscortBabes,
+  TOPESCORTBABES_SOURCE,
 } from '#infrastructure/adapters/sources/dating/topescortbabes/topescortbabes.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';

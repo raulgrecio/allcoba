@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractEscortAdvisor } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { EscortAdvisorPayload } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.types.js';
+import { extractEscortAdvisor } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://www.escort-advisor.xxx/escorts/spain/madrid/diana-667554247/';
@@ -40,7 +42,10 @@ describe('extractEscortAdvisor — og:image fallback', () => {
     const html = `<html><head>
       <meta property="og:image" content="https://cdn.escort-advisor.xxx/og.jpg">
     </head><body><div class="username"><h2>Sofia</h2></div></body></html>`;
-    const p = extractEscortAdvisor(html, 'https://www.escort-advisor.xxx/escorts/spain/madrid/sofia-99999/');
+    const p = extractEscortAdvisor(
+      html,
+      'https://www.escort-advisor.xxx/escorts/spain/madrid/sofia-99999/',
+    );
     expect(p.photos).toHaveLength(1);
     expect(p.photos[0]!.src).toContain('og.jpg');
   });
@@ -49,7 +54,10 @@ describe('extractEscortAdvisor — og:image fallback', () => {
 describe('extractEscortAdvisor — minimal HTML', () => {
   it('handles missing data gracefully', () => {
     const html = '<html><body><div class="username"><h2>Mia</h2></div></body></html>';
-    const p = extractEscortAdvisor(html, 'https://www.escort-advisor.xxx/escorts/spain/madrid/mia-11111/');
+    const p = extractEscortAdvisor(
+      html,
+      'https://www.escort-advisor.xxx/escorts/spain/madrid/mia-11111/',
+    );
     expect(p.sourceId).toBe('11111');
     expect(p.phone).toBeUndefined();
     expect(p.isVerified).toBe(false);

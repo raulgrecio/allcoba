@@ -1,7 +1,7 @@
+import type { FotocasaPayload } from './fotocasa.types.js';
 import { RealEstatePipelineBase } from '../real-estate-pipeline.base.js';
 import { extractFotocasa } from './fotocasa.extractor.js';
 import { mapFotocasa } from './fotocasa.mapper.js';
-import type { FotocasaPayload } from './fotocasa.types.js';
 
 const COOKIE_SELECTORS = ['#didomi-notice-agree-button'];
 

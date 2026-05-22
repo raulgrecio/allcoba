@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
   parseNuevoloquoAge,
   parseNuevoloquoHeightCm,
   parseNuevoloquoWeightKg,
+  parseSourceIdFromUrl,
   slugifyNuevoloquo,
 } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.parsers.js';
 
@@ -25,7 +26,8 @@ describe('parseNuevoloquoAge', () => {
 
 describe('parseNuevoloquoHeightCm', () => {
   it('parses 165', () => expect(parseNuevoloquoHeightCm('165')).toBe(165));
-  it('returns undefined for missing', () => expect(parseNuevoloquoHeightCm(undefined)).toBeUndefined());
+  it('returns undefined for missing', () =>
+    expect(parseNuevoloquoHeightCm(undefined)).toBeUndefined());
 });
 
 describe('parseNuevoloquoWeightKg', () => {

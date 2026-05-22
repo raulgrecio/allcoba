@@ -7,24 +7,17 @@
 
 import * as cheerio from 'cheerio';
 
-import {
-  CrawlerEngine,
-  ProxyStrategy,
-  SolverStrategy,
-  type CrawlerOptions,
-  type SecurityStrategy,
-} from '#application/ports/crawler.port.js';
+import type { CrawlerOptions, SecurityStrategy } from '#application/ports/crawler.port.js';
 import type {
   PipelineMapOptions,
   RealEstatePipelinePort,
 } from '#application/ports/scraping-pipeline.port.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
+import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
 import { RobotsChecker } from '#infrastructure/crawler/robots-checker.js';
 
-export abstract class RealEstatePipelineBase<Payload>
-  implements RealEstatePipelinePort
-{
+export abstract class RealEstatePipelineBase<Payload> implements RealEstatePipelinePort {
   abstract readonly identifier: string;
   readonly defaultVertical = 'real-estate' as const;
 

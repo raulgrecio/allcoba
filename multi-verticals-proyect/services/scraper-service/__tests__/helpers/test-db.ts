@@ -8,10 +8,12 @@
  * is the easiest correct default.
  */
 
-import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import type { StartedPostgreSqlContainer } from '@testcontainers/postgresql';
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import { PostgreSqlContainer } from '@testcontainers/postgresql';
 import { sql } from 'drizzle-orm';
+import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 
 import * as schema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
 

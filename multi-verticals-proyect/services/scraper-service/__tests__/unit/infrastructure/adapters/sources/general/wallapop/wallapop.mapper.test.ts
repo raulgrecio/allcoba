@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import {
-  WALLAPOP_SOURCE,
-  mapWallapop,
-} from '#infrastructure/adapters/sources/general/wallapop/wallapop.mapper.js';
+
 import type { WallapopPayload } from '#infrastructure/adapters/sources/general/wallapop/wallapop.types.js';
+import {
+  mapWallapop,
+  WALLAPOP_SOURCE,
+} from '#infrastructure/adapters/sources/general/wallapop/wallapop.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-05-18T00:00:00.000Z');

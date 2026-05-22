@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
   parseMisliosPhone,
   parseNicknameFromTitle,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/mislios/mislios.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {

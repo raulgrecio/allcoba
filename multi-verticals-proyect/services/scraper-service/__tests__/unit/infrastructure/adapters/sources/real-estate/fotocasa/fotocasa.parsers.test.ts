@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import {
   cleanLocality,
   parseEnergyRating,
@@ -31,8 +32,7 @@ describe('parseListingType', () => {
 });
 
 describe('parsePriceMode', () => {
-  it('rent listing → per-month', () =>
-    expect(parsePriceMode(undefined, 'rent')).toBe('per-month'));
+  it('rent listing → per-month', () => expect(parsePriceMode(undefined, 'rent')).toBe('per-month'));
   it('sale + periodicity 0 → total', () => expect(parsePriceMode(0, 'sale')).toBe('total'));
   it('sale + periodicity > 0 → per-month', () =>
     expect(parsePriceMode(1, 'sale')).toBe('per-month'));
@@ -40,8 +40,7 @@ describe('parsePriceMode', () => {
 
 describe('parsePropertyType', () => {
   it('typology FLAT → flat', () => expect(parsePropertyType(undefined, 'FLAT')).toBe('flat'));
-  it('typology HOUSE → house', () =>
-    expect(parsePropertyType(undefined, 'HOUSE')).toBe('house'));
+  it('typology HOUSE → house', () => expect(parsePropertyType(undefined, 'HOUSE')).toBe('house'));
   it('propertyTypeId 2 → flat', () => expect(parsePropertyType(2)).toBe('flat'));
   it('propertyTypeId 3 → house', () => expect(parsePropertyType(3)).toBe('house'));
   it('unknown → undefined', () => expect(parsePropertyType(999, 'XYZ')).toBeUndefined());
@@ -85,22 +84,19 @@ describe('readBooleanFeature', () => {
   ];
   it('YES → true', () => expect(readBooleanFeature(features, 'ELEVATOR')).toBe(true));
   it('NO → false', () => expect(readBooleanFeature(features, 'PARKING')).toBe(false));
-  it('missing → undefined', () =>
-    expect(readBooleanFeature(features, 'POOL')).toBeUndefined());
+  it('missing → undefined', () => expect(readBooleanFeature(features, 'POOL')).toBeUndefined());
 });
 
 describe('readStringFeature', () => {
   const features = [{ type: 'TYPOLOGY', value: 'FLAT' }];
   it('returns string value', () => expect(readStringFeature(features, 'TYPOLOGY')).toBe('FLAT'));
-  it('missing → undefined', () =>
-    expect(readStringFeature(features, 'XYZ')).toBeUndefined());
+  it('missing → undefined', () => expect(readStringFeature(features, 'XYZ')).toBeUndefined());
 });
 
 describe('readLetterFeature', () => {
   const features = [{ type: 'ENERGY', value: { letter: 'G', value: 999 } }];
   it('returns letter from object', () => expect(readLetterFeature(features, 'ENERGY')).toBe('G'));
-  it('missing → undefined', () =>
-    expect(readLetterFeature(features, 'EMISSIONS')).toBeUndefined());
+  it('missing → undefined', () => expect(readLetterFeature(features, 'EMISSIONS')).toBeUndefined());
 });
 
 describe('cleanLocality', () => {

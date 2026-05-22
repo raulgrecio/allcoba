@@ -49,7 +49,9 @@ export const slugifyErosguia = (raw: string | undefined | null): string | undefi
  * Extract call phone from page title.
  * "Anny, Escort en Madrid - 614 246 033 - EROSGUIA" → "614246033"
  */
-export const parseErosguiaPhoneFromTitle = (title: string | undefined | null): string | undefined => {
+export const parseErosguiaPhoneFromTitle = (
+  title: string | undefined | null,
+): string | undefined => {
   if (!title) return undefined;
   const m = title.match(/[-–]\s*(\d{3}[\s ]\d{3}[\s ]\d{3})\s*[-–]/);
   if (!m) return undefined;
@@ -60,7 +62,9 @@ export const parseErosguiaPhoneFromTitle = (title: string | undefined | null): s
  * Extract E.164 phone from a WhatsApp wa.me href.
  * "https://wa.me/34643435399?text=..." → "+34643435399"
  */
-export const extractErosguiaWhatsappPhone = (href: string | undefined | null): string | undefined => {
+export const extractErosguiaWhatsappPhone = (
+  href: string | undefined | null,
+): string | undefined => {
   if (!href) return undefined;
   const m = href.match(/wa\.me\/(\d+)/);
   return m ? `+${m[1]!}` : undefined;

@@ -1,9 +1,10 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { DrizzleRawPayloadRepository } from '#infrastructure/adapters/persistence/raw/drizzle-raw.repository.js';
 import type { RawPayloadRecord } from '#application/ports/raw-payload.port.js';
+import { DrizzleRawPayloadRepository } from '#infrastructure/adapters/persistence/raw/drizzle-raw.repository.js';
 
-import { setupTestDb, truncateAll, type TestDb } from '../../../../../helpers/test-db.js';
+import type { TestDb } from '../../../../../helpers/test-db.js';
+import { setupTestDb, truncateAll } from '../../../../../helpers/test-db.js';
 
 const SOURCE = 'topescortbabes';
 

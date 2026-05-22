@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
-  parseGBCNHeightCm,
-  parseGBCNWeightKg,
-  parseGBCNAge,
-  parseGBCNMeasurements,
-  slugifyGBCN,
-  normalizeGBCNPhone,
   extractWhatsappPhone,
+  normalizeGBCNPhone,
+  parseGBCNAge,
+  parseGBCNHeightCm,
+  parseGBCNMeasurements,
   parseGBCNMeetingPlaces,
+  parseGBCNWeightKg,
+  slugifyGBCN,
 } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.parsers.js';
 
 describe('parseGBCNHeightCm', () => {
@@ -58,7 +58,8 @@ describe('parseGBCNMeasurements', () => {
 describe('slugifyGBCN', () => {
   it('lowercases', () => expect(slugifyGBCN('Negro')).toBe('negro'));
   it('strips accents', () => expect(slugifyGBCN('Española')).toBe('espanola'));
-  it('replaces spaces with hyphens', () => expect(slugifyGBCN('Ojos marrones')).toBe('ojos-marrones'));
+  it('replaces spaces with hyphens', () =>
+    expect(slugifyGBCN('Ojos marrones')).toBe('ojos-marrones'));
   it('strips leading/trailing hyphens', () => expect(slugifyGBCN(' rojo ')).toBe('rojo'));
   it('returns undefined for null', () => expect(slugifyGBCN(null)).toBeUndefined());
   it('returns undefined for empty', () => expect(slugifyGBCN('')).toBeUndefined());
@@ -108,7 +109,10 @@ describe('parseGBCNMeetingPlaces', () => {
   });
 
   it('detects both', () => {
-    expect(parseGBCNMeetingPlaces('apartamento o tu casa')).toEqual({ incall: true, outcall: true });
+    expect(parseGBCNMeetingPlaces('apartamento o tu casa')).toEqual({
+      incall: true,
+      outcall: true,
+    });
   });
 
   it('detects outcall from meetingTags', () => {

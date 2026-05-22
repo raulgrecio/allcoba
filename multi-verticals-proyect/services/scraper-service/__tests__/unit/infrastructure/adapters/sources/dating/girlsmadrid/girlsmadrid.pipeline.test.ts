@@ -1,9 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { extractGirlsMadrid } from '#infrastructure/adapters/sources/dating/girlsmadrid/girlsmadrid.extractor.js';
 import { mapGirlsMadrid } from '#infrastructure/adapters/sources/dating/girlsmadrid/girlsmadrid.mapper.js';
+
 import { FakeTaxonomyResolver } from '../girlsbcn/helpers/fake-taxonomy-resolver.js';
-import { loadHtmlFixture, listHtmlFixtures } from './helpers/load-fixtures.js';
+import { listHtmlFixtures, loadHtmlFixture } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://www.girlsmadrid.com/escort-lucia167.html';
 

@@ -61,9 +61,7 @@ describe('parseFirstInt / parseHeightCm / parseWeightKg', () => {
 
 describe('parseHumanDateEs', () => {
   it('parses "DD <month>, YYYY" into ISO-8601', () => {
-    expect(parseHumanDateEs('Actualizado el 01 septiembre, 2025')).toBe(
-      '2025-09-01T00:00:00.000Z',
-    );
+    expect(parseHumanDateEs('Actualizado el 01 septiembre, 2025')).toBe('2025-09-01T00:00:00.000Z');
     expect(parseHumanDateEs('15 enero, 2024')).toBe('2024-01-15T00:00:00.000Z');
   });
 

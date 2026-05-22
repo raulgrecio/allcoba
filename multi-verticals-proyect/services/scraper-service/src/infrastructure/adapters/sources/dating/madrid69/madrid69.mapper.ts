@@ -1,3 +1,15 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { Madrid69Payload } from './madrid69.types.js';
+import { slugifyMadrid69 } from './madrid69.parsers.js';
+
 /**
  * Madrid69 mapper — Madrid69Payload → ScrapedProvider (pure, async).
  *
@@ -8,23 +20,6 @@
  *   - city from API (string) or URL slug
  *   - confidence = medium when age/nationality present (API data), low otherwise
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import { slugifyMadrid69 } from './madrid69.parsers.js';
-import type { Madrid69Payload } from './madrid69.types.js';
 
 export const MADRID69_SOURCE = 'madrid69';
 
@@ -59,12 +54,8 @@ export const mapMadrid69 = async (
   const cityId = citySlug ? await resolver.resolveCity(citySlug, 'ES') : null;
   const baseCity = cityId ? { id: cityId } : undefined;
 
-  const nationalitySlug = payload.nationality
-    ? slugifyMadrid69(payload.nationality)
-    : undefined;
-  const nationalityId = nationalitySlug
-    ? await resolver.resolveNationality(nationalitySlug)
-    : null;
+  const nationalitySlug = payload.nationality ? slugifyMadrid69(payload.nationality) : undefined;
+  const nationalityId = nationalitySlug ? await resolver.resolveNationality(nationalitySlug) : null;
 
   const verificationStatus: ProfileVerificationStatus = 'pending_review';
 

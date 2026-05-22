@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   normalizeEGEGender,
+  parseDurationSlot,
   parseEGEAmount,
   parseEGEAvailableFor,
   parseEGEDate,
@@ -9,7 +10,6 @@ import {
   parseEGELanguages,
   parseEGEMeetingWith,
   parseEGEWeightKg,
-  parseDurationSlot,
   slugify,
 } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.parsers.js';
 
@@ -36,7 +36,7 @@ describe('parseEGEDate', () => {
 // parseEGEHeightCm / parseEGEWeightKg
 // ============================================================================
 describe('parseEGEHeightCm', () => {
-  it('extracts cm from "162 cm / 5\'4\'\'"', () => {
+  it("extracts cm from \"162 cm / 5'4''\"", () => {
     expect(parseEGEHeightCm("162 cm / 5'4''")).toBe(162);
   });
 

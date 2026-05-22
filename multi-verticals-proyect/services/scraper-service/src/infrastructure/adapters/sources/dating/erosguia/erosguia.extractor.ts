@@ -12,12 +12,12 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type { ErosguiaParams, ErosguiaPayload, ErosguiaPhoto } from './erosguia.types.js';
 import {
   extractErosguiaWhatsappPhone,
   parseErosguiaLanguages,
   parseErosguiaPhoneFromTitle,
 } from './erosguia.parsers.js';
-import type { ErosguiaParams, ErosguiaPayload, ErosguiaPhoto } from './erosguia.types.js';
 
 // ============================================================================
 // Helpers
@@ -26,7 +26,13 @@ import type { ErosguiaParams, ErosguiaPayload, ErosguiaPhoto } from './erosguia.
 const deriveSourceId = (sourceUrl: string): string => {
   const pathname = new URL(sourceUrl).pathname;
   const m = pathname.match(/\/(\d+)\.html$/);
-  return m ? m[1]! : pathname.split('/').filter(Boolean).pop()?.replace(/\.html?$/, '') ?? '';
+  return m
+    ? m[1]!
+    : (pathname
+        .split('/')
+        .filter(Boolean)
+        .pop()
+        ?.replace(/\.html?$/, '') ?? '');
 };
 
 /**

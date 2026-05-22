@@ -1,4 +1,5 @@
-import { asProviderId, i18nFromOriginal, type CurrencyCode } from '@allcoba/shared-types';
+import type { CurrencyCode } from '@allcoba/shared-types';
+import { asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';

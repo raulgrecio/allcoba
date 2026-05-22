@@ -1,3 +1,14 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { CitapasionPayload } from './citapasion.types.js';
+
 /**
  * citapasion mapper — CitapasionPayload → ScrapedProvider (pure, async).
  *
@@ -9,22 +20,6 @@
  *   - Confidence.medium (has age + city + nationality)
  */
 
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import type { CitapasionPayload } from './citapasion.types.js';
-
 export const CITAPASION_SOURCE = 'citapasion';
 
 export interface MapperOptions {
@@ -34,12 +29,14 @@ export interface MapperOptions {
 
 const slugify = (text: string | undefined): string | undefined => {
   if (!text) return undefined;
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '') || undefined;
+  return (
+    text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '') || undefined
+  );
 };
 
 const mapPhoto = (photo: CitapasionPayload['photos'][number], idx: number): ScrapedPhoto => ({

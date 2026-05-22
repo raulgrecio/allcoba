@@ -8,13 +8,10 @@
 
 import * as cheerio from 'cheerio';
 
-import { parseSourceIdFromUrl } from './nuevoloquo.parsers.js';
 import type { NuevoloquoParams, NuevoloquoPayload, NuevoloquoPhoto } from './nuevoloquo.types.js';
+import { parseSourceIdFromUrl } from './nuevoloquo.parsers.js';
 
-const extractDetailField = (
-  $: cheerio.CheerioAPI,
-  label: string,
-): string | undefined => {
+const extractDetailField = ($: cheerio.CheerioAPI, label: string): string | undefined => {
   const boxes = $('.details-box');
   for (let i = 0; i < boxes.length; i++) {
     const box = boxes.eq(i);
@@ -30,15 +27,17 @@ export const extractNuevoloquo = (html: string, sourceUrl: string): NuevoloquoPa
 
   const sourceId = parseSourceIdFromUrl(sourceUrl);
 
-  const title =
-    $('h2.public-title').text().trim() ||
-    $('h1.ad-name').text().trim() ||
-    '';
+  const title = $('h2.public-title').text().trim() || $('h1.ad-name').text().trim() || '';
 
   // nickname: primer token tras quitar emojis/símbolos iniciales
   const cleanTitle = title.replace(/^[^\p{L}\p{N}]+/u, '').trim();
   const nickname =
-    cleanTitle.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim() || cleanTitle || title;
+    cleanTitle
+      .split(/\s+/)[0]
+      ?.replace(/[,;:]+$/, '')
+      .trim() ||
+    cleanTitle ||
+    title;
 
   const bio =
     $('#description-container').text().trim() ||
@@ -46,8 +45,12 @@ export const extractNuevoloquo = (html: string, sourceUrl: string): NuevoloquoPa
     undefined;
 
   const locationCity =
-    $('.card-zone .location a').first().text().trim().replace(/\s*\(.*?\)/, '').trim() ||
-    undefined;
+    $('.card-zone .location a')
+      .first()
+      .text()
+      .trim()
+      .replace(/\s*\(.*?\)/, '')
+      .trim() || undefined;
 
   const languagesRaw = extractDetailField($, 'Idiomas');
   const languages = languagesRaw

@@ -6,12 +6,12 @@
 
 import { describe, expect, it } from 'vitest';
 
+import type { EuroGirlsEscortPayload } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.types.js';
 import { extractEuroGirlsEscort } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.extractor.js';
 import {
   EUROGIRLSESCORT_SOURCE,
   mapEuroGirlsEscort,
 } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.mapper.js';
-import type { EuroGirlsEscortPayload } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.types.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtmlFixture } from './helpers/load-fixtures.js';

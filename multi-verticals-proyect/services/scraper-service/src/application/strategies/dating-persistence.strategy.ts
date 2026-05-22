@@ -21,14 +21,14 @@
 import { Buffer } from 'buffer';
 
 import type { Vertical } from '@allcoba/shared-types';
-import { asImageHash } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
+import { asImageHash } from '@allcoba/shared-types';
 
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type {
   PersistContext,
-  PersistResult,
   PersistenceStrategyPort,
+  PersistResult,
 } from '#application/ports/persistence-strategy.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';

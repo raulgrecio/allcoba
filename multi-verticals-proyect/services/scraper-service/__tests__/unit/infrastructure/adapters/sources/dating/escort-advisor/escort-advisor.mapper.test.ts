@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapEscortAdvisor, ESCORT_ADVISOR_SOURCE } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.mapper.js';
+
 import type { EscortAdvisorPayload } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.types.js';
+import {
+  ESCORT_ADVISOR_SOURCE,
+  mapEscortAdvisor,
+} from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');

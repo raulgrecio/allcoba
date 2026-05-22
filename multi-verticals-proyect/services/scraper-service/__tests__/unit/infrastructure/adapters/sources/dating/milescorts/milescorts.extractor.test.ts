@@ -82,9 +82,7 @@ describe('milescorts extractor — all fixtures parse without throwing', () => {
   for (const filename of fixtures) {
     it(`${filename} parses without error`, () => {
       const html = loadHtmlFixture(filename);
-      expect(() =>
-        extractMilescorts(html, `https://www.milescorts.es/${filename}`),
-      ).not.toThrow();
+      expect(() => extractMilescorts(html, `https://www.milescorts.es/${filename}`)).not.toThrow();
     });
   }
 });

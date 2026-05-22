@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractIdealista } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.extractor.js';
 import {
   IDEALISTA_SOURCE,
   mapIdealista,
 } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

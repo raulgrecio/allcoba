@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractNuevapasion } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.extractor.js';
-import { mapNuevapasion, NUEVAPASION_SOURCE } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.mapper.js';
+import {
+  mapNuevapasion,
+  NUEVAPASION_SOURCE,
+} from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

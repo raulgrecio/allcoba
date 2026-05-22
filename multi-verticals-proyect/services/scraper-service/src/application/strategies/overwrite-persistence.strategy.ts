@@ -11,15 +11,15 @@ import { logger } from '@allcoba/kernel';
 
 import type {
   PersistContext,
-  PersistResult,
   PersistenceStrategyPort,
+  PersistResult,
 } from '#application/ports/persistence-strategy.port.js';
 import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 
-export class OverwritePersistenceStrategy<T extends HasExternalRefs>
-  implements PersistenceStrategyPort<T>
-{
+export class OverwritePersistenceStrategy<
+  T extends HasExternalRefs,
+> implements PersistenceStrategyPort<T> {
   private readonly log = logger().child({ component: 'OverwritePersistenceStrategy' });
 
   constructor(private readonly repo: ScrapedEntityRepositoryPort<T>) {}
@@ -33,17 +33,11 @@ export class OverwritePersistenceStrategy<T extends HasExternalRefs>
     const existing = await this.repo.findByExternalRef(ref);
     if (existing) {
       await this.repo.update(ref, scraped);
-      this.log.info(
-        { source: ctx.source, sourceId: ref.sourceId },
-        'Scraped entity updated',
-      );
+      this.log.info({ source: ctx.source, sourceId: ref.sourceId }, 'Scraped entity updated');
       return { action: 'UPDATE' };
     }
     await this.repo.create(scraped);
-    this.log.info(
-      { source: ctx.source, sourceId: ref.sourceId },
-      'Scraped entity created',
-    );
+    this.log.info({ source: ctx.source, sourceId: ref.sourceId }, 'Scraped entity created');
     return { action: 'CREATE' };
   }
 }

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapMislios, MISLIOS_SOURCE } from '#infrastructure/adapters/sources/dating/mislios/mislios.mapper.js';
+
 import type { MisliosPayload } from '#infrastructure/adapters/sources/dating/mislios/mislios.types.js';
+import {
+  mapMislios,
+  MISLIOS_SOURCE,
+} from '#infrastructure/adapters/sources/dating/mislios/mislios.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');
@@ -60,11 +65,9 @@ describe('mapMislios — phone', () => {
   });
 
   it('no phone → undefined phoneNumber', async () => {
-    const sp = await mapMislios(
-      { ...BASE_PAYLOAD, phone: undefined },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapMislios({ ...BASE_PAYLOAD, phone: undefined }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.phoneNumber).toBeUndefined();
     expect(sp.contactOptions).toEqual([]);
   });
@@ -80,11 +83,9 @@ describe('mapMislios — photos', () => {
   });
 
   it('empty photos', async () => {
-    const sp = await mapMislios(
-      { ...BASE_PAYLOAD, photos: [] },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapMislios({ ...BASE_PAYLOAD, photos: [] }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.photos).toHaveLength(0);
     expect(sp.statistics!.photoCount).toBe(0);
   });
@@ -104,11 +105,9 @@ describe('mapMislios — aboutMe', () => {
   });
 
   it('no bio → aboutMe undefined', async () => {
-    const sp = await mapMislios(
-      { ...BASE_PAYLOAD, bio: undefined },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapMislios({ ...BASE_PAYLOAD, bio: undefined }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.aboutMe).toBeUndefined();
   });
 });

@@ -27,8 +27,7 @@ export interface ProviderCriteria {
  *     entity whose target id is already known. Distinct from the inherited
  *     `update(ref, provider)` (which addresses by external reference).
  */
-export interface ProviderRepositoryPort
-  extends ScrapedEntityRepositoryPort<ScrapedProvider> {
+export interface ProviderRepositoryPort extends ScrapedEntityRepositoryPort<ScrapedProvider> {
   find(criteria: ProviderCriteria): Promise<ScrapedProvider[]>;
   findById(id: ProviderId): Promise<ScrapedProvider | null>;
   /** Replaces the stored record by surrogate id. Merge with mergeProvider() before calling. */

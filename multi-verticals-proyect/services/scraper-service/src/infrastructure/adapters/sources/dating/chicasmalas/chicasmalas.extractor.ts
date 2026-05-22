@@ -8,16 +8,16 @@
 
 import * as cheerio from 'cheerio';
 
+import type { ChicasmalasPayload } from './chicasmalas.types.js';
 import {
-  parseSourceIdFromUrl,
-  parsePhoneFromSlug,
-  parseCityFromSlug,
-  parseNicknameFromMetaTitle,
   parseChicasmalasPhone,
   parseChicasmalasWhatsapp,
   parseCityFromMapsUrl,
+  parseCityFromSlug,
+  parseNicknameFromMetaTitle,
+  parsePhoneFromSlug,
+  parseSourceIdFromUrl,
 } from './chicasmalas.parsers.js';
-import type { ChicasmalasPayload } from './chicasmalas.types.js';
 
 /**
  * El perfil es Elementor: cada dato es un widget `heading` (`<h2>Edad.</h2>`)
@@ -30,9 +30,14 @@ function extractElementorFields($: cheerio.CheerioAPI): Map<string, string> {
   $('.elementor-widget-heading, .elementor-widget-text-editor').each((_, el) => {
     const node = $(el);
     if (node.hasClass('elementor-widget-heading')) {
-      lastLabel = node.find('.elementor-heading-title').first().text().trim()
-        .replace(/\.\s*$/, '')
-        .toLowerCase() || undefined;
+      lastLabel =
+        node
+          .find('.elementor-heading-title')
+          .first()
+          .text()
+          .trim()
+          .replace(/\.\s*$/, '')
+          .toLowerCase() || undefined;
     } else if (lastLabel) {
       const value = node.text().trim();
       if (value) fields.set(lastLabel, value);
@@ -101,8 +106,7 @@ export function extractChicasmalas(html: string, sourceUrl: string): Chicasmalas
   // Fallback: Elementor widget images
   if (photos.length === 0) {
     $('.elementor-widget-image img').each((_, el) => {
-      const src =
-        $(el).attr('data-lzl-src') || $(el).attr('data-src') || $(el).attr('src') || '';
+      const src = $(el).attr('data-lzl-src') || $(el).attr('data-src') || $(el).attr('src') || '';
       if (src.includes('/wp-content/uploads/') && !src.startsWith('data:')) {
         photos.push({ src });
       }

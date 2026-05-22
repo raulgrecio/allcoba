@@ -44,9 +44,7 @@ async function main() {
       const payload = pipeline.extract(result.html, url);
       const scraped = await pipeline.map(payload, resolver);
 
-      console.log(
-        `✅ OK: nickname=${scraped.nickname}, age=${scraped.personalDetails.ageYears}`,
-      );
+      console.log(`✅ OK: nickname=${scraped.nickname}, age=${scraped.personalDetails.ageYears}`);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       console.error(`❌ Error: ${message}`);

@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractFotocasa } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { FotocasaPayload } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.types.js';
+import { extractFotocasa } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL =
@@ -14,22 +16,17 @@ describe('extractFotocasa — fixture madrid_188764809 (SSR JSON)', () => {
     payload = extractFotocasa(html, SOURCE_URL);
   });
 
-  it('sourceId = numeric propertyId from URL', () =>
-    expect(payload.sourceId).toBe('188764809'));
+  it('sourceId = numeric propertyId from URL', () => expect(payload.sourceId).toBe('188764809'));
   it('sourceUrl preserved', () => expect(payload.sourceUrl).toBe(SOURCE_URL));
-  it('title from propertyTitle', () =>
-    expect(payload.title).toContain('Piso en venta'));
+  it('title from propertyTitle', () => expect(payload.title).toContain('Piso en venta'));
   it('listingType = sale', () => expect(payload.listingType).toBe('sale'));
   it('priceMode = total (sale)', () => expect(payload.priceMode).toBe('total'));
   it('propertyType = flat', () => expect(payload.propertyType).toBe('flat'));
   it('priceAmount = 1180000', () => expect(payload.priceAmount).toBe(1180000));
   it('description includes Huspy', () => expect(payload.description).toContain('Huspy'));
-  it('city = Madrid Capital (cleaned)', () =>
-    expect(payload.city).toBe('Madrid Capital'));
-  it('neighborhood = Ibiza de Madrid', () =>
-    expect(payload.neighborhood).toBe('Ibiza de Madrid'));
-  it('street = C. de Antonio Acuña', () =>
-    expect(payload.street).toContain('Antonio Acuña'));
+  it('city = Madrid Capital (cleaned)', () => expect(payload.city).toBe('Madrid Capital'));
+  it('neighborhood = Ibiza de Madrid', () => expect(payload.neighborhood).toBe('Ibiza de Madrid'));
+  it('street = C. de Antonio Acuña', () => expect(payload.street).toContain('Antonio Acuña'));
   it('postalCode = 28009', () => expect(payload.postalCode).toBe('28009'));
   it('coordinates present', () => {
     expect(payload.coordinates?.lat).toBeCloseTo(40.4207, 2);
@@ -44,10 +41,8 @@ describe('extractFotocasa — fixture madrid_188764809 (SSR JSON)', () => {
   it('hasAirConditioning = true (from extras)', () =>
     expect(payload.hasAirConditioning).toBe(true));
   it('hasHeating = true (from extras)', () => expect(payload.hasHeating).toBe(true));
-  it('energyConsumptionRating = G', () =>
-    expect(payload.energyConsumptionRating).toBe('G'));
-  it('energyEmissionsRating = G', () =>
-    expect(payload.energyEmissionsRating).toBe('G'));
+  it('energyConsumptionRating = G', () => expect(payload.energyConsumptionRating).toBe('G'));
+  it('energyEmissionsRating = G', () => expect(payload.energyEmissionsRating).toBe('G'));
   it('photos count >= 20', () => expect(payload.photos.length).toBeGreaterThanOrEqual(20));
   it('first photo points to static.fotocasa.es', () =>
     expect(payload.photos[0]?.url).toContain('static.fotocasa.es'));

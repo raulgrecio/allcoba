@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
+import type { CochesNetPayload } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.types.js';
 import {
   COCHES_NET_SOURCE,
   mapCochesNet,
 } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.mapper.js';
-import type { CochesNetPayload } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.types.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-05-18T00:00:00.000Z');
@@ -87,11 +89,9 @@ describe('mapCochesNet — location', () => {
   });
 
   it('no province → baseCity undefined', async () => {
-    const sv = await mapCochesNet(
-      { ...BASE, province: undefined },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sv = await mapCochesNet({ ...BASE, province: undefined }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sv.baseCity).toBeUndefined();
   });
 });

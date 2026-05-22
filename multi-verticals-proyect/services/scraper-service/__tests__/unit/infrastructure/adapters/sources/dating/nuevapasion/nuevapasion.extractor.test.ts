@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractNuevapasion } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { NuevapasionPayload } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.types.js';
+import { extractNuevapasion } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://nuevapasion.com/anuncio/sofia-abc123';

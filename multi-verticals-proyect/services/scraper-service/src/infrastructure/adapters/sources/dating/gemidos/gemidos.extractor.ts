@@ -7,16 +7,16 @@
  * Age/Height/Weight/Measurements via tag badges (.pub-tags-item.number).
  */
 
-import * as cheerio from 'cheerio';
 import type { CheerioAPI } from 'cheerio';
+import * as cheerio from 'cheerio';
 
-import {
-  parseSourceIdFromUrl,
-  parseGemidosPhone,
-  parseFirstInt,
-  parseNicknameFromTitle,
-} from './gemidos.parsers.js';
 import type { GemidosParams, GemidosPayload, GemidosPhoto } from './gemidos.types.js';
+import {
+  parseFirstInt,
+  parseGemidosPhone,
+  parseNicknameFromTitle,
+  parseSourceIdFromUrl,
+} from './gemidos.parsers.js';
 
 const getTagValue = ($: CheerioAPI, label: string): string | undefined => {
   let value: string | undefined;
@@ -72,17 +72,26 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
   });
 
   // Age, height, weight from numeric tags (contain "Años", "CM", "KG" labels)
-  const ageTag = $('.pub-tags-item.number').filter((_, el) => {
-    return /años/i.test($(el).text());
-  }).first().text();
+  const ageTag = $('.pub-tags-item.number')
+    .filter((_, el) => {
+      return /años/i.test($(el).text());
+    })
+    .first()
+    .text();
 
-  const heightTag = $('.pub-tags-item.number').filter((_, el) => {
-    return /cm/i.test($(el).text());
-  }).first().text();
+  const heightTag = $('.pub-tags-item.number')
+    .filter((_, el) => {
+      return /cm/i.test($(el).text());
+    })
+    .first()
+    .text();
 
-  const weightTag = $('.pub-tags-item.number').filter((_, el) => {
-    return /kg/i.test($(el).text());
-  }).first().text();
+  const weightTag = $('.pub-tags-item.number')
+    .filter((_, el) => {
+      return /kg/i.test($(el).text());
+    })
+    .first()
+    .text();
 
   // Measurements: tag with N-N-N pattern
   let measurements: string | undefined;

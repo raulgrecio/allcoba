@@ -7,12 +7,10 @@ import { randomUUID } from 'node:crypto';
 
 import { asProviderId } from '@allcoba/shared-types';
 
-import { asConfidence } from '#domain/canonical/confidence.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { asConfidence } from '#domain/canonical/confidence.js';
 
-export const buildProvider = (
-  overrides: Partial<ScrapedProvider> = {},
-): ScrapedProvider => ({
+export const buildProvider = (overrides: Partial<ScrapedProvider> = {}): ScrapedProvider => ({
   id: asProviderId(randomUUID()),
   vertical: 'dating',
   nickname: 'Test Provider',

@@ -116,9 +116,9 @@ describe('extractMilescortsWhatsappPhone', () => {
   });
 
   it('extracts from api.whatsapp.com phone param', () => {
-    expect(
-      extractMilescortsWhatsappPhone('https://api.whatsapp.com/send?phone=34631594827'),
-    ).toBe('+34631594827');
+    expect(extractMilescortsWhatsappPhone('https://api.whatsapp.com/send?phone=34631594827')).toBe(
+      '+34631594827',
+    );
   });
 
   it('returns undefined for falsy', () => {

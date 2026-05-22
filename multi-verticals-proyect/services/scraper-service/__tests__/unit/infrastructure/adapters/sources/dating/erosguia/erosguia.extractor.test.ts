@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
-import { extractErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.extractor.js';
 import type { ErosguiaPayload } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.types.js';
+import { extractErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.extractor.js';
 
 import { loadHtmlFixture } from './helpers/load-fixtures.js';
 
@@ -16,8 +16,7 @@ beforeAll(() => {
 
 describe('extractErosguia — anny_55383', () => {
   describe('page identifiers', () => {
-    it('derives sourceId from URL numeric path', () =>
-      expect(payload.sourceId).toBe('55383'));
+    it('derives sourceId from URL numeric path', () => expect(payload.sourceId).toBe('55383'));
 
     it('preserves sourceUrl', () => expect(payload.sourceUrl).toBe(SOURCE_URL));
   });
@@ -48,14 +47,12 @@ describe('extractErosguia — anny_55383', () => {
     it('no duplicate services (scoped to responsive only)', () =>
       expect(new Set(payload.services).size).toBe(payload.services.length));
 
-    it('includes Cenas Románticas', () =>
-      expect(payload.services).toContain('Cenas Románticas'));
+    it('includes Cenas Románticas', () => expect(payload.services).toContain('Cenas Románticas'));
 
     it('includes Girlfriend Experience', () =>
       expect(payload.services).toContain('Girlfriend Experience'));
 
-    it('includes Masajes a Hoteles', () =>
-      expect(payload.services).toContain('Masajes a Hoteles'));
+    it('includes Masajes a Hoteles', () => expect(payload.services).toContain('Masajes a Hoteles'));
   });
 
   describe('bio', () => {
@@ -87,8 +84,7 @@ describe('extractErosguia — anny_55383', () => {
   });
 
   describe('photos', () => {
-    it('collects cover + 6 gallery photos = 7 total', () =>
-      expect(payload.photos.length).toBe(7));
+    it('collects cover + 6 gallery photos = 7 total', () => expect(payload.photos.length).toBe(7));
 
     it('all photos from eros.bz domain', () =>
       payload.photos.forEach((p) => expect(p.src).toMatch(/eros\.bz/)));
@@ -101,7 +97,6 @@ describe('extractErosguia — anny_55383', () => {
     it('no data: URIs in photos', () =>
       payload.photos.forEach((p) => expect(p.src).not.toMatch(/^data:/)));
 
-    it('cover photo is first', () =>
-      expect(payload.photos[0]!.src).toMatch(/fichas\/55383/));
+    it('cover photo is first', () => expect(payload.photos[0]!.src).toMatch(/fichas\/55383/));
   });
 });

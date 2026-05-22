@@ -17,11 +17,10 @@ import type {
   ReviewCanonical,
 } from '@allcoba/shared-types';
 
-import type { ScrapedPhoto } from '../../canonical/scraped-photo.js';
-
-import type { ProfileImage } from '../../canonical/profile-image.js';
-import type { ScrapedProvider } from '../../canonical/scraped-provider.js';
 import type { ExternalRef } from '../../canonical/external-ref.js';
+import type { ProfileImage } from '../../canonical/profile-image.js';
+import type { ScrapedPhoto } from '../../canonical/scraped-photo.js';
+import type { ScrapedProvider } from '../../canonical/scraped-provider.js';
 import { externalRefEquals } from '../../canonical/external-ref.js';
 
 export type MergeUpdate = Partial<ScrapedProvider>;
@@ -95,10 +94,7 @@ export function mergeProvider(existing: ScrapedProvider, incoming: MergeUpdate):
 
     // ── ScraperMeta ───────────────────────────────────────────────────────
     externalRefs: mergeExternalRefs(existing.externalRefs, incoming.externalRefs),
-    signals: [
-      ...existing.signals,
-      ...(incoming.signals ?? []),
-    ],
+    signals: [...existing.signals, ...(incoming.signals ?? [])],
     confidence: incoming.confidence ?? existing.confidence,
     images: mergeImages(existing.images, incoming.images),
     attributes: { ...existing.attributes, ...incoming.attributes },

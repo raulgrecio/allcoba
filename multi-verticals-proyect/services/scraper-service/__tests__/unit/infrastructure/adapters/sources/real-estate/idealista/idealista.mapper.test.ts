@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
+import type { IdealistaPayload } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.types.js';
 import {
   IDEALISTA_SOURCE,
   mapIdealista,
 } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.mapper.js';
-import type { IdealistaPayload } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.types.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-05-18T00:00:00.000Z');

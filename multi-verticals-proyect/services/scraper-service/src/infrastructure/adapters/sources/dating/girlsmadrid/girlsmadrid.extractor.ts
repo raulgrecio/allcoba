@@ -13,12 +13,8 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type { GirlsBcnParams, GirlsBcnPayload, GirlsBcnPhoto } from '../girlsbcn/girlsbcn.types.js';
 import { extractWhatsappPhone, normalizeGBCNPhone } from '../girlsbcn/girlsbcn.parsers.js';
-import type {
-  GirlsBcnParams,
-  GirlsBcnPayload,
-  GirlsBcnPhoto,
-} from '../girlsbcn/girlsbcn.types.js';
 
 // ============================================================================
 // Helpers
@@ -68,16 +64,12 @@ const extractMetaLanguages = ($: CheerioAPI): string[] => {
 const extractNickname = ($: CheerioAPI): string => {
   const raw = $('.heading h1').first().text().trim();
   // GirlsMadrid titles are ALL-CAPS — convert to title case
-  return raw
-    .toLowerCase()
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return raw.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
 };
 
 const extractBio = ($: CheerioAPI): string | undefined => {
   // Bio is under the "mi presentación" widget h4
-  const h4 = $('.folio-detail .widget h4').filter((_, el) =>
-    /presentaci/i.test($(el).text()),
-  );
+  const h4 = $('.folio-detail .widget h4').filter((_, el) => /presentaci/i.test($(el).text()));
   const text = h4.next('p').text().trim();
   return text || undefined;
 };

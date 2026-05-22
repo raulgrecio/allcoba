@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractGemidos } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { GemidosPayload } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.types.js';
+import { extractGemidos } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://gemidos.tv/anuncio/lucia-escort-madrid/';

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
-import { mapMadrid69, MADRID69_SOURCE } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.mapper.js';
+import {
+  MADRID69_SOURCE,
+  mapMadrid69,
+} from '#infrastructure/adapters/sources/dating/madrid69/madrid69.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml, loadJson } from './helpers/load-fixtures.js';
 

@@ -35,10 +35,7 @@ export class BluemovePipeline extends DatingPipelineBase<BluemovePayload> {
 
   map = mapBluemove;
 
-  override getCrawlerOptions(
-    url: string,
-    options?: Partial<CrawlerOptions>,
-  ): CrawlerOptions {
+  override getCrawlerOptions(url: string, options?: Partial<CrawlerOptions>): CrawlerOptions {
     const base = super.getCrawlerOptions(url, options);
     if (!this.isProfileUrl(url)) return base;
     // Perfil = modal JS abierto por el hash #{id}. Esperar a que cargue.

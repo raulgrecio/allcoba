@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractMislios } from '#infrastructure/adapters/sources/dating/mislios/mislios.extractor.js';
-import { mapMislios, MISLIOS_SOURCE } from '#infrastructure/adapters/sources/dating/mislios/mislios.mapper.js';
+import {
+  mapMislios,
+  MISLIOS_SOURCE,
+} from '#infrastructure/adapters/sources/dating/mislios/mislios.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

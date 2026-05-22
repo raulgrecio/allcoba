@@ -10,7 +10,6 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import { parseEGEAmount, parseEGELanguages } from './eurogirlsescort.parsers.js';
 import type {
   EuroGirlsEscortBadge,
   EuroGirlsEscortMapData,
@@ -23,6 +22,7 @@ import type {
   EuroGirlsEscortService,
   EuroGirlsEscortWorkingTime,
 } from './eurogirlsescort.types.js';
+import { parseEGEAmount, parseEGELanguages } from './eurogirlsescort.parsers.js';
 
 // ============================================================================
 // ID / URL
@@ -112,8 +112,12 @@ const hrefToSlug = (href: string | undefined): string | undefined => {
 const extractParams = ($: CheerioAPI): EuroGirlsEscortParams => {
   const params: EuroGirlsEscortParams = {};
   const labelMap: Record<string, (strong: ReturnType<CheerioAPI>) => void> = {
-    'gender:': (s) => { params.gender = s.text().trim() || undefined; },
-    'age:': (s) => { params.age = s.text().trim() || undefined; },
+    'gender:': (s) => {
+      params.gender = s.text().trim() || undefined;
+    },
+    'age:': (s) => {
+      params.age = s.text().trim() || undefined;
+    },
     'location:': (s) => {
       const links = s.find('a');
       if (links.length >= 1) {
@@ -127,35 +131,73 @@ const extractParams = ($: CheerioAPI): EuroGirlsEscortParams => {
     },
     'city part:': (s) => {
       const firstLink = s.find('a').first();
-      params.cityPart = firstLink.text().trim() || s.clone().find('.tooltip').remove().end().text().trim() || undefined;
+      params.cityPart =
+        firstLink.text().trim() ||
+        s.clone().find('.tooltip').remove().end().text().trim() ||
+        undefined;
       params.cityPartSlug = hrefToSlug(firstLink.attr('href'));
     },
-    'eyes:': (s) => { params.eyes = s.text().trim() || undefined; },
-    'hair color:': (s) => { params.hairColor = s.text().trim() || undefined; },
-    'hair lenght:': (s) => { params.hairLength = s.text().trim() || undefined; },
-    'hair length:': (s) => { params.hairLength = s.text().trim() || undefined; },
-    'pubic hair:': (s) => { params.pubicHair = s.text().trim() || undefined; },
-    'bust size:': (s) => { params.bustSize = s.text().trim() || undefined; },
-    'bust type:': (s) => { params.bustType = s.text().trim() || undefined; },
-    'travel:': (s) => { params.travel = s.text().trim() || undefined; },
-    'weight:': (s) => { params.weight = s.text().trim() || undefined; },
-    'height:': (s) => { params.height = s.text().trim() || undefined; },
-    'ethnicity:': (s) => { params.ethnicity = s.text().trim() || undefined; },
-    'orientation:': (s) => { params.orientation = s.text().trim() || undefined; },
-    'smoker:': (s) => { params.smoker = s.text().trim() || undefined; },
-    'tattoo:': (s) => { params.tattoo = s.text().trim() || undefined; },
-    'piercing:': (s) => { params.piercing = s.text().trim() || undefined; },
-    'nationality:': (s) => { params.nationality = s.text().trim() || undefined; },
+    'eyes:': (s) => {
+      params.eyes = s.text().trim() || undefined;
+    },
+    'hair color:': (s) => {
+      params.hairColor = s.text().trim() || undefined;
+    },
+    'hair lenght:': (s) => {
+      params.hairLength = s.text().trim() || undefined;
+    },
+    'hair length:': (s) => {
+      params.hairLength = s.text().trim() || undefined;
+    },
+    'pubic hair:': (s) => {
+      params.pubicHair = s.text().trim() || undefined;
+    },
+    'bust size:': (s) => {
+      params.bustSize = s.text().trim() || undefined;
+    },
+    'bust type:': (s) => {
+      params.bustType = s.text().trim() || undefined;
+    },
+    'travel:': (s) => {
+      params.travel = s.text().trim() || undefined;
+    },
+    'weight:': (s) => {
+      params.weight = s.text().trim() || undefined;
+    },
+    'height:': (s) => {
+      params.height = s.text().trim() || undefined;
+    },
+    'ethnicity:': (s) => {
+      params.ethnicity = s.text().trim() || undefined;
+    },
+    'orientation:': (s) => {
+      params.orientation = s.text().trim() || undefined;
+    },
+    'smoker:': (s) => {
+      params.smoker = s.text().trim() || undefined;
+    },
+    'tattoo:': (s) => {
+      params.tattoo = s.text().trim() || undefined;
+    },
+    'piercing:': (s) => {
+      params.piercing = s.text().trim() || undefined;
+    },
+    'nationality:': (s) => {
+      params.nationality = s.text().trim() || undefined;
+    },
     'languages:': (s) => {
       const raw = s.text().trim();
       params.languages = parseEGELanguages(raw);
     },
     'services:': (s) => {
-      params.servicesText =
-        s.find('.js-more .less').text().trim() || s.text().trim() || undefined;
+      params.servicesText = s.find('.js-more .less').text().trim() || s.text().trim() || undefined;
     },
-    'available for:': (s) => { params.availableFor = s.text().trim() || undefined; },
-    'meeting with:': (s) => { params.meetingWith = s.text().trim() || undefined; },
+    'available for:': (s) => {
+      params.availableFor = s.text().trim() || undefined;
+    },
+    'meeting with:': (s) => {
+      params.meetingWith = s.text().trim() || undefined;
+    },
   };
 
   $('.params > div').each((_, el) => {
@@ -243,7 +285,11 @@ const extractWorkingTime = ($: CheerioAPI): EuroGirlsEscortWorkingTime => {
   if ($('.working-time .nonstop').length > 0) {
     return { nonstop: true };
   }
-  const scheduleText = $('.working-time').text().replace(/Working time/i, '').replace(/\s+/g, ' ').trim();
+  const scheduleText = $('.working-time')
+    .text()
+    .replace(/Working time/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
   return { nonstop: false, scheduleText: scheduleText || undefined };
 };
 
@@ -258,7 +304,9 @@ const extractRates = ($: CheerioAPI): EuroGirlsEscortRate[] => {
     const duration = $(row).find('th').first().text().trim();
     if (!duration) return;
 
-    const parseCell = (td: ReturnType<CheerioAPI>): { amount?: number; currency?: string; eurAmount?: number } => {
+    const parseCell = (
+      td: ReturnType<CheerioAPI>,
+    ): { amount?: number; currency?: string; eurAmount?: number } => {
       if (td.find('i.icon-close').length > 0) return {};
       const mainText = td
         .clone()
@@ -269,12 +317,7 @@ const extractRates = ($: CheerioAPI): EuroGirlsEscortRate[] => {
         .replace(/ /g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
-      const eurText = td
-        .find('small')
-        .text()
-        .replace(/ /g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
+      const eurText = td.find('small').text().replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
 
       const main = parseEGEAmount(mainText);
       if (!main) return {};
@@ -294,16 +337,20 @@ const extractRates = ($: CheerioAPI): EuroGirlsEscortRate[] => {
 
     rates.push({
       duration,
-      ...(incall.amount !== undefined ? {
-        incallAmount: incall.amount,
-        incallCurrency: incall.currency,
-        ...(incall.eurAmount !== undefined ? { incallEurAmount: incall.eurAmount } : {}),
-      } : {}),
-      ...(outcall.amount !== undefined ? {
-        outcallAmount: outcall.amount,
-        outcallCurrency: outcall.currency,
-        ...(outcall.eurAmount !== undefined ? { outcallEurAmount: outcall.eurAmount } : {}),
-      } : {}),
+      ...(incall.amount !== undefined
+        ? {
+            incallAmount: incall.amount,
+            incallCurrency: incall.currency,
+            ...(incall.eurAmount !== undefined ? { incallEurAmount: incall.eurAmount } : {}),
+          }
+        : {}),
+      ...(outcall.amount !== undefined
+        ? {
+            outcallAmount: outcall.amount,
+            outcallCurrency: outcall.currency,
+            ...(outcall.eurAmount !== undefined ? { outcallEurAmount: outcall.eurAmount } : {}),
+          }
+        : {}),
     });
   });
 
@@ -348,14 +395,38 @@ const extractReviews = ($: CheerioAPI): EuroGirlsEscortReview[] => {
     const rating = $(el).find('h3 .stars i.full').length;
     const text = $(el).find('.more-text').text().trim();
 
-    const cityRaw = $(el).find('.nowrap').filter((_, e) => /Ciudad|City/i.test($(e).text())).text();
-    const city = cityRaw.replace(/Ciudad\s*\/?\s*País:|City\s*\/?\s*Country:/gi, '').replace(/&nbsp;/g, '').trim().replace(/\s+/g, ' ') || undefined;
+    const cityRaw = $(el)
+      .find('.nowrap')
+      .filter((_, e) => /Ciudad|City/i.test($(e).text()))
+      .text();
+    const city =
+      cityRaw
+        .replace(/Ciudad\s*\/?\s*País:|City\s*\/?\s*Country:/gi, '')
+        .replace(/&nbsp;/g, '')
+        .trim()
+        .replace(/\s+/g, ' ') || undefined;
 
-    const dateRaw = $(el).find('.nowrap').filter((_, e) => /Fecha|Date/i.test($(e).text())).text();
-    const appointmentDate = dateRaw.replace(/Fecha de la cita|Appointment date/gi, '').replace(/&nbsp;/g, '').trim().replace(/\s+/g, ' ') || undefined;
+    const dateRaw = $(el)
+      .find('.nowrap')
+      .filter((_, e) => /Fecha|Date/i.test($(e).text()))
+      .text();
+    const appointmentDate =
+      dateRaw
+        .replace(/Fecha de la cita|Appointment date/gi, '')
+        .replace(/&nbsp;/g, '')
+        .trim()
+        .replace(/\s+/g, ' ') || undefined;
 
-    const durRaw = $(el).find('.nowrap').filter((_, e) => /Duración|Duration/i.test($(e).text())).text();
-    const duration = durRaw.replace(/Duración de la cita:|Duration:/gi, '').replace(/&nbsp;/g, '').trim().replace(/\s+/g, ' ') || undefined;
+    const durRaw = $(el)
+      .find('.nowrap')
+      .filter((_, e) => /Duración|Duration/i.test($(e).text()))
+      .text();
+    const duration =
+      durRaw
+        .replace(/Duración de la cita:|Duration:/gi, '')
+        .replace(/&nbsp;/g, '')
+        .trim()
+        .replace(/\s+/g, ' ') || undefined;
 
     reviews.push({
       author,

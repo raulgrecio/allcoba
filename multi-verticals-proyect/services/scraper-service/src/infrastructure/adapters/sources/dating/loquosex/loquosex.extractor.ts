@@ -10,18 +10,18 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import {
-  extractLoquosexWhatsappPhone,
-  normalizeLoquosexPhone,
-  parseNicknameFromTitle,
-  parseSourceIdFromUrl,
-} from './loquosex.parsers.js';
 import type {
   LoquosexParams,
   LoquosexPayload,
   LoquosexPhoto,
   LoquosexService,
 } from './loquosex.types.js';
+import {
+  extractLoquosexWhatsappPhone,
+  normalizeLoquosexPhone,
+  parseNicknameFromTitle,
+  parseSourceIdFromUrl,
+} from './loquosex.parsers.js';
 
 // ============================================================================
 // Helpers
@@ -31,15 +31,16 @@ import type {
  * Find a characteristics <li> containing a label string and return its text.
  * e.g. label="Edad:" → "Edad: 25 años" → returns "25 años"
  */
-const extractCharacteristicField = (
-  $: CheerioAPI,
-  label: string,
-): string | undefined => {
+const extractCharacteristicField = ($: CheerioAPI, label: string): string | undefined => {
   let result: string | undefined;
   $('ul[class^="caracteristicas-detalle"] li').each((_, el) => {
     const text = $(el).text();
     if (text.includes(label)) {
-      result = text.replace(label, '').replace(/\s*-\s*/g, ' ').trim() || undefined;
+      result =
+        text
+          .replace(label, '')
+          .replace(/\s*-\s*/g, ' ')
+          .trim() || undefined;
       return false; // break
     }
     return;
@@ -75,7 +76,11 @@ const extractParams = ($: CheerioAPI): LoquosexParams => {
     const text = $(el).text();
     if (text.includes('Localidad:')) {
       const links = $(el).find('a');
-      city = links.eq(2).text().trim() || links.eq(1).text().trim() || links.eq(0).text().trim() || undefined;
+      city =
+        links.eq(2).text().trim() ||
+        links.eq(1).text().trim() ||
+        links.eq(0).text().trim() ||
+        undefined;
       zone = links.eq(3).text().trim() || undefined;
       return false; // break
     }
@@ -168,10 +173,7 @@ const extractPhotos = ($: CheerioAPI): LoquosexPhoto[] => {
 // ============================================================================
 
 /** Extract from a Cheerio handle. `sourceUrl` must be passed (derivation source). */
-export const extractLoquosexFromCheerio = (
-  $: CheerioAPI,
-  sourceUrl: string,
-): LoquosexPayload => {
+export const extractLoquosexFromCheerio = ($: CheerioAPI, sourceUrl: string): LoquosexPayload => {
   const title = extractTitle($);
   const wa = extractWhatsapp($);
 

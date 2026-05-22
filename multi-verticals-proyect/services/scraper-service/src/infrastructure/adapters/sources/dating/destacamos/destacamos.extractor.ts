@@ -13,16 +13,12 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type { DestacamosParams, DestacamosPayload, DestacamosPhoto } from './destacamos.types.js';
 import {
   extractDestacamosWhatsappPhone,
   parseDestacamosLanguages,
   parseSourceIdFromUrl,
 } from './destacamos.parsers.js';
-import type {
-  DestacamosParams,
-  DestacamosPayload,
-  DestacamosPhoto,
-} from './destacamos.types.js';
 
 // ============================================================================
 // Helpers

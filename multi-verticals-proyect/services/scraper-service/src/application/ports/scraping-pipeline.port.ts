@@ -19,12 +19,13 @@
 
 import type { Vertical } from '@allcoba/shared-types';
 
-import type { CrawlerOptions } from './crawler.port.js';
-import type { TaxonomyResolverPort } from './taxonomy-resolver.port.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
+
+import type { CrawlerOptions } from './crawler.port.js';
+import type { TaxonomyResolverPort } from './taxonomy-resolver.port.js';
 
 export interface PipelineMapOptions {
   readonly now?: Date;

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapGemidos, GEMIDOS_SOURCE } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.mapper.js';
+
 import type { GemidosPayload } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.types.js';
+import {
+  GEMIDOS_SOURCE,
+  mapGemidos,
+} from '#infrastructure/adapters/sources/dating/gemidos/gemidos.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');
@@ -55,11 +60,9 @@ describe('mapGemidos — phone', () => {
   });
 
   it('no phone → undefined', async () => {
-    const sp = await mapGemidos(
-      { ...BASE_PAYLOAD, phone: undefined },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapGemidos({ ...BASE_PAYLOAD, phone: undefined }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.phoneNumber).toBeUndefined();
     expect(sp.contactOptions).toEqual([]);
   });

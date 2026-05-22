@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import {
-  mapChicasmalas,
-  CHICASMALAS_SOURCE,
-} from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.mapper.js';
+
 import type { ChicasmalasPayload } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.types.js';
+import {
+  CHICASMALAS_SOURCE,
+  mapChicasmalas,
+} from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');
@@ -27,9 +29,7 @@ const BASE_PAYLOAD: ChicasmalasPayload = {
 describe('mapChicasmalas — identity', () => {
   it('providerId prefixed with source', async () => {
     const sp = await mapChicasmalas(BASE_PAYLOAD, new FakeTaxonomyResolver(), { now: NOW });
-    expect(sp.id).toBe(
-      `${CHICASMALAS_SOURCE}:maria-escort-espanola-en-orihuela-697394223`,
-    );
+    expect(sp.id).toBe(`${CHICASMALAS_SOURCE}:maria-escort-espanola-en-orihuela-697394223`);
   });
 
   it('vertical = dating, category = escorts', async () => {

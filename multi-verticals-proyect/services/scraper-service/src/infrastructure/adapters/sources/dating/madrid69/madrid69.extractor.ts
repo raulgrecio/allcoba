@@ -1,13 +1,13 @@
 import * as cheerio from 'cheerio';
 
-import {
-  parseSourceIdFromUrl,
-  parseCityFromUrl,
-  parseNicknameFromTitle,
-  parseMadrid69PhoneFromTitle,
-  parseMadrid69ApiProfile,
-} from './madrid69.parsers.js';
 import type { Madrid69Payload } from './madrid69.types.js';
+import {
+  parseCityFromUrl,
+  parseMadrid69ApiProfile,
+  parseMadrid69PhoneFromTitle,
+  parseNicknameFromTitle,
+  parseSourceIdFromUrl,
+} from './madrid69.parsers.js';
 
 // CDN de imágenes: madrid69.b-cdn.net y sitios clon (valenciacitas, etc.)
 const CDN_PATTERN = /\.b-cdn\.net\/image\//;
@@ -18,7 +18,11 @@ const CDN_PATTERN = /\.b-cdn\.net\/image\//;
  * Pass `apiJson` (captured via Playwright network interception) to enrich
  * with the full Laravel API profile (age, city, services, etc.).
  */
-export function extractMadrid69(html: string, sourceUrl: string, apiJson?: unknown): Madrid69Payload {
+export function extractMadrid69(
+  html: string,
+  sourceUrl: string,
+  apiJson?: unknown,
+): Madrid69Payload {
   const $ = cheerio.load(html);
 
   const sourceId = parseSourceIdFromUrl(sourceUrl);
@@ -58,7 +62,9 @@ export function extractMadrid69(html: string, sourceUrl: string, apiJson?: unkno
   }
 
   // Edad: visible en el DOM renderizado — "<span>Edad: 19</span>"
-  const ageMatch = $('body').text().match(/Edad:\s*(\d{2})/);
+  const ageMatch = $('body')
+    .text()
+    .match(/Edad:\s*(\d{2})/);
   const ageFromDom = ageMatch ? parseInt(ageMatch[1]!, 10) : undefined;
 
   let payload: Madrid69Payload = {

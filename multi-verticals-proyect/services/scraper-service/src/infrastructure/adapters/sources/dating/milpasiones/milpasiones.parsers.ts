@@ -10,7 +10,13 @@ export const parseSourceIdFromUrl = (url: string): string => {
   const m = url.match(/_(\d+)\/?(?:\?|#|$)/);
   if (m) return m[1]!;
   // Fallback: last path segment
-  return url.split('/').filter(Boolean).pop()?.replace(/[^0-9]/g, '') ?? '';
+  return (
+    url
+      .split('/')
+      .filter(Boolean)
+      .pop()
+      ?.replace(/[^0-9]/g, '') ?? ''
+  );
 };
 
 /**

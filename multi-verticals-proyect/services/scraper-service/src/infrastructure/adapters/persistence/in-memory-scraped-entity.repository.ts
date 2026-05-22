@@ -7,16 +7,12 @@
  */
 
 import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
-import {
-  externalRefEquals,
-  externalRefKey,
-  type ExternalRef,
-  type HasExternalRefs,
-} from '#domain/canonical/external-ref.js';
+import type { ExternalRef, HasExternalRefs } from '#domain/canonical/external-ref.js';
+import { externalRefEquals, externalRefKey } from '#domain/canonical/external-ref.js';
 
-export class InMemoryScrapedEntityRepository<T extends HasExternalRefs>
-  implements ScrapedEntityRepositoryPort<T>
-{
+export class InMemoryScrapedEntityRepository<
+  T extends HasExternalRefs,
+> implements ScrapedEntityRepositoryPort<T> {
   private readonly items = new Map<string, T>();
 
   async findByExternalRef(ref: ExternalRef): Promise<T | null> {

@@ -1,20 +1,18 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
   parseCityFromUrl,
-  parseNicknameFromTitle,
-  parseMadrid69PhoneFromTitle,
-  parseMadrid69Phone,
-  slugifyMadrid69,
   parseMadrid69ApiProfile,
+  parseMadrid69Phone,
+  parseMadrid69PhoneFromTitle,
+  parseNicknameFromTitle,
+  parseSourceIdFromUrl,
+  slugifyMadrid69,
 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {
   it.each([
-    [
-      'https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235',
-      '44064',
-    ],
+    ['https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235', '44064'],
     ['https://madrid69.com/citas/madrid/carla-12345', '12345'],
     ['https://madrid69.com/citas/barcelona/sofia-99999-644111222', '99999'],
   ])('%s → %s', (url, expected) => {
@@ -24,14 +22,8 @@ describe('parseSourceIdFromUrl', () => {
 
 describe('parseCityFromUrl', () => {
   it.each([
-    [
-      'https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235',
-      'madrid',
-    ],
-    [
-      'https://www.madrid69.com/citas-chicas-barcelona-99999-sofia-611000111',
-      'barcelona',
-    ],
+    ['https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235', 'madrid'],
+    ['https://www.madrid69.com/citas-chicas-barcelona-99999-sofia-611000111', 'barcelona'],
     ['https://madrid69.com/citas/madrid/carla-12345', 'madrid'],
     ['https://madrid69.com/citas/sevilla/ana-55555', 'sevilla'],
   ])('%s → %s', (url, expected) => {
@@ -106,10 +98,7 @@ describe('parseMadrid69ApiProfile', () => {
       altura: 168,
       peso: 58,
       idiomas: ['Español', 'Inglés'],
-      fotos: [
-        { ruta: 'images/abc/foto1.jpg' },
-        { ruta: 'images/abc/foto2.jpg' },
-      ],
+      fotos: [{ ruta: 'images/abc/foto1.jpg' }, { ruta: 'images/abc/foto2.jpg' }],
       servicios: [{ nombre: 'Besos' }, { nombre: 'Novia' }],
     },
   };

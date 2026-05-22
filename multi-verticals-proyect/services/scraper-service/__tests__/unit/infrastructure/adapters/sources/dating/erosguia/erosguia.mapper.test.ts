@@ -1,8 +1,11 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
-import { extractErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.extractor.js';
-import { mapErosguia, EROSGUIA_SOURCE } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.mapper.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { extractErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.extractor.js';
+import {
+  EROSGUIA_SOURCE,
+  mapErosguia,
+} from '#infrastructure/adapters/sources/dating/erosguia/erosguia.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtmlFixture } from './helpers/load-fixtures.js';
@@ -38,9 +41,12 @@ describe('mapErosguia — personalDetails', () => {
   it('nationalityId undefined on taxonomy miss', async () => {
     const html = loadHtmlFixture('anny_55383.html');
     const payload = extractErosguia(html, SOURCE_URL);
-    const result = await mapErosguia(payload, new FakeTaxonomyResolver({
-      misses: { nationality: new Set(['colombiana']) },
-    }));
+    const result = await mapErosguia(
+      payload,
+      new FakeTaxonomyResolver({
+        misses: { nationality: new Set(['colombiana']) },
+      }),
+    );
     expect(result.personalDetails.nationalityId).toBeUndefined();
   });
 });
@@ -51,9 +57,12 @@ describe('mapErosguia — baseCity', () => {
   it('baseCity undefined on city taxonomy miss', async () => {
     const html = loadHtmlFixture('anny_55383.html');
     const payload = extractErosguia(html, SOURCE_URL);
-    const result = await mapErosguia(payload, new FakeTaxonomyResolver({
-      misses: { city: new Set(['madrid']) },
-    }));
+    const result = await mapErosguia(
+      payload,
+      new FakeTaxonomyResolver({
+        misses: { city: new Set(['madrid']) },
+      }),
+    );
     expect(result.baseCity).toBeUndefined();
   });
 });
@@ -75,8 +84,7 @@ describe('mapErosguia — contact', () => {
 describe('mapErosguia — photos', () => {
   it('photos present', () => expect(sp.photos.length).toBeGreaterThan(0));
   it('first photo isPrimary', () => expect(sp.photos[0]!.isPrimary).toBe(true));
-  it('photos have eros.bz URLs', () =>
-    sp.photos.forEach((p) => expect(p.url).toMatch(/eros\.bz/)));
+  it('photos have eros.bz URLs', () => sp.photos.forEach((p) => expect(p.url).toMatch(/eros\.bz/)));
 });
 
 describe('mapErosguia — attributes', () => {

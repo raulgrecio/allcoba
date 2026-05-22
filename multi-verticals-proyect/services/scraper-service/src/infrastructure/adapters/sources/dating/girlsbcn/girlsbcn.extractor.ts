@@ -11,13 +11,13 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import { extractWhatsappPhone, normalizeGBCNPhone } from './girlsbcn.parsers.js';
 import type {
   GirlsBcnParams,
   GirlsBcnPayload,
   GirlsBcnPhoto,
   GirlsBcnVideo,
 } from './girlsbcn.types.js';
+import { extractWhatsappPhone, normalizeGBCNPhone } from './girlsbcn.parsers.js';
 
 // ============================================================================
 // Helpers
@@ -177,10 +177,7 @@ const extractVideo = ($: CheerioAPI): GirlsBcnVideo | undefined => {
 // ============================================================================
 
 /** Extract from a Cheerio handle. `sourceUrl` must be passed (no canonical link). */
-export const extractGirlsBcnFromCheerio = (
-  $: CheerioAPI,
-  sourceUrl: string,
-): GirlsBcnPayload => {
+export const extractGirlsBcnFromCheerio = ($: CheerioAPI, sourceUrl: string): GirlsBcnPayload => {
   const wa = extractWhatsapp($);
   return {
     sourceId: deriveSourceId(sourceUrl),

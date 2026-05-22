@@ -1,6 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { extractWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.extractor.js';
+
 import type { WallapopPayload } from '#infrastructure/adapters/sources/general/wallapop/wallapop.types.js';
+import { extractWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://wallapop.com/item/cortacesped-honda-1263612321';
@@ -25,8 +27,7 @@ describe('extractWallapop — fixture cortacesped_1263612321', () => {
   it('categoryPath includes "Hogar y jardín"', () =>
     expect(p.categoryPath).toContain('Hogar y jardín'));
   it('photos count >= 1', () => expect(p.photos.length).toBeGreaterThanOrEqual(1));
-  it('photo big URL has W800 size', () =>
-    expect(p.photos[0]?.url).toContain('W800'));
+  it('photo big URL has W800 size', () => expect(p.photos[0]?.url).toContain('W800'));
 });
 
 describe('extractWallapop — minimal HTML', () => {

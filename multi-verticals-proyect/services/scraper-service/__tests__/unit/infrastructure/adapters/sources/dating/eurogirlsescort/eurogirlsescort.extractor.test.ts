@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  extractEuroGirlsEscort,
-} from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.extractor.js';
+import { extractEuroGirlsEscort } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.extractor.js';
 
 import { loadHtmlFixture } from './helpers/load-fixtures.js';
 
@@ -167,14 +165,20 @@ describe('extractEuroGirlsEscort — params: all-empty text fallbacks', () => {
 
   it('gender undefined (empty strong text)', () => expect(p.params.gender).toBeUndefined());
   it('age undefined (empty strong text)', () => expect(p.params.age).toBeUndefined());
-  it('locationCityName undefined (empty link text)', () => expect(p.params.locationCityName).toBeUndefined());
-  it('locationCitySlug undefined (link has no href)', () => expect(p.params.locationCitySlug).toBeUndefined());
-  it('locationCountryName undefined (2nd link text empty)', () => expect(p.params.locationCountryName).toBeUndefined());
-  it('locationCountrySlug undefined (href="/" → empty segments)', () => expect(p.params.locationCountrySlug).toBeUndefined());
-  it('cityPart undefined (link text empty, no tooltip text)', () => expect(p.params.cityPart).toBeUndefined());
+  it('locationCityName undefined (empty link text)', () =>
+    expect(p.params.locationCityName).toBeUndefined());
+  it('locationCitySlug undefined (link has no href)', () =>
+    expect(p.params.locationCitySlug).toBeUndefined());
+  it('locationCountryName undefined (2nd link text empty)', () =>
+    expect(p.params.locationCountryName).toBeUndefined());
+  it('locationCountrySlug undefined (href="/" → empty segments)', () =>
+    expect(p.params.locationCountrySlug).toBeUndefined());
+  it('cityPart undefined (link text empty, no tooltip text)', () =>
+    expect(p.params.cityPart).toBeUndefined());
   it('eyes undefined', () => expect(p.params.eyes).toBeUndefined());
   it('hairColor undefined', () => expect(p.params.hairColor).toBeUndefined());
-  it('hairLength undefined (both lenght and length variants)', () => expect(p.params.hairLength).toBeUndefined());
+  it('hairLength undefined (both lenght and length variants)', () =>
+    expect(p.params.hairLength).toBeUndefined());
   it('pubicHair undefined', () => expect(p.params.pubicHair).toBeUndefined());
   it('bustSize undefined', () => expect(p.params.bustSize).toBeUndefined());
   it('bustType undefined', () => expect(p.params.bustType).toBeUndefined());
@@ -187,7 +191,8 @@ describe('extractEuroGirlsEscort — params: all-empty text fallbacks', () => {
   it('tattoo undefined', () => expect(p.params.tattoo).toBeUndefined());
   it('piercing undefined', () => expect(p.params.piercing).toBeUndefined());
   it('nationality undefined', () => expect(p.params.nationality).toBeUndefined());
-  it('servicesText undefined (both js-more and plain text empty)', () => expect(p.params.servicesText).toBeUndefined());
+  it('servicesText undefined (both js-more and plain text empty)', () =>
+    expect(p.params.servicesText).toBeUndefined());
   it('availableFor undefined', () => expect(p.params.availableFor).toBeUndefined());
   it('meetingWith undefined', () => expect(p.params.meetingWith).toBeUndefined());
 });

@@ -7,9 +7,18 @@ import { mapGemidos } from './gemidos.mapper.js';
 
 // Secciones de gemidos.tv que comparten el patrón /{slug} pero no son perfiles
 const NON_PROFILE_SLUGS = new Set([
-  'escorts', 'escorts-gay', 'escorts-trans', 'gigolos', 'parejas',
-  'aviso-legal', 'politica-de-cookies', 'politicas-de-privacidad',
-  'ayuda-y-contacto', 'registrate', 'login', 'espana',
+  'escorts',
+  'escorts-gay',
+  'escorts-trans',
+  'gigolos',
+  'parejas',
+  'aviso-legal',
+  'politica-de-cookies',
+  'politicas-de-privacidad',
+  'ayuda-y-contacto',
+  'registrate',
+  'login',
+  'espana',
 ]);
 
 const COOKIE_SELECTORS = [

@@ -1,3 +1,19 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { ArdientePlacerPayload } from './ardienteplacer.types.js';
+import {
+  parseArdientePlacerAge,
+  parseArdientePlacerRate,
+  slugifyArdienteplacer,
+} from './ardienteplacer.parsers.js';
+
 /**
  * Ardienteplacer mapper — ArdientePlacerPayload → ScrapedProvider (pure, async).
  *
@@ -10,28 +26,6 @@
  *   - No verified badge on this source
  */
 
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import {
-  parseArdientePlacerAge,
-  parseArdientePlacerRate,
-  slugifyArdienteplacer,
-} from './ardienteplacer.parsers.js';
-import type { ArdientePlacerPayload } from './ardienteplacer.types.js';
-
 export const ARDIENTEPLACER_SOURCE = 'ardienteplacer';
 
 export interface MapperOptions {
@@ -39,10 +33,7 @@ export interface MapperOptions {
   readonly contentLocale?: string;
 }
 
-const mapPhoto = (
-  photo: ArdientePlacerPayload['photos'][number],
-  idx: number,
-): ScrapedPhoto => ({
+const mapPhoto = (photo: ArdientePlacerPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `ardienteplacer:photo:${idx}`,
   url: photo.src,
   thumbnail: photo.src,
@@ -58,9 +49,7 @@ const mapPersonalDetails = async (
   const p = payload.params;
 
   const nationalitySlug = slugifyArdienteplacer(p.nationality);
-  const nationalityId = nationalitySlug
-    ? await resolver.resolveNationality(nationalitySlug)
-    : null;
+  const nationalityId = nationalitySlug ? await resolver.resolveNationality(nationalitySlug) : null;
 
   return {
     ageYears: parseArdientePlacerAge(p.age) ?? 0,

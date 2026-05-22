@@ -1,3 +1,15 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { MundosexanuncioPayload } from './mundosexanuncio.types.js';
+import { slugifyMundo } from './mundosexanuncio.parsers.js';
+
 /**
  * mundosexanuncio mapper — MundosexanuncioPayload → ScrapedProvider (pure, async).
  *
@@ -7,23 +19,6 @@
  *   - city desde el atributo data-city de .details
  */
 
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import { slugifyMundo } from './mundosexanuncio.parsers.js';
-import type { MundosexanuncioPayload } from './mundosexanuncio.types.js';
-
 export const MUNDOSEXANUNCIO_SOURCE = 'mundosexanuncio';
 
 export interface MapperOptions {
@@ -31,10 +26,7 @@ export interface MapperOptions {
   readonly contentLocale?: string;
 }
 
-const mapPhoto = (
-  photo: MundosexanuncioPayload['photos'][number],
-  idx: number,
-): ScrapedPhoto => ({
+const mapPhoto = (photo: MundosexanuncioPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `mundosexanuncio:photo:${idx}`,
   url: photo.src,
   thumbnail: photo.src,

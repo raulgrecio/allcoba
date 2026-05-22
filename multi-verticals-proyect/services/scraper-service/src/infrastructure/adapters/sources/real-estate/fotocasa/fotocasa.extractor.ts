@@ -1,3 +1,5 @@
+import type { FotocasaFeatureEntry } from './fotocasa.parsers.js';
+import type { FotocasaPayload, FotocasaPhoto } from './fotocasa.types.js';
 import {
   cleanLocality,
   parseEnergyRating,
@@ -10,9 +12,7 @@ import {
   readBooleanFeature,
   readLetterFeature,
   readStringFeature,
-  type FotocasaFeatureEntry,
 } from './fotocasa.parsers.js';
-import type { FotocasaPayload, FotocasaPhoto } from './fotocasa.types.js';
 
 interface FotocasaAdEntity {
   id?: string;
@@ -30,7 +30,9 @@ interface FotocasaAdEntity {
     street?: { name?: string };
   };
   price?: { amount?: number; periodicity?: number };
-  features?: ReadonlyArray<FotocasaFeatureEntry> | { rooms?: number; bathrooms?: number; surface?: number };
+  features?:
+    | ReadonlyArray<FotocasaFeatureEntry>
+    | { rooms?: number; bathrooms?: number; surface?: number };
   multimedias?: Array<{ position?: number; type?: string; url?: string }>;
   extraFeatures?: string[];
   publisher?: { alias?: string; name?: string };

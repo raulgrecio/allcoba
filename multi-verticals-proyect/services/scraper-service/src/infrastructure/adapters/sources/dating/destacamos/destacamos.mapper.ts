@@ -1,3 +1,19 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { DestacamosPayload } from './destacamos.types.js';
+import {
+  parseDestacamosAge,
+  parseDestacamosHeightCm,
+  slugifyDestacamos,
+} from './destacamos.parsers.js';
+
 /**
  * Destacamos mapper — DestacamosPayload → ScrapedProvider (pure, async).
  *
@@ -9,28 +25,6 @@
  *   - photos from #gallery a.fimage href (full-size)
  *   - No services list in HTML
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import {
-  parseDestacamosAge,
-  parseDestacamosHeightCm,
-  slugifyDestacamos,
-} from './destacamos.parsers.js';
-import type { DestacamosPayload } from './destacamos.types.js';
 
 export const DESTACAMOS_SOURCE = 'destacamos';
 
@@ -55,9 +49,7 @@ const mapPersonalDetails = async (
   const p = payload.params;
 
   const nationalitySlug = slugifyDestacamos(p.nationality);
-  const nationalityId = nationalitySlug
-    ? await resolver.resolveNationality(nationalitySlug)
-    : null;
+  const nationalityId = nationalitySlug ? await resolver.resolveNationality(nationalitySlug) : null;
 
   const heightCm = parseDestacamosHeightCm(p.heightRaw);
 

@@ -1,3 +1,14 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { ChicasmalasPayload } from './chicasmalas.types.js';
+
 /**
  * Chicasmalas mapper — ChicasmalasPayload → ScrapedProvider (pure, async).
  *
@@ -9,22 +20,6 @@
  *   - No rates / services in HTML (free-text bio only)
  *   - confidence = low (Playwright-rendered, phone in slug may be masked later)
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import type { ChicasmalasPayload } from './chicasmalas.types.js';
 
 export const CHICASMALAS_SOURCE = 'chicasmalas';
 
@@ -88,9 +83,7 @@ export const mapChicasmalas = async (
   const primaryPhone = payload.phone ?? payload.whatsappPhone;
 
   const nationalitySlug = slugify(payload.nationality);
-  const nationalityId = nationalitySlug
-    ? await resolver.resolveNationality(nationalitySlug)
-    : null;
+  const nationalityId = nationalitySlug ? await resolver.resolveNationality(nationalitySlug) : null;
 
   const personalDetails: PersonalDetailsCanonical = {
     ageYears: payload.age ?? 0,

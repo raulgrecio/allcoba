@@ -1,3 +1,56 @@
+import type {
+  CityRef,
+  ContactOption,
+  CurrencyCode,
+  I18nText,
+  Iso2Code,
+  PersonalDetailsCanonical,
+  PriceCanonical,
+  ProfileVerificationStatus,
+  RatingDistribution,
+  RatingDistributions,
+  ReviewCanonical,
+  ReviewsOverallCanonical,
+  ReviewSubratings,
+  ReviewSubratingsPartial,
+  ReviewTagCanonical,
+} from '@allcoba/shared-types';
+import {
+  asAgencyId,
+  asIso2,
+  asProviderId,
+  asReviewId,
+  i18nFromOriginal,
+  i18nFromPair,
+} from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
+
+import type {
+  CityRecord,
+  Photo,
+  Price,
+  Review,
+  SchemaPerson,
+  TopEscortBabesPayload,
+} from './topescortbabes.types.js';
+import {
+  extractTaxonomySlug,
+  labelToPriceSlot,
+  normalizeContactOption,
+  normalizeGender,
+  parseHeightCm,
+  parseHumanDateEs,
+  parseMeetingWith,
+  parseRelativeTimeEs,
+  parseWeightKg,
+  stripHtml,
+} from './topescortbabes.parsers.js';
+
 /**
  * TopEscortBabesMapper — pure mapping from raw payload to ScrapedProvider v2.
  *
@@ -14,58 +67,6 @@
  * intentionally dropped. SEO/page fields (faqs, breadcrumb, moreLinks, meta*)
  * are NOT mapped here — they belong to a separate PageI18n mapping.
  */
-
-import {
-  asAgencyId,
-  asIso2,
-  asProviderId,
-  type CityRef,
-  type ContactOption,
-  type CurrencyCode,
-  type Iso2Code,
-  type PersonalDetailsCanonical,
-
-  type PriceCanonical,
-  type ProfileVerificationStatus,
-  type RatingDistribution,
-  type RatingDistributions,
-  type ReviewCanonical,
-  type ReviewSubratings,
-  type ReviewSubratingsPartial,
-  type ReviewTagCanonical,
-  type ReviewsOverallCanonical,
-  asReviewId,
-  i18nFromOriginal,
-  i18nFromPair,
-  type I18nText,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
-
-import {
-  extractTaxonomySlug,
-  labelToPriceSlot,
-  normalizeContactOption,
-  normalizeGender,
-  parseHeightCm,
-  parseHumanDateEs,
-  parseMeetingWith,
-  parseRelativeTimeEs,
-  parseWeightKg,
-  stripHtml,
-} from './topescortbabes.parsers.js';
-import type {
-  CityRecord,
-  Photo,
-  Price,
-  Review,
-  SchemaPerson,
-  TopEscortBabesPayload,
-} from './topescortbabes.types.js';
 
 export const TOPESCORTBABES_SOURCE = 'topescortbabes';
 
@@ -143,9 +144,7 @@ const mapPrice = (raw: Price): PriceCanonical => {
   };
 };
 
-const mapContactOptions = (
-  raw: readonly string[] | undefined,
-): readonly ContactOption[] => {
+const mapContactOptions = (raw: readonly string[] | undefined): readonly ContactOption[] => {
   if (!raw) return [];
   const out: ContactOption[] = [];
   for (const r of raw) {
@@ -179,12 +178,7 @@ const mapReviewSubratings = (r: Review['ratings'] | null | undefined): ReviewSub
 const mapReview = (raw: Review, contentLocale: string): ReviewCanonical => {
   const text: I18nText =
     raw.review && raw.review !== raw.review_original
-      ? i18nFromPair(
-          raw.review_original,
-          raw.review_language || '',
-          raw.review,
-          contentLocale,
-        )
+      ? i18nFromPair(raw.review_original, raw.review_language || '', raw.review, contentLocale)
       : i18nFromOriginal(raw.review_original ?? '', raw.review_language || '');
 
   const aspects: ReviewCanonical['aspects'] = {
@@ -201,9 +195,7 @@ const mapReview = (raw: Review, contentLocale: string): ReviewCanonical => {
     meetCountryIso2: raw.iso2 ? asIso2(raw.iso2) : undefined,
     ratings: mapReviewSubratings(raw.ratings),
     averageRating: raw.average_rating ?? 0,
-    meetingPlace: (raw.meeting_place ?? '').toLowerCase().includes('incall')
-      ? 'incall'
-      : 'outcall',
+    meetingPlace: (raw.meeting_place ?? '').toLowerCase().includes('incall') ? 'incall' : 'outcall',
     meetAgain: !raw.meet_again
       ? null
       : /reservado|repet/i.test(raw.meet_again)
@@ -235,7 +227,10 @@ const mapReviewSubratingsPartial = (
 };
 
 const mapTagCode = (raw: { text: string }): string =>
-  raw.text.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  raw.text
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '');
 
 const mapReviewsOverall = (
   raw: TopEscortBabesPayload['reviewsOverall'],
@@ -254,9 +249,7 @@ const mapReviewsOverall = (
   hasOldReview: raw.has_old_review,
 });
 
-const mapDistribution = (
-  raw: RatingDistribution | null | undefined,
-): RatingDistribution | null => {
+const mapDistribution = (raw: RatingDistribution | null | undefined): RatingDistribution | null => {
   if (!raw) return null;
   return {
     distribution: raw.distribution,
@@ -295,13 +288,9 @@ const mapPersonalDetails = async (
 
   const ageYears = Number(payload.age);
   const heightCm =
-    person?.height?.unitText === 'cm'
-      ? Number(person.height.value)
-      : parseHeightCm(pd?.height);
+    person?.height?.unitText === 'cm' ? Number(person.height.value) : parseHeightCm(pd?.height);
   const weightKg =
-    person?.weight?.unitText === 'kg'
-      ? Number(person.weight.value)
-      : parseWeightKg(pd?.weight);
+    person?.weight?.unitText === 'kg' ? Number(person.weight.value) : parseWeightKg(pd?.weight);
 
   const nationalitySlug = extractTaxonomySlug(pd?.nationality, 'nationality');
   const ethnicSlug = extractTaxonomySlug(pd?.ethnic, 'ethnic');
@@ -313,9 +302,7 @@ const mapPersonalDetails = async (
   const ethnicId = ethnicSlug ? await resolver.resolveEthnic(ethnicSlug) : null;
   const hairId = hairSlug ? await resolver.resolveHair(hairSlug) : null;
   const eyesId = eyesSlug ? await resolver.resolveEye(eyesSlug) : null;
-  const orientationId = orientationSlug
-    ? await resolver.resolveOrientation(orientationSlug)
-    : null;
+  const orientationId = orientationSlug ? await resolver.resolveOrientation(orientationSlug) : null;
 
   const spokenLanguageCodes: Iso2Code[] = [];
   if (person?.knowsLanguage) {
@@ -432,9 +419,7 @@ export const mapTopEscortBabes = async (
     reviewsEnabled: payload.reviewEnabled,
     reviewsCount: payload.reviewsCount,
     reviewsRating: payload.reviewsRating,
-    reviewsOverall: payload.reviewsOverall
-      ? mapReviewsOverall(payload.reviewsOverall)
-      : undefined,
+    reviewsOverall: payload.reviewsOverall ? mapReviewsOverall(payload.reviewsOverall) : undefined,
     ratingDistributions: mapRatingDistributions(payload.ratingDistributions),
     reviews: (payload.reviews ?? []).map((r) => mapReview(r, contentLocale)),
     statistics: payload.statisticsData

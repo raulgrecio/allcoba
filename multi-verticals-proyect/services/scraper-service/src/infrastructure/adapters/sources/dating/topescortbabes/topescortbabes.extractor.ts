@@ -19,18 +19,14 @@ import type { TopEscortBabesPayload } from './topescortbabes.types.js';
 const SCRIPT_SELECTOR = 'script:contains("window.profileData")';
 
 /** Extract from a Cheerio handle (when caller already loaded the HTML). */
-export const extractProfileDataFromCheerio = (
-  $: CheerioAPI,
-): TopEscortBabesPayload | null => {
+export const extractProfileDataFromCheerio = ($: CheerioAPI): TopEscortBabesPayload | null => {
   const script = $(SCRIPT_SELECTOR).html();
   if (!script) return null;
   return parseProfileDataScript(script);
 };
 
 /** Extract from a raw HTML string. */
-export const extractProfileDataFromHtml = (
-  html: string,
-): TopEscortBabesPayload | null => {
+export const extractProfileDataFromHtml = (html: string): TopEscortBabesPayload | null => {
   return extractProfileDataFromCheerio(cheerio.load(html));
 };
 

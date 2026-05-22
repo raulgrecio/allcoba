@@ -27,7 +27,9 @@ const envSchema = z.object({
   CRAWLER_ENGINE: z.enum(['playwright', 'patchright', 'static'] as const).default('patchright'),
   ZYTE_API_KEY: z.string().optional(),
   CAPSOLVER_API_KEY: z.string().optional(),
-  CRAWLER_BLOCK_IMAGES: z.preprocess((val) => val === 'true' || val === '1', z.boolean()).default(false),
+  CRAWLER_BLOCK_IMAGES: z
+    .preprocess((val) => val === 'true' || val === '1', z.boolean())
+    .default(false),
 });
 
 export function parseConfig(env: NodeJS.ProcessEnv): ScraperConfig {

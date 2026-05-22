@@ -1,11 +1,7 @@
 import * as cheerio from 'cheerio';
 
-import {
-  parseCondition,
-  parseShipping,
-  parseSourceIdFromUrl,
-} from './wallapop.parsers.js';
 import type { WallapopPayload, WallapopPhoto } from './wallapop.types.js';
+import { parseCondition, parseShipping, parseSourceIdFromUrl } from './wallapop.parsers.js';
 
 interface WallapopImageUrls {
   small?: string;
@@ -73,9 +69,7 @@ export function extractWallapop(html: string, sourceUrl: string): WallapopPayloa
   const item = extractNextData(html);
 
   const description =
-    typeof item?.description === 'string'
-      ? item.description
-      : item?.description?.original?.trim();
+    typeof item?.description === 'string' ? item.description : item?.description?.original?.trim();
 
   const photos: WallapopPhoto[] = (item?.images ?? [])
     .map((img, i): WallapopPhoto | null => {

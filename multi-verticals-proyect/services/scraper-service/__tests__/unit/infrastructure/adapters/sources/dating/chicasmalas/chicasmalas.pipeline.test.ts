@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractChicasmalas } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.extractor.js';
 import {
-  mapChicasmalas,
   CHICASMALAS_SOURCE,
+  mapChicasmalas,
 } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

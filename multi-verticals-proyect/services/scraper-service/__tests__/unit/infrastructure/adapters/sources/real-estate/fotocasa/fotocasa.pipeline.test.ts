@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractFotocasa } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.extractor.js';
 import {
-  mapFotocasa,
   FOTOCASA_SOURCE,
+  mapFotocasa,
 } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

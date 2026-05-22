@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.extractor.js';
 import {
-  WALLAPOP_SOURCE,
   mapWallapop,
+  WALLAPOP_SOURCE,
 } from '#infrastructure/adapters/sources/general/wallapop/wallapop.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

@@ -14,21 +14,25 @@
  */
 
 import { randomUUID } from 'node:crypto';
-
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { asProviderId, type ProviderId } from '@allcoba/shared-types';
+import type { ProviderId } from '@allcoba/shared-types';
+import { asProviderId } from '@allcoba/shared-types';
 
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { DrizzleProviderRepository } from '#infrastructure/adapters/persistence/drizzle-provider.repository.js';
 import {
   mapTopEscortBabes,
   TOPESCORTBABES_SOURCE,
 } from '#infrastructure/adapters/sources/dating/topescortbabes/topescortbabes.mapper.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
-import { setupTestDb, truncateAll, type TestDb } from '../../../../helpers/test-db.js';
+import type { TestDb } from '../../../../helpers/test-db.js';
+import { setupTestDb, truncateAll } from '../../../../helpers/test-db.js';
 import { FakeTaxonomyResolver } from '../../../../unit/infrastructure/adapters/sources/dating/topescortbabes/helpers/fake-taxonomy-resolver.js';
-import { loadAllFixtures, loadFixture } from '../../../../unit/infrastructure/adapters/sources/dating/topescortbabes/helpers/load-fixtures.js';
+import {
+  loadAllFixtures,
+  loadFixture,
+} from '../../../../unit/infrastructure/adapters/sources/dating/topescortbabes/helpers/load-fixtures.js';
 
 const NOW = new Date('2026-05-17T12:00:00.000Z');
 const resolver = new FakeTaxonomyResolver();

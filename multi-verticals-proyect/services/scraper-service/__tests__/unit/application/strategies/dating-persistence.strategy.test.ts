@@ -81,7 +81,13 @@ describe('DatingPersistenceStrategy.persist', () => {
   it('image dedup — reuses existing stored URL on hash hit', async () => {
     const hash = asImageHash('abc123hash');
     const existing = buildProvider({
-      images: [{ hash, storedUrl: 'https://r2.example.com/existing.jpg', originalUrl: 'https://src.com/img.jpg' }],
+      images: [
+        {
+          hash,
+          storedUrl: 'https://r2.example.com/existing.jpg',
+          originalUrl: 'https://src.com/img.jpg',
+        },
+      ],
     });
     const repo = makeRepo([]);
     repo.find.mockResolvedValue([existing]);
@@ -100,7 +106,9 @@ describe('DatingPersistenceStrategy.persist', () => {
     }) as any;
 
     const scraped = buildProvider({
-      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     await strategy.persist(scraped, CTX);
 
@@ -123,7 +131,9 @@ describe('DatingPersistenceStrategy.persist', () => {
     }) as any;
 
     const scraped = buildProvider({
-      photos: [{ id: '1', url: 'https://src.com/new.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/new.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     await strategy.persist(scraped, CTX);
 
@@ -160,7 +170,9 @@ describe('DatingPersistenceStrategy.persist', () => {
     global.fetch = vi.fn().mockRejectedValue(new Error('network error')) as any;
 
     const scraped = buildProvider({
-      photos: [{ id: '1', url: 'https://src.com/bad.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/bad.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     const result = await strategy.persist(scraped, CTX);
 
@@ -188,7 +200,9 @@ describe('DatingPersistenceStrategy.persist', () => {
     }) as any;
 
     const scraped = buildProvider({
-      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     await strategy.persist(scraped, CTX);
 

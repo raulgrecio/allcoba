@@ -151,9 +151,7 @@ describe('loquosex extractor — all fixtures parse without throwing', () => {
   for (const filename of fixtures) {
     it(`${filename} parses without error`, () => {
       const html = loadHtmlFixture(filename);
-      expect(() =>
-        extractLoquosex(html, `https://loquosex.com/${filename}`),
-      ).not.toThrow();
+      expect(() => extractLoquosex(html, `https://loquosex.com/${filename}`)).not.toThrow();
     });
   }
 });

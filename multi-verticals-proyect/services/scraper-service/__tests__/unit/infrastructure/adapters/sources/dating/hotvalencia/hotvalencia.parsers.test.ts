@@ -1,13 +1,17 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
   parseHotvalenciaPhone,
   parseNicknameFromTitle,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {
   it.each([
-    ['https://hotvalencia.com/putas-valencia/valentina-escortvalencia/', 'valentina-escortvalencia'],
+    [
+      'https://hotvalencia.com/putas-valencia/valentina-escortvalencia/',
+      'valentina-escortvalencia',
+    ],
     ['https://hotvalencia.com/putas-valencia/sofia/', 'sofia'],
   ])('%s → %s', (url, expected) => {
     expect(parseSourceIdFromUrl(url)).toBe(expected);
@@ -26,7 +30,8 @@ describe('parseHotvalenciaPhone', () => {
 });
 
 describe('parseNicknameFromTitle', () => {
-  it('extracts first word', () => expect(parseNicknameFromTitle('Valentina escort Valencia')).toBe('Valentina'));
+  it('extracts first word', () =>
+    expect(parseNicknameFromTitle('Valentina escort Valencia')).toBe('Valentina'));
   it('strips trailing punctuation', () => expect(parseNicknameFromTitle('Sofia,')).toBe('Sofia'));
   it('empty → undefined', () => expect(parseNicknameFromTitle('')).toBeUndefined());
 });

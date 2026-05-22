@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractBluemove } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.extractor.js';
-import { mapBluemove, BLUEMOVE_SOURCE } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.mapper.js';
+import {
+  BLUEMOVE_SOURCE,
+  mapBluemove,
+} from '#infrastructure/adapters/sources/dating/bluemove/bluemove.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

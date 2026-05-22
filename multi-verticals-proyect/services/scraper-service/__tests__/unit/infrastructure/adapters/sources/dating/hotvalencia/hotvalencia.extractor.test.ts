@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractHotvalencia } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { HotvalenciaPayload } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.types.js';
+import { extractHotvalencia } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://hotvalencia.com/putas-valencia/valentina-escortvalencia/';
@@ -13,11 +15,13 @@ describe('extractHotvalencia — fixture valentina_escortvalencia', () => {
     payload = extractHotvalencia(html, SOURCE_URL);
   });
 
-  it('sourceId = valentina-escortvalencia', () => expect(payload.sourceId).toBe('valentina-escortvalencia'));
+  it('sourceId = valentina-escortvalencia', () =>
+    expect(payload.sourceId).toBe('valentina-escortvalencia'));
   it('sourceUrl', () => expect(payload.sourceUrl).toBe(SOURCE_URL));
   it('title extracted from h1.entry-title', () => expect(payload.title).toContain('Valentina'));
   it('nickname = Valentina', () => expect(payload.nickname).toBe('Valentina'));
-  it('bio extracted from .elementor-text-editor', () => expect(payload.bio).toContain('independiente'));
+  it('bio extracted from .elementor-text-editor', () =>
+    expect(payload.bio).toContain('independiente'));
   it('phone from tel: href', () => expect(payload.phone).toBe('611223344'));
   it('2 gallery photos', () => expect(payload.photos).toHaveLength(2));
   it('hasVideo = false', () => expect(payload.hasVideo).toBe(false));

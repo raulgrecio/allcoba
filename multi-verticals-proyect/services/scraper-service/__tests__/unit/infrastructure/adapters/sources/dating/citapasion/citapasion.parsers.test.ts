@@ -1,13 +1,14 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
+  parseBoolAttr,
   parseCitapasionPhone,
   parseCitapasionWhatsapp,
   parseFirstInt,
-  parseBoolAttr,
-  parseRatingScore,
-  parseRatingCount,
   parseNicknameFromTitle,
+  parseRatingCount,
+  parseRatingScore,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {
@@ -85,7 +86,9 @@ describe('parseRatingCount', () => {
 
 describe('parseNicknameFromTitle', () => {
   it('takes first word before |', () => {
-    expect(parseNicknameFromTitle('Sofia escort independiente en Madrid | Citapasion')).toBe('Sofia');
+    expect(parseNicknameFromTitle('Sofia escort independiente en Madrid | Citapasion')).toBe(
+      'Sofia',
+    );
   });
   it('strips trailing punctuation', () => {
     expect(parseNicknameFromTitle('Ana,')).toBe('Ana');

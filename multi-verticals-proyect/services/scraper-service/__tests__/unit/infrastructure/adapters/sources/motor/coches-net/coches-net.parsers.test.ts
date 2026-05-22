@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import {
   parseBodyType,
   parseColor,
@@ -17,7 +18,9 @@ describe('parseSourceIdFromUrl', () => {
       ),
     ).toBe('61537261'));
   it('falls back to first numeric block when no slug', () =>
-    expect(parseSourceIdFromUrl('https://www.coches.net/foo-bar-12345678-x.aspx')).toBe('12345678'));
+    expect(parseSourceIdFromUrl('https://www.coches.net/foo-bar-12345678-x.aspx')).toBe(
+      '12345678',
+    ));
 });
 
 describe('parseFuelType', () => {
@@ -49,8 +52,7 @@ describe('parseEnvironmentalLabel', () => {
   it('0 → 0', () => expect(parseEnvironmentalLabel('0')).toBe('0'));
   it('ECO → ECO', () => expect(parseEnvironmentalLabel('ECO')).toBe('ECO'));
   it('C → C', () => expect(parseEnvironmentalLabel('c')).toBe('C'));
-  it('unknown → undefined', () =>
-    expect(parseEnvironmentalLabel('Z')).toBeUndefined());
+  it('unknown → undefined', () => expect(parseEnvironmentalLabel('Z')).toBeUndefined());
 });
 
 describe('parseBodyType', () => {

@@ -8,7 +8,7 @@ import type { StoragePort } from '#application/ports/storage.port.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 
-import type { ScrapeUrlUseCase, ScraperConfig } from './scrape-url.use-case.js';
+import type { ScraperConfig, ScrapeUrlUseCase } from './scrape-url.use-case.js';
 
 export class DiscoverUrlsUseCase {
   private readonly logger = logger().child({ component: 'DiscoverUrlsUseCase' });

@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import {
-  mapFotocasa,
-  FOTOCASA_SOURCE,
-} from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.mapper.js';
+
 import type { FotocasaPayload } from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.types.js';
+import {
+  FOTOCASA_SOURCE,
+  mapFotocasa,
+} from '#infrastructure/adapters/sources/real-estate/fotocasa/fotocasa.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-05-18T00:00:00.000Z');
@@ -99,11 +101,9 @@ describe('mapFotocasa — location', () => {
   });
 
   it('no city → baseCity undefined', async () => {
-    const sp = await mapFotocasa(
-      { ...BASE_PAYLOAD, city: undefined },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapFotocasa({ ...BASE_PAYLOAD, city: undefined }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.baseCity).toBeUndefined();
   });
 

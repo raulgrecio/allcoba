@@ -1,18 +1,13 @@
 import * as cheerio from 'cheerio';
 
-import {
-  CrawlerEngine,
-  ProxyStrategy,
-  SolverStrategy,
-  type CrawlerOptions,
-  type SecurityStrategy,
-} from '#application/ports/crawler.port.js';
+import type { CrawlerOptions, SecurityStrategy } from '#application/ports/crawler.port.js';
 import type {
   MotorPipelinePort,
   PipelineMapOptions,
 } from '#application/ports/scraping-pipeline.port.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
+import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
 import { RobotsChecker } from '#infrastructure/crawler/robots-checker.js';
 
 export abstract class MotorPipelineBase<Payload> implements MotorPipelinePort {

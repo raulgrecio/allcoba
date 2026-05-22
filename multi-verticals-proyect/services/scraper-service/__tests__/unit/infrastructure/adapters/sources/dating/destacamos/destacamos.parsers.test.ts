@@ -11,9 +11,9 @@ import {
 
 describe('parseSourceIdFromUrl', () => {
   it('extracts id from /{id}- slug pattern', () => {
-    expect(
-      parseSourceIdFromUrl('https://www.destacamos.net/92345-elena-escort-madrid.html'),
-    ).toBe('92345');
+    expect(parseSourceIdFromUrl('https://www.destacamos.net/92345-elena-escort-madrid.html')).toBe(
+      '92345',
+    );
   });
 
   it('extracts id from /opiniones/{id}', () => {
@@ -53,11 +53,11 @@ describe('parseDestacamosAge', () => {
 });
 
 describe('parseDestacamosHeightCm', () => {
-  it("parses \"entre 1'60 y 1'70\" → 160", () => {
+  it('parses "entre 1\'60 y 1\'70" → 160', () => {
     expect(parseDestacamosHeightCm("entre 1'60 y 1'70")).toBe(160);
   });
 
-  it("parses \"1'65\" → 165", () => {
+  it('parses "1\'65" → 165', () => {
     expect(parseDestacamosHeightCm("1'65")).toBe(165);
   });
 

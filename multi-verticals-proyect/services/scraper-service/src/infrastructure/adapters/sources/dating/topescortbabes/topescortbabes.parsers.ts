@@ -175,9 +175,7 @@ const PRICE_SLOT_MAP: Record<string, 'h1' | 'h2' | 'h3' | 'h12' | 'h24'> = {
   '24 horas': 'h24',
 };
 
-export const labelToPriceSlot = (
-  label: string,
-): 'h1' | 'h2' | 'h3' | 'h12' | 'h24' | 'custom' => {
+export const labelToPriceSlot = (label: string): 'h1' | 'h2' | 'h3' | 'h12' | 'h24' | 'custom' => {
   return PRICE_SLOT_MAP[label] ?? 'custom';
 };
 

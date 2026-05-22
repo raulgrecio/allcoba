@@ -1,13 +1,17 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
-  parseNuevapasionPhone,
   parseNicknameFromTitle,
+  parseNuevapasionPhone,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {
   it.each([
-    ['https://nuevapasion.com/anuncio/quieres-disfrutar-ven-j9ZZ3vFBjb', 'quieres-disfrutar-ven-j9ZZ3vFBjb'],
+    [
+      'https://nuevapasion.com/anuncio/quieres-disfrutar-ven-j9ZZ3vFBjb',
+      'quieres-disfrutar-ven-j9ZZ3vFBjb',
+    ],
     ['https://nuevapasion.com/anuncio/sofia-abc123', 'sofia-abc123'],
   ])('%s → %s', (url, expected) => {
     expect(parseSourceIdFromUrl(url)).toBe(expected);

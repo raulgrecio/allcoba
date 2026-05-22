@@ -7,12 +7,12 @@
 
 import * as cheerio from 'cheerio';
 
+import type { HotvalenciaPayload, HotvalenciaPhoto } from './hotvalencia.types.js';
 import {
-  parseSourceIdFromUrl,
   parseHotvalenciaPhone,
   parseNicknameFromTitle,
+  parseSourceIdFromUrl,
 } from './hotvalencia.parsers.js';
-import type { HotvalenciaPayload, HotvalenciaPhoto } from './hotvalencia.types.js';
 
 export const extractHotvalencia = (html: string, sourceUrl: string): HotvalenciaPayload => {
   const $ = cheerio.load(html);

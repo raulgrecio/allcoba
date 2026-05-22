@@ -13,19 +13,14 @@
 
 import * as cheerio from 'cheerio';
 
-import {
-  CrawlerEngine,
-  ProxyStrategy,
-  SolverStrategy,
-  type CrawlerOptions,
-  type SecurityStrategy,
-} from '#application/ports/crawler.port.js';
+import type { CrawlerOptions, SecurityStrategy } from '#application/ports/crawler.port.js';
 import type {
   DatingPipelineMapOptions,
   DatingPipelinePort,
 } from '#application/ports/dating-pipeline.port.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { CrawlerEngine, ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
 import { RobotsChecker } from '#infrastructure/crawler/robots-checker.js';
 
 export abstract class DatingPipelineBase<Payload> implements DatingPipelinePort<Payload> {

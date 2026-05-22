@@ -1,3 +1,15 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { MilpasionesPayload } from './milpasiones.types.js';
+import { slugifyMilpasiones } from './milpasiones.parsers.js';
+
 /**
  * Milpasiones mapper — MilpasionesPayload → ScrapedProvider (pure, async).
  *
@@ -9,24 +21,6 @@
  *   - No WhatsApp on this source in static head
  */
 
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import { slugifyMilpasiones } from './milpasiones.parsers.js';
-import type { MilpasionesPayload } from './milpasiones.types.js';
-
 export const MILPASIONES_SOURCE = 'milpasiones';
 
 export interface MapperOptions {
@@ -34,10 +28,7 @@ export interface MapperOptions {
   readonly contentLocale?: string;
 }
 
-const mapPhoto = (
-  photo: MilpasionesPayload['photos'][number],
-  idx: number,
-): ScrapedPhoto => ({
+const mapPhoto = (photo: MilpasionesPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `milpasiones:photo:${idx}`,
   url: photo.src,
   thumbnail: photo.src,

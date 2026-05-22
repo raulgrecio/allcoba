@@ -1,7 +1,7 @@
+import type { CochesNetPayload } from './coches-net.types.js';
 import { MotorPipelineBase } from '../motor-pipeline.base.js';
 import { extractCochesNet } from './coches-net.extractor.js';
 import { mapCochesNet } from './coches-net.mapper.js';
-import type { CochesNetPayload } from './coches-net.types.js';
 
 const COOKIE_SELECTORS = ['#didomi-notice-agree-button', 'button[id*="cookie"]'];
 

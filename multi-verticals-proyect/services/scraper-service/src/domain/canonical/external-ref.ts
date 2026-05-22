@@ -19,8 +19,7 @@ export interface ExternalRef {
   readonly canonicalId?: EntityId;
 }
 
-export const externalRefKey = (ref: ExternalRef): string =>
-  `${ref.source}:${ref.sourceId}`;
+export const externalRefKey = (ref: ExternalRef): string => `${ref.source}:${ref.sourceId}`;
 
 export const externalRefEquals = (a: ExternalRef, b: ExternalRef): boolean =>
   a.source === b.source && a.sourceId === b.sourceId;

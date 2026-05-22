@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapNuevapasion, NUEVAPASION_SOURCE } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.mapper.js';
+
 import type { NuevapasionPayload } from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.types.js';
+import {
+  mapNuevapasion,
+  NUEVAPASION_SOURCE,
+} from '#infrastructure/adapters/sources/dating/nuevapasion/nuevapasion.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import {
   parseBuildYear,
   parseEnergyRatingFromIconClass,
@@ -47,24 +48,19 @@ describe('parsePrice', () => {
 });
 
 describe('parseFloor', () => {
-  it('"Planta 6ª exterior" → "6ª"', () =>
-    expect(parseFloor('Planta 6ª exterior')).toBe('6ª'));
+  it('"Planta 6ª exterior" → "6ª"', () => expect(parseFloor('Planta 6ª exterior')).toBe('6ª'));
   it('"Bajo" → "Bajo"', () => expect(parseFloor('Bajo')).toBe('Bajo'));
   it('"Ático" → "Ático"', () => expect(parseFloor('Ático')).toBe('Ático'));
 });
 
 describe('parseBuildYear', () => {
-  it('"Construido en 1944" → 1944', () =>
-    expect(parseBuildYear('Construido en 1944')).toBe(1944));
-  it('no match → undefined', () =>
-    expect(parseBuildYear('Reformado en 2010')).toBeUndefined());
+  it('"Construido en 1944" → 1944', () => expect(parseBuildYear('Construido en 1944')).toBe(1944));
+  it('no match → undefined', () => expect(parseBuildYear('Reformado en 2010')).toBeUndefined());
 });
 
 describe('parseFirstInteger', () => {
-  it('"177 m²" / m² → 177', () =>
-    expect(parseFirstInteger('177 m²', /(\d+)\s*m²/)).toBe(177));
-  it('no match → undefined', () =>
-    expect(parseFirstInteger('foo', /(\d+)/)).toBeUndefined());
+  it('"177 m²" / m² → 177', () => expect(parseFirstInteger('177 m²', /(\d+)\s*m²/)).toBe(177));
+  it('no match → undefined', () => expect(parseFirstInteger('foo', /(\d+)/)).toBeUndefined());
 });
 
 describe('parseEnergyRatingFromIconClass', () => {
@@ -91,7 +87,6 @@ describe('parseSubtitle', () => {
       neighborhood: 'Palacio',
       city: 'Madrid',
     }));
-  it('"Madrid" → city only', () =>
-    expect(parseSubtitle('Madrid')).toEqual({ city: 'Madrid' }));
+  it('"Madrid" → city only', () => expect(parseSubtitle('Madrid')).toEqual({ city: 'Madrid' }));
   it('empty → {}', () => expect(parseSubtitle()).toEqual({}));
 });

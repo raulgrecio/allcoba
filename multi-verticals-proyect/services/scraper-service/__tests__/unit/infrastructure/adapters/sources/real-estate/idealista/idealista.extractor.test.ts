@@ -1,6 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { extractIdealista } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.extractor.js';
+
 import type { IdealistaPayload } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.types.js';
+import { extractIdealista } from '#infrastructure/adapters/sources/real-estate/idealista/idealista.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://www.idealista.com/inmueble/110715434/';
@@ -19,8 +21,7 @@ describe('extractIdealista — fixture atico_110715434', () => {
   it('priceMode = total', () => expect(p.priceMode).toBe('total'));
   it('city = Madrid', () => expect(p.city).toBe('Madrid'));
   it('neighborhood = Palacio', () => expect(p.neighborhood).toBe('Palacio'));
-  it('street contains Isabel la Católica', () =>
-    expect(p.street).toContain('Isabel la Católica'));
+  it('street contains Isabel la Católica', () => expect(p.street).toContain('Isabel la Católica'));
   it('surfaceM2 = 177', () => expect(p.surfaceM2).toBe(177));
   it('roomsCount = 2', () => expect(p.roomsCount).toBe(2));
   it('bathroomsCount = 2', () => expect(p.bathroomsCount).toBe(2));

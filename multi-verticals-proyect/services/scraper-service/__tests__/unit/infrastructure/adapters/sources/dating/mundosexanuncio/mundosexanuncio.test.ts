@@ -1,22 +1,22 @@
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { describe, expect, it, beforeAll } from 'vitest';
+import { fileURLToPath } from 'node:url';
+import { beforeAll, describe, expect, it } from 'vitest';
 
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { MundosexanuncioPayload } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.types.js';
 import { extractMundosexanuncio } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.extractor.js';
 import {
   mapMundosexanuncio,
   MUNDOSEXANUNCIO_SOURCE,
 } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.mapper.js';
-import { MundosexanuncioPipeline } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.pipeline.js';
-import type { MundosexanuncioPayload } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.types.js';
 import {
-  parseSourceIdFromUrl,
+  parseAgeFromText,
   parseMundoPhone,
   parseMundoWhatsapp,
-  parseAgeFromText,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.parsers.js';
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import { MundosexanuncioPipeline } from '#infrastructure/adapters/sources/dating/mundosexanuncio/mundosexanuncio.pipeline.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const loadHtml = (name: string): string =>
@@ -92,7 +92,9 @@ describe('MundosexanuncioPipeline', () => {
   });
   it('isProfileUrl rechaza el listado', () => {
     expect(
-      pipeline.isProfileUrl('https://www.mundosexanuncio.com/contactos-mujeres-en-madrid-provincia'),
+      pipeline.isProfileUrl(
+        'https://www.mundosexanuncio.com/contactos-mujeres-en-madrid-provincia',
+      ),
     ).toBe(false);
   });
 });

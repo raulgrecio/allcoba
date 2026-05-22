@@ -1,16 +1,19 @@
+import { randomUUID } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 
-import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
-import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
-import { asConfidence } from '#domain/canonical/confidence.js';
-
 import { asProviderId } from '@allcoba/shared-types';
-import { randomUUID } from 'node:crypto';
+
+import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
+import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
+import { asConfidence } from '#domain/canonical/confidence.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
 
 const CTX = { source: 'wallapop', url: 'https://wallapop.com/item/1' };
 
-const makeListing = (sourceId: string, overrides: Partial<ScrapedListing> = {}): ScrapedListing => ({
+const makeListing = (
+  sourceId: string,
+  overrides: Partial<ScrapedListing> = {},
+): ScrapedListing => ({
   id: asProviderId(randomUUID()),
   vertical: 'general',
   title: 'Test item',

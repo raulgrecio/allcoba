@@ -1,6 +1,5 @@
 import fs from 'fs/promises';
 import path from 'path';
-
 import type { Command } from 'commander';
 
 import type { Vertical } from '@allcoba/shared-types';
@@ -36,9 +35,17 @@ export function registerStatsCommand(program: Command): void {
   program
     .command('stats')
     .description('Fill-rate por portal — detecta regresiones en la extracción')
-    .option('--vertical <name>', 'Vertical a analizar (dating, motor, real-estate, general)', 'dating')
+    .option(
+      '--vertical <name>',
+      'Vertical a analizar (dating, motor, real-estate, general)',
+      'dating',
+    )
     .option('--save-baseline', 'Guardar stats actuales como baseline')
-    .option('--threshold <pp>', 'Caída mínima (puntos porcentuales) para alertar (default: 20)', '20')
+    .option(
+      '--threshold <pp>',
+      'Caída mínima (puntos porcentuales) para alertar (default: 20)',
+      '20',
+    )
     .option('--source <name>', 'Filtrar por portal')
     .option('--data-dir <path>', 'Directorio de datos (default: __data/storage)', '__data/storage')
     .action(async (options) => {

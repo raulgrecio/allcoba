@@ -56,12 +56,14 @@ export const parseEGEWeightKg = (raw: string | undefined | null): number | undef
  */
 export const slugify = (raw: string | undefined | null): string | undefined => {
   if (!raw) return undefined;
-  return raw
-    .toLowerCase()
-    .replace(/[()]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .trim() || undefined;
+  return (
+    raw
+      .toLowerCase()
+      .replace(/[()]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .trim() || undefined
+  );
 };
 
 // ============================================================================

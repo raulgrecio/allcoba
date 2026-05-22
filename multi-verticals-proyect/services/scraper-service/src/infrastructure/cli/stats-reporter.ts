@@ -5,7 +5,10 @@
  * sin console.log — así es testeable y el comando solo tiene que imprimirlo.
  */
 
-import type { BaselineData, StatsResult } from '#application/use-cases/extraction-stats.use-case.js';
+import type {
+  BaselineData,
+  StatsResult,
+} from '#application/use-cases/extraction-stats.use-case.js';
 
 const C = {
   green: '\x1b[0;32m',
@@ -56,7 +59,9 @@ export function formatStatsReport(
         `(umbral: ${threshold}pp)${C.nc}`,
     );
   } else {
-    lines.push(`\n${C.green}✅ Sin regresiones respecto al baseline (umbral: ${threshold}pp)${C.nc}`);
+    lines.push(
+      `\n${C.green}✅ Sin regresiones respecto al baseline (umbral: ${threshold}pp)${C.nc}`,
+    );
   }
 
   return lines.join('\n');

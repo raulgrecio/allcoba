@@ -1,3 +1,14 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { EscortAdvisorPayload } from './escort-advisor.types.js';
+
 /**
  * escort-advisor mapper — EscortAdvisorPayload → ScrapedProvider (pure, async).
  *
@@ -8,22 +19,6 @@
  *   - nationality/ethnicity resolved via TaxonomyResolverPort
  *   - CF WAF protected — Confidence.low
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import type { EscortAdvisorPayload } from './escort-advisor.types.js';
 
 export const ESCORT_ADVISOR_SOURCE = 'escort-advisor';
 
@@ -44,10 +39,7 @@ const slugify = (text: string | undefined): string | undefined => {
   );
 };
 
-const mapPhoto = (
-  photo: EscortAdvisorPayload['photos'][number],
-  idx: number,
-): ScrapedPhoto => ({
+const mapPhoto = (photo: EscortAdvisorPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `escort-advisor:photo:${idx}`,
   url: photo.src,
   thumbnail: photo.src,

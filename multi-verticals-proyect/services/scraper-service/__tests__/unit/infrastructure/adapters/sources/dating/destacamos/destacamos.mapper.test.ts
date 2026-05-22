@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { mapDestacamos } from '#infrastructure/adapters/sources/dating/destacamos/destacamos.mapper.js';
 import type { DestacamosPayload } from '#infrastructure/adapters/sources/dating/destacamos/destacamos.types.js';
+import { mapDestacamos } from '#infrastructure/adapters/sources/dating/destacamos/destacamos.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 

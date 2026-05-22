@@ -4,16 +4,16 @@
  * page iteration, pagination stop when no links.
  */
 
+import { randomUUID } from 'node:crypto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
-import { asConfidence } from '#domain/canonical/confidence.js';
-import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
-import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
-
 import { asProviderId } from '@allcoba/shared-types';
-import { randomUUID } from 'node:crypto';
+
+import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
+import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
+import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
+import { asConfidence } from '#domain/canonical/confidence.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
 
 // ── minimal source stub ───────────────────────────────────────────────────────
 
@@ -64,15 +64,15 @@ const TEST_CONFIG = { saveRawHtml: false };
 
 const makeEntityRepos = () => {
   const repo = new InMemoryScrapedEntityRepository<ScrapedListing & HasExternalRefs>();
-  return new Map([['general', repo]] as [string, typeof repo][]) as Map<
-    'general',
-    typeof repo
-  >;
+  return new Map([['general', repo]] as [string, typeof repo][]) as Map<'general', typeof repo>;
 };
 
 describe('DiscoverUrlsUseCase', () => {
   beforeEach(() => {
-    vi.spyOn(global, 'setTimeout').mockImplementation((fn: any) => { fn(); return 0 as any; });
+    vi.spyOn(global, 'setTimeout').mockImplementation((fn: any) => {
+      fn();
+      return 0 as any;
+    });
   });
 
   afterEach(() => {
@@ -178,10 +178,7 @@ describe('DiscoverUrlsUseCase', () => {
 
   it('follows pagination to next page', async () => {
     const source = makeSource({
-      profileLinks: [
-        ['https://example.com/item/a'],
-        ['https://example.com/item/b'],
-      ],
+      profileLinks: [['https://example.com/item/a'], ['https://example.com/item/b']],
       nextPages: ['https://example.com/list?page=2', undefined],
     });
     const scraper = makeScrapeUrlUseCase();
@@ -201,7 +198,13 @@ describe('DiscoverUrlsUseCase', () => {
 
   it('respects skip parameter — skips first N profiles', async () => {
     const source = makeSource({
-      profileLinks: [['https://example.com/item/skip1', 'https://example.com/item/skip2', 'https://example.com/item/actual']],
+      profileLinks: [
+        [
+          'https://example.com/item/skip1',
+          'https://example.com/item/skip2',
+          'https://example.com/item/actual',
+        ],
+      ],
       nextPages: [undefined],
     });
     const scraper = makeScrapeUrlUseCase();

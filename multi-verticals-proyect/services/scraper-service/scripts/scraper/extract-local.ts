@@ -25,7 +25,7 @@ async function main() {
   }
 
   const html = fs.readFileSync(absolutePath, 'utf-8');
-  
+
   const captchaSolver = new CapsolverAdapter(config.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(config.zyteApiKey || '');
   const crawler = new CrawlerDispatcher(captchaSolver, proxyProvider);

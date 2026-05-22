@@ -34,9 +34,7 @@ export class MisliosPipeline extends DatingPipelineBase<MisliosPayload> {
       onBeforeCapture: isProfile
         ? undefined
         : async (page) => {
-            await page
-              .waitForSelector('a[href*="/escorts/"]', { timeout: 15000 })
-              .catch(() => {});
+            await page.waitForSelector('a[href*="/escorts/"]', { timeout: 15000 }).catch(() => {});
           },
     };
   }

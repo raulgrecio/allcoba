@@ -1,13 +1,13 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { extractGirlsBcn } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.extractor.js';
 import {
-  mapGirlsBcn,
-  mapGirlsBcnLike,
   GIRLSBCN_SOURCE,
   GIRLSMADRID_SOURCE,
+  mapGirlsBcn,
+  mapGirlsBcnLike,
 } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.mapper.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtmlFixture } from './helpers/load-fixtures.js';
@@ -36,7 +36,8 @@ describe('mapGirlsBcn — camila105', () => {
   describe('externalRefs', () => {
     it('has one externalRef', () => expect(sp.externalRefs).toHaveLength(1));
     it('source is girlsbcn', () => expect(sp.externalRefs[0]!.source).toBe('girlsbcn'));
-    it('sourceId is derived from URL', () => expect(sp.externalRefs[0]!.sourceId).toBe('gbcamila105'));
+    it('sourceId is derived from URL', () =>
+      expect(sp.externalRefs[0]!.sourceId).toBe('gbcamila105'));
     it('sourceUrl is preserved', () => expect(sp.externalRefs[0]!.sourceUrl).toBe(SOURCE_URL));
   });
 
@@ -71,8 +72,7 @@ describe('mapGirlsBcn — camila105', () => {
   describe('photos', () => {
     it('at least 2 photos mapped', () => expect(sp.photos.length).toBeGreaterThanOrEqual(2));
     it('first photo isPrimary', () => expect(sp.photos[0]!.isPrimary).toBe(true));
-    it('photos have order', () =>
-      sp.photos.forEach((p, i) => expect(p.order).toBe(i)));
+    it('photos have order', () => sp.photos.forEach((p, i) => expect(p.order).toBe(i)));
   });
 
   describe('attributes', () => {
@@ -118,18 +118,24 @@ describe('mapGirlsBcn — taxonomy misses', () => {
   it('nationalityId undefined on miss', async () => {
     const html = loadHtmlFixture('camila105.html');
     const payload = extractGirlsBcn(html, SOURCE_URL);
-    const result = await mapGirlsBcn(payload, new FakeTaxonomyResolver({
-      misses: { nationality: new Set(['colombiana']) },
-    }));
+    const result = await mapGirlsBcn(
+      payload,
+      new FakeTaxonomyResolver({
+        misses: { nationality: new Set(['colombiana']) },
+      }),
+    );
     expect(result.personalDetails.nationalityId).toBeUndefined();
   });
 
   it('cityId undefined on miss', async () => {
     const html = loadHtmlFixture('camila105.html');
     const payload = extractGirlsBcn(html, SOURCE_URL);
-    const result = await mapGirlsBcn(payload, new FakeTaxonomyResolver({
-      misses: { city: new Set(['barcelona']) },
-    }));
+    const result = await mapGirlsBcn(
+      payload,
+      new FakeTaxonomyResolver({
+        misses: { city: new Set(['barcelona']) },
+      }),
+    );
     expect(result.baseCity).toBeUndefined();
   });
 });

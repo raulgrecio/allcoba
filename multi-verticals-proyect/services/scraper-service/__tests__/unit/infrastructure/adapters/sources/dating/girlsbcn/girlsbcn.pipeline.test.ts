@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { extractGirlsBcn } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.extractor.js';
 import { mapGirlsBcn } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
-import { loadHtmlFixture, listHtmlFixtures } from './helpers/load-fixtures.js';
+import { listHtmlFixtures, loadHtmlFixture } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://www.girlsbcn.net/escort/gbcamila105.html';
 
@@ -27,7 +27,10 @@ describe('GirlsBCN pipeline — HTML → ScrapedProvider', () => {
 
     for (const file of files) {
       const html = loadHtmlFixture(file);
-      const payload = extractGirlsBcn(html, `https://www.girlsbcn.net/escort/${file.replace('.html', '')}.html`);
+      const payload = extractGirlsBcn(
+        html,
+        `https://www.girlsbcn.net/escort/${file.replace('.html', '')}.html`,
+      );
       await expect(mapGirlsBcn(payload, new FakeTaxonomyResolver())).resolves.not.toThrow();
     }
   });

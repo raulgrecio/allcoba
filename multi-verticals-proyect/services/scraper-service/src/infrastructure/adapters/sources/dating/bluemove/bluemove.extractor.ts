@@ -8,21 +8,21 @@
  * Estructura del modal: clases `em-*`.
  */
 
-import * as cheerio from 'cheerio';
 import type { CheerioAPI } from 'cheerio';
+import * as cheerio from 'cheerio';
 
+import type { BluemoveParams, BluemovePayload, BluemovePhoto } from './bluemove.types.js';
 import {
-  parseSourceIdFromUrl,
-  parseCityFromUrl,
   parseBluemovePhone,
   parseBluemoveWhatsapp,
-  parseTelegramHandle,
-  parseInstagramHandle,
-  parseFirstInt,
   parseBoolNotNo,
+  parseCityFromUrl,
+  parseFirstInt,
+  parseInstagramHandle,
+  parseSourceIdFromUrl,
+  parseTelegramHandle,
   stripProvince,
 } from './bluemove.parsers.js';
-import type { BluemoveParams, BluemovePayload, BluemovePhoto } from './bluemove.types.js';
 
 // data-feature de em-service-chip clasificados
 const LOCATION_FEATURES = new Set(['hotel', 'a-domicilio', 'apartamento', 'desplazamientos']);
@@ -108,11 +108,13 @@ export const extractBluemove = (html: string, sourceUrl: string): BluemovePayloa
 
   const langRaw = statValue($, ['Idiomas']);
   const languages = langRaw
-    ? langRaw.split(',').map((l) => l.trim()).filter(Boolean)
+    ? langRaw
+        .split(',')
+        .map((l) => l.trim())
+        .filter(Boolean)
     : undefined;
 
-  const city =
-    stripProvince(statValue($, ['Ciudad'])) ?? parseCityFromUrl(sourceUrl);
+  const city = stripProvince(statValue($, ['Ciudad'])) ?? parseCityFromUrl(sourceUrl);
 
   const params: BluemoveParams = {
     age: parseFirstInt(statValue($, ['Edad'])) ?? highlightAge,

@@ -60,9 +60,8 @@ const definitionsDating: SourceDefinition[] = [
   {
     pattern: /ardienteplacer\.com/,
     load: async () => {
-      const { ArdienteplacerPipeline } = await import(
-        './dating/ardienteplacer/ardienteplacer.pipeline.js'
-      );
+      const { ArdienteplacerPipeline } =
+        await import('./dating/ardienteplacer/ardienteplacer.pipeline.js');
       return new ArdienteplacerPipeline();
     },
   },
@@ -104,18 +103,16 @@ const definitionsDating: SourceDefinition[] = [
   {
     pattern: /escort-advisor\.xxx/,
     load: async () => {
-      const { EscortAdvisorPipeline } = await import(
-        './dating/escort-advisor/escort-advisor.pipeline.js'
-      );
+      const { EscortAdvisorPipeline } =
+        await import('./dating/escort-advisor/escort-advisor.pipeline.js');
       return new EscortAdvisorPipeline();
     },
   },
   {
     pattern: /eurogirlsescort\.(es|com)/,
     load: async () => {
-      const { EuroGirlsEscortPipeline } = await import(
-        './dating/eurogirlsescort/eurogirlsescort.pipeline.js'
-      );
+      const { EuroGirlsEscortPipeline } =
+        await import('./dating/eurogirlsescort/eurogirlsescort.pipeline.js');
       return new EuroGirlsEscortPipeline();
     },
   },
@@ -185,18 +182,16 @@ const definitionsDating: SourceDefinition[] = [
   {
     pattern: /mundosexanuncio\.com/,
     load: async () => {
-      const { MundosexanuncioPipeline } = await import(
-        './dating/mundosexanuncio/mundosexanuncio.pipeline.js'
-      );
+      const { MundosexanuncioPipeline } =
+        await import('./dating/mundosexanuncio/mundosexanuncio.pipeline.js');
       return new MundosexanuncioPipeline();
     },
   },
   {
     pattern: /valenciacitas\.com/,
     load: async () => {
-      const { ValenciacitasPipeline } = await import(
-        './dating/valenciacitas/valenciacitas.pipeline.js'
-      );
+      const { ValenciacitasPipeline } =
+        await import('./dating/valenciacitas/valenciacitas.pipeline.js');
       return new ValenciacitasPipeline();
     },
   },
@@ -217,9 +212,8 @@ const definitionsDating: SourceDefinition[] = [
   {
     pattern: /topescortbabes\.com/,
     load: async () => {
-      const { TopEscortBabesPipeline } = await import(
-        './dating/topescortbabes/topescortbabes.pipeline.js'
-      );
+      const { TopEscortBabesPipeline } =
+        await import('./dating/topescortbabes/topescortbabes.pipeline.js');
       return new TopEscortBabesPipeline();
     },
   },

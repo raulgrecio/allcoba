@@ -1,8 +1,8 @@
+import type { ChicasmalasPayload } from './chicasmalas.types.js';
 import { wpRestLinks } from '../../_shared/tech/index.js';
 import { DatingPipelineBase } from '../dating-pipeline.base.js';
 import { extractChicasmalas } from './chicasmalas.extractor.js';
 import { mapChicasmalas } from './chicasmalas.mapper.js';
-import type { ChicasmalasPayload } from './chicasmalas.types.js';
 
 const COOKIE_SELECTORS = [
   '.wp-consent-accept-all',

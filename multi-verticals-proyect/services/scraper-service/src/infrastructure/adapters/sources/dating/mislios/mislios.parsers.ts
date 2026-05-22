@@ -20,6 +20,9 @@ export const parseMisliosPhone = (href: string | undefined): string | undefined 
 
 /** Parse nickname: first word of title. */
 export const parseNicknameFromTitle = (title: string): string | undefined => {
-  const first = title.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim();
+  const first = title
+    .split(/\s+/)[0]
+    ?.replace(/[,;:]+$/, '')
+    .trim();
   return first || undefined;
 };

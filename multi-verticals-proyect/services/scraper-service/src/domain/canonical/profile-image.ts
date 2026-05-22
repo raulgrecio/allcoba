@@ -14,5 +14,4 @@ export interface ProfileImage {
   readonly hash: ImageHash;
 }
 
-export const profileImageEquals = (a: ProfileImage, b: ProfileImage): boolean =>
-  a.hash === b.hash;
+export const profileImageEquals = (a: ProfileImage, b: ProfileImage): boolean => a.hash === b.hash;

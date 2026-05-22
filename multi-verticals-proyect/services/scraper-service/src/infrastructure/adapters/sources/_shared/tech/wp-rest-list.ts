@@ -23,6 +23,8 @@ export function wpRestList(html: string): unknown[] {
 /** Extrae los campos `link` de una respuesta WP REST. */
 export function wpRestLinks(html: string): string[] {
   return wpRestList(html)
-    .map((item) => (item && typeof item === 'object' ? (item as Record<string, unknown>).link : undefined))
+    .map((item) =>
+      item && typeof item === 'object' ? (item as Record<string, unknown>).link : undefined,
+    )
     .filter((l): l is string => typeof l === 'string' && l.length > 0);
 }

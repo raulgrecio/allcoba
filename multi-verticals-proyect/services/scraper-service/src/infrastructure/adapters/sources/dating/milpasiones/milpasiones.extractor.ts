@@ -15,12 +15,16 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type {
+  MilpasionesParams,
+  MilpasionesPayload,
+  MilpasionesPhoto,
+} from './milpasiones.types.js';
 import {
   parseNicknameFromTitle,
   parsePhoneFromUrl,
   parseSourceIdFromUrl,
 } from './milpasiones.parsers.js';
-import type { MilpasionesParams, MilpasionesPayload, MilpasionesPhoto } from './milpasiones.types.js';
 
 // ============================================================================
 // Field extractors (all from <head> meta tags)

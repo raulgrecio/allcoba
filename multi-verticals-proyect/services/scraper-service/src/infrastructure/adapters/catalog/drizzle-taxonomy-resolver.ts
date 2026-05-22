@@ -13,9 +13,18 @@
  * branded id.
  */
 
-import { eq, and } from 'drizzle-orm';
 import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
+import { and, eq } from 'drizzle-orm';
 
+import type {
+  CityId,
+  CountryId,
+  EthnicId,
+  EyeId,
+  HairId,
+  NationalityId,
+  OrientationId,
+} from '@allcoba/shared-types';
 import {
   asCityId,
   asCountryId,
@@ -24,13 +33,6 @@ import {
   asHairId,
   asNationalityId,
   asOrientationId,
-  type CityId,
-  type CountryId,
-  type EthnicId,
-  type EyeId,
-  type HairId,
-  type NationalityId,
-  type OrientationId,
 } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';

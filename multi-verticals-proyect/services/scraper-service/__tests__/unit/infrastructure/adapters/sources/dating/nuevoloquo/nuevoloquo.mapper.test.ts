@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapNuevoloquo, NUEVOLOQUO_SOURCE } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.mapper.js';
+
 import type { NuevoloquoPayload } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.types.js';
+import {
+  mapNuevoloquo,
+  NUEVOLOQUO_SOURCE,
+} from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');

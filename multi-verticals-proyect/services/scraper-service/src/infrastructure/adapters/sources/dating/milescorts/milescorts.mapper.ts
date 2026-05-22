@@ -1,3 +1,15 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { MilescortsPayload } from './milescorts.types.js';
+import { parseMilescortsAge, slugifyMilescorts } from './milescorts.parsers.js';
+
 /**
  * Milescorts mapper — MilescortsPayload → ScrapedProvider (pure, async).
  *
@@ -8,24 +20,6 @@
  *   - isVerified from "Fotos Reales" / Verificada badge
  *   - No services / rates in HTML (stubs)
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import { parseMilescortsAge, slugifyMilescorts } from './milescorts.parsers.js';
-import type { MilescortsPayload } from './milescorts.types.js';
 
 export const MILESCORTS_SOURCE = 'milescorts';
 
@@ -50,9 +44,7 @@ const mapPersonalDetails = async (
   const p = payload.params;
 
   const nationalitySlug = slugifyMilescorts(p.nationality);
-  const nationalityId = nationalitySlug
-    ? await resolver.resolveNationality(nationalitySlug)
-    : null;
+  const nationalityId = nationalitySlug ? await resolver.resolveNationality(nationalitySlug) : null;
 
   return {
     ageYears: parseMilescortsAge(p.age) ?? 0,

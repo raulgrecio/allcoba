@@ -7,8 +7,9 @@ import type {
   ProviderCriteria,
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { externalRefKey, type ExternalRef } from '#domain/canonical/external-ref.js';
+import { externalRefKey } from '#domain/canonical/external-ref.js';
 
 import type { NewScrapedProviderRow, ScrapedProviderRow } from './schema/scraper.schema.js';
 import * as schema from './schema/scraper.schema.js';
@@ -51,13 +52,15 @@ export class DrizzleProviderRepository implements ProviderRepositoryPort {
     }
 
     if (criteria.imageHash) {
-      filters.push(
-        sql`${table.imageHashes} @> ${JSON.stringify([criteria.imageHash])}::jsonb`,
-      );
+      filters.push(sql`${table.imageHashes} @> ${JSON.stringify([criteria.imageHash])}::jsonb`);
     }
 
     // @ts-ignore — Drizzle's where() typing breaks with dynamically-built filter arrays
-    const rows = await this.db.select().from(table).where(sql.join(filters, sql` AND `)).execute();
+    const rows = await this.db
+      .select()
+      .from(table)
+      .where(sql.join(filters, sql` AND `))
+      .execute();
 
     return (rows as ScrapedProviderRow[]).map((row) => this.toDomain(row));
   }

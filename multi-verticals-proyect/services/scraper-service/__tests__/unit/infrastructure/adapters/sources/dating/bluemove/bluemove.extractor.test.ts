@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractBluemove } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { BluemovePayload } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.types.js';
+import { extractBluemove } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://bluemove.es/madrid/escorts/#56636';

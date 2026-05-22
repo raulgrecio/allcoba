@@ -76,9 +76,7 @@ export function parseMadrid69ApiProfile(
   const obj = raw as Record<string, unknown>;
 
   const profile: Record<string, unknown> =
-    obj['data'] && typeof obj['data'] === 'object'
-      ? (obj['data'] as Record<string, unknown>)
-      : obj;
+    obj['data'] && typeof obj['data'] === 'object' ? (obj['data'] as Record<string, unknown>) : obj;
 
   if (!profile['nombre'] && !profile['id']) return {};
 
@@ -113,9 +111,7 @@ export function parseMadrid69ApiProfile(
   return {
     nickname: typeof profile['nombre'] === 'string' ? profile['nombre'] : undefined,
     bio:
-      typeof profile['descripcion'] === 'string'
-        ? profile['descripcion'] || undefined
-        : undefined,
+      typeof profile['descripcion'] === 'string' ? profile['descripcion'] || undefined : undefined,
     phone: parseMadrid69Phone(
       typeof profile['telefono'] === 'string' ? profile['telefono'] : undefined,
     ),
@@ -127,11 +123,9 @@ export function parseMadrid69ApiProfile(
     age: typeof profile['edad'] === 'number' ? profile['edad'] : undefined,
     heightCm: typeof profile['altura'] === 'number' ? profile['altura'] : undefined,
     weightKg: typeof profile['peso'] === 'number' ? profile['peso'] : undefined,
-    nationality:
-      typeof profile['nacionalidad'] === 'string' ? profile['nacionalidad'] : undefined,
+    nationality: typeof profile['nacionalidad'] === 'string' ? profile['nacionalidad'] : undefined,
     languages: languages.length ? languages : undefined,
-    isVerified:
-      typeof profile['verificado'] === 'boolean' ? profile['verificado'] : undefined,
+    isVerified: typeof profile['verificado'] === 'boolean' ? profile['verificado'] : undefined,
     isVip: typeof profile['vip'] === 'boolean' ? profile['vip'] : undefined,
     services: services.length ? services : undefined,
   };

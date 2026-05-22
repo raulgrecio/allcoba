@@ -12,6 +12,7 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type { MilescortsParams, MilescortsPayload, MilescortsPhoto } from './milescorts.types.js';
 import {
   citySlugToName,
   extractMilescortsWhatsappPhone,
@@ -20,7 +21,6 @@ import {
   parsePhoneFromUrl,
   parseSourceIdFromUrl,
 } from './milescorts.parsers.js';
-import type { MilescortsParams, MilescortsPayload, MilescortsPhoto } from './milescorts.types.js';
 
 // ============================================================================
 // Field extractors
@@ -76,7 +76,9 @@ const extractWhatsapp = ($: CheerioAPI): { href?: string; phone?: string } => {
 };
 
 const extractIsVerified = ($: CheerioAPI): boolean =>
-  $('a.btn-success[href*="fotos-reales"], .label-success:contains("Verificada"), .label-success:contains("verificada")').length > 0;
+  $(
+    'a.btn-success[href*="fotos-reales"], .label-success:contains("Verificada"), .label-success:contains("verificada")',
+  ).length > 0;
 
 const extractPhotos = ($: CheerioAPI): MilescortsPhoto[] => {
   const photos: MilescortsPhoto[] = [];
@@ -84,8 +86,7 @@ const extractPhotos = ($: CheerioAPI): MilescortsPhoto[] => {
 
   $('#fotos-anuncio img').each((_, el) => {
     // Prefer data-original (lazy) over src (placeholder)
-    const src =
-      $(el).attr('data-original') || $(el).attr('data-src') || $(el).attr('src') || '';
+    const src = $(el).attr('data-original') || $(el).attr('data-src') || $(el).attr('src') || '';
     if (!src || seen.has(src)) return;
     seen.add(src);
     const alt = $(el).attr('alt');

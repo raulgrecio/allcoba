@@ -4,8 +4,8 @@ import {
   extractLoquosexWhatsappPhone,
   normalizeLoquosexPhone,
   parseLoquosexAge,
-  parseLoquosexMinPrice,
   parseLoquosexMeetingPlaces,
+  parseLoquosexMinPrice,
   parseNicknameFromTitle,
   parseSourceIdFromUrl,
   slugifyLoquosex,
@@ -115,9 +115,7 @@ describe('normalizeLoquosexPhone', () => {
 describe('extractLoquosexWhatsappPhone', () => {
   it('extracts from api.whatsapp.com phone param', () => {
     expect(
-      extractLoquosexWhatsappPhone(
-        'https://api.whatsapp.com/send?phone=34677684329&text=Hola',
-      ),
+      extractLoquosexWhatsappPhone('https://api.whatsapp.com/send?phone=34677684329&text=Hola'),
     ).toBe('+34677684329');
   });
 

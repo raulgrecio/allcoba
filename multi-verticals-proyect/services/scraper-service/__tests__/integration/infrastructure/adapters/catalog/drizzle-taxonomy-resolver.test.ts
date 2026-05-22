@@ -5,17 +5,16 @@
  */
 
 import { randomUUID } from 'node:crypto';
-
-import { sql } from 'drizzle-orm';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { sql } from 'drizzle-orm';
 
 import { DrizzleTaxonomyResolver } from '#infrastructure/adapters/catalog/drizzle-taxonomy-resolver.js';
 
+import type { TestDb } from '../../../../helpers/test-db.js';
 import {
   CREATE_CATALOG_SCHEMA,
   CREATE_CATALOG_TABLES,
   setupTestDb,
-  type TestDb,
 } from '../../../../helpers/test-db.js';
 
 let env: TestDb;

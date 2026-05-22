@@ -1,4 +1,13 @@
-import type { CityId, CountryId, EthnicId, EyeId, HairId, NationalityId, OrientationId } from '@allcoba/shared-types';
+import type {
+  CityId,
+  CountryId,
+  EthnicId,
+  EyeId,
+  HairId,
+  NationalityId,
+  OrientationId,
+} from '@allcoba/shared-types';
+
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 
 export class FakeTaxonomyResolver implements TaxonomyResolverPort {

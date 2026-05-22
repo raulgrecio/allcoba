@@ -1,5 +1,5 @@
 import type { CountryCode } from 'libphonenumber-js';
-import { parsePhoneNumberWithError, ParseError } from 'libphonenumber-js';
+import { ParseError, parsePhoneNumberWithError } from 'libphonenumber-js';
 
 import type { PhoneE164 } from '@allcoba/shared-types';
 

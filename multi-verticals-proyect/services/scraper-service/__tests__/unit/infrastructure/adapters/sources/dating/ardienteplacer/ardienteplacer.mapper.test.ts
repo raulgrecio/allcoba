@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { mapArdienteplacer } from '#infrastructure/adapters/sources/dating/ardienteplacer/ardienteplacer.mapper.js';
 import type { ArdientePlacerPayload } from '#infrastructure/adapters/sources/dating/ardienteplacer/ardienteplacer.types.js';
+import { mapArdienteplacer } from '#infrastructure/adapters/sources/dating/ardienteplacer/ardienteplacer.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const BASE_PAYLOAD: ArdientePlacerPayload = {
   sourceId: '92010',
-  sourceUrl:
-    'https://www.ardienteplacer.com/index.php/escort/putas-guarras/madrid/632277902/92010',
+  sourceUrl: 'https://www.ardienteplacer.com/index.php/escort/putas-guarras/madrid/632277902/92010',
   title: 'Carmen - Escort independiente Madrid',
   nickname: 'Carmen',
   bio: 'Hola soy Carmen, escort independiente en Madrid. Tengo piso propio.',

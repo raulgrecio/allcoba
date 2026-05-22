@@ -1,14 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { mapMilpasiones } from '#infrastructure/adapters/sources/dating/milpasiones/milpasiones.mapper.js';
 import type { MilpasionesPayload } from '#infrastructure/adapters/sources/dating/milpasiones/milpasiones.types.js';
+import { mapMilpasiones } from '#infrastructure/adapters/sources/dating/milpasiones/milpasiones.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const BASE_PAYLOAD: MilpasionesPayload = {
   sourceId: '215990',
-  sourceUrl:
-    'https://milpasiones.com/anuncio/662583238-carinosa-morbosa_215990/',
+  sourceUrl: 'https://milpasiones.com/anuncio/662583238-carinosa-morbosa_215990/',
   title: '662583238 NATALIA CARINOSA MORBOSA EN ESTEPONA',
   nickname: 'NATALIA',
   bio: 'Hola soy Natalia, venezolana con mucho cariño.',

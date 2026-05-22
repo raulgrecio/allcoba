@@ -8,22 +8,19 @@
 
 import * as cheerio from 'cheerio';
 
+import type { MisliosPayload, MisliosPhoto } from './mislios.types.js';
 import {
-  parseNicknameFromTitle,
   parseMisliosPhone,
+  parseNicknameFromTitle,
   parseSourceIdFromUrl,
 } from './mislios.parsers.js';
-import type { MisliosPayload, MisliosPhoto } from './mislios.types.js';
 
 export const extractMislios = (html: string, sourceUrl: string): MisliosPayload => {
   const $ = cheerio.load(html);
 
   const sourceId = parseSourceIdFromUrl(sourceUrl);
 
-  const title =
-    $('h1').first().text().trim() ||
-    $('.msl-profile-name').first().text().trim() ||
-    '';
+  const title = $('h1').first().text().trim() || $('.msl-profile-name').first().text().trim() || '';
 
   const nickname = parseNicknameFromTitle(title);
 

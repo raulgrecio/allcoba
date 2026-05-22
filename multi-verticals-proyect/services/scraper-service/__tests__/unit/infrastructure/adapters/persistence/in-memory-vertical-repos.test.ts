@@ -1,10 +1,10 @@
-import { describe, expect, it, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
-import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
 
 const makeRef = (source: string, sourceId: string): ExternalRef => ({ source, sourceId });
 
@@ -52,7 +52,9 @@ const makeListing = (sourceId: string): ScrapedListing =>
 
 describe('InMemoryScrapedEntityRepository<ScrapedProperty>', () => {
   let repo: InMemoryScrapedEntityRepository<ScrapedProperty>;
-  beforeEach(() => { repo = new InMemoryScrapedEntityRepository<ScrapedProperty>(); });
+  beforeEach(() => {
+    repo = new InMemoryScrapedEntityRepository<ScrapedProperty>();
+  });
 
   it('returns null for unknown ref', async () => {
     expect(await repo.findByExternalRef(makeRef('idealista', '999'))).toBeNull();
@@ -84,7 +86,9 @@ describe('InMemoryScrapedEntityRepository<ScrapedProperty>', () => {
 
 describe('InMemoryScrapedEntityRepository<ScrapedVehicle>', () => {
   let repo: InMemoryScrapedEntityRepository<ScrapedVehicle>;
-  beforeEach(() => { repo = new InMemoryScrapedEntityRepository<ScrapedVehicle>(); });
+  beforeEach(() => {
+    repo = new InMemoryScrapedEntityRepository<ScrapedVehicle>();
+  });
 
   it('returns null for unknown ref', async () => {
     expect(await repo.findByExternalRef(makeRef('coches-net', '999'))).toBeNull();
@@ -109,7 +113,9 @@ describe('InMemoryScrapedEntityRepository<ScrapedVehicle>', () => {
 
 describe('InMemoryScrapedEntityRepository<ScrapedListing>', () => {
   let repo: InMemoryScrapedEntityRepository<ScrapedListing>;
-  beforeEach(() => { repo = new InMemoryScrapedEntityRepository<ScrapedListing>(); });
+  beforeEach(() => {
+    repo = new InMemoryScrapedEntityRepository<ScrapedListing>();
+  });
 
   it('returns null for unknown ref', async () => {
     expect(await repo.findByExternalRef(makeRef('wallapop', '999'))).toBeNull();

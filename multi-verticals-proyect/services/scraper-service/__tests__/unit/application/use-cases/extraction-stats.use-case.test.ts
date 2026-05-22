@@ -9,14 +9,29 @@ const makeProvider = (overrides: Record<string, unknown> = {}) => ({
   nickname: 'Ana',
   phoneNumber: '+34612345678',
   contactOptions: ['calls', 'whatsapp'],
-  photos: [{ id: 'p1', url: 'https://cdn.example.com/1.jpg', isPrimary: true, isVerified: false, order: 0 }],
+  photos: [
+    {
+      id: 'p1',
+      url: 'https://cdn.example.com/1.jpg',
+      isPrimary: true,
+      isVerified: false,
+      order: 0,
+    },
+  ],
   aboutMe: { original: 'Bio de Ana', originalLanguage: 'es', content: null, contentLocale: 'es' },
   baseCity: { id: 'city:madrid' },
-  personalDetails: { ageYears: 25, nationalityId: 'nat:es', spokenLanguageCodes: [], meetingWith: [] },
+  personalDetails: {
+    ageYears: 25,
+    nationalityId: 'nat:es',
+    spokenLanguageCodes: [],
+    meetingWith: [],
+  },
   attributes: { services: ['masajes', 'GFE'] },
   badges: { verified: true, trans: false, vip: false, pornstar: false },
   links: {},
-  externalRefs: [{ source: 'ardienteplacer', sourceId: '123', sourceUrl: 'https://ardienteplacer.com/123' }],
+  externalRefs: [
+    { source: 'ardienteplacer', sourceId: '123', sourceUrl: 'https://ardienteplacer.com/123' },
+  ],
   metadata: { source: 'ardienteplacer', adapterVersion: 'v2' },
   ...overrides,
 });
@@ -61,9 +76,15 @@ describe('ExtractionStatsUseCase.compute', () => {
   });
 
   it('groups by source correctly', () => {
-    const p1 = makeProvider({ externalRefs: [{ source: 'bluemove', sourceId: '1', sourceUrl: '' }] });
-    const p2 = makeProvider({ externalRefs: [{ source: 'bluemove', sourceId: '2', sourceUrl: '' }] });
-    const p3 = makeProvider({ externalRefs: [{ source: 'mislios', sourceId: '3', sourceUrl: '' }] });
+    const p1 = makeProvider({
+      externalRefs: [{ source: 'bluemove', sourceId: '1', sourceUrl: '' }],
+    });
+    const p2 = makeProvider({
+      externalRefs: [{ source: 'bluemove', sourceId: '2', sourceUrl: '' }],
+    });
+    const p3 = makeProvider({
+      externalRefs: [{ source: 'mislios', sourceId: '3', sourceUrl: '' }],
+    });
     const { sources } = uc.compute([p1, p2, p3] as any, null, 20);
     expect(sources).toHaveLength(2);
     expect(sources.find((s) => s.source === 'bluemove')!.total).toBe(2);
@@ -100,7 +121,11 @@ describe('ExtractionStatsUseCase.execute', () => {
     await repo.create(makeProvider() as any);
     const useCase = new ExtractionStatsUseCase(repo);
 
-    const { sources } = await useCase.execute({ vertical: 'dating', baseline: null, thresholdPp: 20 });
+    const { sources } = await useCase.execute({
+      vertical: 'dating',
+      baseline: null,
+      thresholdPp: 20,
+    });
     expect(sources).toHaveLength(1);
     expect(sources[0]!.source).toBe('ardienteplacer');
     expect(sources[0]!.fields['nickname']!.rate).toBe(100);
@@ -108,11 +133,26 @@ describe('ExtractionStatsUseCase.execute', () => {
 
   it('filters by source when requested', async () => {
     const repo = new InMemoryProviderRepository();
-    await repo.create(makeProvider({ id: 'a:1', externalRefs: [{ source: 'bluemove', sourceId: '1', sourceUrl: '' }] }) as any);
-    await repo.create(makeProvider({ id: 'b:1', externalRefs: [{ source: 'mislios', sourceId: '2', sourceUrl: '' }] }) as any);
+    await repo.create(
+      makeProvider({
+        id: 'a:1',
+        externalRefs: [{ source: 'bluemove', sourceId: '1', sourceUrl: '' }],
+      }) as any,
+    );
+    await repo.create(
+      makeProvider({
+        id: 'b:1',
+        externalRefs: [{ source: 'mislios', sourceId: '2', sourceUrl: '' }],
+      }) as any,
+    );
     const useCase = new ExtractionStatsUseCase(repo);
 
-    const { sources } = await useCase.execute({ vertical: 'dating', baseline: null, thresholdPp: 20, source: 'mislios' });
+    const { sources } = await useCase.execute({
+      vertical: 'dating',
+      baseline: null,
+      thresholdPp: 20,
+      source: 'mislios',
+    });
     expect(sources).toHaveLength(1);
     expect(sources[0]!.source).toBe('mislios');
   });

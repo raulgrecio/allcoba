@@ -1,7 +1,7 @@
+import type { WallapopPayload } from './wallapop.types.js';
 import { GeneralPipelineBase } from '../general-pipeline.base.js';
 import { extractWallapop } from './wallapop.extractor.js';
 import { mapWallapop } from './wallapop.mapper.js';
-import type { WallapopPayload } from './wallapop.types.js';
 
 const COOKIE_SELECTORS = ['.cmpboxbtnyes', '#onetrust-accept-btn-handler'];
 

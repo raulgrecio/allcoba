@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 
+import type { IdealistaPayload, IdealistaPhoto } from './idealista.types.js';
 import {
   parseBuildYear,
   parseEnergyRatingFromIconClass,
@@ -12,7 +13,6 @@ import {
   parseStreetFromTitle,
   parseSubtitle,
 } from './idealista.parsers.js';
-import type { IdealistaPayload, IdealistaPhoto } from './idealista.types.js';
 
 const CDN_PHOTO_REGEX =
   /https:\/\/img\d+\.idealista\.com\/blur\/WEB_DETAIL\/0\/id\.pro\.es\.image\.master\/[a-f0-9/]+\/(\d+)\.jpg/g;
@@ -36,7 +36,8 @@ export function extractIdealista(html: string, sourceUrl: string): IdealistaPayl
   const title = $('.main-info__title-main').first().text().trim();
   const subtitle = $('.main-info__title-minor').first().text().trim();
   const priceText = $('.info-data-price').first().text().trim();
-  const description = $('.adCommentsLanguageSelector, .comment-text').first().text().trim() ||
+  const description =
+    $('.adCommentsLanguageSelector, .comment-text').first().text().trim() ||
     $('meta[property="og:description"]').attr('content')?.trim();
 
   // Aggregate text from the structured feature lists to run regex against.
@@ -71,13 +72,15 @@ export function extractIdealista(html: string, sourceUrl: string): IdealistaPayl
   // Energy ratings live in two consecutive list items inside
   // <h2>Certificado energético</h2>. The icon class encodes the letter.
   const energyIcons: string[] = [];
-  $('.details-property_features li .icon-energy-c-a, ' +
-    '.details-property_features li .icon-energy-c-b, ' +
-    '.details-property_features li .icon-energy-c-c, ' +
-    '.details-property_features li .icon-energy-c-d, ' +
-    '.details-property_features li .icon-energy-c-e, ' +
-    '.details-property_features li .icon-energy-c-f, ' +
-    '.details-property_features li .icon-energy-c-g').each((_, el) => {
+  $(
+    '.details-property_features li .icon-energy-c-a, ' +
+      '.details-property_features li .icon-energy-c-b, ' +
+      '.details-property_features li .icon-energy-c-c, ' +
+      '.details-property_features li .icon-energy-c-d, ' +
+      '.details-property_features li .icon-energy-c-e, ' +
+      '.details-property_features li .icon-energy-c-f, ' +
+      '.details-property_features li .icon-energy-c-g',
+  ).each((_, el) => {
     const classAttr = $(el).attr('class') ?? '';
     energyIcons.push(classAttr);
   });

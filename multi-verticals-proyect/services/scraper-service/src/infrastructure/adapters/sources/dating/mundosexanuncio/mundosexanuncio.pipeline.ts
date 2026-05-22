@@ -3,11 +3,7 @@ import { DatingPipelineBase } from '../dating-pipeline.base.js';
 import { extractMundosexanuncio } from './mundosexanuncio.extractor.js';
 import { mapMundosexanuncio } from './mundosexanuncio.mapper.js';
 
-const COOKIE_SELECTORS = [
-  'button.accept-cookies',
-  '#cookie-accept',
-  '[data-cc="accept-all"]',
-];
+const COOKIE_SELECTORS = ['button.accept-cookies', '#cookie-accept', '[data-cc="accept-all"]'];
 
 const AGE_GATE_SELECTORS = ['button:contains("Acceder")', '.age-gate button'];
 

@@ -9,9 +9,10 @@
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
-import { Madrid69Pipeline } from '../madrid69/madrid69.pipeline.js';
-import { mapMadrid69, type MapperOptions } from '../madrid69/madrid69.mapper.js';
+import type { MapperOptions } from '../madrid69/madrid69.mapper.js';
 import type { Madrid69Payload } from '../madrid69/madrid69.types.js';
+import { mapMadrid69 } from '../madrid69/madrid69.mapper.js';
+import { Madrid69Pipeline } from '../madrid69/madrid69.pipeline.js';
 
 export const VALENCIACITAS_SOURCE = 'valenciacitas';
 

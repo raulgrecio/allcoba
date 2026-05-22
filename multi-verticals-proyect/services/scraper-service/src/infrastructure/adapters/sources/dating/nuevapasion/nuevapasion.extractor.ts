@@ -7,12 +7,12 @@
 
 import * as cheerio from 'cheerio';
 
+import type { NuevapasionPayload, NuevapasionPhoto } from './nuevapasion.types.js';
 import {
   parseNicknameFromTitle,
   parseNuevapasionPhone,
   parseSourceIdFromUrl,
 } from './nuevapasion.parsers.js';
-import type { NuevapasionPayload, NuevapasionPhoto } from './nuevapasion.types.js';
 
 export const extractNuevapasion = (html: string, sourceUrl: string): NuevapasionPayload => {
   const $ = cheerio.load(html);

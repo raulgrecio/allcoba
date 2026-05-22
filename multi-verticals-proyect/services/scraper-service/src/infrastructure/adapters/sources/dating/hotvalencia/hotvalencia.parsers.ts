@@ -19,6 +19,9 @@ export const parseHotvalenciaPhone = (href: string | undefined): string | undefi
 
 /** Parse nickname from title: first word. */
 export const parseNicknameFromTitle = (title: string): string | undefined => {
-  const first = title.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim();
+  const first = title
+    .split(/\s+/)[0]
+    ?.replace(/[,;:]+$/, '')
+    .trim();
   return first || undefined;
 };

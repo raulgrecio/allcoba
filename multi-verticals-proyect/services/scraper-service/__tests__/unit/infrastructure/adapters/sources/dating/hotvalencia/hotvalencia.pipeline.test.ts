@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractHotvalencia } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.extractor.js';
-import { mapHotvalencia, HOTVALENCIA_SOURCE } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.mapper.js';
+import {
+  HOTVALENCIA_SOURCE,
+  mapHotvalencia,
+} from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

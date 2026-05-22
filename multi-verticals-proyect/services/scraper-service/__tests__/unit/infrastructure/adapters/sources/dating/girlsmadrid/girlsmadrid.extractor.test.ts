@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeAll } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
-import { extractGirlsMadrid } from '#infrastructure/adapters/sources/dating/girlsmadrid/girlsmadrid.extractor.js';
 import type { GirlsBcnPayload } from '#infrastructure/adapters/sources/dating/girlsbcn/girlsbcn.types.js';
+import { extractGirlsMadrid } from '#infrastructure/adapters/sources/dating/girlsmadrid/girlsmadrid.extractor.js';
 
 import { loadHtmlFixture } from './helpers/load-fixtures.js';
 
@@ -25,8 +25,7 @@ describe('extractGirlsMadrid — lucia167', () => {
   });
 
   describe('bio', () => {
-    it('extracts presentación text', () =>
-      expect(payload.bio).toMatch(/universidad|madrileña/i));
+    it('extracts presentación text', () => expect(payload.bio).toMatch(/universidad|madrileña/i));
   });
 
   describe('params', () => {
@@ -53,8 +52,7 @@ describe('extractGirlsMadrid — lucia167', () => {
   describe('contact', () => {
     it('extracts phone', () => expect(payload.phone).toBe('641351077'));
     it('extracts whatsapp phone', () => expect(payload.whatsappPhone).toBe('+34641351077'));
-    it('extracts whatsapp href', () =>
-      expect(payload.whatsappHref).toMatch(/wa\.me\/34641351077/));
+    it('extracts whatsapp href', () => expect(payload.whatsappHref).toMatch(/wa\.me\/34641351077/));
   });
 
   describe('photos', () => {

@@ -85,13 +85,11 @@ export const err = <E extends DomainError>(error: E): Result<never, E> => ({
   error,
 });
 
-export const isOk = <T, E extends DomainError>(
-  r: Result<T, E>,
-): r is { ok: true; value: T } => r.ok;
+export const isOk = <T, E extends DomainError>(r: Result<T, E>): r is { ok: true; value: T } =>
+  r.ok;
 
-export const isErr = <T, E extends DomainError>(
-  r: Result<T, E>,
-): r is { ok: false; error: E } => !r.ok;
+export const isErr = <T, E extends DomainError>(r: Result<T, E>): r is { ok: false; error: E } =>
+  !r.ok;
 
 /** Map over the success side, leaving errors untouched. */
 export const mapResult = <T, U, E extends DomainError>(

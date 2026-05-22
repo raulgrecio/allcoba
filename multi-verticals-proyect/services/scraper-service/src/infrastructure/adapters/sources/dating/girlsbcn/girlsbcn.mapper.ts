@@ -1,18 +1,5 @@
-/**
- * GirlsBCN / GirlsMadrid mapper — shared, pure, async.
- *
- * Both sites produce a `GirlsBcnPayload` (same shape, different extractor).
- * The `source` parameter distinguishes them for externalRefs and id generation.
- */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
@@ -20,6 +7,7 @@ import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { Confidence } from '#domain/canonical/confidence.js';
 
+import type { GirlsBcnPayload } from './girlsbcn.types.js';
 import {
   parseGBCNAge,
   parseGBCNHeightCm,
@@ -28,7 +16,13 @@ import {
   parseGBCNWeightKg,
   slugifyGBCN,
 } from './girlsbcn.parsers.js';
-import type { GirlsBcnPayload } from './girlsbcn.types.js';
+
+/**
+ * GirlsBCN / GirlsMadrid mapper — shared, pure, async.
+ *
+ * Both sites produce a `GirlsBcnPayload` (same shape, different extractor).
+ * The `source` parameter distinguishes them for externalRefs and id generation.
+ */
 
 export const GIRLSBCN_SOURCE = 'girlsbcn';
 export const GIRLSMADRID_SOURCE = 'girlsmadrid';

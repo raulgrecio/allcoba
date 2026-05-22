@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.extractor.js';
-import { mapNuevoloquo, NUEVOLOQUO_SOURCE } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.mapper.js';
+import {
+  mapNuevoloquo,
+  NUEVOLOQUO_SOURCE,
+} from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

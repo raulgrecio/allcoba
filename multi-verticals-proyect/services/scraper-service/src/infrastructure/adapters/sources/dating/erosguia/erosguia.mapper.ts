@@ -1,3 +1,15 @@
+import type { PersonalDetailsCanonical, ProfileVerificationStatus } from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { ErosguiaPayload } from './erosguia.types.js';
+import { parseErosguiaAge, parseErosguiaHeightCm, slugifyErosguia } from './erosguia.parsers.js';
+
 /**
  * Erosguia mapper — ErosguiaPayload → ScrapedProvider (pure, async).
  *
@@ -8,24 +20,6 @@
  *   - Services stored in attributes.services (hobby tags, not escort services)
  *   - Confidence.high (has call phone + WA, structured city/nationality fields)
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import { parseErosguiaAge, parseErosguiaHeightCm, slugifyErosguia } from './erosguia.parsers.js';
-import type { ErosguiaPayload } from './erosguia.types.js';
 
 export const EROSGUIA_SOURCE = 'erosguia';
 

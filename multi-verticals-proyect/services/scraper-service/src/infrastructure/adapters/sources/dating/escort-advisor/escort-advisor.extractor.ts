@@ -6,19 +6,19 @@
  * Personal info: .personal-info .info-list li with "Label: value" format.
  */
 
-import * as cheerio from 'cheerio';
 import type { CheerioAPI } from 'cheerio';
+import * as cheerio from 'cheerio';
 
-import {
-  parseSourceIdFromUrl,
-  parseEscortAdvisorPhone,
-  parseFirstInt,
-} from './escort-advisor.parsers.js';
 import type {
   EscortAdvisorParams,
   EscortAdvisorPayload,
   EscortAdvisorPhoto,
 } from './escort-advisor.types.js';
+import {
+  parseEscortAdvisorPhone,
+  parseFirstInt,
+  parseSourceIdFromUrl,
+} from './escort-advisor.parsers.js';
 
 const getPersonalInfoField = ($: CheerioAPI, label: string): string | undefined => {
   const text = $('.personal-info .info-list li')

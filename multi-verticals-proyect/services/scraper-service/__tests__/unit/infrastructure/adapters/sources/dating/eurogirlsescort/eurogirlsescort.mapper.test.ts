@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
+import type { EuroGirlsEscortPayload } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.types.js';
 import {
   EUROGIRLSESCORT_SOURCE,
   mapEuroGirlsEscort,
 } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.mapper.js';
-import type { EuroGirlsEscortPayload } from '#infrastructure/adapters/sources/dating/eurogirlsescort/eurogirlsescort.types.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
@@ -70,9 +70,33 @@ const sofiaPayload: EuroGirlsEscortPayload = {
   mapData: { lat: 3.1506, lng: 101.6945, zoom: 16 },
   workingTime: { nonstop: true },
   rates: [
-    { duration: '0.5 Hour', incallAmount: 600, incallCurrency: 'MYR', incallEurAmount: 130, outcallAmount: 1000, outcallCurrency: 'MYR', outcallEurAmount: 216 },
-    { duration: '1 Hour', incallAmount: 1000, incallCurrency: 'MYR', incallEurAmount: 216, outcallAmount: 1200, outcallCurrency: 'MYR', outcallEurAmount: 260 },
-    { duration: '24 Hours', incallAmount: 8000, incallCurrency: 'MYR', incallEurAmount: 1730, outcallAmount: 8000, outcallCurrency: 'MYR', outcallEurAmount: 1730 },
+    {
+      duration: '0.5 Hour',
+      incallAmount: 600,
+      incallCurrency: 'MYR',
+      incallEurAmount: 130,
+      outcallAmount: 1000,
+      outcallCurrency: 'MYR',
+      outcallEurAmount: 216,
+    },
+    {
+      duration: '1 Hour',
+      incallAmount: 1000,
+      incallCurrency: 'MYR',
+      incallEurAmount: 216,
+      outcallAmount: 1200,
+      outcallCurrency: 'MYR',
+      outcallEurAmount: 260,
+    },
+    {
+      duration: '24 Hours',
+      incallAmount: 8000,
+      incallCurrency: 'MYR',
+      incallEurAmount: 1730,
+      outcallAmount: 8000,
+      outcallCurrency: 'MYR',
+      outcallEurAmount: 1730,
+    },
   ],
   services: [
     { name: '69 position', included: true, extra: false },

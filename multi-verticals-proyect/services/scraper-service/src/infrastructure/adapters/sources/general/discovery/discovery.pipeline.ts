@@ -1,7 +1,7 @@
+import type { DiscoveryPayload } from './discovery.types.js';
 import { GeneralPipelineBase } from '../general-pipeline.base.js';
 import { extractDiscovery } from './discovery.extractor.js';
 import { mapDiscovery } from './discovery.mapper.js';
-import type { DiscoveryPayload } from './discovery.types.js';
 
 /**
  * DiscoveryPipeline — catch-all v2 para URLs que no matchean ningún portal

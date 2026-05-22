@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractCitapasion } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { CitapasionPayload } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.types.js';
+import { extractCitapasion } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://citapasion.com/escorts/17533';

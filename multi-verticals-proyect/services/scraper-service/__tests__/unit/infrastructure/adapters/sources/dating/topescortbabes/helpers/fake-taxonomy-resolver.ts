@@ -1,3 +1,24 @@
+import type {
+  CityId,
+  CountryId,
+  EthnicId,
+  EyeId,
+  HairId,
+  NationalityId,
+  OrientationId,
+} from '@allcoba/shared-types';
+import {
+  asCityId,
+  asCountryId,
+  asEthnicId,
+  asEyeId,
+  asHairId,
+  asNationalityId,
+  asOrientationId,
+} from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+
 /**
  * FakeTaxonomyResolver — deterministic, in-memory implementation of
  * TaxonomyResolverPort for unit tests.
@@ -8,38 +29,12 @@
  * Use `withMisses({...})` to simulate catalog misses for specific slugs.
  */
 
-import {
-  asCityId,
-  asCountryId,
-  asEthnicId,
-  asEyeId,
-  asHairId,
-  asNationalityId,
-  asOrientationId,
-  type CityId,
-  type CountryId,
-  type EthnicId,
-  type EyeId,
-  type HairId,
-  type NationalityId,
-  type OrientationId,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-
 export interface FakeResolverConfig {
   /** Slugs (per kind) that should resolve to null instead of a synthetic id. */
   misses?: Partial<Record<TaxonomyKind, ReadonlySet<string>>>;
 }
 
-type TaxonomyKind =
-  | 'city'
-  | 'country'
-  | 'nationality'
-  | 'ethnic'
-  | 'hair'
-  | 'eye'
-  | 'orientation';
+type TaxonomyKind = 'city' | 'country' | 'nationality' | 'ethnic' | 'hair' | 'eye' | 'orientation';
 
 export class FakeTaxonomyResolver implements TaxonomyResolverPort {
   constructor(private readonly config: FakeResolverConfig = {}) {}

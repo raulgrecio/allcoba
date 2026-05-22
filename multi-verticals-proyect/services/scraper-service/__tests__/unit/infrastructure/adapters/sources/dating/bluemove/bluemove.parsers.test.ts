@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
-  parseCityFromUrl,
   parseBluemovePhone,
   parseBluemoveWhatsapp,
-  parseTelegramHandle,
+  parseBoolNotNo,
+  parseCityFromUrl,
+  parseFirstInt,
   parseInstagramHandle,
   parseNicknameFromAlt,
-  parseFirstInt,
-  parseBoolNotNo,
+  parseSourceIdFromUrl,
+  parseTelegramHandle,
   stripProvince,
 } from '#infrastructure/adapters/sources/dating/bluemove/bluemove.parsers.js';
 
@@ -66,7 +67,9 @@ describe('parseTelegramHandle', () => {
 
 describe('parseInstagramHandle', () => {
   it('extracts handle from instagram.com URL', () => {
-    expect(parseInstagramHandle('https://www.instagram.com/beatriz_escort_madrid')).toBe('beatriz_escort_madrid');
+    expect(parseInstagramHandle('https://www.instagram.com/beatriz_escort_madrid')).toBe(
+      'beatriz_escort_madrid',
+    );
   });
   it('returns undefined for non-instagram', () => {
     expect(parseInstagramHandle(undefined)).toBeUndefined();
@@ -101,7 +104,8 @@ describe('parseFirstInt', () => {
 describe('parseBoolNotNo', () => {
   it('returns false for "No"', () => expect(parseBoolNotNo('No')).toBe(false));
   it('returns true for "Si"', () => expect(parseBoolNotNo('Si')).toBe(true));
-  it('returns true for other values', () => expect(parseBoolNotNo('Tatuajes discretos')).toBe(true));
+  it('returns true for other values', () =>
+    expect(parseBoolNotNo('Tatuajes discretos')).toBe(true));
   it('returns undefined for undefined', () => expect(parseBoolNotNo(undefined)).toBeUndefined());
 });
 

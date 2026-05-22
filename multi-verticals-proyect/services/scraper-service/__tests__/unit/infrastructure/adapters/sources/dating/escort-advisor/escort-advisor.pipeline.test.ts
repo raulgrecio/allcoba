@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractEscortAdvisor } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.extractor.js';
-import { mapEscortAdvisor, ESCORT_ADVISOR_SOURCE } from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.mapper.js';
+import {
+  ESCORT_ADVISOR_SOURCE,
+  mapEscortAdvisor,
+} from '#infrastructure/adapters/sources/dating/escort-advisor/escort-advisor.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

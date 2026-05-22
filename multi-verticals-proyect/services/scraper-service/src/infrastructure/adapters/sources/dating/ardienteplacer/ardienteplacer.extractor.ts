@@ -12,6 +12,11 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
+import type {
+  ArdientePlacerParams,
+  ArdientePlacerPayload,
+  ArdientePlacerPhoto,
+} from './ardienteplacer.types.js';
 import {
   extractArdientePlacerWhatsappPhone,
   parseCityFromUrl,
@@ -19,11 +24,6 @@ import {
   parsePhoneFromUrl,
   parseSourceIdFromUrl,
 } from './ardienteplacer.parsers.js';
-import type {
-  ArdientePlacerParams,
-  ArdientePlacerPayload,
-  ArdientePlacerPhoto,
-} from './ardienteplacer.types.js';
 
 // ============================================================================
 // Field extractors
@@ -75,18 +75,25 @@ const extractParams = ($: CheerioAPI, url: string): ArdientePlacerParams => {
 
 const extractServices = ($: CheerioAPI): string[] => {
   const services: string[] = [];
-  $('h5.titulo:contains("Servicios")').nextAll('ul.list-unstyled').first().find('li').each((_, el) => {
-    const name = $(el).text().trim();
-    if (name) services.push(name);
-  });
+  $('h5.titulo:contains("Servicios")')
+    .nextAll('ul.list-unstyled')
+    .first()
+    .find('li')
+    .each((_, el) => {
+      const name = $(el).text().trim();
+      if (name) services.push(name);
+    });
   // Fallback: h5.titulo ~ ul.list-unstyled
   if (services.length === 0) {
     $('h5.titulo').each((_, h5) => {
       if ($(h5).text().toLowerCase().includes('servicio')) {
-        $(h5).next('ul.list-unstyled').find('li').each((_, el) => {
-          const name = $(el).text().trim();
-          if (name) services.push(name);
-        });
+        $(h5)
+          .next('ul.list-unstyled')
+          .find('li')
+          .each((_, el) => {
+            const name = $(el).text().trim();
+            if (name) services.push(name);
+          });
       }
     });
   }

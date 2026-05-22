@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { mapLoquosex } from '#infrastructure/adapters/sources/dating/loquosex/loquosex.mapper.js';
 import type { LoquosexPayload } from '#infrastructure/adapters/sources/dating/loquosex/loquosex.types.js';
+import { mapLoquosex } from '#infrastructure/adapters/sources/dating/loquosex/loquosex.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 

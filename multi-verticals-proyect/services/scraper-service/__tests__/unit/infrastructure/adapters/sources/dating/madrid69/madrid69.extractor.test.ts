@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { Madrid69Payload } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.types.js';
+import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
+
 import { loadHtml, loadJson } from './helpers/load-fixtures.js';
 
 const SOURCE_URL =
@@ -18,8 +20,7 @@ describe('extractMadrid69 — fixture kheila_44064 (head-only)', () => {
   it('sourceUrl preserved', () => expect(payload.sourceUrl).toBe(SOURCE_URL));
   it('title extracted from <title>', () => expect(payload.title).toContain('Kheila'));
   it('nickname = Kheila', () => expect(payload.nickname).toBe('Kheila'));
-  it('bio from meta description', () =>
-    expect(payload.bio).toContain('Soy Kheila'));
+  it('bio from meta description', () => expect(payload.bio).toContain('Soy Kheila'));
   it('phone from title "tel: 644417235"', () => expect(payload.phone).toBe('644417235'));
   it('city = madrid (from URL)', () => expect(payload.city).toBe('madrid'));
   it('2 CDN profile photos', () => expect(payload.photos).toHaveLength(2));
@@ -110,7 +111,10 @@ describe('extractMadrid69 — fallback branches', () => {
     const html = `<html><head>
       <meta property="og:title" content="Carmen - escort Madrid | Madrid69">
     </head><body></body></html>`;
-    const p = extractMadrid69(html, 'https://www.madrid69.com/citas-chicas-madrid-99999-carmen-699000111');
+    const p = extractMadrid69(
+      html,
+      'https://www.madrid69.com/citas-chicas-madrid-99999-carmen-699000111',
+    );
     expect(p.title).toBe('Carmen - escort Madrid | Madrid69');
     expect(p.nickname).toBe('Carmen');
   });
@@ -120,7 +124,10 @@ describe('extractMadrid69 — fallback branches', () => {
       <title>Sofia - tel: 611223344 | Madrid69</title>
       <meta property="og:description" content="Soy Sofia, escort independiente en Madrid.">
     </head><body></body></html>`;
-    const p = extractMadrid69(html, 'https://www.madrid69.com/citas-chicas-madrid-99999-sofia-611223344');
+    const p = extractMadrid69(
+      html,
+      'https://www.madrid69.com/citas-chicas-madrid-99999-sofia-611223344',
+    );
     expect(p.bio).toBe('Soy Sofia, escort independiente en Madrid.');
   });
 

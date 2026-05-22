@@ -1,8 +1,4 @@
-import type {
-  EnergyRating,
-  PropertyListingType,
-  PropertyType,
-} from '@allcoba/shared-types';
+import type { EnergyRating, PropertyListingType, PropertyType } from '@allcoba/shared-types';
 
 export interface IdealistaPhoto {
   readonly position: number;

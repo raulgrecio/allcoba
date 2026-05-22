@@ -7,8 +7,9 @@ import type {
   RawPayloadRepositoryPort,
 } from '#application/ports/raw-payload.port.js';
 
+import type { NewRawPayloadRow, RawPayloadRow } from '../schema/scraper.schema.js';
 import * as schema from '../schema/scraper.schema.js';
-import { rawPayloads, type NewRawPayloadRow, type RawPayloadRow } from '../schema/scraper.schema.js';
+import { rawPayloads } from '../schema/scraper.schema.js';
 
 /**
  * DrizzleRawPayloadRepository — PG-backed raw payload store.

@@ -2,15 +2,13 @@ import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
-import { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
 import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
-import {
-  isScrapingPipelinePort,
-  type AnyPipelinePort,
-} from '#application/ports/scraping-pipeline.port.js';
+import type { AnyPipelinePort } from '#application/ports/scraping-pipeline.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
+import { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
+import { isScrapingPipelinePort } from '#application/ports/scraping-pipeline.port.js';
 
 export interface ScraperConfig {
   headless?: boolean;

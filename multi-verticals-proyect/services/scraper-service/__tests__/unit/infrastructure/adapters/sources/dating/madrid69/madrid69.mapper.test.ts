@@ -1,14 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { mapMadrid69, MADRID69_SOURCE } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.mapper.js';
+
 import type { Madrid69Payload } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.types.js';
+import {
+  MADRID69_SOURCE,
+  mapMadrid69,
+} from '#infrastructure/adapters/sources/dating/madrid69/madrid69.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');
 
 const BASE_PAYLOAD: Madrid69Payload = {
   sourceId: '44064',
-  sourceUrl:
-    'https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235',
+  sourceUrl: 'https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235',
   title: 'Kheila, pura ternura - tel: 644417235 | Conocer chicas en Madrid.',
   nickname: 'Kheila',
   bio: 'Soy Kheila, una chica auténtica, educada y elegante.',
@@ -88,11 +92,9 @@ describe('mapMadrid69 — city', () => {
   });
 
   it('no city → baseCity undefined', async () => {
-    const sp = await mapMadrid69(
-      { ...BASE_PAYLOAD, city: undefined },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapMadrid69({ ...BASE_PAYLOAD, city: undefined }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.baseCity).toBeUndefined();
   });
 });
@@ -130,11 +132,9 @@ describe('mapMadrid69 — attributes', () => {
   });
 
   it('vip badge set when isVip = true', async () => {
-    const sp = await mapMadrid69(
-      { ...BASE_PAYLOAD, isVip: true },
-      new FakeTaxonomyResolver(),
-      { now: NOW },
-    );
+    const sp = await mapMadrid69({ ...BASE_PAYLOAD, isVip: true }, new FakeTaxonomyResolver(), {
+      now: NOW,
+    });
     expect(sp.badges.vip).toBe(true);
   });
 });

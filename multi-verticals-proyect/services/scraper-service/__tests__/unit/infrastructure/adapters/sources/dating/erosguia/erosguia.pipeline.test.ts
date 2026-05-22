@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { extractErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.extractor.js';
 import { mapErosguia } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.mapper.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
-import { loadHtmlFixture, listHtmlFixtures } from './helpers/load-fixtures.js';
+import { listHtmlFixtures, loadHtmlFixture } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://www.erosguia.com/55383.html';
 

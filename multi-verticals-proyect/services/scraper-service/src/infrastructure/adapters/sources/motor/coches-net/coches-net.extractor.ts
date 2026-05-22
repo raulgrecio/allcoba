@@ -1,3 +1,4 @@
+import type { CochesNetPayload, CochesNetPhoto } from './coches-net.types.js';
 import {
   parseBodyType,
   parseColor,
@@ -7,7 +8,6 @@ import {
   parseSourceIdFromUrl,
   parseTransmission,
 } from './coches-net.parsers.js';
-import type { CochesNetPayload, CochesNetPhoto } from './coches-net.types.js';
 
 interface CochesNetAd {
   id?: string | number;

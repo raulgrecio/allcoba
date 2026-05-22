@@ -6,8 +6,8 @@
 
 import * as cheerio from 'cheerio';
 
-import { hashUrl } from './discovery.parsers.js';
 import type { DiscoveryPayload, DiscoveryPhoto } from './discovery.types.js';
+import { hashUrl } from './discovery.parsers.js';
 
 const IMAGE_SELECTORS = [
   'meta[property="og:image"]',
@@ -20,10 +20,7 @@ const IMAGE_SELECTORS = [
 export function extractDiscovery(html: string, sourceUrl: string): DiscoveryPayload {
   const $ = cheerio.load(html);
 
-  const title =
-    $('title').first().text().trim() ||
-    $('h1').first().text().trim() ||
-    'Sin título';
+  const title = $('title').first().text().trim() || $('h1').first().text().trim() || 'Sin título';
 
   const description =
     $('meta[name="description"]').attr('content')?.trim() ||
@@ -35,8 +32,7 @@ export function extractDiscovery(html: string, sourceUrl: string): DiscoveryPayl
 
   for (const selector of IMAGE_SELECTORS) {
     $(selector).each((_, el) => {
-      const raw =
-        $(el).attr('content') ?? $(el).attr('src') ?? $(el).attr('data-src') ?? '';
+      const raw = $(el).attr('content') ?? $(el).attr('src') ?? $(el).attr('data-src') ?? '';
       if (!raw) return;
       try {
         const abs = new URL(raw, sourceUrl).toString();

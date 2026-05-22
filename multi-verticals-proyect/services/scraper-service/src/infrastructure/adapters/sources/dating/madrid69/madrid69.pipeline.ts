@@ -55,9 +55,7 @@ export class Madrid69Pipeline extends DatingPipelineBase<Madrid69Payload> {
       captureNetwork: true,
       onBeforeCapture: async (page) => {
         if (isProfile) return;
-        await page
-          .waitForSelector('a[href*="citas-chicas-"]', { timeout: 15000 })
-          .catch(() => {});
+        await page.waitForSelector('a[href*="citas-chicas-"]', { timeout: 15000 }).catch(() => {});
       },
     };
   }

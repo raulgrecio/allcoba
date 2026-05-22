@@ -1,14 +1,14 @@
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
-import {
-  ValenciacitasPipeline,
-  VALENCIACITAS_SOURCE,
-} from '#infrastructure/adapters/sources/dating/valenciacitas/valenciacitas.pipeline.js';
-import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
+import {
+  VALENCIACITAS_SOURCE,
+  ValenciacitasPipeline,
+} from '#infrastructure/adapters/sources/dating/valenciacitas/valenciacitas.pipeline.js';
 
 // valenciacitas reusa el HTML Next.js de madrid69 → fixture compartido
 const MADRID69_FIXTURES = join(
@@ -18,8 +18,7 @@ const MADRID69_FIXTURES = join(
   'fixtures',
   'html',
 );
-const loadHtml = (name: string): string =>
-  readFileSync(join(MADRID69_FIXTURES, name), 'utf8');
+const loadHtml = (name: string): string => readFileSync(join(MADRID69_FIXTURES, name), 'utf8');
 
 const SOURCE_URL =
   'https://www.valenciacitas.com/citas-chicas-valencia-44064-kheila-pura-ternura-644417235';

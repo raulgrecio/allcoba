@@ -745,15 +745,12 @@ export interface TopEscortBabesPayload extends TopEscortBabesProfile {
 // 7. Helpers de discriminación de tipos
 // ============================================================================
 
-export const isSchemaPerson = (n: SchemaGraphNode): n is SchemaPerson =>
-  n['@type'] === 'Person';
+export const isSchemaPerson = (n: SchemaGraphNode): n is SchemaPerson => n['@type'] === 'Person';
 export const isSchemaOrganization = (n: SchemaGraphNode): n is SchemaOrganization =>
   n['@type'] === 'Organization';
-export const isSchemaService = (n: SchemaGraphNode): n is SchemaService =>
-  n['@type'] === 'Service';
+export const isSchemaService = (n: SchemaGraphNode): n is SchemaService => n['@type'] === 'Service';
 export const isSchemaProfilePage = (n: SchemaGraphNode): n is SchemaProfilePage =>
   n['@type'] === 'ProfilePage';
 export const isSchemaBreadcrumbList = (n: SchemaGraphNode): n is SchemaBreadcrumbList =>
   n['@type'] === 'BreadcrumbList';
-export const isSchemaFAQPage = (n: SchemaGraphNode): n is SchemaFAQPage =>
-  n['@type'] === 'FAQPage';
+export const isSchemaFAQPage = (n: SchemaGraphNode): n is SchemaFAQPage => n['@type'] === 'FAQPage';

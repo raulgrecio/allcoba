@@ -7,19 +7,19 @@
  */
 
 import { randomUUID } from 'node:crypto';
-
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
 import { asProviderId } from '@allcoba/shared-types';
 
-import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
-import * as schema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
-import { asConfidence } from '#domain/canonical/confidence.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
+import { asConfidence } from '#domain/canonical/confidence.js';
+import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
+import * as schema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
 
-import { setupTestDb, truncateAll, type TestDb } from '../../../../helpers/test-db.js';
+import type { TestDb } from '../../../../helpers/test-db.js';
+import { setupTestDb, truncateAll } from '../../../../helpers/test-db.js';
 
 const NOW = '2026-05-17T12:00:00.000Z';
 
@@ -118,18 +118,13 @@ describe('DrizzleScrapedEntityRepository<ScrapedProperty>', () => {
       env.db,
       schema.realEstateProviders,
     );
-    expect(
-      await repo.findByExternalRef({ source: 'idealista', sourceId: 'missing' }),
-    ).toBeNull();
+    expect(await repo.findByExternalRef({ source: 'idealista', sourceId: 'missing' })).toBeNull();
   });
 });
 
 describe('DrizzleScrapedEntityRepository<ScrapedVehicle>', () => {
   it('persists into scraped_motor and reads back', async () => {
-    const repo = new DrizzleScrapedEntityRepository<ScrapedVehicle>(
-      env.db,
-      schema.motorProviders,
-    );
+    const repo = new DrizzleScrapedEntityRepository<ScrapedVehicle>(env.db, schema.motorProviders);
     const vehicle = makeVehicle('coches-net-42');
 
     await repo.create(vehicle);

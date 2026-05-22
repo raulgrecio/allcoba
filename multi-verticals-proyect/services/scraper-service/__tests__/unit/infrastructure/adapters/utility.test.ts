@@ -3,30 +3,44 @@
  * NullTaxonomyResolver, InMemoryProviderRepository, country-resolver.
  */
 
-import { describe, expect, it } from 'vitest';
 import { randomUUID } from 'node:crypto';
+import { describe, expect, it } from 'vitest';
 
 import { asProviderId } from '@allcoba/shared-types';
 
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
+import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
 import { resolveCountryCode } from '#infrastructure/utils/country-resolver.js';
-import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
-import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 
 // ── NullTaxonomyResolver ──────────────────────────────────────────────────────
 
 describe('NullTaxonomyResolver', () => {
   const r = new NullTaxonomyResolver();
 
-  it('resolveCity returns null', async () => { expect(await r.resolveCity('madrid', 'ES')).toBeNull(); });
-  it('resolveCountry returns null', async () => { expect(await r.resolveCountry('ES')).toBeNull(); });
-  it('resolveNationality returns null', async () => { expect(await r.resolveNationality('spanish')).toBeNull(); });
-  it('resolveEthnic returns null', async () => { expect(await r.resolveEthnic('latina')).toBeNull(); });
-  it('resolveHair returns null', async () => { expect(await r.resolveHair('brown')).toBeNull(); });
-  it('resolveEye returns null', async () => { expect(await r.resolveEye('blue')).toBeNull(); });
-  it('resolveOrientation returns null', async () => { expect(await r.resolveOrientation('straight')).toBeNull(); });
+  it('resolveCity returns null', async () => {
+    expect(await r.resolveCity('madrid', 'ES')).toBeNull();
+  });
+  it('resolveCountry returns null', async () => {
+    expect(await r.resolveCountry('ES')).toBeNull();
+  });
+  it('resolveNationality returns null', async () => {
+    expect(await r.resolveNationality('spanish')).toBeNull();
+  });
+  it('resolveEthnic returns null', async () => {
+    expect(await r.resolveEthnic('latina')).toBeNull();
+  });
+  it('resolveHair returns null', async () => {
+    expect(await r.resolveHair('brown')).toBeNull();
+  });
+  it('resolveEye returns null', async () => {
+    expect(await r.resolveEye('blue')).toBeNull();
+  });
+  it('resolveOrientation returns null', async () => {
+    expect(await r.resolveOrientation('straight')).toBeNull();
+  });
 });
 
 // ── InMemoryProviderRepository ────────────────────────────────────────────────
@@ -100,7 +114,15 @@ describe('InMemoryProviderRepository', () => {
 
   it('find by imageHash', async () => {
     const repo = new InMemoryProviderRepository();
-    const p = makeProvider({ images: [{ hash: 'abc' as any, storedUrl: 'https://r2.com/img.jpg', originalUrl: 'https://src.com/img.jpg' }] });
+    const p = makeProvider({
+      images: [
+        {
+          hash: 'abc' as any,
+          storedUrl: 'https://r2.com/img.jpg',
+          originalUrl: 'https://src.com/img.jpg',
+        },
+      ],
+    });
     await repo.create(p);
     const results = await repo.find({ vertical: 'dating', imageHash: 'abc' as any });
     expect(results).toHaveLength(1);
@@ -110,7 +132,10 @@ describe('InMemoryProviderRepository', () => {
     const repo = new InMemoryProviderRepository();
     const p = makeProvider();
     await repo.create(p);
-    const results = await repo.find({ vertical: 'dating', externalRef: { source: 'test', sourceId: 'id-1' } });
+    const results = await repo.find({
+      vertical: 'dating',
+      externalRef: { source: 'test', sourceId: 'id-1' },
+    });
     expect(results).toHaveLength(1);
   });
 
@@ -118,7 +143,10 @@ describe('InMemoryProviderRepository', () => {
     const repo = new InMemoryProviderRepository();
     const p = makeProvider({ vertical: 'dating' });
     await repo.create(p);
-    const results = await repo.find({ vertical: 'general', externalRef: { source: 'test', sourceId: 'id-1' } });
+    const results = await repo.find({
+      vertical: 'general',
+      externalRef: { source: 'test', sourceId: 'id-1' },
+    });
     expect(results).toHaveLength(0);
   });
 
@@ -176,24 +204,46 @@ describe('asConfidence', () => {
 });
 
 describe('Confidence constants', () => {
-  it('high = 0.95', () => { expect(Confidence.high).toBe(0.95); });
-  it('medium = 0.8', () => { expect(Confidence.medium).toBe(0.8); });
-  it('low = 0.5', () => { expect(Confidence.low).toBe(0.5); });
+  it('high = 0.95', () => {
+    expect(Confidence.high).toBe(0.95);
+  });
+  it('medium = 0.8', () => {
+    expect(Confidence.medium).toBe(0.8);
+  });
+  it('low = 0.5', () => {
+    expect(Confidence.low).toBe(0.5);
+  });
 
-  it('isHigh true for >= 0.9', () => { expect(Confidence.isHigh(asConfidence(0.95))).toBe(true); });
-  it('isHigh false for < 0.9', () => { expect(Confidence.isHigh(asConfidence(0.5))).toBe(false); });
+  it('isHigh true for >= 0.9', () => {
+    expect(Confidence.isHigh(asConfidence(0.95))).toBe(true);
+  });
+  it('isHigh false for < 0.9', () => {
+    expect(Confidence.isHigh(asConfidence(0.5))).toBe(false);
+  });
 
-  it('isMedium true for 0.7-0.89', () => { expect(Confidence.isMedium(asConfidence(0.8))).toBe(true); });
-  it('isMedium false for < 0.7', () => { expect(Confidence.isMedium(asConfidence(0.5))).toBe(false); });
-  it('isMedium false for >= 0.9', () => { expect(Confidence.isMedium(asConfidence(0.95))).toBe(false); });
+  it('isMedium true for 0.7-0.89', () => {
+    expect(Confidence.isMedium(asConfidence(0.8))).toBe(true);
+  });
+  it('isMedium false for < 0.7', () => {
+    expect(Confidence.isMedium(asConfidence(0.5))).toBe(false);
+  });
+  it('isMedium false for >= 0.9', () => {
+    expect(Confidence.isMedium(asConfidence(0.95))).toBe(false);
+  });
 });
 
 // ── isDatingPipelinePort type guard ───────────────────────────────────────────
 
 describe('isDatingPipelinePort', () => {
-  it('returns false for null', () => { expect(isDatingPipelinePort(null)).toBe(false); });
-  it('returns false for undefined', () => { expect(isDatingPipelinePort(undefined)).toBe(false); });
-  it('returns false for empty object', () => { expect(isDatingPipelinePort({})).toBe(false); });
+  it('returns false for null', () => {
+    expect(isDatingPipelinePort(null)).toBe(false);
+  });
+  it('returns false for undefined', () => {
+    expect(isDatingPipelinePort(undefined)).toBe(false);
+  });
+  it('returns false for empty object', () => {
+    expect(isDatingPipelinePort({})).toBe(false);
+  });
   it('returns false when map missing', () => {
     expect(isDatingPipelinePort({ extract: () => {}, identifier: 'x' })).toBe(false);
   });
@@ -207,7 +257,9 @@ describe('isDatingPipelinePort', () => {
     expect(isDatingPipelinePort({ map: () => {}, extract: () => {} })).toBe(false);
   });
   it('returns true for valid dating pipeline port shape', () => {
-    expect(isDatingPipelinePort({ map: () => {}, extract: () => {}, identifier: 'test' })).toBe(true);
+    expect(isDatingPipelinePort({ map: () => {}, extract: () => {}, identifier: 'test' })).toBe(
+      true,
+    );
   });
 });
 

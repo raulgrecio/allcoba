@@ -55,7 +55,10 @@ export function parseCityFromMapsUrl(src: string): string | undefined {
   try {
     const url = new URL(src);
     const q = decodeURIComponent(url.searchParams.get('q') ?? '');
-    const city = q.split(/[\s,+]/)[0]?.toLowerCase().trim();
+    const city = q
+      .split(/[\s,+]/)[0]
+      ?.toLowerCase()
+      .trim();
     return city || undefined;
   } catch {}
   return undefined;

@@ -54,7 +54,10 @@ export const parseDestacamosHeightCm = (raw: string | undefined | null): number 
  */
 export const parseDestacamosLanguages = (raw: string | undefined | null): string[] => {
   if (!raw) return [];
-  return raw.split(',').map((l) => l.trim()).filter(Boolean);
+  return raw
+    .split(',')
+    .map((l) => l.trim())
+    .filter(Boolean);
 };
 
 /**

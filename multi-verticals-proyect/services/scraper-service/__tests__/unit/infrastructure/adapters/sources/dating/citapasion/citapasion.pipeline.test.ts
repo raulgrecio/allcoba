@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractCitapasion } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.extractor.js';
-import { mapCitapasion, CITAPASION_SOURCE } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.mapper.js';
+import {
+  CITAPASION_SOURCE,
+  mapCitapasion,
+} from '#infrastructure/adapters/sources/dating/citapasion/citapasion.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
+
 import {
-  parseSourceIdFromUrl,
-  parsePhoneFromSlug,
-  parseCityFromSlug,
-  parseNicknameFromMetaTitle,
   parseChicasmalasPhone,
   parseChicasmalasWhatsapp,
   parseCityFromMapsUrl,
+  parseCityFromSlug,
+  parseNicknameFromMetaTitle,
+  parsePhoneFromSlug,
+  parseSourceIdFromUrl,
 } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.parsers.js';
 
 describe('parseSourceIdFromUrl', () => {
@@ -15,10 +16,7 @@ describe('parseSourceIdFromUrl', () => {
       'https://www.chicasmalas.es/maria-escort-espanola-en-orihuela-697394223/',
       'maria-escort-espanola-en-orihuela-697394223',
     ],
-    [
-      'https://www.chicasmalas.es/sofia-escort-madrid-611223344',
-      'sofia-escort-madrid-611223344',
-    ],
+    ['https://www.chicasmalas.es/sofia-escort-madrid-611223344', 'sofia-escort-madrid-611223344'],
   ])('%s → %s', (url, expected) => {
     expect(parseSourceIdFromUrl(url)).toBe(expected);
   });
@@ -59,11 +57,9 @@ describe('parseNicknameFromMetaTitle', () => {
       'María',
     ));
 
-  it('handles single-word title', () =>
-    expect(parseNicknameFromMetaTitle('Sofia')).toBe('Sofia'));
+  it('handles single-word title', () => expect(parseNicknameFromMetaTitle('Sofia')).toBe('Sofia'));
 
-  it('returns undefined for empty', () =>
-    expect(parseNicknameFromMetaTitle('')).toBeUndefined());
+  it('returns undefined for empty', () => expect(parseNicknameFromMetaTitle('')).toBeUndefined());
 
   it('returns undefined when first token trims to empty string', () =>
     expect(parseNicknameFromMetaTitle(' Escort')).toBeUndefined());
@@ -84,10 +80,7 @@ describe('parseChicasmalasPhone', () => {
 
 describe('parseChicasmalasWhatsapp', () => {
   it.each([
-    [
-      'https://api.whatsapp.com/send?phone=+34697394223&text=Hola',
-      '697394223',
-    ],
+    ['https://api.whatsapp.com/send?phone=+34697394223&text=Hola', '697394223'],
     ['https://api.whatsapp.com/send?phone=34611223344', '611223344'],
     ['https://wa.me/34697394223', '697394223'],
     ['https://api.whatsapp.com/send?phone=123', undefined],
@@ -108,10 +101,7 @@ describe('parseChicasmalasWhatsapp', () => {
 
 describe('parseCityFromMapsUrl', () => {
   it.each([
-    [
-      'https://maps.google.com/maps?q=ORIHUELA%20ALICANTE&t=m&z=10&output=embed',
-      'orihuela',
-    ],
+    ['https://maps.google.com/maps?q=ORIHUELA%20ALICANTE&t=m&z=10&output=embed', 'orihuela'],
     ['https://maps.google.com/maps?q=MADRID&t=m', 'madrid'],
     ['https://maps.google.com/maps?q=Barcelona%2C+Espa%C3%B1a', 'barcelona'],
     ['https://other.com', undefined],

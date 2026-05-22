@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapHotvalencia, HOTVALENCIA_SOURCE } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.mapper.js';
+
 import type { HotvalenciaPayload } from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.types.js';
+import {
+  HOTVALENCIA_SOURCE,
+  mapHotvalencia,
+} from '#infrastructure/adapters/sources/dating/hotvalencia/hotvalencia.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');

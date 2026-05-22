@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { mapCitapasion, CITAPASION_SOURCE } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.mapper.js';
+
 import type { CitapasionPayload } from '#infrastructure/adapters/sources/dating/citapasion/citapasion.types.js';
+import {
+  CITAPASION_SOURCE,
+  mapCitapasion,
+} from '#infrastructure/adapters/sources/dating/citapasion/citapasion.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 
 const NOW = new Date('2026-01-01T00:00:00.000Z');

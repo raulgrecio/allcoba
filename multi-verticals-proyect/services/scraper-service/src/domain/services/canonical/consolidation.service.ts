@@ -6,13 +6,13 @@
  * Uses canonical types only (no @allcoba/legacy-domain).
  */
 
-import type { GeoPoint, PhoneE164, Email } from '@allcoba/shared-types';
+import type { Email, GeoPoint, PhoneE164 } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
+import type { ExternalRef } from '../../canonical/external-ref.js';
 import type { ScrapedProvider } from '../../canonical/scraped-provider.js';
 import type { ScraperSignal } from '../../canonical/signals.js';
 import { asConfidence, Confidence } from '../../canonical/confidence.js';
-import type { ExternalRef } from '../../canonical/external-ref.js';
 import { externalRefEquals, externalRefKey } from '../../canonical/external-ref.js';
 
 export type ConsolidationAction = 'CREATE' | 'MERGE' | 'FLAG_FOR_REVIEW' | 'IGNORE';

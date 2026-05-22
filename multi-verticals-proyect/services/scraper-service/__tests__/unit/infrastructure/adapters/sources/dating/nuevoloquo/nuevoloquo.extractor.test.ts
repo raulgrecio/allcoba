@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { NuevoloquoPayload } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.types.js';
+import { extractNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://nuevoloquo.es/escort/madrid/ana-martinez/67890/';

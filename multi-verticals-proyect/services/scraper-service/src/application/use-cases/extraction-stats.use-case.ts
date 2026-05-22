@@ -52,19 +52,20 @@ export interface StatsRequest {
 type FieldFn = (p: ScrapedProvider) => boolean;
 
 const FIELDS: Record<string, FieldFn> = {
-  nickname:    (p) => !!p.nickname,
-  phone:       (p) => !!p.phoneNumber,
-  whatsapp:    (p) => (p.contactOptions ?? []).includes('whatsapp'),
-  telegram:    (p) => !!(p.links as Record<string, unknown>)?.['telegram'] ||
-                      (p.contactOptions ?? []).includes('telegram'),
-  photos:      (p) => (p.photos?.length ?? 0) > 0,
-  bio:         (p) => !!(p.aboutMe as Record<string, unknown> | undefined)?.['original'],
-  city:        (p) => !!p.baseCity,
-  age:         (p) => ((p.personalDetails?.ageYears) ?? 0) > 0,
-  nationality: (p) => !!(p.personalDetails?.nationalityId),
-  services:    (p) => ((p.attributes?.['services'] as unknown[] | undefined)?.length ?? 0) > 0,
-  isVerified:  (p) => !!p.badges?.verified,
-  isVip:       (p) => !!p.badges?.vip,
+  nickname: (p) => !!p.nickname,
+  phone: (p) => !!p.phoneNumber,
+  whatsapp: (p) => (p.contactOptions ?? []).includes('whatsapp'),
+  telegram: (p) =>
+    !!(p.links as Record<string, unknown>)?.['telegram'] ||
+    (p.contactOptions ?? []).includes('telegram'),
+  photos: (p) => (p.photos?.length ?? 0) > 0,
+  bio: (p) => !!(p.aboutMe as Record<string, unknown> | undefined)?.['original'],
+  city: (p) => !!p.baseCity,
+  age: (p) => (p.personalDetails?.ageYears ?? 0) > 0,
+  nationality: (p) => !!p.personalDetails?.nationalityId,
+  services: (p) => ((p.attributes?.['services'] as unknown[] | undefined)?.length ?? 0) > 0,
+  isVerified: (p) => !!p.badges?.verified,
+  isVip: (p) => !!p.badges?.vip,
 };
 
 function sourceOf(p: ScrapedProvider): string {
@@ -125,9 +126,7 @@ export class ExtractionStatsUseCase {
   toBaselineData(sources: SourceStats[]): BaselineData {
     const data: BaselineData = {};
     for (const { source, fields } of sources) {
-      data[source] = Object.fromEntries(
-        Object.entries(fields).map(([f, s]) => [f, s.rate]),
-      );
+      data[source] = Object.fromEntries(Object.entries(fields).map(([f, s]) => [f, s.rate]));
     }
     return data;
   }

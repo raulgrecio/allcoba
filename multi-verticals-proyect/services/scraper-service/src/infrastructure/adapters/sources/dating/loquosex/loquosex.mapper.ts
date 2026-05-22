@@ -1,3 +1,24 @@
+import type {
+  PersonalDetailsCanonical,
+  PriceCanonical,
+  ProfileVerificationStatus,
+} from '@allcoba/shared-types';
+import { asPhoneE164, asProviderId, i18nFromOriginal } from '@allcoba/shared-types';
+
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+import { Confidence } from '#domain/canonical/confidence.js';
+
+import type { LoquosexPayload } from './loquosex.types.js';
+import {
+  parseLoquosexAge,
+  parseLoquosexMeetingPlaces,
+  parseLoquosexMinPrice,
+  slugifyLoquosex,
+} from './loquosex.parsers.js';
+
 /**
  * Loquosex mapper — LoquosexPayload → ScrapedProvider (pure, async).
  *
@@ -9,29 +30,6 @@
  *   - isPremium badge tracked in badges / attributes
  *   - sourceId = phone number (same as call phone)
  */
-
-import {
-  asPhoneE164,
-  asProviderId,
-  type PersonalDetailsCanonical,
-  type PriceCanonical,
-  type ProfileVerificationStatus,
-  i18nFromOriginal,
-} from '@allcoba/shared-types';
-
-import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import type { ExternalRef } from '#domain/canonical/external-ref.js';
-import type { ScrapedPhoto } from '#domain/canonical/scraped-photo.js';
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { Confidence } from '#domain/canonical/confidence.js';
-
-import {
-  parseLoquosexAge,
-  parseLoquosexMeetingPlaces,
-  parseLoquosexMinPrice,
-  slugifyLoquosex,
-} from './loquosex.parsers.js';
-import type { LoquosexPayload } from './loquosex.types.js';
 
 export const LOQUOSEX_SOURCE = 'loquosex';
 

@@ -50,9 +50,7 @@ describe('parseCityFromUrl', () => {
 
   it('replaces hyphens with spaces', () => {
     expect(
-      parseCityFromUrl(
-        'https://ardienteplacer.com/escort/cat/barcelona-ciudad/632277902/92010',
-      ),
+      parseCityFromUrl('https://ardienteplacer.com/escort/cat/barcelona-ciudad/632277902/92010'),
     ).toBe('barcelona ciudad');
   });
 

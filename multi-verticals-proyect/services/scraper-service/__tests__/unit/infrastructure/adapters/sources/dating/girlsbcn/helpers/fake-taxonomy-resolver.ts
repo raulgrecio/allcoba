@@ -1,9 +1,12 @@
-/**
- * FakeTaxonomyResolver for GirlsBCN / GirlsMadrid tests.
- * Deterministic: returns `<kind>:<slug>` branded ids.
- * Use `misses` to simulate catalog misses.
- */
-
+import type {
+  CityId,
+  CountryId,
+  EthnicId,
+  EyeId,
+  HairId,
+  NationalityId,
+  OrientationId,
+} from '@allcoba/shared-types';
 import {
   asCityId,
   asCountryId,
@@ -12,29 +15,21 @@ import {
   asHairId,
   asNationalityId,
   asOrientationId,
-  type CityId,
-  type CountryId,
-  type EthnicId,
-  type EyeId,
-  type HairId,
-  type NationalityId,
-  type OrientationId,
 } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+
+/**
+ * FakeTaxonomyResolver for GirlsBCN / GirlsMadrid tests.
+ * Deterministic: returns `<kind>:<slug>` branded ids.
+ * Use `misses` to simulate catalog misses.
+ */
 
 export interface FakeResolverConfig {
   misses?: Partial<Record<TaxonomyKind, ReadonlySet<string>>>;
 }
 
-type TaxonomyKind =
-  | 'city'
-  | 'country'
-  | 'nationality'
-  | 'ethnic'
-  | 'hair'
-  | 'eye'
-  | 'orientation';
+type TaxonomyKind = 'city' | 'country' | 'nationality' | 'ethnic' | 'hair' | 'eye' | 'orientation';
 
 export class FakeTaxonomyResolver implements TaxonomyResolverPort {
   constructor(private readonly config: FakeResolverConfig = {}) {}

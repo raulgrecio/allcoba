@@ -1,6 +1,8 @@
-import { describe, expect, it, beforeAll } from 'vitest';
-import { extractChicasmalas } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.extractor.js';
+import { beforeAll, describe, expect, it } from 'vitest';
+
 import type { ChicasmalasPayload } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.types.js';
+import { extractChicasmalas } from '#infrastructure/adapters/sources/dating/chicasmalas/chicasmalas.extractor.js';
+
 import { loadHtml } from './helpers/load-fixtures.js';
 
 const SOURCE_URL = 'https://www.chicasmalas.es/anuncios/sofia-deluxe/';
@@ -25,17 +27,14 @@ describe('extractChicasmalas — fixture sofia-deluxe (perfil Elementor real)', 
   it('isVerified = false', () => expect(payload.isVerified).toBe(false));
 
   it('age from widget Edad', () => expect(payload.age).toBe(22));
-  it('nationality from widget Nacionalidad', () =>
-    expect(payload.nationality).toBe('española'));
-  it('heightCm from widget Altura (1.68 → 168)', () =>
-    expect(payload.heightCm).toBe(168));
+  it('nationality from widget Nacionalidad', () => expect(payload.nationality).toBe('española'));
+  it('heightCm from widget Altura (1.68 → 168)', () => expect(payload.heightCm).toBe(168));
   it('weightKg from widget Peso', () => expect(payload.weightKg).toBe(65));
   it('languages split from widget Idiomas', () => {
     expect(payload.languages).toContain('español');
     expect(payload.languages).toContain('ingles');
   });
-  it('services from widget Servicios', () =>
-    expect(payload.services!.length).toBeGreaterThan(0));
+  it('services from widget Servicios', () => expect(payload.services!.length).toBeGreaterThan(0));
   it('rates from widget Tarifa', () => expect(payload.rates).toBeTruthy());
 });
 

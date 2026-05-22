@@ -1,12 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
+  extractErosguiaWhatsappPhone,
   parseErosguiaAge,
   parseErosguiaHeightCm,
-  slugifyErosguia,
-  parseErosguiaPhoneFromTitle,
-  extractErosguiaWhatsappPhone,
   parseErosguiaLanguages,
+  parseErosguiaPhoneFromTitle,
+  slugifyErosguia,
 } from '#infrastructure/adapters/sources/dating/erosguia/erosguia.parsers.js';
 
 describe('parseErosguiaAge', () => {
@@ -32,8 +32,7 @@ describe('slugifyErosguia', () => {
   it('"Española" → "espanola" (NFD strip)', () =>
     expect(slugifyErosguia('Española')).toBe('espanola'));
   it('"Madrid" → "madrid"', () => expect(slugifyErosguia('Madrid')).toBe('madrid'));
-  it('"Venezolana" → "venezolana"', () =>
-    expect(slugifyErosguia('Venezolana')).toBe('venezolana'));
+  it('"Venezolana" → "venezolana"', () => expect(slugifyErosguia('Venezolana')).toBe('venezolana'));
   it('undefined → undefined', () => expect(slugifyErosguia(undefined)).toBeUndefined());
   it('null → undefined', () => expect(slugifyErosguia(null)).toBeUndefined());
   it('empty string → undefined', () => expect(slugifyErosguia('')).toBeUndefined());
@@ -41,31 +40,28 @@ describe('slugifyErosguia', () => {
 
 describe('parseErosguiaPhoneFromTitle', () => {
   it('extracts phone from title pattern', () =>
-    expect(
-      parseErosguiaPhoneFromTitle('Anny, Escort en Madrid - 614 246 033 - EROSGUIA'),
-    ).toBe('614246033'));
+    expect(parseErosguiaPhoneFromTitle('Anny, Escort en Madrid - 614 246 033 - EROSGUIA')).toBe(
+      '614246033',
+    ));
 
   it('strips spaces from matched phone', () =>
-    expect(
-      parseErosguiaPhoneFromTitle('Barby, Escort en Barcelona - 664 708 586 - EROSGUIA'),
-    ).toBe('664708586'));
+    expect(parseErosguiaPhoneFromTitle('Barby, Escort en Barcelona - 664 708 586 - EROSGUIA')).toBe(
+      '664708586',
+    ));
 
   it('no phone in title → undefined', () =>
     expect(parseErosguiaPhoneFromTitle('Escort en Madrid - EROSGUIA')).toBeUndefined());
 
-  it('undefined → undefined', () =>
-    expect(parseErosguiaPhoneFromTitle(undefined)).toBeUndefined());
+  it('undefined → undefined', () => expect(parseErosguiaPhoneFromTitle(undefined)).toBeUndefined());
 
   it('null → undefined', () => expect(parseErosguiaPhoneFromTitle(null)).toBeUndefined());
 });
 
 describe('extractErosguiaWhatsappPhone', () => {
   it('extracts E.164 from wa.me href', () =>
-    expect(
-      extractErosguiaWhatsappPhone(
-        'https://wa.me/34643435399?text=Hola+Anny',
-      ),
-    ).toBe('+34643435399'));
+    expect(extractErosguiaWhatsappPhone('https://wa.me/34643435399?text=Hola+Anny')).toBe(
+      '+34643435399',
+    ));
 
   it('different number from call phone', () =>
     expect(extractErosguiaWhatsappPhone('https://wa.me/34664708586?text=Hola')).toBe(
@@ -85,8 +81,7 @@ describe('parseErosguiaLanguages', () => {
   it('"Español, Inglés" → two langs', () =>
     expect(parseErosguiaLanguages('Español, Inglés')).toEqual(['Español', 'Inglés']));
 
-  it('single language', () =>
-    expect(parseErosguiaLanguages('Español')).toEqual(['Español']));
+  it('single language', () => expect(parseErosguiaLanguages('Español')).toEqual(['Español']));
 
   it('trims spaces', () =>
     expect(parseErosguiaLanguages('Español ,  Inglés ')).toEqual(['Español', 'Inglés']));

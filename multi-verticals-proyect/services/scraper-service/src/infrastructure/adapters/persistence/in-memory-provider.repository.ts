@@ -4,8 +4,9 @@ import type {
   ProviderCriteria,
   ProviderRepositoryPort,
 } from '#application/ports/repository.port.js';
+import type { ExternalRef } from '#domain/canonical/external-ref.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { externalRefEquals, type ExternalRef } from '#domain/canonical/external-ref.js';
+import { externalRefEquals } from '#domain/canonical/external-ref.js';
 
 export class InMemoryProviderRepository implements ProviderRepositoryPort {
   private readonly providers: Map<string, ScrapedProvider> = new Map();
@@ -24,8 +25,13 @@ export class InMemoryProviderRepository implements ProviderRepositoryPort {
       }
       if (criteria.phoneNumber && p.phoneNumber === criteria.phoneNumber) return true;
       if (criteria.email && p.email === criteria.email) return true;
-      if (criteria.externalRef && p.externalRefs.some((r) => externalRefEquals(r, criteria.externalRef!))) return true;
-      if (criteria.imageHash && p.images.some((img) => img.hash === criteria.imageHash)) return true;
+      if (
+        criteria.externalRef &&
+        p.externalRefs.some((r) => externalRefEquals(r, criteria.externalRef!))
+      )
+        return true;
+      if (criteria.imageHash && p.images.some((img) => img.hash === criteria.imageHash))
+        return true;
       return false;
     });
   }

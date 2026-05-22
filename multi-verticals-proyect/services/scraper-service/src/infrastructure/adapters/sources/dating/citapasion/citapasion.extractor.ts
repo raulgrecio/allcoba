@@ -6,20 +6,20 @@
  * Phone is AJAX-revealed (data-href) but tel: href fallback works in static HTML.
  */
 
-import * as cheerio from 'cheerio';
 import type { CheerioAPI } from 'cheerio';
+import * as cheerio from 'cheerio';
 
+import type { CitapasionParams, CitapasionPayload, CitapasionPhoto } from './citapasion.types.js';
 import {
-  parseSourceIdFromUrl,
+  parseBoolAttr,
   parseCitapasionPhone,
   parseCitapasionWhatsapp,
   parseFirstInt,
-  parseBoolAttr,
-  parseRatingScore,
-  parseRatingCount,
   parseNicknameFromTitle,
+  parseRatingCount,
+  parseRatingScore,
+  parseSourceIdFromUrl,
 } from './citapasion.parsers.js';
-import type { CitapasionParams, CitapasionPayload, CitapasionPhoto } from './citapasion.types.js';
 
 const extractDataRow = ($: CheerioAPI, label: string): string | undefined => {
   let value: string | undefined;
@@ -40,10 +40,7 @@ export const extractCitapasion = (html: string, sourceUrl: string): CitapasionPa
 
   const sourceId = parseSourceIdFromUrl(sourceUrl);
 
-  const rawTitle =
-    $('h1').first().text().trim() ||
-    $('title').first().text().trim() ||
-    '';
+  const rawTitle = $('h1').first().text().trim() || $('title').first().text().trim() || '';
 
   const title = rawTitle.split('|')[0]?.trim() ?? rawTitle;
   const nickname = parseNicknameFromTitle(rawTitle) || extractDataRow($, 'Nombre');

@@ -62,6 +62,9 @@ export const parseRatingCount = (text: string | undefined): number | undefined =
 /** Parse nickname: first meaningful word from title (before "|" separator). */
 export const parseNicknameFromTitle = (title: string): string | undefined => {
   const clean = title.split('|')[0]?.trim() ?? '';
-  const first = clean.split(/\s+/)[0]?.replace(/[,;:]+$/, '').trim();
+  const first = clean
+    .split(/\s+/)[0]
+    ?.replace(/[,;:]+$/, '')
+    .trim();
   return first || undefined;
 };

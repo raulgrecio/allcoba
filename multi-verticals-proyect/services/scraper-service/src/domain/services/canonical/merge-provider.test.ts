@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import type { ExternalRef } from '#domain/canonical/external-ref.js';
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
+
 import { mergeProvider } from './merge-provider.js';
 
 // ── fixture factory ──────────────────────────────────────────────────────────
@@ -84,14 +85,20 @@ describe('mergeProvider — existing wins', () => {
   });
 
   it('keeps existing phoneNumber when both present', () => {
-    const existing = makeProvider({ phoneNumber: '+34600000001' as ScrapedProvider['phoneNumber'] });
-    const result = mergeProvider(existing, { phoneNumber: '+34600000002' as ScrapedProvider['phoneNumber'] });
+    const existing = makeProvider({
+      phoneNumber: '+34600000001' as ScrapedProvider['phoneNumber'],
+    });
+    const result = mergeProvider(existing, {
+      phoneNumber: '+34600000002' as ScrapedProvider['phoneNumber'],
+    });
     expect(result.phoneNumber).toBe('+34600000001');
   });
 
   it('takes incoming phoneNumber when existing is undefined', () => {
     const existing = makeProvider({ phoneNumber: undefined });
-    const result = mergeProvider(existing, { phoneNumber: '+34600000002' as ScrapedProvider['phoneNumber'] });
+    const result = mergeProvider(existing, {
+      phoneNumber: '+34600000002' as ScrapedProvider['phoneNumber'],
+    });
     expect(result.phoneNumber).toBe('+34600000002');
   });
 
@@ -102,14 +109,25 @@ describe('mergeProvider — existing wins', () => {
   });
 
   it('keeps existing aboutMe when both present', () => {
-    const existing = makeProvider({ aboutMe: { original: 'My original bio', originalLanguage: 'es', content: null, contentLocale: 'es' } });
-    const result = mergeProvider(existing, { aboutMe: { original: 'New bio', originalLanguage: 'es', content: null, contentLocale: 'es' } });
+    const existing = makeProvider({
+      aboutMe: {
+        original: 'My original bio',
+        originalLanguage: 'es',
+        content: null,
+        contentLocale: 'es',
+      },
+    });
+    const result = mergeProvider(existing, {
+      aboutMe: { original: 'New bio', originalLanguage: 'es', content: null, contentLocale: 'es' },
+    });
     expect(result.aboutMe?.original).toBe('My original bio');
   });
 
   it('takes incoming aboutMe when existing is undefined', () => {
     const existing = makeProvider({ aboutMe: undefined });
-    const result = mergeProvider(existing, { aboutMe: { original: 'New bio', originalLanguage: 'es', content: null, contentLocale: 'es' } });
+    const result = mergeProvider(existing, {
+      aboutMe: { original: 'New bio', originalLanguage: 'es', content: null, contentLocale: 'es' },
+    });
     expect(result.aboutMe?.original).toBe('New bio');
   });
 
@@ -126,8 +144,12 @@ describe('mergeProvider — existing wins', () => {
   });
 
   it('keeps existing badges', () => {
-    const existing = makeProvider({ badges: { verified: true, trans: false, vip: false, pornstar: false } });
-    const result = mergeProvider(existing, { badges: { verified: false, trans: true, vip: false, pornstar: false } });
+    const existing = makeProvider({
+      badges: { verified: true, trans: false, vip: false, pornstar: false },
+    });
+    const result = mergeProvider(existing, {
+      badges: { verified: false, trans: true, vip: false, pornstar: false },
+    });
     expect(result.badges.verified).toBe(true);
     expect(result.badges.trans).toBe(false);
   });
@@ -156,7 +178,9 @@ describe('mergeProvider — incoming wins', () => {
 
   it('takes incoming prices', () => {
     const existing = makeProvider({ prices: [{ slot: 'h1', amount: 100, currency: 'EUR' }] });
-    const result = mergeProvider(existing, { prices: [{ slot: 'h1', amount: 200, currency: 'EUR' }] });
+    const result = mergeProvider(existing, {
+      prices: [{ slot: 'h1', amount: 200, currency: 'EUR' }],
+    });
     expect(result.prices[0]?.amount).toBe(200);
   });
 
@@ -229,14 +253,22 @@ describe('mergeProvider — merge+dedup', () => {
 
   describe('otherPlatforms', () => {
     it('appends novel platforms by url', () => {
-      const existing = makeProvider({ otherPlatforms: [{ platform: 'instagram', url: 'https://ig.com/a' }] });
-      const result = mergeProvider(existing, { otherPlatforms: [{ platform: 'twitter', url: 'https://x.com/a' }] });
+      const existing = makeProvider({
+        otherPlatforms: [{ platform: 'instagram', url: 'https://ig.com/a' }],
+      });
+      const result = mergeProvider(existing, {
+        otherPlatforms: [{ platform: 'twitter', url: 'https://x.com/a' }],
+      });
       expect(result.otherPlatforms).toHaveLength(2);
     });
 
     it('deduplicates by url', () => {
-      const existing = makeProvider({ otherPlatforms: [{ platform: 'instagram', url: 'https://ig.com/a' }] });
-      const result = mergeProvider(existing, { otherPlatforms: [{ platform: 'instagram', url: 'https://ig.com/a' }] });
+      const existing = makeProvider({
+        otherPlatforms: [{ platform: 'instagram', url: 'https://ig.com/a' }],
+      });
+      const result = mergeProvider(existing, {
+        otherPlatforms: [{ platform: 'instagram', url: 'https://ig.com/a' }],
+      });
       expect(result.otherPlatforms).toHaveLength(1);
     });
   });
@@ -273,8 +305,12 @@ describe('mergeProvider — merge+dedup', () => {
 
   describe('images', () => {
     it('appends novel images by hash', () => {
-      const existing = makeProvider({ images: [{ hash: 'hash1' as any, storedUrl: 'url1', originalUrl: 'orig1' }] });
-      const result = mergeProvider(existing, { images: [{ hash: 'hash2' as any, storedUrl: 'url2', originalUrl: 'orig2' }] });
+      const existing = makeProvider({
+        images: [{ hash: 'hash1' as any, storedUrl: 'url1', originalUrl: 'orig1' }],
+      });
+      const result = mergeProvider(existing, {
+        images: [{ hash: 'hash2' as any, storedUrl: 'url2', originalUrl: 'orig2' }],
+      });
       expect(result.images).toHaveLength(2);
     });
 
@@ -300,13 +336,19 @@ describe('mergeProvider — signals', () => {
   });
 
   it('appends incoming signals to existing (never discards)', () => {
-    const existing = makeProvider({ signals: [makeSignal('PHONE_MATCH', '2024-01-01T00:00:00.000Z')] });
-    const result = mergeProvider(existing, { signals: [makeSignal('EMAIL_MATCH', '2024-01-02T00:00:00.000Z')] });
+    const existing = makeProvider({
+      signals: [makeSignal('PHONE_MATCH', '2024-01-01T00:00:00.000Z')],
+    });
+    const result = mergeProvider(existing, {
+      signals: [makeSignal('EMAIL_MATCH', '2024-01-02T00:00:00.000Z')],
+    });
     expect(result.signals).toHaveLength(2);
   });
 
   it('keeps existing signals when incoming has none', () => {
-    const existing = makeProvider({ signals: [makeSignal('PHONE_MATCH', '2024-01-01T00:00:00.000Z')] });
+    const existing = makeProvider({
+      signals: [makeSignal('PHONE_MATCH', '2024-01-01T00:00:00.000Z')],
+    });
     const result = mergeProvider(existing, {});
     expect(result.signals).toHaveLength(1);
   });
@@ -334,7 +376,7 @@ describe('mergeProvider — attributes & metadata', () => {
     const before = new Date().toISOString();
     const existing = makeProvider({ metadata: {} });
     const result = mergeProvider(existing, {});
-    expect(result.metadata['lastMergedAt'] as string >= before).toBe(true);
+    expect((result.metadata['lastMergedAt'] as string) >= before).toBe(true);
   });
 });
 
@@ -364,26 +406,50 @@ describe('mergeProvider — lastActiveAt', () => {
 
 describe('mergeProvider — personalDetails', () => {
   it('takes incoming ageYears', () => {
-    const existing = makeProvider({ personalDetails: { ageYears: 25, spokenLanguageCodes: [], meetingWith: [] } });
-    const result = mergeProvider(existing, { personalDetails: { ageYears: 26, spokenLanguageCodes: [], meetingWith: [] } });
+    const existing = makeProvider({
+      personalDetails: { ageYears: 25, spokenLanguageCodes: [], meetingWith: [] },
+    });
+    const result = mergeProvider(existing, {
+      personalDetails: { ageYears: 26, spokenLanguageCodes: [], meetingWith: [] },
+    });
     expect(result.personalDetails.ageYears).toBe(26);
   });
 
   it('keeps existing heightCm when both present', () => {
-    const existing = makeProvider({ personalDetails: { ageYears: 25, heightCm: 170, spokenLanguageCodes: [], meetingWith: [] } });
-    const result = mergeProvider(existing, { personalDetails: { ageYears: 26, heightCm: 165, spokenLanguageCodes: [], meetingWith: [] } });
+    const existing = makeProvider({
+      personalDetails: { ageYears: 25, heightCm: 170, spokenLanguageCodes: [], meetingWith: [] },
+    });
+    const result = mergeProvider(existing, {
+      personalDetails: { ageYears: 26, heightCm: 165, spokenLanguageCodes: [], meetingWith: [] },
+    });
     expect(result.personalDetails.heightCm).toBe(170);
   });
 
   it('takes incoming heightCm when existing is undefined', () => {
-    const existing = makeProvider({ personalDetails: { ageYears: 25, spokenLanguageCodes: [], meetingWith: [] } });
-    const result = mergeProvider(existing, { personalDetails: { ageYears: 26, heightCm: 165, spokenLanguageCodes: [], meetingWith: [] } });
+    const existing = makeProvider({
+      personalDetails: { ageYears: 25, spokenLanguageCodes: [], meetingWith: [] },
+    });
+    const result = mergeProvider(existing, {
+      personalDetails: { ageYears: 26, heightCm: 165, spokenLanguageCodes: [], meetingWith: [] },
+    });
     expect(result.personalDetails.heightCm).toBe(165);
   });
 
   it('unions spokenLanguageCodes without duplicates', () => {
-    const existing = makeProvider({ personalDetails: { ageYears: 25, spokenLanguageCodes: ['es' as any, 'en' as any], meetingWith: [] } });
-    const result = mergeProvider(existing, { personalDetails: { ageYears: 25, spokenLanguageCodes: ['en' as any, 'fr' as any], meetingWith: [] } });
+    const existing = makeProvider({
+      personalDetails: {
+        ageYears: 25,
+        spokenLanguageCodes: ['es' as any, 'en' as any],
+        meetingWith: [],
+      },
+    });
+    const result = mergeProvider(existing, {
+      personalDetails: {
+        ageYears: 25,
+        spokenLanguageCodes: ['en' as any, 'fr' as any],
+        meetingWith: [],
+      },
+    });
     expect(result.personalDetails.spokenLanguageCodes).toHaveLength(3);
     expect(result.personalDetails.spokenLanguageCodes).toContain('es');
     expect(result.personalDetails.spokenLanguageCodes).toContain('en');

@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
+
 import { extractGemidos } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.extractor.js';
-import { mapGemidos, GEMIDOS_SOURCE } from '#infrastructure/adapters/sources/dating/gemidos/gemidos.mapper.js';
+import {
+  GEMIDOS_SOURCE,
+  mapGemidos,
+} from '#infrastructure/adapters/sources/dating/gemidos/gemidos.mapper.js';
+
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { loadHtml } from './helpers/load-fixtures.js';
 

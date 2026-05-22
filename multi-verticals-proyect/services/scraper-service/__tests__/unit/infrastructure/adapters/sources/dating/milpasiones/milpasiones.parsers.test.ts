@@ -16,9 +16,9 @@ describe('parseSourceIdFromUrl', () => {
   });
 
   it('works without trailing slash', () => {
-    expect(
-      parseSourceIdFromUrl('https://milpasiones.com/anuncio/662583238-elena_99999'),
-    ).toBe('99999');
+    expect(parseSourceIdFromUrl('https://milpasiones.com/anuncio/662583238-elena_99999')).toBe(
+      '99999',
+    );
   });
 });
 
@@ -46,9 +46,9 @@ describe('slugifyMilpasiones', () => {
 
 describe('parseNicknameFromTitle', () => {
   it('strips leading phone and takes first word', () => {
-    expect(
-      parseNicknameFromTitle('662583238 NATALIA CARINOSA MORBOSA EN ESTEPONA'),
-    ).toBe('NATALIA');
+    expect(parseNicknameFromTitle('662583238 NATALIA CARINOSA MORBOSA EN ESTEPONA')).toBe(
+      'NATALIA',
+    );
   });
 
   it('returns first word when no phone prefix', () => {
