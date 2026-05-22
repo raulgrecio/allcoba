@@ -25,6 +25,8 @@ export interface GemidosParams {
   readonly locationTags?: string[];
   /** Dirección libre del perfil ("Me encuentro en …"). */
   readonly address?: string;
+  /** Texto de horario de atención (.pub-hours-time), p.ej. "FULL TIME". */
+  readonly workingHours?: string;
 }
 
 export interface GemidosPayload {
@@ -34,6 +36,8 @@ export interface GemidosPayload {
   readonly nickname?: string;
   readonly bio?: string;
   readonly phone?: string;
+  /** WhatsApp desde data-whatsapp-phone en .pub-menu button. */
+  readonly whatsapp?: string;
   readonly params: GemidosParams;
   readonly photos: readonly GemidosPhoto[];
   readonly isVerified: boolean;

@@ -56,8 +56,48 @@ describe('extractGemidos — minimal HTML', () => {
     const p = extractGemidos(html, 'https://gemidos.tv/anuncio/mia/');
     expect(p.sourceId).toBe('mia');
     expect(p.phone).toBeUndefined();
+    expect(p.whatsapp).toBeUndefined();
     expect(p.isVerified).toBe(false);
     expect(p.params.age).toBeUndefined();
     expect(p.params.services).toBeUndefined();
+    expect(p.params.workingHours).toBeUndefined();
+  });
+});
+
+describe('extractGemidos — whatsapp and working hours', () => {
+  it('extracts whatsapp from data-whatsapp-phone', () => {
+    const html = `<html><body>
+      <h1 class="pub-title">Ana</h1>
+      <div class="pub-menu">
+        <button data-trigger="Whatsapp.send" data-whatsapp-phone="34612345678"></button>
+      </div>
+    </body></html>`;
+    const p = extractGemidos(html, 'https://gemidos.tv/anuncio/ana/');
+    expect(p.whatsapp).toBe('34612345678');
+  });
+
+  it('extracts workingHours from .pub-hours-time', () => {
+    const html = `<html><body>
+      <h1 class="pub-title">Ana</h1>
+      <div class="pub-hours"><div class="pub-hours-time">FULL TIME</div></div>
+    </body></html>`;
+    const p = extractGemidos(html, 'https://gemidos.tv/anuncio/ana/');
+    expect(p.params.workingHours).toBe('FULL TIME');
+  });
+});
+
+describe('extractGemidos — service artifact filter', () => {
+  it('filters out broken oral- link with single-char label', () => {
+    const html = `<html><body>
+      <h1 class="pub-title">Ana</h1>
+      <div class="pub-services">
+        <a href="oral-69" class="pub-tags-item pub_services_oral">69</a>
+        <a href="oral-" class="pub-tags-item pub_services_oral">i</a>
+      </div>
+    </body></html>`;
+    const p = extractGemidos(html, 'https://gemidos.tv/anuncio/ana/');
+    const slugs = p.params.services?.map((s) => s.slug) ?? [];
+    expect(slugs).toContain('oral-69');
+    expect(slugs).not.toContain('oral-');
   });
 });

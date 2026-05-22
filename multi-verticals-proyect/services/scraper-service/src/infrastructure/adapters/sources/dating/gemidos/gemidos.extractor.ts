@@ -56,6 +56,10 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
   const phoneText = $('.pub-phone span').first().text().trim();
   const phone = parseGemidosPhone(phoneText);
 
+  // WhatsApp via data-whatsapp-phone on .pub-menu button (plain number, includes country prefix)
+  const whatsapp =
+    $('button[data-trigger="Whatsapp.send"]').attr('data-whatsapp-phone')?.trim() || undefined;
+
   const photos: GemidosPhoto[] = [];
   $('.pub-picture img, .pub-book-item img, .story img, .cover img').each((_, el) => {
     const src = $(el).attr('src') ?? $(el).attr('data-src') ?? '';
@@ -82,8 +86,9 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
   const services: GemidosService[] = [];
   $('.pub-services .pub-tags-item').each((_, el) => {
     const label = $(el).text().trim();
-    if (!label) return;
     const slug = $(el).attr('href') ?? '';
+    // Skip icon artifacts: empty labels, single-char labels, or slugs with trailing dash
+    if (!label || label.length <= 1 || slug.endsWith('-')) return;
     const classList = ($(el).attr('class') ?? '').split(/\s+/);
     const categoryClass = classList.find((c) => CLASS_CATEGORY[c]);
     const category: GemidosService['category'] = categoryClass
@@ -143,6 +148,9 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
     return;
   });
 
+  // Working hours (.pub-hours-time): "FULL TIME" or schedule text
+  const workingHours = $('.pub-hours-time').first().text().trim() || undefined;
+
   const params: GemidosParams = {
     age: parseFirstInt(ageTag),
     heightCm: parseFirstInt(heightTag),
@@ -153,6 +161,7 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
     services: services.length > 0 ? services : undefined,
     locationTags: locationTags.length > 0 ? locationTags : undefined,
     address,
+    workingHours,
   };
 
   return {
@@ -162,6 +171,7 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
     nickname,
     bio,
     phone,
+    whatsapp,
     params,
     photos,
     isVerified,

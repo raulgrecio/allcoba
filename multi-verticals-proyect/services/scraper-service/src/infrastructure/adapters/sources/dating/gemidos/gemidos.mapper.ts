@@ -166,6 +166,8 @@ export const mapGemidos = async (
       services: payload.params.services,
       address: payload.params.address,
       locationTags: payload.params.locationTags,
+      workingHours: payload.params.workingHours,
+      whatsapp: payload.whatsapp,
     },
     metadata: { source: GEMIDOS_SOURCE, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),
