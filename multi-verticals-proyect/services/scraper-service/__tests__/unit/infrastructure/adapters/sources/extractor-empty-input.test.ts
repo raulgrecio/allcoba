@@ -43,7 +43,6 @@ import { mapNuevapasion } from '#infrastructure/adapters/sources/dating/nuevapas
 import { extractNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.extractor.js';
 import { mapNuevoloquo } from '#infrastructure/adapters/sources/dating/nuevoloquo/nuevoloquo.mapper.js';
 import { extractProfileDataFromHtml } from '#infrastructure/adapters/sources/dating/topescortbabes/topescortbabes.extractor.js';
-import { mapTopEscortBabes } from '#infrastructure/adapters/sources/dating/topescortbabes/topescortbabes.mapper.js';
 import { extractWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.extractor.js';
 import { mapWallapop } from '#infrastructure/adapters/sources/general/wallapop/wallapop.mapper.js';
 import { extractCochesNet } from '#infrastructure/adapters/sources/motor/coches-net/coches-net.extractor.js';

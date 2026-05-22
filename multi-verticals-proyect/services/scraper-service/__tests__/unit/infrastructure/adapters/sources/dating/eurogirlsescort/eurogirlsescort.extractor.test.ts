@@ -26,7 +26,8 @@ describe('extractEuroGirlsEscort — sofia_1053224.html', () => {
   it('extracts bio (strips zero-width chars)', () => {
     expect(payload.bio).toBeTruthy();
     expect(payload.bio).toContain('Sofia');
-    expect(payload.bio).not.toMatch(/[​‌‍⁠]/);
+
+    expect(payload.bio).not.toMatch(/\u200b|\u200c|\u200d|\u2060/);
   });
 
   it('extracts lastLoginDate', () => {

@@ -15,7 +15,7 @@ async function getBrowserMemory(execPath: string): Promise<number> {
       if (!isNaN(rss)) totalRSS += rss;
     });
     return totalRSS / 1024; // MB
-  } catch (e) {
+  } catch {
     return 0;
   }
 }

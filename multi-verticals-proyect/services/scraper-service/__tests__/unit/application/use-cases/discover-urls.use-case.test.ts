@@ -32,7 +32,7 @@ const makeSource = (opts: {
       pageIndex++;
       return links;
     }),
-    extractNextPageUrl: vi.fn((_, currentUrl: string) => opts.nextPages?.[pageIndex - 1]),
+    extractNextPageUrl: vi.fn((_, _currentUrl: string) => opts.nextPages?.[pageIndex - 1]),
   };
 };
 

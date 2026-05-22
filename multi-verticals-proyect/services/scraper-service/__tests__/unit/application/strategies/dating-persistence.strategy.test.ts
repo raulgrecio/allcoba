@@ -180,7 +180,6 @@ describe('DatingPersistenceStrategy.persist', () => {
   });
 
   it('existingImg not found in images array — uploads instead of reusing', async () => {
-    const hash = asImageHash('abc123hash');
     const existing = buildProvider({
       images: [], // no images despite hash match in find
     });
