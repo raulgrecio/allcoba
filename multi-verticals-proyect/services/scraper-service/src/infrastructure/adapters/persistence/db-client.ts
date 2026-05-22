@@ -27,9 +27,9 @@ export async function checkConnection(): Promise<void> {
   try {
     await db.execute(sql`SELECT 1`);
     logger().info('DB connection OK');
-  } catch (err: any) {
+  } catch (err) {
     logger().error(
-      { err: err.message },
+      { err: err instanceof Error ? err.message : String(err) },
       'DB connection FAILED — verify DATABASE_URL and Postgres is running',
     );
     throw err;

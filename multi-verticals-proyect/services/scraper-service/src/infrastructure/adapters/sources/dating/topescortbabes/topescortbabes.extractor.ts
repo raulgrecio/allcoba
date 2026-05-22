@@ -40,7 +40,6 @@ export const parseProfileDataScript = (script: string): TopEscortBabesPayload | 
   );
   if (!match || !match[1]) return null;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
     const value = new Function(`return ${match[1]};`)();
     return value as TopEscortBabesPayload;
   } catch {

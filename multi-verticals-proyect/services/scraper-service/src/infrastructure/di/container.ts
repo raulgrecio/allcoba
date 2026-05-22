@@ -29,7 +29,7 @@ import { LocalStorageAdapter } from '#infrastructure/adapters/storage/local-stor
 import { config as globalConfig } from '#infrastructure/config/env.js';
 import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js';
 
-async function ensureDatabaseReady(repository: any): Promise<void> {
+async function ensureDatabaseReady(repository: object): Promise<void> {
   if (repository.constructor.name === 'PostgresProviderRepository') {
     try {
       const { checkConnection } = await import('#infrastructure/adapters/persistence/db-client.js');

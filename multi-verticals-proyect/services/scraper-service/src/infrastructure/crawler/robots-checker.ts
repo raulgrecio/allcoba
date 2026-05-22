@@ -3,7 +3,7 @@ import robotsParser from 'robots-parser';
 import { logger } from '@allcoba/kernel';
 
 export class RobotsChecker {
-  private cache = new Map<string, any>();
+  private cache = new Map<string, ReturnType<typeof robotsParser>>();
 
   async isAllowed(url: string, userAgent: string = 'Mozilla/5.0'): Promise<boolean> {
     try {
@@ -17,7 +17,7 @@ export class RobotsChecker {
       }
 
       const parser = this.cache.get(origin);
-      return parser.isAllowed(url, userAgent) ?? true;
+      return parser?.isAllowed(url, userAgent) ?? true;
     } catch (error) {
       logger().error({ error, url }, 'Error verificando robots.txt');
       return true; // En caso de duda, permitimos (o podrías ser restrictivo)

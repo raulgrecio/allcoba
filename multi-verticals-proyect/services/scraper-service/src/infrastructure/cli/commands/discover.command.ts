@@ -55,8 +55,11 @@ export function registerDiscoverCommand(program: Command, lifecycle: CrawlerLife
         await discoverUrlsUseCase.execute(options.url, limitNumber, skipNumber, config.headless);
         logger().info('Descubrimiento completado con éxito');
         await lifecycle.shutdown();
-      } catch (err: any) {
-        logger().error({ err: err.message }, 'Error fatal en discover');
+      } catch (err) {
+        logger().error(
+          { err: err instanceof Error ? err.message : String(err) },
+          'Error fatal en discover',
+        );
         process.exitCode = 1;
       }
     });

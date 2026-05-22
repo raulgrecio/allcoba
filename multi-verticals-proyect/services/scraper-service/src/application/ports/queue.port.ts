@@ -8,15 +8,15 @@ export interface QueuePort {
   /**
    * Publica un nuevo trabajo en la cola.
    */
-  publish<T = any>(name: string, data: T, options?: JobOptions): Promise<string | null>;
+  publish<T = unknown>(name: string, data: T, options?: JobOptions): Promise<string | null>;
 
   /**
    * Se suscribe a un tipo de trabajo para procesarlo.
    */
-  subscribe<T = any>(name: string, handler: (data: T) => Promise<void>): Promise<void>;
+  subscribe<T = unknown>(name: string, handler: (data: T) => Promise<void>): Promise<void>;
 
   /**
    * Programa un trabajo recurrente (cron).
    */
-  schedule<T = any>(name: string, cron: string, data: T): Promise<void>;
+  schedule<T = unknown>(name: string, cron: string, data: T): Promise<void>;
 }

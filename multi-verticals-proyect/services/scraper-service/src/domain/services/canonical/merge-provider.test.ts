@@ -132,8 +132,12 @@ describe('mergeProvider — existing wins', () => {
   });
 
   it('keeps existing baseCity', () => {
-    const existing = makeProvider({ baseCity: { id: 'city-1' as any } });
-    const result = mergeProvider(existing, { baseCity: { id: 'city-2' as any } });
+    const existing = makeProvider({
+      baseCity: { id: 'city-1' as NonNullable<ScrapedProvider['baseCity']>['id'] },
+    });
+    const result = mergeProvider(existing, {
+      baseCity: { id: 'city-2' as NonNullable<ScrapedProvider['baseCity']>['id'] },
+    });
     expect(result.baseCity?.id).toBe('city-1');
   });
 
@@ -171,8 +175,12 @@ describe('mergeProvider — incoming wins', () => {
   });
 
   it('takes incoming currentCity', () => {
-    const existing = makeProvider({ currentCity: { id: 'city-1' as any } });
-    const result = mergeProvider(existing, { currentCity: { id: 'city-2' as any } });
+    const existing = makeProvider({
+      currentCity: { id: 'city-1' as NonNullable<ScrapedProvider['currentCity']>['id'] },
+    });
+    const result = mergeProvider(existing, {
+      currentCity: { id: 'city-2' as NonNullable<ScrapedProvider['currentCity']>['id'] },
+    });
     expect(result.currentCity?.id).toBe('city-2');
   });
 
@@ -197,8 +205,8 @@ describe('mergeProvider — incoming wins', () => {
   });
 
   it('takes incoming confidence', () => {
-    const existing = makeProvider({ confidence: 0.5 as any });
-    const result = mergeProvider(existing, { confidence: 0.9 as any });
+    const existing = makeProvider({ confidence: 0.5 as ScrapedProvider['confidence'] });
+    const result = mergeProvider(existing, { confidence: 0.9 as ScrapedProvider['confidence'] });
     expect(result.confidence).toBe(0.9);
   });
 });
@@ -275,7 +283,7 @@ describe('mergeProvider — merge+dedup', () => {
 
   describe('reviews', () => {
     const makeReview = (id: string, nick: string) => ({
-      id: id as any,
+      id: id as ScrapedProvider['reviews'][number]['id'],
       authorNickname: nick,
       ratings: { place: 0, punctuality: 0, looks: 0, attitude: 0, services: 0, photosAccuracy: 0 },
       averageRating: 4,
@@ -306,16 +314,32 @@ describe('mergeProvider — merge+dedup', () => {
   describe('images', () => {
     it('appends novel images by hash', () => {
       const existing = makeProvider({
-        images: [{ hash: 'hash1' as any, storedUrl: 'url1', originalUrl: 'orig1' }],
+        images: [
+          {
+            hash: 'hash1' as ScrapedProvider['images'][number]['hash'],
+            storedUrl: 'url1',
+            originalUrl: 'orig1',
+          },
+        ],
       });
       const result = mergeProvider(existing, {
-        images: [{ hash: 'hash2' as any, storedUrl: 'url2', originalUrl: 'orig2' }],
+        images: [
+          {
+            hash: 'hash2' as ScrapedProvider['images'][number]['hash'],
+            storedUrl: 'url2',
+            originalUrl: 'orig2',
+          },
+        ],
       });
       expect(result.images).toHaveLength(2);
     });
 
     it('deduplicates images by hash', () => {
-      const img = { hash: 'hash1' as any, storedUrl: 'url1', originalUrl: 'orig1' };
+      const img = {
+        hash: 'hash1' as ScrapedProvider['images'][number]['hash'],
+        storedUrl: 'url1',
+        originalUrl: 'orig1',
+      };
       const existing = makeProvider({ images: [img] });
       const result = mergeProvider(existing, { images: [{ ...img, storedUrl: 'url1-updated' }] });
       expect(result.images).toHaveLength(1);
@@ -330,7 +354,7 @@ describe('mergeProvider — signals', () => {
   const makeSignal = (type: 'PHONE_MATCH' | 'EMAIL_MATCH', date: string) => ({
     type,
     sourceKey: 'source:1',
-    confidence: 0.9 as any,
+    confidence: 0.9 as ScrapedProvider['confidence'],
     metadata: {},
     createdAt: date,
   });
@@ -439,14 +463,20 @@ describe('mergeProvider — personalDetails', () => {
     const existing = makeProvider({
       personalDetails: {
         ageYears: 25,
-        spokenLanguageCodes: ['es' as any, 'en' as any],
+        spokenLanguageCodes: [
+          'es' as ScrapedProvider['personalDetails']['spokenLanguageCodes'][number],
+          'en' as ScrapedProvider['personalDetails']['spokenLanguageCodes'][number],
+        ],
         meetingWith: [],
       },
     });
     const result = mergeProvider(existing, {
       personalDetails: {
         ageYears: 25,
-        spokenLanguageCodes: ['en' as any, 'fr' as any],
+        spokenLanguageCodes: [
+          'en' as ScrapedProvider['personalDetails']['spokenLanguageCodes'][number],
+          'fr' as ScrapedProvider['personalDetails']['spokenLanguageCodes'][number],
+        ],
         meetingWith: [],
       },
     });

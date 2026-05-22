@@ -42,9 +42,12 @@ export class SharpHasherAdapter implements ImageHasherPort {
 
       // Convertir binario a hexadecimal para almacenamiento compacto
       return this.binaryToHex(hash);
-    } catch (error: any) {
+    } catch (error) {
       const context = typeof input === 'string' ? input : 'Buffer';
-      logger().error({ error: error.message, context }, 'Error generando pHash de imagen');
+      logger().error(
+        { error: error instanceof Error ? error.message : String(error), context },
+        'Error generando pHash de imagen',
+      );
       return '';
     }
   }

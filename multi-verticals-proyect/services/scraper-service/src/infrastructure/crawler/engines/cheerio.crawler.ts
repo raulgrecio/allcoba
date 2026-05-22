@@ -35,13 +35,13 @@ export class CheerioCrawler extends BaseCrawler {
         status: response.status,
         serverIp: outboundIp,
       };
-    } catch (error: any) {
+    } catch (error) {
       clearTimeout(timerId);
       logger().error(
         {
           error: {
-            message: error.message,
-            stack: error.stack,
+            message: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
           },
           url,
         },

@@ -1,4 +1,5 @@
 import * as path from 'node:path';
+import type { Response, Route } from 'playwright-core';
 
 import { logger } from '@allcoba/kernel';
 
@@ -12,13 +13,21 @@ import { BaseCrawler } from './base.crawler.js';
 /**
  * Interface estructural para aceptar motores compatibles con Playwright (como Patchright)
  */
+/*
+ * Contrato estructural común a playwright-core y patchright-core. Sus tipos
+ * Browser/BrowserContext difieren nominalmente (patchright es un fork), por lo
+ * que este límite entre motores sólo puede expresarse con `any`.
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface ChromiumEngine {
   name(): string;
   launch(options?: any): Promise<any>;
   launchPersistentContext(userDataDir: string, options?: any): Promise<any>;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export class ChromiumCrawler extends BaseCrawler {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- ver ChromiumEngine
   private browser: any | null = null;
 
   constructor(
@@ -37,6 +46,7 @@ export class ChromiumCrawler extends BaseCrawler {
       options.proxyStrategy && options.proxyStrategy !== ProxyStrategy.NONE
         ? this.proxyProvider.getConfig(options.proxyStrategy)
         : undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- ver ChromiumEngine
     let context: any;
     let isPersistent = false;
     const isHeadless = options.headless !== false;
@@ -82,13 +92,13 @@ export class ChromiumCrawler extends BaseCrawler {
 
       // Bloqueo de imágenes para ahorrar ancho de banda
       if (options.blockImages) {
-        await page.route('**/*.{png,jpg,jpeg,gif,webp,svg}', (route: any) => route.abort());
+        await page.route('**/*.{png,jpg,jpeg,gif,webp,svg}', (route: Route) => route.abort());
       }
 
       // Captura de red si se solicita
-      const networkResponses: any[] = [];
+      const networkResponses: NonNullable<CrawlResult['networkResponses']> = [];
       if (options.captureNetwork) {
-        page.on('response', async (response: any) => {
+        page.on('response', async (response: Response) => {
           try {
             const respUrl = response.url();
             if (options.trafficBlacklist?.some((b: string) => respUrl.includes(b))) return;

@@ -46,8 +46,11 @@ export function registerScrapeCommand(program: Command, lifecycle: CrawlerLifecy
         await scrapeUrlUseCase.execute(options.url);
         logger().info('Extracción completada con éxito');
         await lifecycle.shutdown();
-      } catch (err: any) {
-        logger().error({ err: err.message }, 'Error fatal en scrape');
+      } catch (err) {
+        logger().error(
+          { err: err instanceof Error ? err.message : String(err) },
+          'Error fatal en scrape',
+        );
         process.exitCode = 1;
       }
     });
