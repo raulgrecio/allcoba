@@ -167,26 +167,31 @@ Example URL: `https://www.erosguia.com/55383.html` (Real)
 > Profile URL real: `/opiniones/{numericId}` (NO `/escorts/.../slug/`)
 > 20/05/2026 (real): `https://www.escort-advisor.xxx/opiniones/667554247` · `https://www.escort-advisor.xxx/opiniones/606792233`
 
+> **Estructura detallada → [escort-advisor/ESCORT-ADVISOR.md](escort-advisor/ESCORT-ADVISOR.md)**
+
 Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
-| Campo        | Valor                                                                       |
-| ------------ | --------------------------------------------------------------------------- |
-| Tech         | PHP Custom (desconocida)                                                    |
-| Render       | **CF** — Cloudflare WAF — Playwright + CF bypass necesario                  |
-| Listing      | `/escorts/{country}/{city}/`                                                |
-| Profile URL  | `/escorts/{country}/{city}/{slug}/` — sourceId = numeric suffix o slug     |
-| Paginación   | `a[rel="next"], a.next-page, [aria-label="Next"]`                           |
-| Título       | `.username h2`                                                              |
-| Descripción  | `.data-container .content`                                                  |
-| Ciudad       | Breadcrumb `[class*="breadcrumb"] a` eq(2) — no extraído en extractor      |
-| Teléfono     | **HTML** — `a[href^="tel:"]`                                                |
-| Verificada   | `.verified-badge, .icon-ok-circled`                                         |
-| Servicios    | `.preferences .info-list li`                                                |
-| Imágenes     | `.gallery_tray img, .user_image, .banner_image` · fallback `og:image`       |
-| Datos        | `.personal-info .info-list li` → "Label: value" — Edad, Altura, Peso, Nac. |
-| Login        | No                                                                          |
-| País         | ES / Internacional                                                          |
-| Nota         | CF WAF — Playwright con bypass. City en breadcrumb (no extraído aún)        |
+| Campo        | Valor                                                                                          |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| Tech         | PHP Custom, sin `__NEXT_DATA__`                                                                |
+| Render       | **CF** — Cloudflare WAF — Playwright + CF bypass necesario                                     |
+| Listing      | `/escorts/{country}/{city}/`                                                                   |
+| Profile URL  | `/escorts/{country}/{city}/{slug}/` — sourceId = numeric suffix o slug                        |
+| Paginación   | `a[rel="next"], a.next-page, [aria-label="Next"]`                                              |
+| Título       | `.username h2`                                                                                 |
+| Descripción  | `.data-container .content`                                                                     |
+| Ciudad       | `.personal-info` → "Ciudad: Madrid (M)"                                                        |
+| Teléfono     | `a[href^="tel:"]` → `parseEscortAdvisorPhone`                                                  |
+| WhatsApp     | `[onclick*="whatsApp"]` → regex `whatsApp\((\+\d+)`                                           |
+| Verificada   | `.icon-ok-circled` (`.verified-badge` NO existe en HTML real)                                  |
+| Servicios    | `.preferences .info-list li` — texto español                                                   |
+| Imágenes     | `.gallery_tray img, .user_image, .banner_image` · fallback `og:image`                          |
+| Datos        | `.personal-info .info-list li` → Ciudad, Edad, Precio, Nacionalidad, Recibo, Altura, Figura, Ojos, Cabellos |
+| Rating       | `.pdp_rating_component .tx` → float (coma decimal)                                             |
+| Reviews      | `.review.when-closed` → count                                                                  |
+| Login        | No                                                                                             |
+| País         | ES / Internacional                                                                             |
+| Nota         | `data-number` = ID del anuncio, NO teléfono. CF WAF necesario.                                 |
 
 ---
 

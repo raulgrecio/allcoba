@@ -60,7 +60,46 @@ describe('extractEscortAdvisor — minimal HTML', () => {
     );
     expect(p.sourceId).toBe('11111');
     expect(p.phone).toBeUndefined();
+    expect(p.whatsapp).toBeUndefined();
     expect(p.isVerified).toBe(false);
     expect(p.params.age).toBeUndefined();
+    expect(p.reviewsRating).toBeUndefined();
+    expect(p.reviewsCount).toBeUndefined();
   });
+});
+
+describe('extractEscortAdvisor — whatsapp, rating, and personal-info fields', () => {
+  const html = `<html><body>
+    <div class="username"><h2>Ana</h2></div>
+    <a href="tel:+34612345678">Llamar</a>
+    <div class="btn btn-whatsapp" onclick="whatsApp(+34612345678, 'Ana', 'es', 999, 'Profile', 1)"></div>
+    <div class="pdp_rating_component"><div class="tx">4,50</div></div>
+    <div class="col-xs-12 review when-closed"></div>
+    <div class="col-xs-12 review when-closed"></div>
+    <div class="personal-info">
+      <ul class="info-list">
+        <li><b>Ciudad:</b>Barcelona</li>
+        <li><b>Precio:</b>€€ de 100 a 200 euro</li>
+        <li><b>Recibo:</b>A mi casa Hotel</li>
+        <li><b>Figura:</b>Delgada</li>
+        <li><b>Ojos:</b>Verdes</li>
+        <li><b>Cabellos:</b>Rubia largo</li>
+      </ul>
+    </div>
+  </body></html>`;
+
+  let p: EscortAdvisorPayload;
+  beforeAll(() => {
+    p = extractEscortAdvisor(html, 'https://www.escort-advisor.xxx/escorts/spain/barcelona/ana-999/');
+  });
+
+  it('whatsapp from onclick', () => expect(p.whatsapp).toBe('+34612345678'));
+  it('reviewsRating parsed from comma decimal', () => expect(p.reviewsRating).toBe(4.5));
+  it('reviewsCount from .review.when-closed', () => expect(p.reviewsCount).toBe(2));
+  it('city from personal-info', () => expect(p.params.city).toBe('Barcelona'));
+  it('priceText from personal-info', () => expect(p.params.priceText).toContain('100'));
+  it('meetingRaw from personal-info', () => expect(p.params.meetingRaw).toContain('Hotel'));
+  it('bodyType from personal-info', () => expect(p.params.bodyType).toBe('Delgada'));
+  it('eyeColor from personal-info', () => expect(p.params.eyeColor).toBe('Verdes'));
+  it('hairColor from personal-info', () => expect(p.params.hairColor).toBe('Rubia largo'));
 });

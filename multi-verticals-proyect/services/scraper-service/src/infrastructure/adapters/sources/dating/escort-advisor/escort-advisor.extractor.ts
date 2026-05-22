@@ -2,8 +2,9 @@
  * escort-advisor extractor — HTML → EscortAdvisorPayload.
  *
  * Profile URL: /escorts/{country}/{city}/{slug}/
- * Tech: PHP Custom, Cloudflare WAF.
- * Personal info: .personal-info .info-list li with "Label: value" format.
+ * Tech: PHP custom, Cloudflare WAF. No __NEXT_DATA__.
+ * Phone: a[href^="tel:"] exists. data-number = profile ID (not phone).
+ * WhatsApp: onclick="whatsApp(+PHONE, ...)".
  */
 
 import type { CheerioAPI } from 'cheerio';
@@ -39,15 +40,15 @@ export const extractEscortAdvisor = (html: string, sourceUrl: string): EscortAdv
 
   const bio = $('.data-container .content').text().trim() || undefined;
 
-  const phoneHref =
-    $('a[href^="tel:"]').first().attr('href') ??
-    (() => {
-      const dataNum = $('.toogleReview[data-number]').first().attr('data-number');
-      return dataNum ? `tel:${dataNum}` : undefined;
-    })();
+  // Phone via tel: href. data-number fallback is the profile ID (not a real phone).
+  const phoneHref = $('a[href^="tel:"]').first().attr('href');
   const phone = parseEscortAdvisorPhone(phoneHref);
 
-  // Gallery: .gallery_tray img, .user_image, .banner_image
+  // WhatsApp phone from onclick="whatsApp(+PHONE, ...)"
+  const whatsappOnclick = $('[onclick*="whatsApp"]').first().attr('onclick') ?? '';
+  const whatsappMatch = /whatsApp\((\+\d+)/.exec(whatsappOnclick);
+  const whatsapp = whatsappMatch?.[1] ?? undefined;
+
   const photos: EscortAdvisorPhoto[] = [];
   $('.gallery_tray img, .user_image, .banner_image').each((_, el) => {
     const src = $(el).attr('src') ?? $(el).attr('data-src') ?? '';
@@ -68,6 +69,13 @@ export const extractEscortAdvisor = (html: string, sourceUrl: string): EscortAdv
     return;
   });
 
+  // Numeric rating: "4,86" in .pdp_rating_component .tx (comma decimal separator)
+  const ratingText = $('.pdp_rating_component .tx').first().text().trim();
+  const reviewsRating = ratingText ? parseFloat(ratingText.replace(',', '.')) || undefined : undefined;
+
+  // Reviews count: .review.when-closed divs present in HTML (subset of total)
+  const reviewsCount = $('.review.when-closed').length || undefined;
+
   const params: EscortAdvisorParams = {
     age: parseFirstInt(getPersonalInfoField($, 'Edad')),
     heightCm: parseFirstInt(getPersonalInfoField($, 'Altura')),
@@ -75,6 +83,12 @@ export const extractEscortAdvisor = (html: string, sourceUrl: string): EscortAdv
     nationality: getPersonalInfoField($, 'Nacionalidad'),
     ethnicity: getPersonalInfoField($, 'Etnia'),
     services: services.length > 0 ? services : undefined,
+    city: getPersonalInfoField($, 'Ciudad'),
+    priceText: getPersonalInfoField($, 'Precio'),
+    meetingRaw: getPersonalInfoField($, 'Recibo'),
+    bodyType: getPersonalInfoField($, 'Figura'),
+    eyeColor: getPersonalInfoField($, 'Ojos'),
+    hairColor: getPersonalInfoField($, 'Cabellos'),
   };
 
   return {
@@ -84,8 +98,11 @@ export const extractEscortAdvisor = (html: string, sourceUrl: string): EscortAdv
     nickname,
     bio,
     phone,
+    whatsapp,
     params,
     photos,
     isVerified,
+    reviewsRating,
+    reviewsCount,
   };
 };
