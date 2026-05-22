@@ -160,6 +160,12 @@ describe('mergeProvider — incoming wins', () => {
     expect(result.prices[0]?.amount).toBe(200);
   });
 
+  it('keeps existing prices when incoming prices is empty', () => {
+    const existing = makeProvider({ prices: [{ slot: 'h1', amount: 100, currency: 'EUR' }] });
+    const result = mergeProvider(existing, { prices: [] });
+    expect(result.prices).toEqual([{ slot: 'h1', amount: 100, currency: 'EUR' }]);
+  });
+
   it('takes incoming meetingPlaces', () => {
     const existing = makeProvider({ meetingPlaces: { incall: false, outcall: false } });
     const result = mergeProvider(existing, { meetingPlaces: { incall: true, outcall: true } });

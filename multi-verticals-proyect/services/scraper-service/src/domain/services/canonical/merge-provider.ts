@@ -55,9 +55,9 @@ export function mergeProvider(existing: ScrapedProvider, incoming: MergeUpdate):
     // ── Personal details ──────────────────────────────────────────────────
     personalDetails: mergePersonalDetails(existing.personalDetails, incoming.personalDetails),
 
-    // ── Prices (latest wins) ───────────────────────────────────────────────
+    // ── Prices (latest wins; empty incoming keeps existing) ────────────────
     priceLabelType: incoming.priceLabelType ?? existing.priceLabelType,
-    prices: incoming.prices ?? existing.prices,
+    prices: incoming.prices?.length ? incoming.prices : existing.prices,
 
     // ── Text content (existing wins — may be manually edited) ─────────────
     aboutMe: existing.aboutMe ?? incoming.aboutMe,
