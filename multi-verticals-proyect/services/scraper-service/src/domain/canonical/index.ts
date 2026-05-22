@@ -6,7 +6,6 @@
  * import from here; they should not need a direct import from
  * `@allcoba/shared-types` in practice.
  *
- * See `./DEPRECATION.md` for the migration plan and the legacy ↔ canonical map.
  * See `../../../../../packages/shared-types/CLAUDE.md` for the dependency rule:
  * shared-types may not import from any service.
  */
