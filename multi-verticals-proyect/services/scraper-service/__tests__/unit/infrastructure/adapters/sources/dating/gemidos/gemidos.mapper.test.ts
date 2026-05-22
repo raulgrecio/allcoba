@@ -25,7 +25,12 @@ const BASE_PAYLOAD: GemidosPayload = {
     measurements: '90-60-90',
     nationality: 'Colombiana',
     ethnicity: 'Morena',
-    services: ['GFE', 'Masaje'],
+    services: [
+      { slug: 'servicio-gfe', label: 'GFE', category: 'services' },
+      { slug: 'masaje-erotico', label: 'Masaje', category: 'massage' },
+    ],
+    locationTags: ['Encuentros', 'Hoteles'],
+    address: 'Paseo de la castellana 193',
   },
   photos: [
     { src: 'https://cdn.gemidos.tv/fotos/lucia_1.jpg' },

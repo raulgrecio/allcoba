@@ -219,29 +219,32 @@ Example URL: `https://www.eurogirlsescort.com/escort/sofia/1053224/?list=netqc` 
 > Profile URL real: `/{slug}` un solo segmento, con o SIN id numérico
 > (cards `<a class="listing-link">` en `.listing-pub`).
 > 20/05/2026 (real): `https://gemidos.tv/anitta-brasil` · `https://gemidos.tv/pau-535603`
+>
+> **Estructura detallada del perfil → [gemidos/GEMIDOS.md](gemidos/GEMIDOS.md)**
 
 Example URL: `https://gemidos.tv/pau-535603` (Real)
 
-| Campo        | Valor                                                                         |
-| ------------ | ----------------------------------------------------------------------------- |
-| Tech         | Desconocida (CF WAF protected)                                                |
-| Render       | **CF** — Cloudflare WAF — Playwright + CF bypass necesario                   |
-| Listing      | `/espana`, `/{city}`, etc.                                                    |
-| Profile URL  | `/anuncio/{slug}/` — slug es sourceId                                         |
-| Paginación   | `a[rel="next"]`                                                               |
-| Título       | `.pub-title` (puede contener emojis)                                          |
-| Nickname     | Primer \w+ del título (strip emoji)                                           |
-| Descripción  | `.pub-about-full`                                                             |
-| Ciudad       | ❌ — no disponible en HTML estático                                           |
-| Teléfono     | **HTML** — `.pub-phone span` (texto plano, no href)                           |
-| Tarifas      | ❌ — no disponible                                                            |
-| Servicios    | `.pub-services .pub-tags-item, .pub-tags-item.pub_services`                   |
-| Imágenes     | `.pub-picture img, .pub-book-item img, .story img` · fallback `og:image`      |
-| Verificada   | `.badge-verified, .fa-shield-check`                                           |
-| Tags datos   | `.pub-tags-item.number` → `Años`/`CM`/`KG` · `.pub-tags-item small` → labels |
-| Login        | No                                                                            |
-| País         | ES                                                                            |
-| Nota         | CF WAF — Playwright con bypass necesario para acceder a perfiles              |
+| Campo        | Valor                                                                                                           |
+| ------------ | --------------------------------------------------------------------------------------------------------------- |
+| Tech         | Desconocida (CF WAF protected)                                                                                  |
+| Render       | **CF** — Cloudflare WAF — Playwright + CF bypass necesario                                                      |
+| Listing      | `/espana`, `/{city}`, etc.                                                                                      |
+| Profile URL  | `/anuncio/{slug}/` — slug es sourceId                                                                           |
+| Paginación   | `a[rel="next"]`                                                                                                 |
+| Título       | `.pub-title` (puede contener emojis)                                                                            |
+| Nickname     | Primer \w+ del título (strip emoji)                                                                             |
+| Descripción  | `.pub-about-full`                                                                                               |
+| Ciudad       | ❌ — no disponible en HTML estático                                                                             |
+| Teléfono     | **HTML** — `.pub-phone span` (texto plano, no href)                                                             |
+| Tarifas      | ❌ — no disponible                                                                                              |
+| Servicios    | ✅ `GemidosService{slug,label,category}` — 6 grupos: `services/oral/fantasy/massage/online/extra` via clase CSS |
+| Ubicación    | ✅ `.pub-location-tag` → `locationTags` · `.pub-map-label strong` → `address` · inferido `meetingPlaces`        |
+| Imágenes     | `.pub-picture img, .pub-book-item img, .story img` · fallback `og:image`                                        |
+| Verificada   | `.badge-verified, .fa-shield-check`                                                                             |
+| Tags datos   | `.pub-tags-item.number` → `Años`/`CM`/`KG` · `.pub-tags-item small` → labels                                   |
+| Login        | No                                                                                                              |
+| País         | ES                                                                                                              |
+| Nota         | CF WAF — Playwright con bypass necesario para acceder a perfiles                                                |
 
 ---
 

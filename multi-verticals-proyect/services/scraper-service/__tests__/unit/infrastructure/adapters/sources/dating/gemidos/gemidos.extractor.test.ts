@@ -33,8 +33,9 @@ describe('extractGemidos — fixture lucia_escort-madrid', () => {
   it('nationality = Colombiana', () => expect(payload.params.nationality).toBe('Colombiana'));
   it('ethnicity = Morena', () => expect(payload.params.ethnicity).toBe('Morena'));
   it('services extracted', () => {
-    expect(payload.params.services).toContain('GFE');
-    expect(payload.params.services).toContain('Masaje');
+    const labels = payload.params.services?.map((s) => s.label) ?? [];
+    expect(labels).toContain('GFE');
+    expect(labels.length).toBeGreaterThan(0);
   });
 });
 

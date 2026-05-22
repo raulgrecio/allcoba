@@ -10,7 +10,12 @@
 import type { CheerioAPI } from 'cheerio';
 import * as cheerio from 'cheerio';
 
-import type { GemidosParams, GemidosPayload, GemidosPhoto } from './gemidos.types.js';
+import type {
+  GemidosParams,
+  GemidosPayload,
+  GemidosPhoto,
+  GemidosService,
+} from './gemidos.types.js';
 import {
   parseFirstInt,
   parseGemidosPhone,
@@ -64,10 +69,46 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
 
   const isVerified = $('.badge-verified, .fa-shield-check').length > 0;
 
-  const services: string[] = [];
-  $('.pub-services .pub-tags-item, .pub-tags-item.pub_services').each((_, el) => {
-    const name = $(el).text().trim();
-    if (name) services.push(name);
+  // Cada clase CSS mapea a una categoría funcional
+  const CLASS_CATEGORY: Record<string, GemidosService['category']> = {
+    pub_services: 'services',
+    pub_services_oral: 'oral',
+    pub_services_fantasy: 'fantasy',
+    pub_services_massage: 'massage',
+    pub_services_online: 'online',
+    pub_services_extra: 'extra',
+  };
+
+  const services: GemidosService[] = [];
+  $('.pub-services .pub-tags-item').each((_, el) => {
+    const label = $(el).text().trim();
+    if (!label) return;
+    const slug = $(el).attr('href') ?? '';
+    const classList = ($(el).attr('class') ?? '').split(/\s+/);
+    const categoryClass = classList.find((c) => CLASS_CATEGORY[c]);
+    const category: GemidosService['category'] = categoryClass
+      ? CLASS_CATEGORY[categoryClass]!
+      : 'services';
+    services.push({ slug, label, category });
+    return;
+  });
+
+  // Ubicación: tags de tipo de encuentro
+  const locationTags: string[] = [];
+  $('.pub-location-tag').each((_, el) => {
+    const tag = $(el).text().trim();
+    if (tag) locationTags.push(tag);
+    return;
+  });
+
+  // Dirección libre ("Me encuentro en <strong>…</strong>")
+  let address: string | undefined;
+  $('.pub-map-label strong').each((_, el) => {
+    const text = $(el).text().trim();
+    if (text) {
+      address = text;
+      return false; // break
+    }
     return;
   });
 
@@ -110,6 +151,8 @@ export const extractGemidos = (html: string, sourceUrl: string): GemidosPayload 
     nationality: getTagValue($, 'Nacionalidad'),
     ethnicity: getTagValue($, 'Piel'),
     services: services.length > 0 ? services : undefined,
+    locationTags: locationTags.length > 0 ? locationTags : undefined,
+    address,
   };
 
   return {

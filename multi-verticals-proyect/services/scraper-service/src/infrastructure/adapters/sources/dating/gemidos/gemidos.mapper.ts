@@ -39,6 +39,22 @@ const slugify = (text: string | undefined): string | undefined => {
   );
 };
 
+// Tags que indican que la escort se desplaza (outcall)
+const OUTCALL_PATTERNS = /hotel|domicilio|salida|desplaz/i;
+// Tags que indican que recibe en su lugar (incall)
+const INCALL_PATTERNS = /encuentro|presencial|real|piso|local/i;
+
+const resolveMeetingPlaces = (
+  tags: readonly string[] | undefined,
+): { incall: boolean; outcall: boolean } => {
+  if (!tags || tags.length === 0) return { incall: false, outcall: false };
+  const joined = tags.join(' ');
+  return {
+    incall: INCALL_PATTERNS.test(joined),
+    outcall: OUTCALL_PATTERNS.test(joined),
+  };
+};
+
 const mapPhoto = (photo: GemidosPayload['photos'][number], idx: number): ScrapedPhoto => ({
   id: `gemidos:photo:${idx}`,
   url: photo.src,
@@ -107,7 +123,7 @@ export const mapGemidos = async (
     verificationStatus,
     baseCity: undefined,
     currentCity: undefined,
-    meetingPlaces: { incall: false, outcall: false },
+    meetingPlaces: resolveMeetingPlaces(payload.params.locationTags),
     contactOptions: [...(payload.phone ? (['calls'] as const) : [])],
     personalDetails,
     priceLabelType: undefined,
@@ -148,6 +164,8 @@ export const mapGemidos = async (
     attributes: {
       measurements: payload.params.measurements,
       services: payload.params.services,
+      address: payload.params.address,
+      locationTags: payload.params.locationTags,
     },
     metadata: { source: GEMIDOS_SOURCE, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),
