@@ -33,7 +33,7 @@ describe('InMemoryRawPayloadRepository', () => {
     await repo.save(rec);
     await repo.save({ ...rec, payload: { nickname: 'Updated' } });
     const found = await repo.findOne(rec.source, rec.sourceId);
-    expect((found?.payload as any).nickname).toBe('Updated');
+    expect((found?.payload as Record<string, unknown>).nickname).toBe('Updated');
   });
 
   it('find by source returns all matching records', async () => {

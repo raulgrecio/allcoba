@@ -7,8 +7,17 @@
 import { randomUUID } from 'node:crypto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { Vertical } from '@allcoba/shared-types';
 import { asProviderId } from '@allcoba/shared-types';
 
+import type { CrawlerPort } from '#application/ports/crawler.port.js';
+import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
+import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { StoragePort } from '#application/ports/storage.port.js';
+import type {
+  ScraperConfig,
+  ScrapeUrlUseCase,
+} from '#application/use-cases/scrape-url.use-case.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
@@ -36,42 +45,51 @@ const makeSource = (opts: {
   };
 };
 
-// ── mocks ─────────────────────────────────────────────────────────────────────
+// ── typed mock factories ───────────────────────────────────────────────────────
 
-const makeCrawler = () => ({
-  fetch: vi.fn().mockResolvedValue({ html: '<html/>' }),
-  close: vi.fn(),
-});
+type FakeCrawler = CrawlerPort & {
+  fetch: ReturnType<typeof vi.fn>;
+  close: ReturnType<typeof vi.fn>;
+};
 
-const makeSourceResolver = (source: ReturnType<typeof makeSource>) => ({
-  resolve: vi.fn().mockResolvedValue(source),
-});
+const makeCrawler = (): FakeCrawler =>
+  ({
+    fetch: vi.fn().mockResolvedValue({ html: '<html/>' }),
+    close: vi.fn(),
+  }) as unknown as FakeCrawler;
 
-const makeScrapeUrlUseCase = () => ({
-  execute: vi.fn().mockResolvedValue(undefined),
-});
+const makeSourceResolver = (source: ReturnType<typeof makeSource>): SourceResolverPort =>
+  ({ resolve: vi.fn().mockResolvedValue(source) }) as unknown as SourceResolverPort;
 
-const makeStorage = () => ({
-  upload: vi.fn().mockResolvedValue('file:///tmp/x'),
-  delete: vi.fn().mockResolvedValue(undefined),
-  exists: vi.fn().mockResolvedValue(false),
-});
+const makeScrapeUrlUseCase = () =>
+  ({ execute: vi.fn().mockResolvedValue(undefined) }) as unknown as ScrapeUrlUseCase & {
+    execute: ReturnType<typeof vi.fn>;
+  };
 
-// saveRawHtml off → no listing HTML dump in unit tests
-const TEST_CONFIG = { saveRawHtml: false };
+const makeStorage = (): StoragePort =>
+  ({
+    upload: vi.fn().mockResolvedValue('file:///tmp/x'),
+    delete: vi.fn().mockResolvedValue(undefined),
+    exists: vi.fn().mockResolvedValue(false),
+  }) as unknown as StoragePort;
+
+const TEST_CONFIG: ScraperConfig = { saveRawHtml: false } as unknown as ScraperConfig;
 
 // ── entity repos ──────────────────────────────────────────────────────────────
 
 const makeEntityRepos = () => {
   const repo = new InMemoryScrapedEntityRepository<ScrapedListing & HasExternalRefs>();
-  return new Map([['general', repo]] as [string, typeof repo][]) as Map<'general', typeof repo>;
+  return new Map([['general', repo]] as [string, typeof repo][]) as unknown as Map<
+    Vertical,
+    ScrapedEntityRepositoryPort<HasExternalRefs>
+  >;
 };
 
 describe('DiscoverUrlsUseCase', () => {
   beforeEach(() => {
-    vi.spyOn(global, 'setTimeout').mockImplementation((fn: any) => {
-      fn();
-      return 0 as any;
+    vi.spyOn(global, 'setTimeout').mockImplementation((fn: unknown) => {
+      (fn as () => void)();
+      return 0 as unknown as ReturnType<typeof setTimeout>;
     });
   });
 
@@ -87,12 +105,12 @@ describe('DiscoverUrlsUseCase', () => {
     const crawler = makeCrawler();
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      crawler as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      crawler,
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 10);
@@ -107,12 +125,12 @@ describe('DiscoverUrlsUseCase', () => {
     const source = makeSource({ profileLinks: [links], nextPages: [undefined] });
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 3);
@@ -142,15 +160,18 @@ describe('DiscoverUrlsUseCase', () => {
       nextPages: [undefined],
     });
     const scraper = makeScrapeUrlUseCase();
-    const entityRepos = new Map([['general', repo]]) as any;
+    const entityRepos = new Map([['general', repo]]) as unknown as Map<
+      Vertical,
+      ScrapedEntityRepositoryPort<HasExternalRefs>
+    >;
 
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
       entityRepos,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 10);
@@ -163,12 +184,12 @@ describe('DiscoverUrlsUseCase', () => {
     const source = makeSource({ profileLinks: [[]], nextPages: [undefined] });
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list');
@@ -183,12 +204,12 @@ describe('DiscoverUrlsUseCase', () => {
     });
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 10);
@@ -209,12 +230,12 @@ describe('DiscoverUrlsUseCase', () => {
     });
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 10, 2);
@@ -228,16 +249,15 @@ describe('DiscoverUrlsUseCase', () => {
       profileLinks: [['https://example.com/item/unknown-vertical']],
       nextPages: [undefined],
     });
-    // Use a source with a vertical that has no repo in entityRepos
     Object.assign(source, { defaultVertical: 'real-estate' });
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any, // only has 'general'
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(), // only has 'general'
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await expect(useCase.execute('https://example.com/list', 10)).resolves.not.toThrow();
@@ -250,12 +270,12 @@ describe('DiscoverUrlsUseCase', () => {
     crawler.fetch.mockRejectedValueOnce(new Error('fetch failed'));
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      crawler as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      crawler,
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await expect(useCase.execute('https://example.com/list')).resolves.not.toThrow();
@@ -273,12 +293,12 @@ describe('DiscoverUrlsUseCase', () => {
     };
     const scraper = makeScrapeUrlUseCase();
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(datingSource as any) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(datingSource as unknown as ReturnType<typeof makeSource>),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 1);
@@ -297,12 +317,12 @@ describe('DiscoverUrlsUseCase', () => {
       .mockResolvedValueOnce(undefined);
 
     const useCase = new DiscoverUrlsUseCase(
-      makeSourceResolver(source) as any,
-      scraper as any,
-      makeCrawler() as any,
-      makeEntityRepos() as any,
-      makeStorage() as any,
-      TEST_CONFIG as any,
+      makeSourceResolver(source),
+      scraper,
+      makeCrawler(),
+      makeEntityRepos(),
+      makeStorage(),
+      TEST_CONFIG,
     );
 
     await useCase.execute('https://example.com/list', 10);

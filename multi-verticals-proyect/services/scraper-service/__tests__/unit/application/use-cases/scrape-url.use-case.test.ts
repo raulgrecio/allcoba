@@ -5,9 +5,19 @@
 
 import { describe, expect, it, vi } from 'vitest';
 
+import type { Vertical } from '@allcoba/shared-types';
+
+import type { CrawlerPort } from '#application/ports/crawler.port.js';
+import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
+import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
+import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 
 // ── factories ─────────────────────────────────────────────────────────────────
+
+type AnyPersistenceStrategy = PersistenceStrategyPort<HasExternalRefs>;
+type FakeCrawler = CrawlerPort & { fetch: ReturnType<typeof vi.fn> };
 
 /** Pipeline v2 — pasa el guard isScrapingPipelinePort (map+extract+identifier+defaultVertical). */
 const makePipeline = (
@@ -27,24 +37,25 @@ const makePipeline = (
   ...overrides,
 });
 
-const makeCrawler = () => ({
-  fetch: vi.fn().mockResolvedValue({ html: '<html/>' }),
-  close: vi.fn(),
-});
+const makeCrawler = (): FakeCrawler =>
+  ({
+    fetch: vi.fn().mockResolvedValue({ html: '<html/>' }),
+    close: vi.fn(),
+  }) as unknown as FakeCrawler;
 
-const makeSourceResolver = (source: unknown) => ({
-  resolve: vi.fn().mockResolvedValue(source),
-});
+const makeSourceResolver = (source: unknown): SourceResolverPort =>
+  ({ resolve: vi.fn().mockResolvedValue(source) }) as unknown as SourceResolverPort;
 
-const makeTaxonomyResolver = () => ({
-  resolveCity: vi.fn().mockResolvedValue(null),
-  resolveCountry: vi.fn().mockResolvedValue(null),
-  resolveNationality: vi.fn().mockResolvedValue(null),
-  resolveEthnicity: vi.fn().mockResolvedValue(null),
-  resolveHair: vi.fn().mockResolvedValue(null),
-  resolveEyes: vi.fn().mockResolvedValue(null),
-  resolveOrientation: vi.fn().mockResolvedValue(null),
-});
+const makeTaxonomyResolver = (): TaxonomyResolverPort =>
+  ({
+    resolveCity: vi.fn().mockResolvedValue(null),
+    resolveCountry: vi.fn().mockResolvedValue(null),
+    resolveNationality: vi.fn().mockResolvedValue(null),
+    resolveEthnicity: vi.fn().mockResolvedValue(null),
+    resolveHair: vi.fn().mockResolvedValue(null),
+    resolveEyes: vi.fn().mockResolvedValue(null),
+    resolveOrientation: vi.fn().mockResolvedValue(null),
+  }) as unknown as TaxonomyResolverPort;
 
 const makeStrategy = () => ({
   persist: vi.fn().mockResolvedValue({ action: 'CREATE', entityId: 'entity-1' }),
@@ -53,7 +64,8 @@ const makeStrategy = () => ({
 const makeStrategiesMap = (
   vertical: 'dating' | 'general' | 'real-estate' | 'motor' = 'dating',
   strategy = makeStrategy(),
-) => new Map([[vertical, strategy]]) as any;
+): Map<Vertical, AnyPersistenceStrategy> =>
+  new Map([[vertical, strategy as unknown as AnyPersistenceStrategy]]);
 
 // ── tests ─────────────────────────────────────────────────────────────────────
 
@@ -63,9 +75,9 @@ describe('ScrapeUrlUseCase', () => {
     const strategy = makeStrategy();
     const crawler = makeCrawler();
     const useCase = new ScrapeUrlUseCase(
-      makeSourceResolver(pipeline) as any,
-      crawler as any,
-      makeTaxonomyResolver() as any,
+      makeSourceResolver(pipeline),
+      crawler,
+      makeTaxonomyResolver(),
       makeStrategiesMap('dating', strategy),
     );
 
@@ -80,9 +92,9 @@ describe('ScrapeUrlUseCase', () => {
   it('throws when robots.txt blocks', async () => {
     const pipeline = makePipeline('dating', { isAllowed: vi.fn().mockResolvedValue(false) });
     const useCase = new ScrapeUrlUseCase(
-      makeSourceResolver(pipeline) as any,
-      makeCrawler() as any,
-      makeTaxonomyResolver() as any,
+      makeSourceResolver(pipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
       makeStrategiesMap(),
     );
 
@@ -95,9 +107,9 @@ describe('ScrapeUrlUseCase', () => {
     const pipeline = makePipeline('dating', { isAllowed: vi.fn().mockResolvedValue(false) });
     const strategy = makeStrategy();
     const useCase = new ScrapeUrlUseCase(
-      makeSourceResolver(pipeline) as any,
-      makeCrawler() as any,
-      makeTaxonomyResolver() as any,
+      makeSourceResolver(pipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
       makeStrategiesMap('dating', strategy),
       { skipRobots: true },
     );
@@ -112,9 +124,9 @@ describe('ScrapeUrlUseCase', () => {
     const pipeline = makePipeline('general');
     const strategy = makeStrategy();
     const useCase = new ScrapeUrlUseCase(
-      makeSourceResolver(pipeline) as any,
-      makeCrawler() as any,
-      makeTaxonomyResolver() as any,
+      makeSourceResolver(pipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
       makeStrategiesMap('dating', strategy), // 'general' no registrada
     );
 
@@ -126,9 +138,9 @@ describe('ScrapeUrlUseCase', () => {
   it('throws when resolved source is not a v2 pipeline', async () => {
     const notAPipeline = { identifier: 'x', extract: vi.fn() }; // sin map
     const useCase = new ScrapeUrlUseCase(
-      makeSourceResolver(notAPipeline) as any,
-      makeCrawler() as any,
-      makeTaxonomyResolver() as any,
+      makeSourceResolver(notAPipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
       makeStrategiesMap(),
     );
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
 import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
 
@@ -40,7 +41,7 @@ const uc = new ExtractionStatsUseCase(new InMemoryProviderRepository());
 
 describe('ExtractionStatsUseCase.compute', () => {
   it('calculates 100% fill-rate for complete provider', () => {
-    const { sources } = uc.compute([makeProvider() as any], null, 20);
+    const { sources } = uc.compute([makeProvider() as unknown as ScrapedProvider], null, 20);
     const src = sources[0]!;
     expect(src.source).toBe('ardienteplacer');
     expect(src.fields['nickname']!.rate).toBe(100);
@@ -67,7 +68,7 @@ describe('ExtractionStatsUseCase.compute', () => {
       attributes: {},
       badges: { verified: false, trans: false, vip: false, pornstar: false },
     });
-    const { sources } = uc.compute([empty as any], null, 20);
+    const { sources } = uc.compute([empty as unknown as ScrapedProvider], null, 20);
     const src = sources[0]!;
     expect(src.fields['nickname']!.rate).toBe(0);
     expect(src.fields['phone']!.rate).toBe(0);
@@ -85,7 +86,7 @@ describe('ExtractionStatsUseCase.compute', () => {
     const p3 = makeProvider({
       externalRefs: [{ source: 'mislios', sourceId: '3', sourceUrl: '' }],
     });
-    const { sources } = uc.compute([p1, p2, p3] as any, null, 20);
+    const { sources } = uc.compute([p1, p2, p3] as unknown as ScrapedProvider[], null, 20);
     expect(sources).toHaveLength(2);
     expect(sources.find((s) => s.source === 'bluemove')!.total).toBe(2);
     expect(sources.find((s) => s.source === 'mislios')!.total).toBe(1);
@@ -94,7 +95,7 @@ describe('ExtractionStatsUseCase.compute', () => {
   it('detects regression when drop >= threshold', () => {
     const p = makeProvider({ photos: [] }); // photos = 0%
     const baseline = { ardienteplacer: { photos: 90 } };
-    const { regressions } = uc.compute([p as any], baseline, 20);
+    const { regressions } = uc.compute([p as unknown as ScrapedProvider], baseline, 20);
     expect(regressions).toHaveLength(1);
     expect(regressions[0]!.field).toBe('photos');
     expect(regressions[0]!.drop).toBe(90);
@@ -103,12 +104,12 @@ describe('ExtractionStatsUseCase.compute', () => {
   it('does not flag regression below threshold', () => {
     const p = makeProvider({ photos: [] }); // photos = 0%
     const baseline = { ardienteplacer: { photos: 10 } }; // drop 10pp < threshold 20
-    const { regressions } = uc.compute([p as any], baseline, 20);
+    const { regressions } = uc.compute([p as unknown as ScrapedProvider], baseline, 20);
     expect(regressions).toHaveLength(0);
   });
 
   it('toBaselineData serializes correctly', () => {
-    const { sources } = uc.compute([makeProvider() as any], null, 20);
+    const { sources } = uc.compute([makeProvider() as unknown as ScrapedProvider], null, 20);
     const bd = uc.toBaselineData(sources);
     expect(bd['ardienteplacer']!['nickname']).toBe(100);
     expect(bd['ardienteplacer']!['photos']).toBe(100);
@@ -118,7 +119,7 @@ describe('ExtractionStatsUseCase.compute', () => {
 describe('ExtractionStatsUseCase.execute', () => {
   it('reads providers from the repository and computes stats', async () => {
     const repo = new InMemoryProviderRepository();
-    await repo.create(makeProvider() as any);
+    await repo.create(makeProvider() as unknown as ScrapedProvider);
     const useCase = new ExtractionStatsUseCase(repo);
 
     const { sources } = await useCase.execute({
@@ -137,13 +138,13 @@ describe('ExtractionStatsUseCase.execute', () => {
       makeProvider({
         id: 'a:1',
         externalRefs: [{ source: 'bluemove', sourceId: '1', sourceUrl: '' }],
-      }) as any,
+      }) as unknown as ScrapedProvider,
     );
     await repo.create(
       makeProvider({
         id: 'b:1',
         externalRefs: [{ source: 'mislios', sourceId: '2', sourceUrl: '' }],
-      }) as any,
+      }) as unknown as ScrapedProvider,
     );
     const useCase = new ExtractionStatsUseCase(repo);
 

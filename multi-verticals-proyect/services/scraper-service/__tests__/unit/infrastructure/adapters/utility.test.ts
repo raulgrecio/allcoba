@@ -6,7 +6,7 @@
 import { randomUUID } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 
-import { asProviderId } from '@allcoba/shared-types';
+import { asImageHash, asPhoneE164, asProviderId } from '@allcoba/shared-types';
 
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
@@ -106,9 +106,12 @@ describe('InMemoryProviderRepository', () => {
 
   it('find by phoneNumber', async () => {
     const repo = new InMemoryProviderRepository();
-    const p = makeProvider({ phoneNumber: '+34612345678' as any });
+    const p = makeProvider({ phoneNumber: asPhoneE164('+34612345678') });
     await repo.create(p);
-    const results = await repo.find({ vertical: 'dating', phoneNumber: '+34612345678' as any });
+    const results = await repo.find({
+      vertical: 'dating',
+      phoneNumber: asPhoneE164('+34612345678'),
+    });
     expect(results).toHaveLength(1);
   });
 
@@ -117,14 +120,14 @@ describe('InMemoryProviderRepository', () => {
     const p = makeProvider({
       images: [
         {
-          hash: 'abc' as any,
+          hash: asImageHash('abc'),
           storedUrl: 'https://r2.com/img.jpg',
           originalUrl: 'https://src.com/img.jpg',
         },
       ],
     });
     await repo.create(p);
-    const results = await repo.find({ vertical: 'dating', imageHash: 'abc' as any });
+    const results = await repo.find({ vertical: 'dating', imageHash: asImageHash('abc') });
     expect(results).toHaveLength(1);
   });
 

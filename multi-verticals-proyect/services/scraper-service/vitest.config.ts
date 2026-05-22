@@ -64,6 +64,11 @@ export default defineConfig({
 
         // DB-dependent catalog adapter — requires live Postgres
         'src/infrastructure/adapters/catalog/drizzle-taxonomy-resolver.ts',
+
+        // CLI commands — wire DI container + process.exit; covered by e2e/smoke
+        'src/infrastructure/cli/commands/scrape.command.ts',
+        'src/infrastructure/cli/commands/discover.command.ts',
+        'src/infrastructure/cli/commands/stats.command.ts',
       ],
       thresholds: {
         perFile: true,
