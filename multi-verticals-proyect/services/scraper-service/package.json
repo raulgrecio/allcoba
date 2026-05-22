@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "@allcoba/kernel": "workspace:*",
-    "@allcoba/legacy-domain": "workspace:*",
     "@allcoba/shared-types": "workspace:*",
     "cheerio": "^1.2.0",
     "commander": "^14.0.3",
