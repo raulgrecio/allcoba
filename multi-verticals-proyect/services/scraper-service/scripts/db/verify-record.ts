@@ -40,7 +40,7 @@ async function verify() {
         '✅ Registro encontrado:',
       );
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger().error({ error }, '❌ Error durante la verificación:');
   } finally {
     await sql.end();

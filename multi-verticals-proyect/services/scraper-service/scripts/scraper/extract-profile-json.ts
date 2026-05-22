@@ -64,8 +64,10 @@ async function main() {
           const outputPath = path.join(absoluteTargetDir, `${baseName}.json`);
           fs.writeFileSync(outputPath, JSON.stringify(data, null, 2));
           extractedCount++;
-        } catch (err: any) {
-          console.error(`❌ Error parseando profileData en ${file}: ${err.message}`);
+        } catch (err: unknown) {
+          console.error(
+            `❌ Error parseando profileData en ${file}: ${err instanceof Error ? err.message : String(err)}`,
+          );
         }
       }
     }

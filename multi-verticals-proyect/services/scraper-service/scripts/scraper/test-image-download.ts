@@ -16,7 +16,9 @@ async function testImageDownload() {
   const repository = new JsonFileProviderRepository();
 
   const providers = await repository.find({ vertical: 'dating' });
-  const item = providers.find((p) => (p.metadata as any)?.sourceUrl === targetUrl);
+  const item = providers.find(
+    (p) => (p.metadata as Record<string, unknown>)?.sourceUrl === targetUrl,
+  );
 
   if (!item) {
     logger().error('No se encontró el perfil. ¿Has corrido el discover antes?');
@@ -52,8 +54,10 @@ async function testImageDownload() {
       if (head.includes('<html') || head.includes('<!DOCTYPE')) {
         logger().warn('Content looks like HTML — Cloudflare may have blocked the download.');
       }
-    } catch (error: any) {
-      logger().error(`Error downloading image ${index + 1}: ${error.message}`);
+    } catch (error: unknown) {
+      logger().error(
+        `Error downloading image ${index + 1}: ${error instanceof Error ? error.message : String(error)}`,
+      );
     }
   }
 }

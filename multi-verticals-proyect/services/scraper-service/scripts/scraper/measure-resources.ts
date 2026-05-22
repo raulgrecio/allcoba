@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import type { BrowserType } from 'playwright-core';
 import { chromium as patchright } from 'patchright';
 import { chromium as playwright } from 'playwright-core';
 
@@ -20,7 +21,7 @@ async function getBrowserMemory(execPath: string): Promise<number> {
   }
 }
 
-async function runMeasurement(engine: any, name: string) {
+async function runMeasurement(engine: BrowserType, name: string) {
   console.log(`\n--- Midiendo ${name} ---`);
 
   const browser = await engine.launch({ headless: true });

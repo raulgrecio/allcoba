@@ -32,8 +32,11 @@ function main() {
         `npx quicktype "${inputPath}" -o "${outputPath}" --lang ts --just-types --top-level ${typeName}`,
         { stdio: 'inherit' },
       );
-    } catch (err: any) {
-      console.error(`❌ Error generando tipos para ${file}:`, err.message);
+    } catch (err: unknown) {
+      console.error(
+        `❌ Error generando tipos para ${file}:`,
+        err instanceof Error ? err.message : String(err),
+      );
     }
   }
 
