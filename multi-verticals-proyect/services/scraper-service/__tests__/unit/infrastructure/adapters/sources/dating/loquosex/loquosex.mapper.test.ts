@@ -165,6 +165,14 @@ describe('mapLoquosex — attributes & externalRefs', () => {
     });
   });
 
+  it('attributes contains cityName and zone when present', async () => {
+    const sp = await mapLoquosex(
+      { ...BASE_PAYLOAD, params: { ...BASE_PAYLOAD.params, zone: 'Centro' } },
+      new FakeTaxonomyResolver(),
+    );
+    expect(sp.attributes).toMatchObject({ cityName: 'Murcia', zone: 'Centro' });
+  });
+
   it('externalRefs has source=loquosex', async () => {
     const sp = await mapLoquosex(BASE_PAYLOAD, new FakeTaxonomyResolver());
     const ref = sp.externalRefs.find((r) => r.source === 'loquosex');
@@ -175,6 +183,21 @@ describe('mapLoquosex — attributes & externalRefs', () => {
   it('metadata.adapterVersion = v2', async () => {
     const sp = await mapLoquosex(BASE_PAYLOAD, new FakeTaxonomyResolver());
     expect((sp.metadata as Record<string, unknown>).adapterVersion).toBe('v2');
+  });
+});
+
+describe('mapLoquosex — prices', () => {
+  it('maps priceMin into a custom-slot EUR price', async () => {
+    const sp = await mapLoquosex(BASE_PAYLOAD, new FakeTaxonomyResolver());
+    expect(sp.prices).toEqual([{ slot: 'custom', amount: 50, currency: 'EUR' }]);
+  });
+
+  it('prices is empty when priceMin absent', async () => {
+    const sp = await mapLoquosex(
+      { ...BASE_PAYLOAD, params: { ...BASE_PAYLOAD.params, priceMin: undefined } },
+      new FakeTaxonomyResolver(),
+    );
+    expect(sp.prices).toEqual([]);
   });
 });
 

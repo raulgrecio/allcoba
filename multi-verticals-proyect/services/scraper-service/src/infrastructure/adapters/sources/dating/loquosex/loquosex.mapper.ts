@@ -14,7 +14,7 @@ import {
   asPhoneE164,
   asProviderId,
   type PersonalDetailsCanonical,
-
+  type PriceCanonical,
   type ProfileVerificationStatus,
   i18nFromOriginal,
 } from '@allcoba/shared-types';
@@ -28,6 +28,7 @@ import { Confidence } from '#domain/canonical/confidence.js';
 import {
   parseLoquosexAge,
   parseLoquosexMeetingPlaces,
+  parseLoquosexMinPrice,
   slugifyLoquosex,
 } from './loquosex.parsers.js';
 import type { LoquosexPayload } from './loquosex.types.js';
@@ -105,6 +106,10 @@ export const mapLoquosex = async (
 
   const primaryPhone = payload.whatsappPhone ?? payload.phone;
 
+  const minPrice = parseLoquosexMinPrice(payload.params.priceMin);
+  const prices: PriceCanonical[] =
+    minPrice !== undefined ? [{ slot: 'custom', amount: minPrice, currency: 'EUR' }] : [];
+
   return {
     id: providerId,
     vertical: 'dating',
@@ -129,7 +134,7 @@ export const mapLoquosex = async (
     ],
     personalDetails,
     priceLabelType: undefined,
-    prices: [],
+    prices,
     aboutMe: payload.bio ? i18nFromOriginal(payload.bio, contentLocale) : undefined,
     serviceText: undefined,
     topTourText: undefined,
@@ -167,6 +172,8 @@ export const mapLoquosex = async (
       services: payload.services,
       priceMin: payload.params.priceMin,
       isPremium: payload.params.isPremium,
+      ...(payload.params.city ? { cityName: payload.params.city } : {}),
+      ...(payload.params.zone ? { zone: payload.params.zone } : {}),
     },
     metadata: { source: LOQUOSEX_SOURCE, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),

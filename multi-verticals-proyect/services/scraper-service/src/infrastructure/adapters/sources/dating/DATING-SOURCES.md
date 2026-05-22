@@ -318,13 +318,13 @@ Example URL: `https://hotvalencia.com/putas-valencia/valentina-escortvalencia/` 
 
 ## loquosex.com ✅ v2
 
-> WordPress: **No** (verificado 20/05/2026). Sitio caído 20-21/05/2026 — pendiente verificar cuando vuelva.
+> WordPress: **Sí** (imágenes en `wp-content/uploads/products_img/`, verificado 22/05/2026). Operativo de nuevo 22/05/2026 tras caída 20-21/05 (502 del origen, no bloqueo anti-bot).
 
 Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-677684329.html/` (Real)
 
 | Campo       | Valor                                                                        |
 | ----------- | ---------------------------------------------------------------------------- |
-| Tech        | PHP (WordPress o custom)                                                     |
+| Tech        | WordPress (PHP)                                                              |
 | Render      | SSR                                                                          |
 | Listing     | TBD                                                                          |
 | Profile URL | `*.html` (excluye `/page/`)                                                  |
