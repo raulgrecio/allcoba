@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import type { StatsResult } from '#application/use-cases/extraction-stats.use-case.js';
 import { printReport } from '#infrastructure/cli/cli-output.js';
 import { CrawlerLifecycle } from '#infrastructure/cli/crawler-lifecycle.js';
 import { formatStatsReport } from '#infrastructure/cli/stats-reporter.js';
@@ -175,7 +176,7 @@ describe('formatStatsReport', () => {
   });
 
   it('handles multiple sources', () => {
-    const result = {
+    const result: StatsResult = {
       sources: [
         { source: 'src-a', total: 5, fields: { nickname: { count: 5, total: 5, rate: 100 } } },
         { source: 'src-b', total: 3, fields: { phone: { count: 0, total: 3, rate: 0 } } },

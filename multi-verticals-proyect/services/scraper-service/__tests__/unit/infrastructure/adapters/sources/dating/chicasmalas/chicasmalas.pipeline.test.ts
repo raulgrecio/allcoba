@@ -52,7 +52,7 @@ describe('ChicasmalasPipeline class methods', () => {
   });
 
   it('extractNextPageUrl — always returns undefined', () => {
-    expect(pipeline.extractNextPageUrl('<html/>', 'https://chicasmalas.es')).toBeUndefined();
+    expect(pipeline.extractNextPageUrl()).toBeUndefined();
   });
 
   it('getCrawlerOptions includes cookieSelectors and ageGateSelectors', () => {
