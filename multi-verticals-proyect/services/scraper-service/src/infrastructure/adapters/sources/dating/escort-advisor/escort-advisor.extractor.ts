@@ -71,7 +71,9 @@ export const extractEscortAdvisor = (html: string, sourceUrl: string): EscortAdv
 
   // Numeric rating: "4,86" in .pdp_rating_component .tx (comma decimal separator)
   const ratingText = $('.pdp_rating_component .tx').first().text().trim();
-  const reviewsRating = ratingText ? parseFloat(ratingText.replace(',', '.')) || undefined : undefined;
+  const reviewsRating = ratingText
+    ? parseFloat(ratingText.replace(',', '.')) || undefined
+    : undefined;
 
   // Reviews count: .review.when-closed divs present in HTML (subset of total)
   const reviewsCount = $('.review.when-closed').length || undefined;

@@ -38,6 +38,8 @@ Example URL: `https://www.ardienteplacer.com/index.php/escort/putas-guarras-puta
 
 ## bluemove.es ✅ v2
 
+> **Estructura detallada → [bluemove/BLUEMOVE.md](bluemove/BLUEMOVE.md)**
+
 Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
 | Campo       | Valor                                                                    |
@@ -67,6 +69,8 @@ Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
 ## chicasmalas.es ✅ v2
 
+> **Estructura detallada → [chicasmalas/CHICASMALAS.md](chicasmalas/CHICASMALAS.md)**
+
 Example URL: `https://www.chicasmalas.es/anuncios/sofia-deluxe/` (Real)
 
 | Campo                  | Valor                                                                   |
@@ -89,6 +93,7 @@ Example URL: `https://www.chicasmalas.es/anuncios/sofia-deluxe/` (Real)
 ## citapasion.com ✅ v2
 
 > WordPress: **No** (verificado 20/05/2026).
+> **Estructura detallada → [citapasion/CITAPASION.md](citapasion/CITAPASION.md)**
 
 Example URL: `https://citapasion.com/escorts/17533` (Real)
 
@@ -118,6 +123,7 @@ Example URL: `https://citapasion.com/escorts/17533` (Real)
 ## destacamos.net ✅ v2
 
 > WordPress: **No** (verificado 20/05/2026).
+> **Estructura detallada → [destacamos/DESTACAMOS.md](destacamos/DESTACAMOS.md)**
 
 Example URL: `https://www.destacamos.net/{id}-{slug}.html` (patrón)
 
@@ -140,6 +146,8 @@ Example URL: `https://www.destacamos.net/{id}-{slug}.html` (patrón)
 ---
 
 ## erosguia.com ✅ v2
+
+> **Estructura detallada → [erosguia/EROSGUIA.md](erosguia/EROSGUIA.md)**
 
 Example URL: `https://www.erosguia.com/55383.html` (Real)
 
@@ -204,6 +212,8 @@ Example URL: `https://www.escort-advisor.xxx/opiniones/667554247` (Real)
 
 ## eurogirlsescort.es / .com ✅ v2
 
+> **Estructura detallada → [eurogirlsescort/EUROGIRLSESCORT.md](eurogirlsescort/EUROGIRLSESCORT.md)**
+
 Example URL: `https://www.eurogirlsescort.com/escort/sofia/1053224/?list=netqc` (Real)
 
 | Campo       | Valor                                                                                                                                                                                                                                       |
@@ -263,6 +273,8 @@ Example URL: `https://gemidos.tv/pau-535603` (Real)
 
 ## girlsbcn.net / girlsbcn.com ✅ v2
 
+> **Estructura detallada → [girlsbcn/GIRLSBCN.md](girlsbcn/GIRLSBCN.md)**
+
 Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 
 | Campo        | Valor                                                                                              |
@@ -284,6 +296,8 @@ Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 ---
 
 ## girlsmadrid.com ✅ v2
+
+> **Estructura detallada → [girlsmadrid/GIRLSMADRID.md](girlsmadrid/GIRLSMADRID.md)**
 
 Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 
@@ -337,6 +351,7 @@ Example URL: `https://hotvalencia.com/putas-valencia/valentina-escortvalencia/` 
 ## loquosex.com ✅ v2
 
 > WordPress: **Sí** (imágenes en `wp-content/uploads/products_img/`, verificado 22/05/2026). Operativo de nuevo 22/05/2026 tras caída 20-21/05 (502 del origen, no bloqueo anti-bot).
+> **Estructura detallada → [loquosex/LOQUOSEX.md](loquosex/LOQUOSEX.md)**
 
 Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-677684329.html/` (Real)
 
@@ -500,7 +515,8 @@ Example URL: `https://nuevapasion.com/anuncio/quieres-disfrutar-ven-j9ZZ3vFBjb` 
 ## topescortbabes.com ✅ v2
 
 > WordPress: **No** — `window.profileData` JS object en `<script>` (verificado con HTML real).
-> Estructura detallada: `topescortbabes.types.ts` (700+ líneas de tipos inferidos de 51 JSON reales).
+> **Estructura detallada → [topescortbabes/TOPESCORTBABES.md](topescortbabes/TOPESCORTBABES.md)**
+> Tipos completos: `topescortbabes.types.ts` (700+ líneas inferidos de 51 JSON reales).
 > Fixtures: `lera.html` (lera, sin precios, vip) · `luna.html` (luna, con precios, vip).
 
 Example URL: `https://topescortbabes.com/barcelona/escorts/Lera_4091523` (Real)
@@ -578,6 +594,7 @@ Cloudflare WAF (Playwright + bypass):
 ## mundosexanuncio.com ✅ v2
 
 > WordPress: **No** — PHP SSR (verificado 20/05/2026).
+> **Estructura detallada → [mundosexanuncio/MUNDOSEXANUNCIO.md](mundosexanuncio/MUNDOSEXANUNCIO.md)**
 > Listado real: `https://www.mundosexanuncio.com/contactos-mujeres-en-madrid-provincia`
 > 20/05/2026 (real): `https://www.mundosexanuncio.com/contactos-mujeres/antonella-coslada-video-de-presentacion-99065186` · `https://www.mundosexanuncio.com/contactos-mujeres/sofia-rubia-muy-sexy-paraguaya-cachonda-99537024`
 
