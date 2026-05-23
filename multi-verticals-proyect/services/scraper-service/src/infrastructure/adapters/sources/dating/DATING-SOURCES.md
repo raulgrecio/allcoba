@@ -13,6 +13,8 @@ Leyenda columnas:
 
 ## ardienteplacer.com ✅ v2
 
+> **Estructura detallada → [ardienteplacer/ARDIENTEPLACER.md](ardienteplacer/ARDIENTEPLACER.md)**
+
 Example URL: `https://www.ardienteplacer.com/index.php/escort/putas-guarras-putas-particulares/madrid/632277902/92010` (Real)
 
 | Campo        | Valor                                                                                |
@@ -324,6 +326,7 @@ Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 ## hotvalencia.com ✅ v2
 
 > WordPress + Elementor + JetEngine. WP REST verificado 21/05/2026: CPT de perfiles **no expuesto** en `/wp-json/wp/v2/types`. JetEngine sólo expone listing templates. Perfiles detrás de login — WP REST no viable.
+> **Estructura detallada → [hotvalencia/HOTVALENCIA.md](hotvalencia/HOTVALENCIA.md)**
 
 Example URL: `https://hotvalencia.com/putas-valencia/valentina-escortvalencia/` (Fixture)
 
@@ -376,6 +379,7 @@ Example URL: `https://www.loquosex.com/ven-a-conocerme-no-te-vas-a-arrepentir-67
 ## madrid69.com ✅ v2
 
 > WordPress: **No** — Next.js (verificado 20/05/2026).
+> **Estructura detallada → [madrid69/MADRID69.md](madrid69/MADRID69.md)**
 
 Example URL: `https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ternura-644417235` (Real)
 
@@ -402,6 +406,8 @@ Example URL: `https://www.madrid69.com/citas-chicas-madrid-44064-thalia-pura-ter
 
 ## milescorts.es ✅ v2
 
+> **Estructura detallada → [milescorts/MILESCORTS.md](milescorts/MILESCORTS.md)**
+
 Example URL: `https://www.milescorts.es/escorts-y-putas/madrid-ciudad/631594827-escort-sexy-396681.htm` (Real)
 
 | Campo       | Valor                                                                    |
@@ -425,6 +431,8 @@ Example URL: `https://www.milescorts.es/escorts-y-putas/madrid-ciudad/631594827-
 
 ## milpasiones.com ✅ v2
 
+> **Estructura detallada → [milpasiones/MILPASIONES.md](milpasiones/MILPASIONES.md)**
+
 Example URL: `https://milpasiones.com/anuncio/662583238-carinosa-morbosa-muy-implicada-24horas-x-estepona_215990/` (Real)
 
 | Campo       | Valor                                                                   |
@@ -446,6 +454,7 @@ Example URL: `https://milpasiones.com/anuncio/662583238-carinosa-morbosa-muy-imp
 ## mislios.com ✅ v2
 
 > WordPress: **Sí** (`/wp-content/` detectado 20/05/2026). WP REST verificado 21/05/2026: CPT `anuncios` **no expuesto** en `/wp-json/wp/v2/`. Discovery vía Playwright + networkidle (listing AJAX) es la única opción.
+> **Estructura detallada → [mislios/MISLIOS.md](mislios/MISLIOS.md)**
 
 Example URL: `https://mislios.com/escorts/valencia/amber-38203/` (Real)
 
@@ -473,6 +482,7 @@ Example URL: `https://mislios.com/escorts/valencia/amber-38203/` (Real)
 ## nuevoloquo.ch / .com / .es ✅ v2
 
 > WordPress: **No** (verificado 20/05/2026).
+> **Estructura detallada → [nuevoloquo/NUEVOLOQUO.md](nuevoloquo/NUEVOLOQUO.md)**
 
 Example URL: `https://www.nuevoloquo.ch/masaje-erotico/madrid/masajista-espanola-por-aqui-llamame-no-lo-dudes/629971/` (Real)
 
@@ -492,6 +502,8 @@ Example URL: `https://www.nuevoloquo.ch/masaje-erotico/madrid/masajista-espanola
 ---
 
 ## nuevapasion.com ✅ v2
+
+> **Estructura detallada → [nuevapasion/NUEVAPASION.md](nuevapasion/NUEVAPASION.md)**
 
 Example URL: `https://nuevapasion.com/anuncio/quieres-disfrutar-ven-j9ZZ3vFBjb` (Real)
 
@@ -621,6 +633,7 @@ Cloudflare WAF (Playwright + bypass):
 > `api-prod.valenciacitas.com`, mismo HTML. El adaptador reutiliza el
 > extractor y el mapper de madrid69 (`ValenciacitasPipeline extends
 Madrid69Pipeline`, solo cambia dominio y `source`).
+> **Estructura detallada → [valenciacitas/VALENCIACITAS.md](valenciacitas/VALENCIACITAS.md)**
 
 | Campo       | Valor                                             |
 | ----------- | ------------------------------------------------- |
