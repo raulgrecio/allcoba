@@ -271,12 +271,12 @@ Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 | Render       | SSR                                                                                                |
 | Listing      | `/escorts-girl/` (con paginación `a[rel="next"]`)                                                  |
 | Profile URL  | `/escort/{slug}.html`                                                                              |
-| Teléfono     | **HTML** — `p.telefono a[href^="tel:"]` · fallback `p.foto.css_escort img[alt]` (digits)           |
-| WhatsApp     | `a[href*="wa.me"]` → `wa.me/(\d+)`                                                                 |
+| Teléfono     | **HTML** — `p.telefono a[href^="tel:"], .telefono a[href^="tel:"]` · fallback img[alt] dígitos     |
+| WhatsApp     | `a[href*="wa.me"]` → incluye `?text=Hola+{name}%2C+he+visto+tu+perfil...` (strip query)           |
 | Ciudad       | `p.texto.css_escort` → regex `/disponible en:\s*([^.]+)/i`                                         |
-| Atributos    | Edad, Medidas, Estatura, Peso, Cabello, Ojos, Nacionalidad, Idiomas, Horarios — `dl.dl-horizontal` |
-| Imágenes     | `p.foto.css_escort img[src]` filtradas a dominios `gbcnmedia` · `media.`                           |
-| Vídeo        | `video.css_escort source[src]`                                                                     |
+| Atributos    | `dl.dl-horizontal dt/dd` — Edad, Medidas, Estatura, Peso, Cabello, Ojos, Nacionalidad, Idiomas, Horarios (confirmado con HTML real 25KB) |
+| Imágenes     | `p.foto.css_escort img[src]` filtradas a dominios `gbcnmedia` · `media.` — hasta 50 fotos en fixture |
+| Vídeo        | `video.css_escort source[src]` — `gbcnmedia.com/media/video/{slug}_01.mp4` (confirmado en fixture) |
 | Precio rango | `p.rango.css_escort img[src]` → `perfil-N.png` → 1–5                                               |
 | Login        | No                                                                                                 |
 | v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsbcn/` — tipos + parsers + extractor + mapper      |
@@ -296,9 +296,11 @@ Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 | Teléfono     | `div.telefono a[href^="tel:"]`                                                                                |
 | WhatsApp     | `a[href*="wa.me"]`                                                                                            |
 | Ciudad       | Hardcodeada `'Madrid'` (no presente en HTML)                                                                  |
-| Atributos    | `ul.meta-post li label/span` — mismos campos que GirlsBCN                                                     |
-| Imágenes     | `.foto.media-box .media-box-image img` — `data-src` primero, luego `src`                                      |
-| Encuentros   | `.widget .tags li` → `meetingPlaces[]`                                                                        |
+| Atributos    | `ul.meta-post li label/span` — `<label>edad:</label><span>22 años</span>` (campos: edad, medidas, estatura, peso, cabello, ojos, nacionalidad, idiomas) |
+| Agenda       | Widget "mi agenda" separado — `agenda: Disponible` + `horarios: De 8h a 23h` (no en meta-post — no extraídos actualmente) |
+| Imágenes     | `.foto.media-box .media-box-image img[src]` — `src` directo (no `data-src` en fixture real, 19 imgs gbcnmedia.net) |
+| Encuentros   | `.widget .tags li` → `meetingPlaces[]` (En tu casa, Hoteles, Veladas, Viajes)                                 |
+| Bio          | `.folio-detail .widget h4:contains("presentaci") ~ p`                                                         |
 | Precio rango | `.widget h4:contains("tarifas") ~ img[src]` → `perfil-N.png` → 1–5                                            |
 | Login        | No                                                                                                            |
 | v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsmadrid/` — extractor + mapper (tipos y parsers de girlsbcn/) |
