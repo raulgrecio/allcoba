@@ -443,7 +443,9 @@ export const mapTopEscortBabes = async (
     signals: [],
     confidence: Confidence.high,
     images: [],
-    attributes: {},
+    attributes: {
+      minimumPrice: payload.minimumPrice || undefined,
+    },
     metadata: { source: TOPESCORTBABES_SOURCE, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),
   };

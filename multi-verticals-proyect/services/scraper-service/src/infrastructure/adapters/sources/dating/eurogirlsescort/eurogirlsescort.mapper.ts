@@ -282,7 +282,11 @@ export const mapEuroGirlsEscort = async (
     signals: [],
     confidence: Confidence.high,
     images: [],
-    attributes: {},
+    attributes: {
+      servicesIncluded: payload.services.filter((s) => s.included).map((s) => s.name),
+      servicesExtra: payload.services.filter((s) => s.extra).map((s) => s.name),
+      servicesText: payload.params.servicesText,
+    },
     metadata: { source: EUROGIRLSESCORT_SOURCE, adapterVersion: 'v2' },
     lastScrapedAt: now.toISOString(),
   };
