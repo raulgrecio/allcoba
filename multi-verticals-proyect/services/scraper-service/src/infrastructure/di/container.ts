@@ -22,6 +22,7 @@ import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher
 import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
 import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
 import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js';
+import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json-file-scraped-image.repository.js';
 import * as scraperSchema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
 import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
@@ -60,6 +61,16 @@ export async function createScraperServices(config: ScraperConfig) {
   const consolidationService = new ConsolidationService();
   const imageHasher = new SharpHasherAdapter();
   const storage = new LocalStorageAdapter();
+
+  let imageRepo;
+  if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
+    const { DrizzleScrapedImageRepository } =
+      await import('#infrastructure/adapters/persistence/drizzle-scraped-image.repository.js');
+    const { db } = await import('#infrastructure/adapters/persistence/db-client.js');
+    imageRepo = new DrizzleScrapedImageRepository(db as never);
+  } else {
+    imageRepo = new JsonFileScrapedImageRepository();
+  }
 
   const captchaSolver = new CapsolverAdapter(globalConfig.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(globalConfig.zyteApiKey || '');
@@ -116,9 +127,16 @@ export async function createScraperServices(config: ScraperConfig) {
   const strategies = new Map<Vertical, PersistenceStrategyPort<HasExternalRefs>>([
     [
       'dating',
-      new DatingPersistenceStrategy(repository, consolidationService, imageHasher, storage, {
-        maxImagesToProcess: config.maxImagesToProcess ?? 20,
-      }) as unknown as PersistenceStrategyPort<HasExternalRefs>,
+      new DatingPersistenceStrategy(
+        repository,
+        consolidationService,
+        imageHasher,
+        storage,
+        imageRepo,
+        {
+          maxImagesToProcess: config.maxImagesToProcess ?? 20,
+        },
+      ) as unknown as PersistenceStrategyPort<HasExternalRefs>,
     ],
     [
       'real-estate',

@@ -44,27 +44,27 @@ Example URL: `https://www.ardienteplacer.com/index.php/escort/putas-guarras-puta
 
 Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
-| Campo       | Valor                                                                    |
-| ----------- | ------------------------------------------------------------------------ |
-| Tech        | Bootstrap 5 / Swiper, SSR perfiles                                       |
-| Render      | SSR perfiles · age gate JS (Playwright para discovery y age gate)        |
-| Listing     | `/{city}/escorts/` — cards con `data-ficha-id` → `#{id}` URLs            |
-| Profile URL | `/{city}/escorts/#{numericId}` — hash fragment es sourceId               |
-| Paginación  | `a[rel="next"]`                                                          |
-| Título      | Primera imagen `.ficha-images-slider img` → alt                          |
-| Nickname    | alt.split(',')[0] title-cased · fallback `#services h4` "Servicios de…"  |
-| Descripción | `#fichaContent .ad-description-text`                                     |
-| Ciudad      | `#fichaContent .ficha-data-row` "Ciudad" → strip `(Province)` · URL path |
-| Teléfono    | **HTML** — `escort-modal .em-profile-phone[href^="tel:"]` · fallback `escort-modal .em-cta-call[href^="tel:"]` |
-| WhatsApp    | `escort-modal .em-cta-whatsapp[href*="wa.me"]`                           |
-| Telegram    | `escort-modal .em-cta-telegram[href*="t.me"]` → `+PHONE` (número, no username) |
-| Instagram   | `.ficha-social-media a[href*="instagram.com"]` → guardado en attributes  |
-| Verificada  | `.elite-ficha__verified` · `.fv-verified` · `.fg-photo-verified` (3 clases distintas observadas en HTML real) |
-| Servicios   | `#services ul:not(.not-services) li a`                                   |
-| Pagos       | `#extra-info .not-services li a` filtrado por keywords                   |
-| Imágenes    | `.ficha-images-slider img` · fallback `og:image`                         |
-| Login       | No                                                                       |
-| País        | ES                                                                       |
+| Campo       | Valor                                                                                                                                                                                                                               |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tech        | Bootstrap 5 / Swiper, SSR perfiles                                                                                                                                                                                                  |
+| Render      | SSR perfiles · age gate JS (Playwright para discovery y age gate)                                                                                                                                                                   |
+| Listing     | `/{city}/escorts/` — cards con `data-ficha-id` → `#{id}` URLs                                                                                                                                                                       |
+| Profile URL | `/{city}/escorts/#{numericId}` — hash fragment es sourceId                                                                                                                                                                          |
+| Paginación  | `a[rel="next"]`                                                                                                                                                                                                                     |
+| Título      | Primera imagen `.ficha-images-slider img` → alt                                                                                                                                                                                     |
+| Nickname    | alt.split(',')[0] title-cased · fallback `#services h4` "Servicios de…"                                                                                                                                                             |
+| Descripción | `#fichaContent .ad-description-text`                                                                                                                                                                                                |
+| Ciudad      | `#fichaContent .ficha-data-row` "Ciudad" → strip `(Province)` · URL path                                                                                                                                                            |
+| Teléfono    | **HTML** — `escort-modal .em-profile-phone[href^="tel:"]` · fallback `escort-modal .em-cta-call[href^="tel:"]`                                                                                                                      |
+| WhatsApp    | `escort-modal .em-cta-whatsapp[href*="wa.me"]`                                                                                                                                                                                      |
+| Telegram    | `escort-modal .em-cta-telegram[href*="t.me"]` → `+PHONE` (número, no username)                                                                                                                                                      |
+| Instagram   | `.ficha-social-media a[href*="instagram.com"]` → guardado en attributes                                                                                                                                                             |
+| Verificada  | `.elite-ficha__verified` · `.fv-verified` · `.fg-photo-verified` (3 clases distintas observadas en HTML real)                                                                                                                       |
+| Servicios   | `#services ul:not(.not-services) li a`                                                                                                                                                                                              |
+| Pagos       | `#extra-info .not-services li a` filtrado por keywords                                                                                                                                                                              |
+| Imágenes    | `.ficha-images-slider img` · fallback `og:image`                                                                                                                                                                                    |
+| Login       | No                                                                                                                                                                                                                                  |
+| País        | ES                                                                                                                                                                                                                                  |
 | Nota        | Datos: Edad, Estatura, Peso, Pelo, Ojos, Nac., Idiomas, Tatuajes, Pubis. El TG `t.me/+PHONE` es via-número no username. DATING-SOURCES previo tenía `#phoneCallSection` — selector incorrecto (HTML real usa `escort-modal .em-*`). |
 
 ---
@@ -75,20 +75,20 @@ Example URL: `https://bluemove.es/madrid/escorts/#49049` (Real)
 
 Example URL: `https://www.chicasmalas.es/anuncios/sofia-deluxe/` (Real)
 
-| Campo                  | Valor                                                                   |
-| ---------------------- | ----------------------------------------------------------------------- |
-| WordPress              | **Sí** — WP 6.9.4. Discovery vía REST API (no scrapear el listado HTML) |
-| Tech                   | WordPress + Elementor                                                   |
-| Discovery              | `GET /wp-json/wp/v2/ficha-escort?per_page=N` → JSON, campo `link`       |
-| Profile URL            | `/anuncios/{slug}/` (CPT `ficha-escort`)                                |
-| Paginación             | REST `?page=N`                                                          |
-| Teléfono               | `a[href^="tel:"]` ✅ — en Elementor button widget (`elementor-button-text`) |
-| WhatsApp               | ⚠️ `a[href*="wa.me"]` first en fixture = WA site-wide ("publica tu anuncio"), no del perfil. Extractor puede producir false positive. |
-| Telegram               | ❌ — `t.me/CHICASMALASES` = canal del site, no del perfil               |
-| Imágenes               | ✅                                                                      |
+| Campo                  | Valor                                                                                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| WordPress              | **Sí** — WP 6.9.4. Discovery vía REST API (no scrapear el listado HTML)                                                                      |
+| Tech                   | WordPress + Elementor                                                                                                                        |
+| Discovery              | `GET /wp-json/wp/v2/ficha-escort?per_page=N` → JSON, campo `link`                                                                            |
+| Profile URL            | `/anuncios/{slug}/` (CPT `ficha-escort`)                                                                                                     |
+| Paginación             | REST `?page=N`                                                                                                                               |
+| Teléfono               | `a[href^="tel:"]` ✅ — en Elementor button widget (`elementor-button-text`)                                                                  |
+| WhatsApp               | ⚠️ `a[href*="wa.me"]` first en fixture = WA site-wide ("publica tu anuncio"), no del perfil. Extractor puede producir false positive.        |
+| Telegram               | ❌ — `t.me/CHICASMALASES` = canal del site, no del perfil                                                                                    |
+| Imágenes               | ✅                                                                                                                                           |
 | Edad / bio / servicios | ❌ — heading "Servicios." presente pero contenido HTML scrambled (`lñklbklfdklñfkhlfñkglñdfkghlñ`). Extractor roto confirmado con HTML real. |
-| Login                  | No                                                                      |
-| 20/05/2026             | (real) `https://www.chicasmalas.es/anuncios/sofia-deluxe/`              |
+| Login                  | No                                                                                                                                           |
+| 20/05/2026             | (real) `https://www.chicasmalas.es/anuncios/sofia-deluxe/`                                                                                   |
 
 ---
 
@@ -129,21 +129,21 @@ Example URL: `https://citapasion.com/escorts/17533` (Real)
 
 Example URL: `https://www.destacamos.net/{id}-{slug}.html` (patrón)
 
-| Campo        | Valor                                                                                   |
-| ------------ | --------------------------------------------------------------------------------------- |
-| Tech         | PHP SSR                                                                                 |
-| Render       | SSR                                                                                     |
-| Listing      | TBD                                                                                     |
-| Profile URL  | `/{id}-{slug}.html` — sourceId = primer segmento numérico                               |
-| Paginación   | `div.paginator a[rel="next"]`                                                           |
-| Título       | `h1.hh1` (nombre directo)                                                               |
-| Descripción  | `#description p` — primer párrafo                                                       |
-| Teléfono     | `#detallesimportantes a[href^="tel:"]` → strip `tel:` + non-digits                     |
-| WhatsApp     | `#detallesimportantes a[href*="wa.me"]` · fallback `a[href*="api.whatsapp.com"]`        |
-| Datos        | `#details > div` → `span` (label) + `strong` (value): Edad, Nacionalidad, Ciudad, Zona, CP, Altura, Color de pelo, Idiomas, Horario |
-| isPremium    | `.premiumdet` presente                                                                  |
-| Imágenes     | `#gallery a.fimage[href]` → full-size; thumbnail en `img[src]` dentro del enlace       |
-| Login        | No                                                                                      |
+| Campo       | Valor                                                                                                                               |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Tech        | PHP SSR                                                                                                                             |
+| Render      | SSR                                                                                                                                 |
+| Listing     | TBD                                                                                                                                 |
+| Profile URL | `/{id}-{slug}.html` — sourceId = primer segmento numérico                                                                           |
+| Paginación  | `div.paginator a[rel="next"]`                                                                                                       |
+| Título      | `h1.hh1` (nombre directo)                                                                                                           |
+| Descripción | `#description p` — primer párrafo                                                                                                   |
+| Teléfono    | `#detallesimportantes a[href^="tel:"]` → strip `tel:` + non-digits                                                                  |
+| WhatsApp    | `#detallesimportantes a[href*="wa.me"]` · fallback `a[href*="api.whatsapp.com"]`                                                    |
+| Datos       | `#details > div` → `span` (label) + `strong` (value): Edad, Nacionalidad, Ciudad, Zona, CP, Altura, Color de pelo, Idiomas, Horario |
+| isPremium   | `.premiumdet` presente                                                                                                              |
+| Imágenes    | `#gallery a.fimage[href]` → full-size; thumbnail en `img[src]` dentro del enlace                                                    |
+| Login       | No                                                                                                                                  |
 
 ---
 
@@ -279,21 +279,21 @@ Example URL: `https://gemidos.tv/pau-535603` (Real)
 
 Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 
-| Campo        | Valor                                                                                              |
-| ------------ | -------------------------------------------------------------------------------------------------- |
-| Tech         | PHP SSR                                                                                            |
-| Render       | SSR                                                                                                |
-| Listing      | `/escorts-girl/` (con paginación `a[rel="next"]`)                                                  |
-| Profile URL  | `/escort/{slug}.html`                                                                              |
-| Teléfono     | **HTML** — `p.telefono a[href^="tel:"], .telefono a[href^="tel:"]` · fallback img[alt] dígitos     |
-| WhatsApp     | `a[href*="wa.me"]` → incluye `?text=Hola+{name}%2C+he+visto+tu+perfil...` (strip query)           |
-| Ciudad       | `p.texto.css_escort` → regex `/disponible en:\s*([^.]+)/i`                                         |
+| Campo        | Valor                                                                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Tech         | PHP SSR                                                                                                                                  |
+| Render       | SSR                                                                                                                                      |
+| Listing      | `/escorts-girl/` (con paginación `a[rel="next"]`)                                                                                        |
+| Profile URL  | `/escort/{slug}.html`                                                                                                                    |
+| Teléfono     | **HTML** — `p.telefono a[href^="tel:"], .telefono a[href^="tel:"]` · fallback img[alt] dígitos                                           |
+| WhatsApp     | `a[href*="wa.me"]` → incluye `?text=Hola+{name}%2C+he+visto+tu+perfil...` (strip query)                                                  |
+| Ciudad       | `p.texto.css_escort` → regex `/disponible en:\s*([^.]+)/i`                                                                               |
 | Atributos    | `dl.dl-horizontal dt/dd` — Edad, Medidas, Estatura, Peso, Cabello, Ojos, Nacionalidad, Idiomas, Horarios (confirmado con HTML real 25KB) |
-| Imágenes     | `p.foto.css_escort img[src]` filtradas a dominios `gbcnmedia` · `media.` — hasta 50 fotos en fixture |
-| Vídeo        | `video.css_escort source[src]` — `gbcnmedia.com/media/video/{slug}_01.mp4` (confirmado en fixture) |
-| Precio rango | `p.rango.css_escort img[src]` → `perfil-N.png` → 1–5                                               |
-| Login        | No                                                                                                 |
-| v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsbcn/` — tipos + parsers + extractor + mapper      |
+| Imágenes     | `p.foto.css_escort img[src]` filtradas a dominios `gbcnmedia` · `media.` — hasta 50 fotos en fixture                                     |
+| Vídeo        | `video.css_escort source[src]` — `gbcnmedia.com/media/video/{slug}_01.mp4` (confirmado en fixture)                                       |
+| Precio rango | `p.rango.css_escort img[src]` → `perfil-N.png` → 1–5                                                                                     |
+| Login        | No                                                                                                                                       |
+| v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsbcn/` — tipos + parsers + extractor + mapper                                            |
 
 ---
 
@@ -303,23 +303,23 @@ Example URL: `https://www.girlsbcn.net/escort/gbcamila105.html` (Real)
 
 Example URL: `https://www.girlsmadrid.com/escort-lucia167.html` (Real)
 
-| Campo        | Valor                                                                                                         |
-| ------------ | ------------------------------------------------------------------------------------------------------------- |
-| Tech         | PHP SSR — mismo backend gbcnmedia que GirlsBCN, HTML template distinto                                        |
-| Render       | SSR                                                                                                           |
-| Profile URL  | `/{slug}.html`                                                                                                |
-| Título       | `.heading h1` — ALL-CAPS → title case en extractor                                                            |
-| Teléfono     | `div.telefono a[href^="tel:"]`                                                                                |
-| WhatsApp     | `a[href*="wa.me"]`                                                                                            |
-| Ciudad       | Hardcodeada `'Madrid'` (no presente en HTML)                                                                  |
+| Campo        | Valor                                                                                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tech         | PHP SSR — mismo backend gbcnmedia que GirlsBCN, HTML template distinto                                                                                  |
+| Render       | SSR                                                                                                                                                     |
+| Profile URL  | `/{slug}.html`                                                                                                                                          |
+| Título       | `.heading h1` — ALL-CAPS → title case en extractor                                                                                                      |
+| Teléfono     | `div.telefono a[href^="tel:"]`                                                                                                                          |
+| WhatsApp     | `a[href*="wa.me"]`                                                                                                                                      |
+| Ciudad       | Hardcodeada `'Madrid'` (no presente en HTML)                                                                                                            |
 | Atributos    | `ul.meta-post li label/span` — `<label>edad:</label><span>22 años</span>` (campos: edad, medidas, estatura, peso, cabello, ojos, nacionalidad, idiomas) |
-| Agenda       | Widget "mi agenda" separado — `agenda: Disponible` + `horarios: De 8h a 23h` (no en meta-post — no extraídos actualmente) |
-| Imágenes     | `.foto.media-box .media-box-image img[src]` — `src` directo (no `data-src` en fixture real, 19 imgs gbcnmedia.net) |
-| Encuentros   | `.widget .tags li` → `meetingPlaces[]` (En tu casa, Hoteles, Veladas, Viajes)                                 |
-| Bio          | `.folio-detail .widget h4:contains("presentaci") ~ p`                                                         |
-| Precio rango | `.widget h4:contains("tarifas") ~ img[src]` → `perfil-N.png` → 1–5                                            |
-| Login        | No                                                                                                            |
-| v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsmadrid/` — extractor + mapper (tipos y parsers de girlsbcn/) |
+| Agenda       | Widget "mi agenda" separado — `agenda: Disponible` + `horarios: De 8h a 23h` (no en meta-post — no extraídos actualmente)                               |
+| Imágenes     | `.foto.media-box .media-box-image img[src]` — `src` directo (no `data-src` en fixture real, 19 imgs gbcnmedia.net)                                      |
+| Encuentros   | `.widget .tags li` → `meetingPlaces[]` (En tu casa, Hoteles, Veladas, Viajes)                                                                           |
+| Bio          | `.folio-detail .widget h4:contains("presentaci") ~ p`                                                                                                   |
+| Precio rango | `.widget h4:contains("tarifas") ~ img[src]` → `perfil-N.png` → 1–5                                                                                      |
+| Login        | No                                                                                                                                                      |
+| v2 adapter   | `src/infrastructure/adapters/sources/dating/girlsmadrid/` — extractor + mapper (tipos y parsers de girlsbcn/)                                           |
 
 ---
 
@@ -610,19 +610,19 @@ Cloudflare WAF (Playwright + bypass):
 > Listado real: `https://www.mundosexanuncio.com/contactos-mujeres-en-madrid-provincia`
 > 20/05/2026 (real): `https://www.mundosexanuncio.com/contactos-mujeres/antonella-coslada-video-de-presentacion-99065186` · `https://www.mundosexanuncio.com/contactos-mujeres/sofia-rubia-muy-sexy-paraguaya-cachonda-99537024`
 
-| Campo       | Valor                                                              |
-| ----------- | ------------------------------------------------------------------ |
-| Tech        | PHP SSR                                                            |
-| Listing     | `/contactos-mujeres-en-{zona}`                                     |
-| Profile URL | `/contactos-mujeres/{slug}-{id}` — sourceId = id numérico final    |
-| Anuncio     | `section .main` — `.title`, `.a_content` (bio)                     |
-| Datos       | `.details[data-city]` · `.addr` (zona) · texto libre               |
-| Edad        | inferida del texto del bio (no hay campo estructurado)             |
-| Teléfono    | `.fa_tel a[href^="tel:"]` (href usa `tel://` doble barra) · **fallback mejor: JSON-LD Person `"telephone"` field** |
-| WhatsApp    | `a[href*="api.whatsapp.com"]` — número visible en texto del enlace |
+| Campo       | Valor                                                                                                                                                              |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Tech        | PHP SSR                                                                                                                                                            |
+| Listing     | `/contactos-mujeres-en-{zona}`                                                                                                                                     |
+| Profile URL | `/contactos-mujeres/{slug}-{id}` — sourceId = id numérico final                                                                                                    |
+| Anuncio     | `section .main` — `.title`, `.a_content` (bio)                                                                                                                     |
+| Datos       | `.details[data-city]` · `.addr` (zona) · texto libre                                                                                                               |
+| Edad        | inferida del texto del bio (no hay campo estructurado)                                                                                                             |
+| Teléfono    | `.fa_tel a[href^="tel:"]` (href usa `tel://` doble barra) · **fallback mejor: JSON-LD Person `"telephone"` field**                                                 |
+| WhatsApp    | `a[href*="api.whatsapp.com"]` — número visible en texto del enlace                                                                                                 |
 | JSON-LD     | **Person** con `telephone`, `name`, `description`, `address{addressLocality, addressRegion, streetAddress}`, `image{url,width,height}` — fuente más fiable que DOM |
-| Imágenes    | `#images img[data-src]` · fallback JSON-LD Person `image.url`      |
-| Login       | No                                                                 |
+| Imágenes    | `#images img[data-src]` · fallback JSON-LD Person `image.url`                                                                                                      |
+| Login       | No                                                                                                                                                                 |
 
 ---
 

@@ -19,6 +19,7 @@
  */
 
 import { Buffer } from 'buffer';
+import { createHash } from 'crypto';
 
 import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
@@ -31,6 +32,7 @@ import type {
   PersistResult,
 } from '#application/ports/persistence-strategy.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import type { ScrapedImageRepositoryPort } from '#application/ports/scraped-image-repository.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
 import type { ProfileImage } from '#domain/canonical/profile-image.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
@@ -54,6 +56,7 @@ export class DatingPersistenceStrategy implements PersistenceStrategyPort<Scrape
     private readonly consolidation: ConsolidationService,
     private readonly imageHasher: ImageHasherPort,
     private readonly storage: StoragePort,
+    private readonly imageRepo: ScrapedImageRepositoryPort,
     config: DatingPersistenceConfig = {},
   ) {
     this.cfg = { ...DEFAULT_CONFIG, ...config };
@@ -153,6 +156,13 @@ export class DatingPersistenceStrategy implements PersistenceStrategyPort<Scrape
     const results = await Promise.all(
       imageUrls.slice(0, this.cfg.maxImagesToProcess).map(async (imgUrl, i) => {
         try {
+          const urlHash = createHash('sha256').update(imgUrl).digest('hex');
+
+          if (await this.imageRepo.hasUrl(urlHash)) {
+            this.log.debug({ imgUrl }, 'Image URL already seen — skip');
+            return null;
+          }
+
           const response = await fetch(imgUrl);
           const buffer = Buffer.from(await response.arrayBuffer());
 
@@ -163,6 +173,7 @@ export class DatingPersistenceStrategy implements PersistenceStrategyPort<Scrape
           if (existing.length > 0) {
             const existingImg = existing[0]!.images.find((img) => img.hash === hash);
             if (existingImg) {
+              await this.imageRepo.markSeen(urlHash, imgUrl, externalId, vertical);
               return { hash, storedUrl: existingImg.storedUrl, originalUrl: imgUrl };
             }
           }
@@ -174,6 +185,7 @@ export class DatingPersistenceStrategy implements PersistenceStrategyPort<Scrape
             'image/jpeg',
           );
 
+          await this.imageRepo.markSeen(urlHash, imgUrl, externalId, vertical);
           return { hash, storedUrl, originalUrl: imgUrl };
         } catch (error) {
           this.log.error({ imgUrl, error }, 'Error processing image');

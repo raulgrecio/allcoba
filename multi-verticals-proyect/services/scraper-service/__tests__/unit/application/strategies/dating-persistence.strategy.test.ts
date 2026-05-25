@@ -9,6 +9,7 @@ import { asImageHash } from '@allcoba/shared-types';
 
 import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import type { ScrapedImageRepositoryPort } from '#application/ports/scraped-image-repository.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
 import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
@@ -58,6 +59,11 @@ const makeStorage = (): FakeStorage =>
     exists: vi.fn().mockResolvedValue(false),
   }) as unknown as FakeStorage;
 
+const makeImageRepo = (): ScrapedImageRepositoryPort => ({
+  hasUrl: vi.fn().mockResolvedValue(false),
+  markSeen: vi.fn().mockResolvedValue(undefined),
+});
+
 describe('DatingPersistenceStrategy.persist', () => {
   it('IGNORE when no externalRef', async () => {
     const strategy = new DatingPersistenceStrategy(
@@ -65,6 +71,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       makeStorage(),
+      makeImageRepo(),
     );
     const scraped = buildProvider({ externalRefs: [] });
     const result = await strategy.persist(scraped, CTX);
@@ -78,6 +85,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       makeStorage(),
+      makeImageRepo(),
     );
     const scraped = buildProvider();
     const result = await strategy.persist(scraped, CTX);
@@ -95,6 +103,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       makeStorage(),
+      makeImageRepo(),
     );
     const scraped = buildProvider({ externalRefs: [REF] });
     const result = await strategy.persist(scraped, CTX);
@@ -125,6 +134,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       imageHasher,
       storage,
+      makeImageRepo(),
     );
 
     vi.stubGlobal(
@@ -152,6 +162,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       storage,
+      makeImageRepo(),
     );
 
     vi.stubGlobal(
@@ -180,6 +191,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       makeStorage(),
+      makeImageRepo(),
     );
     const scraped = buildProvider({ externalRefs: [REF] });
     const result = await strategy.persist(scraped, CTX);
@@ -194,6 +206,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       makeStorage(),
+      makeImageRepo(),
     );
 
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')));
@@ -220,6 +233,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       makeImageHasher(),
       storage,
+      makeImageRepo(),
     );
 
     vi.stubGlobal(
@@ -246,6 +260,7 @@ describe('DatingPersistenceStrategy.persist', () => {
       new ConsolidationService(),
       imageHasher,
       makeStorage(),
+      makeImageRepo(),
       { maxImagesToProcess: 2 },
     );
 

@@ -1,4 +1,4 @@
-import { jsonb, pgTable, primaryKey, real, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { char, jsonb, pgTable, primaryKey, real, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 /**
  * Scraper persistence schema — canonical design.
@@ -74,3 +74,18 @@ export const rawPayloads = pgTable(
 
 export type RawPayloadRow = typeof rawPayloads.$inferSelect;
 export type NewRawPayloadRow = typeof rawPayloads.$inferInsert;
+
+/**
+ * scraped_images — URL-level dedup table.
+ * PK is sha256(originalUrl) so a URL is never enqueued twice across runs.
+ */
+export const scrapedImages = pgTable('scraped_images', {
+  urlHash: char('url_hash', { length: 64 }).primaryKey(),
+  originalUrl: text('original_url').notNull(),
+  providerId: text('provider_id').notNull(),
+  vertical: text('vertical').notNull(),
+  seenAt: timestamp('seen_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type ScrapedImageRow = typeof scrapedImages.$inferSelect;
+export type NewScrapedImageRow = typeof scrapedImages.$inferInsert;
