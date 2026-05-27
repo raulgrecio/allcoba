@@ -1,4 +1,4 @@
-import PgBoss from 'pg-boss';
+import { PgBoss } from 'pg-boss';
 
 import { logger } from '@allcoba/kernel';
 
@@ -10,7 +10,7 @@ export class PgBossQueueAdapter implements QueuePort {
   constructor(databaseUrl: string) {
     this.boss = new PgBoss(databaseUrl);
 
-    this.boss.on('error', (error) => {
+    this.boss.on('error', (error: unknown) => {
       logger().error({ error }, 'Error en pg-boss');
     });
   }
