@@ -2,7 +2,9 @@ import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
 import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
+import type { QueuePort } from '#application/ports/queue.port.js';
 import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
+import type { ProcessImagesJobPayload } from '#application/use-cases/process-images.use-case.js';
 import type { ScraperConfig } from '#application/use-cases/scrape-url.use-case.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
@@ -13,6 +15,7 @@ import { DatingPersistenceStrategy } from '#application/strategies/dating-persis
 import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
 import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
+import { ProcessImagesUseCase } from '#application/use-cases/process-images.use-case.js';
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
@@ -72,6 +75,33 @@ export async function createScraperServices(config: ScraperConfig) {
     imageRepo = new JsonFileScrapedImageRepository();
   }
 
+  let queue: QueuePort;
+  if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
+    const { PgBossQueueAdapter } =
+      await import('#infrastructure/adapters/queue/pg-boss.adapter.js');
+    const pgQueue = new PgBossQueueAdapter(globalConfig.databaseUrl);
+    await pgQueue.start();
+    queue = pgQueue;
+  } else {
+    const { InMemoryQueueAdapter } =
+      await import('#infrastructure/adapters/queue/in-memory-queue.adapter.js');
+    queue = new InMemoryQueueAdapter();
+  }
+
+  const processImagesUseCase = new ProcessImagesUseCase(
+    repository,
+    imageHasher,
+    storage,
+    imageRepo,
+    {
+      maxImagesToProcess: config.maxImagesToProcess ?? 20,
+    },
+  );
+
+  await queue.subscribe<ProcessImagesJobPayload>('process-provider-images', async (payload) => {
+    await processImagesUseCase.execute(payload);
+  });
+
   const captchaSolver = new CapsolverAdapter(globalConfig.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(globalConfig.zyteApiKey || '');
 
@@ -127,16 +157,9 @@ export async function createScraperServices(config: ScraperConfig) {
   const strategies = new Map<Vertical, PersistenceStrategyPort<HasExternalRefs>>([
     [
       'dating',
-      new DatingPersistenceStrategy(
-        repository,
-        consolidationService,
-        imageHasher,
-        storage,
-        imageRepo,
-        {
-          maxImagesToProcess: config.maxImagesToProcess ?? 20,
-        },
-      ) as unknown as PersistenceStrategyPort<HasExternalRefs>,
+      new DatingPersistenceStrategy(repository, consolidationService, queue, {
+        maxImagesToProcess: config.maxImagesToProcess ?? 20,
+      }) as unknown as PersistenceStrategyPort<HasExternalRefs>,
     ],
     [
       'real-estate',

@@ -1,24 +1,13 @@
-/**
- * Unit tests for DatingPersistenceStrategy.
- * Mocks: repo, imageHasher, storage. Real ConsolidationService.
- */
-
 import { describe, expect, it, vi } from 'vitest';
 
-import { asImageHash } from '@allcoba/shared-types';
-
-import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
-import type { ScrapedImageRepositoryPort } from '#application/ports/scraped-image-repository.port.js';
-import type { StoragePort } from '#application/ports/storage.port.js';
+import type { QueuePort } from '#application/ports/queue.port.js';
 import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 
 import { buildProvider } from '../../helpers/scraped-provider.builder.js';
 
 const CTX = { source: 'topescortbabes', url: 'https://topescortbabes.com/model/1' };
-
-// Typed mock factories — no `as any` needed at call sites
 
 type FakeRepo = ProviderRepositoryPort & {
   find: ReturnType<typeof vi.fn>;
@@ -39,29 +28,16 @@ const makeRepo = (candidates: ReturnType<typeof buildProvider>[] = []): FakeRepo
     updateById: vi.fn().mockResolvedValue(undefined),
   }) as unknown as FakeRepo;
 
-type FakeImageHasher = ImageHasherPort & { generateHash: ReturnType<typeof vi.fn> };
-
-const makeImageHasher = (): FakeImageHasher =>
-  ({
-    generateHash: vi.fn().mockResolvedValue('abc123hash'),
-    calculateDistance: vi.fn().mockReturnValue(0),
-  }) as unknown as FakeImageHasher;
-
-type FakeStorage = StoragePort & {
-  upload: ReturnType<typeof vi.fn>;
-  delete: ReturnType<typeof vi.fn>;
+type FakeQueue = QueuePort & {
+  publish: ReturnType<typeof vi.fn>;
+  subscribe: ReturnType<typeof vi.fn>;
+  schedule: ReturnType<typeof vi.fn>;
 };
 
-const makeStorage = (): FakeStorage =>
-  ({
-    upload: vi.fn().mockResolvedValue('https://r2.example.com/img.jpg'),
-    delete: vi.fn().mockResolvedValue(undefined),
-    exists: vi.fn().mockResolvedValue(false),
-  }) as unknown as FakeStorage;
-
-const makeImageRepo = (): ScrapedImageRepositoryPort => ({
-  hasUrl: vi.fn().mockResolvedValue(false),
-  markSeen: vi.fn().mockResolvedValue(undefined),
+const makeQueue = (): FakeQueue => ({
+  publish: vi.fn().mockResolvedValue('job-123'),
+  subscribe: vi.fn().mockResolvedValue(undefined),
+  schedule: vi.fn().mockResolvedValue(undefined),
 });
 
 describe('DatingPersistenceStrategy.persist', () => {
@@ -69,218 +45,81 @@ describe('DatingPersistenceStrategy.persist', () => {
     const strategy = new DatingPersistenceStrategy(
       makeRepo(),
       new ConsolidationService(),
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      makeQueue(),
     );
     const scraped = buildProvider({ externalRefs: [] });
     const result = await strategy.persist(scraped, CTX);
     expect(result.action).toBe('IGNORE');
   });
 
-  it('CREATE on no candidates', async () => {
+  it('CREATE on no candidates and publishes job', async () => {
     const repo = makeRepo([]);
+    const queue = makeQueue();
     const strategy = new DatingPersistenceStrategy(
       repo,
       new ConsolidationService(),
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      queue,
     );
-    const scraped = buildProvider();
+    const scraped = buildProvider({
+      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+    });
     const result = await strategy.persist(scraped, CTX);
 
     expect(result.action).toBe('CREATE');
     expect(repo.create).toHaveBeenCalledOnce();
+    expect(queue.publish).toHaveBeenCalledWith('process-provider-images', {
+      providerId: scraped.id,
+      imageUrls: ['https://src.com/img.jpg'],
+      source: CTX.source,
+      vertical: scraped.vertical,
+    });
   });
 
-  it('MERGE on externalRef match', async () => {
+  it('MERGE on externalRef match and publishes job', async () => {
     const REF = { source: 'topescortbabes', sourceId: 'model-1' };
-    const existing = buildProvider({ externalRefs: [REF] });
+    const existing = buildProvider({ externalRefs: [REF], images: [] });
     const repo = makeRepo([existing]);
+    const queue = makeQueue();
     const strategy = new DatingPersistenceStrategy(
       repo,
       new ConsolidationService(),
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      queue,
     );
-    const scraped = buildProvider({ externalRefs: [REF] });
+    const scraped = buildProvider({
+      externalRefs: [REF],
+      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+    });
     const result = await strategy.persist(scraped, CTX);
 
     expect(result.action).toBe('MERGE');
     expect(repo.updateById).toHaveBeenCalledOnce();
-    expect(repo.create).not.toHaveBeenCalled();
+    expect(queue.publish).toHaveBeenCalledWith('process-provider-images', {
+      providerId: existing.id,
+      imageUrls: ['https://src.com/img.jpg'],
+      source: CTX.source,
+      vertical: scraped.vertical,
+    });
   });
 
-  it('image dedup — reuses existing stored URL on hash hit', async () => {
-    const hash = asImageHash('abc123hash');
-    const existing = buildProvider({
-      images: [
-        {
-          hash,
-          storedUrl: 'https://r2.example.com/existing.jpg',
-          originalUrl: 'https://src.com/img.jpg',
-        },
-      ],
-    });
-    const repo = makeRepo([]);
-    repo.find.mockResolvedValue([existing]);
-
-    const imageHasher = makeImageHasher();
-    const storage = makeStorage();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      imageHasher,
-      storage,
-      makeImageRepo(),
-    );
-
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)) }),
-    );
-
-    const scraped = buildProvider({
-      photos: [
-        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
-      ],
-    });
-    await strategy.persist(scraped, CTX);
-
-    expect(storage.upload).not.toHaveBeenCalled();
-    vi.unstubAllGlobals();
-  });
-
-  it('image upload — calls storage when hash is new', async () => {
-    const repo = makeRepo([]);
-    repo.find.mockResolvedValue([]);
-    const storage = makeStorage();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      makeImageHasher(),
-      storage,
-      makeImageRepo(),
-    );
-
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)) }),
-    );
-
-    const scraped = buildProvider({
-      photos: [
-        { id: '1', url: 'https://src.com/new.jpg', isPrimary: true, isVerified: false, order: 0 },
-      ],
-    });
-    await strategy.persist(scraped, CTX);
-
-    expect(storage.upload).toHaveBeenCalledOnce();
-    vi.unstubAllGlobals();
-  });
-
-  it('FLAG_FOR_REVIEW with target — sets pending_review status', async () => {
+  it('FLAG_FOR_REVIEW with target — sets pending_review status and publishes job', async () => {
     const REF = { source: 'topescortbabes', sourceId: 'model-conflict' };
     const a = buildProvider({ externalRefs: [REF] });
     const b = buildProvider({ externalRefs: [REF] });
     const repo = makeRepo([a, b]);
+    const queue = makeQueue();
     const strategy = new DatingPersistenceStrategy(
       repo,
       new ConsolidationService(),
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      queue,
     );
-    const scraped = buildProvider({ externalRefs: [REF] });
+    const scraped = buildProvider({
+      externalRefs: [REF],
+      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+    });
     const result = await strategy.persist(scraped, CTX);
 
     expect(['FLAG_FOR_REVIEW', 'MERGE']).toContain(result.action);
-  });
-
-  it('image fetch error — continues without crashing', async () => {
-    const repo = makeRepo([]);
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
-    );
-
-    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')));
-
-    const scraped = buildProvider({
-      photos: [
-        { id: '1', url: 'https://src.com/bad.jpg', isPrimary: true, isVerified: false, order: 0 },
-      ],
-    });
-    const result = await strategy.persist(scraped, CTX);
-
-    expect(result.action).toBe('CREATE');
-    vi.unstubAllGlobals();
-  });
-
-  it('existingImg not found in images array — uploads instead of reusing', async () => {
-    const existing = buildProvider({ images: [] });
-    const repo = makeRepo([]);
-    repo.find.mockResolvedValue([existing]);
-
-    const storage = makeStorage();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      makeImageHasher(),
-      storage,
-      makeImageRepo(),
-    );
-
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)) }),
-    );
-
-    const scraped = buildProvider({
-      photos: [
-        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
-      ],
-    });
-    await strategy.persist(scraped, CTX);
-
-    expect(storage.upload).toHaveBeenCalledOnce();
-    vi.unstubAllGlobals();
-  });
-
-  it('maxImagesToProcess config limits image processing', async () => {
-    const repo = makeRepo([]);
-    const imageHasher = makeImageHasher();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      imageHasher,
-      makeStorage(),
-      makeImageRepo(),
-      { maxImagesToProcess: 2 },
-    );
-
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({ arrayBuffer: vi.fn().mockResolvedValue(new ArrayBuffer(8)) }),
-    );
-
-    const photos = Array.from({ length: 5 }, (_, i) => ({
-      id: String(i),
-      url: `https://src.com/img${i}.jpg`,
-      isPrimary: i === 0,
-      isVerified: false,
-      order: i,
-    }));
-    const scraped = buildProvider({ photos });
-    await strategy.persist(scraped, CTX);
-
-    expect(imageHasher.generateHash).toHaveBeenCalledTimes(2);
-    vi.unstubAllGlobals();
+    expect(queue.publish).toHaveBeenCalledOnce();
   });
 
   it('handles scraped provider with no phone number', async () => {
@@ -288,44 +127,13 @@ describe('DatingPersistenceStrategy.persist', () => {
     const strategy = new DatingPersistenceStrategy(
       repo,
       new ConsolidationService(),
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      makeQueue(),
     );
     const scraped = buildProvider({ phoneNumber: undefined });
     const result = await strategy.persist(scraped, CTX);
 
     expect(result.action).toBe('CREATE');
     expect(repo.create).toHaveBeenCalledOnce();
-  });
-
-  it('skips image processing if hasUrl returns true', async () => {
-    const repo = makeRepo([]);
-    const imageRepo = makeImageRepo();
-    imageRepo.hasUrl = vi.fn().mockResolvedValue(true);
-    const storage = makeStorage();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      makeImageHasher(),
-      storage,
-      imageRepo,
-    );
-
-    const scraped = buildProvider({
-      photos: [
-        {
-          id: '1',
-          url: 'https://src.com/img.jpg',
-          isPrimary: true,
-          isVerified: false,
-          order: 0,
-        },
-      ],
-    });
-    await strategy.persist(scraped, CTX);
-
-    expect(storage.upload).not.toHaveBeenCalled();
   });
 
   it('returns action directly if consolidation action is MERGE but target is undefined', async () => {
@@ -341,9 +149,7 @@ describe('DatingPersistenceStrategy.persist', () => {
     const strategy = new DatingPersistenceStrategy(
       repo,
       fakeConsolidation as unknown as ConsolidationService,
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      makeQueue(),
     );
     const scraped = buildProvider();
     const result = await strategy.persist(scraped, CTX);
@@ -364,13 +170,26 @@ describe('DatingPersistenceStrategy.persist', () => {
     const strategy = new DatingPersistenceStrategy(
       repo,
       fakeConsolidation as unknown as ConsolidationService,
-      makeImageHasher(),
-      makeStorage(),
-      makeImageRepo(),
+      makeQueue(),
     );
     const scraped = buildProvider();
     const result = await strategy.persist(scraped, CTX);
 
     expect(result.action).toBe('IGNORE');
+  });
+
+  it('does not publish job if no photos are present', async () => {
+    const repo = makeRepo([]);
+    const queue = makeQueue();
+    const strategy = new DatingPersistenceStrategy(
+      repo,
+      new ConsolidationService(),
+      queue,
+    );
+    const scraped = buildProvider({ photos: [] });
+    const result = await strategy.persist(scraped, CTX);
+
+    expect(result.action).toBe('CREATE');
+    expect(queue.publish).not.toHaveBeenCalled();
   });
 });
