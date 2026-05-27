@@ -174,6 +174,7 @@ export async function createScraperServices(config: ScraperConfig) {
     crawler,
     taxonomyResolver,
     strategies,
+    storage,
     config,
   );
 

@@ -5,6 +5,7 @@ import type { CrawlerPort } from '#application/ports/crawler.port.js';
 import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
 import type { AnyPipelinePort } from '#application/ports/scraping-pipeline.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { StoragePort } from '#application/ports/storage.port.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import { ProxyStrategy, SolverStrategy } from '#application/ports/crawler.port.js';
@@ -61,6 +62,7 @@ export class ScrapeUrlUseCase {
     private readonly crawler: CrawlerPort,
     private readonly taxonomyResolver: TaxonomyResolverPort,
     private readonly strategies: Map<Vertical, AnyPersistenceStrategy>,
+    private readonly storage: StoragePort,
     private readonly config: ScraperConfig = DEFAULT_CONFIG,
   ) {}
 
@@ -88,6 +90,11 @@ export class ScrapeUrlUseCase {
     });
 
     const result = await this.crawler.fetch(url, crawlerOptions);
+
+    if (this.config.saveRawHtml) {
+      await this.saveProfileHtml(pipeline.identifier, url, result.html);
+    }
+
     const payload = pipeline.extract(result.html, url, result.networkResponses);
     const scraped = await pipeline.map(payload, this.taxonomyResolver);
 
@@ -114,5 +121,19 @@ export class ScrapeUrlUseCase {
       },
       'Scrape complete',
     );
+  }
+
+  private async saveProfileHtml(identifier: string, url: string, html: string): Promise<void> {
+    if (!this.config.saveRawHtml) return;
+    const slug = new URL(url).pathname.split('/').filter(Boolean).pop() ?? 'unknown';
+    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileName = `raw/profiles/${identifier}_${slug}_${ts}.html`;
+    const cleanHtml = html.replace(/\u2028/g, '\n').replace(/\u2029/g, '\n');
+    try {
+      await this.storage.upload(Buffer.from(cleanHtml), fileName, 'text/html');
+      this.log.info({ url, fileName }, 'Profile HTML guardado');
+    } catch (err) {
+      this.log.warn({ url, err }, 'No se pudo guardar el HTML del perfil');
+    }
   }
 }

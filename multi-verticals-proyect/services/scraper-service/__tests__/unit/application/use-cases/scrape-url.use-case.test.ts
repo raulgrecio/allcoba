@@ -10,6 +10,7 @@ import type { Vertical } from '@allcoba/shared-types';
 import type { CrawlerPort } from '#application/ports/crawler.port.js';
 import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
+import type { StoragePort } from '#application/ports/storage.port.js';
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import { ScrapeUrlUseCase } from '#application/use-cases/scrape-url.use-case.js';
@@ -61,6 +62,13 @@ const makeStrategy = () => ({
   persist: vi.fn().mockResolvedValue({ action: 'CREATE', entityId: 'entity-1' }),
 });
 
+const makeStorage = (): StoragePort =>
+  ({
+    upload: vi.fn().mockResolvedValue('file://test.html'),
+    delete: vi.fn(),
+    exists: vi.fn().mockResolvedValue(true),
+  }) as unknown as StoragePort;
+
 const makeStrategiesMap = (
   vertical: 'dating' | 'general' | 'real-estate' | 'motor' = 'dating',
   strategy = makeStrategy(),
@@ -79,6 +87,7 @@ describe('ScrapeUrlUseCase', () => {
       crawler,
       makeTaxonomyResolver(),
       makeStrategiesMap('dating', strategy),
+      makeStorage(),
     );
 
     await useCase.execute('https://example.com/profile/1');
@@ -96,6 +105,7 @@ describe('ScrapeUrlUseCase', () => {
       makeCrawler(),
       makeTaxonomyResolver(),
       makeStrategiesMap(),
+      makeStorage(),
     );
 
     await expect(useCase.execute('https://example.com/profile/1')).rejects.toThrow(
@@ -111,6 +121,7 @@ describe('ScrapeUrlUseCase', () => {
       makeCrawler(),
       makeTaxonomyResolver(),
       makeStrategiesMap('dating', strategy),
+      makeStorage(),
       { skipRobots: true },
     );
 
@@ -128,6 +139,7 @@ describe('ScrapeUrlUseCase', () => {
       makeCrawler(),
       makeTaxonomyResolver(),
       makeStrategiesMap('dating', strategy), // 'general' no registrada
+      makeStorage(),
     );
 
     await useCase.execute('https://example.com/profile/1');
@@ -142,6 +154,7 @@ describe('ScrapeUrlUseCase', () => {
       makeCrawler(),
       makeTaxonomyResolver(),
       makeStrategiesMap(),
+      makeStorage(),
     );
 
     await expect(useCase.execute('https://example.com/profile/1')).rejects.toThrow(

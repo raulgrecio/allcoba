@@ -27,8 +27,9 @@ export class DiscoverUrlsUseCase {
     if (!this.config.saveRawHtml) return;
     const ts = new Date().toISOString().replace(/[:.]/g, '-');
     const fileName = `raw/listings/${identifier}_${ts}.html`;
+    const cleanHtml = html.replace(/\u2028/g, '\n').replace(/\u2029/g, '\n');
     try {
-      await this.storage.upload(Buffer.from(html), fileName, 'text/html');
+      await this.storage.upload(Buffer.from(cleanHtml), fileName, 'text/html');
       this.logger.info({ url, fileName }, 'Listing HTML guardado');
     } catch {
       this.logger.warn({ url }, 'No se pudo guardar el HTML del listado');

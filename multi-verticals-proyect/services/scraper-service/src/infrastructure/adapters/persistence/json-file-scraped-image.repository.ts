@@ -14,6 +14,7 @@ interface ScrapedImageRecord {
 export class JsonFileScrapedImageRepository implements ScrapedImageRepositoryPort {
   private readonly filePath: string;
   private cache: Set<string> | null = null;
+  private writeQueue: Promise<void> = Promise.resolve();
 
   constructor({ basePath = '__data/storage' }: { basePath?: string } = {}) {
     this.filePath = path.resolve(process.cwd(), basePath, 'scraped-images.json');
@@ -58,12 +59,25 @@ export class JsonFileScrapedImageRepository implements ScrapedImageRepositoryPor
     const seen = await this.load();
     if (seen.has(urlHash)) return;
     seen.add(urlHash);
-    await this.appendRecord({
-      urlHash,
-      originalUrl,
-      providerId,
-      vertical,
-      seenAt: new Date().toISOString(),
-    });
+
+    // Encolar escritura secuencialmente para evitar condiciones de carrera
+    this.writeQueue = this.writeQueue
+      .then(async () => {
+        await this.appendRecord({
+          urlHash,
+          originalUrl,
+          providerId,
+          vertical,
+          seenAt: new Date().toISOString(),
+        });
+      })
+      .catch((err) => {
+        const msg = err instanceof Error ? err.message : String(err);
+        import('@allcoba/kernel').then(({ logger }) => {
+          logger().error({ err: msg }, 'Error escribiendo registro de imagen en JSON');
+        });
+      });
+
+    await this.writeQueue;
   }
 }
