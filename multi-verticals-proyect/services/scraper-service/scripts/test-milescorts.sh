@@ -10,14 +10,14 @@ cd "$SERVICE_DIR"
 echo "======================================================================"
 echo "Iniciando descubrimiento de Milescorts Madrid..."
 echo "Utilizando optimización para forzar la paginación a la Página 2"
-echo "Saltando 18 perfiles (-s 18) y limitando a 25 perfiles (-l 25)"
+echo "Saltando 48 perfiles (-s 48) y limitando a 10 perfiles (-l 10)"
 echo "======================================================================"
 
 # Ejecutamos discover
 pnpm cli discover \
   -u "https://www.milescorts.es/escorts-y-putas/madrid-ciudad/" \
-  -s 18 \
-  -l 25 \
+  -s 48 \
+  -l 10 \
   --proxy-strategy none \
   --save-html \
   --headless

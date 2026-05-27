@@ -115,4 +115,5 @@
 
 - **URL fuente primaria**: phone + city + id todos derivables del path sin tocar DOM.
 - **Lazy loading imgs**: `data-original` (no `data-src` típico).
+- **Paginación**: El selector CSS correcto para navegar a la siguiente página es `#pagination a.next` (se renderiza en el HTML SSR oculto por la librería de infinite scroll jQuery en el navegador de usuario).
 - 54 tests.

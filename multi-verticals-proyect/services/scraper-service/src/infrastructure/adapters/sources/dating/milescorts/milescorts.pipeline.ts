@@ -33,6 +33,6 @@ export class MilescortsPipeline extends DatingPipelineBase<MilescortsPayload> {
   }
 
   protected override getNextPageSelector(): string {
-    return 'a[rel="next"], .pagination li.next a';
+    return '#pagination a.next, a[rel="next"], .pagination li.next a';
   }
 }
