@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { eq } from 'drizzle-orm';
 
-import { DrizzleScrapedImageRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-image.repository.js';
-import { scrapedImages } from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
+import { DrizzleScrapedImageRepository } from '#infrastructure/adapters/persistence/postgres/drizzle-scraped-image.repository.js';
+import { scrapedImages } from '#infrastructure/adapters/persistence/postgres/schema/scraper.schema.js';
 
 describe('DrizzleScrapedImageRepository', () => {
   it('should return false for hasUrl when no rows are found', async () => {

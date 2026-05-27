@@ -22,11 +22,11 @@ import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.ada
 import { DrizzleTaxonomyResolver } from '#infrastructure/adapters/catalog/drizzle-taxonomy-resolver.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
-import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
-import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js';
-import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json-file-scraped-image.repository.js';
-import * as scraperSchema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
+import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json/json-file-provider.repository.js';
+import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json/json-file-scraped-image.repository.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/memory/in-memory-scraped-entity.repository.js';
+import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/postgres/drizzle-scraped-entity.repository.js';
+import * as scraperSchema from '#infrastructure/adapters/persistence/postgres/schema/scraper.schema.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
 import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
 import { LocalStorageAdapter } from '#infrastructure/adapters/storage/local-storage.adapter.js';
@@ -36,7 +36,8 @@ import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js
 async function ensureDatabaseReady(repository: object): Promise<void> {
   if (repository.constructor.name === 'PostgresProviderRepository') {
     try {
-      const { checkConnection } = await import('#infrastructure/adapters/persistence/db-client.js');
+      const { checkConnection } =
+        await import('#infrastructure/adapters/persistence/postgres/db-client.js');
       await checkConnection();
     } catch {
       // Aquí es donde el orquestador decide qué hacer con el fallo
@@ -53,7 +54,7 @@ export async function createScraperServices(config: ScraperConfig) {
 
   if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
     const { PostgresProviderRepository } =
-      await import('#infrastructure/adapters/persistence/postgres-provider.repository.js');
+      await import('#infrastructure/adapters/persistence/postgres/postgres-provider.repository.js');
     repository = new PostgresProviderRepository();
   } else {
     repository = new JsonFileProviderRepository();
@@ -68,8 +69,8 @@ export async function createScraperServices(config: ScraperConfig) {
   let imageRepo;
   if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
     const { DrizzleScrapedImageRepository } =
-      await import('#infrastructure/adapters/persistence/drizzle-scraped-image.repository.js');
-    const { db } = await import('#infrastructure/adapters/persistence/db-client.js');
+      await import('#infrastructure/adapters/persistence/postgres/drizzle-scraped-image.repository.js');
+    const { db } = await import('#infrastructure/adapters/persistence/postgres/db-client.js');
     imageRepo = new DrizzleScrapedImageRepository(db as never);
   } else {
     imageRepo = new JsonFileScrapedImageRepository();
@@ -117,7 +118,7 @@ export async function createScraperServices(config: ScraperConfig) {
   const taxonomyResolver =
     globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl
       ? new DrizzleTaxonomyResolver(
-          (await import('#infrastructure/adapters/persistence/db-client.js')).db as never,
+          (await import('#infrastructure/adapters/persistence/postgres/db-client.js')).db as never,
         )
       : new NullTaxonomyResolver();
 
@@ -130,7 +131,7 @@ export async function createScraperServices(config: ScraperConfig) {
   let listingRepo: ScrapedEntityRepositoryPort<ScrapedListing>;
 
   if (globalConfig.scraperStorage === 'postgres' && globalConfig.databaseUrl) {
-    const { db } = await import('#infrastructure/adapters/persistence/db-client.js');
+    const { db } = await import('#infrastructure/adapters/persistence/postgres/db-client.js');
     propertyRepo = new DrizzleScrapedEntityRepository<ScrapedProperty>(
       db,
       scraperSchema.realEstateProviders,

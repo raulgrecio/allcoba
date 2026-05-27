@@ -36,7 +36,7 @@ import {
 } from '@allcoba/shared-types';
 
 import type { TaxonomyResolverPort } from '#application/ports/taxonomy-resolver.port.js';
-import * as cat from '#infrastructure/adapters/persistence/schema/catalog.schema.js';
+import * as cat from '#infrastructure/adapters/persistence/postgres/schema/catalog.schema.js';
 
 export class DrizzleTaxonomyResolver implements TaxonomyResolverPort {
   private readonly cityCache = new Map<string, CityId | null>();

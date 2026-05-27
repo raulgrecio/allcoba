@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 
 import { logger } from '@allcoba/kernel';
 
-import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json-file-provider.repository.js';
+import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json/json-file-provider.repository.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 

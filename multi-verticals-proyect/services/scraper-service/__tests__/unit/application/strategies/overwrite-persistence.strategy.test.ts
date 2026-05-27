@@ -6,7 +6,7 @@ import { asProviderId } from '@allcoba/shared-types';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
 import { asConfidence } from '#domain/canonical/confidence.js';
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/memory/in-memory-scraped-entity.repository.js';
 
 const CTX = { source: 'wallapop', url: 'https://wallapop.com/item/1' };
 

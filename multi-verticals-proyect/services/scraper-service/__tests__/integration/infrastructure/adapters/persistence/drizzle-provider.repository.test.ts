@@ -20,7 +20,7 @@ import type { ProviderId } from '@allcoba/shared-types';
 import { asProviderId } from '@allcoba/shared-types';
 
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
-import { DrizzleProviderRepository } from '#infrastructure/adapters/persistence/drizzle-provider.repository.js';
+import { DrizzleProviderRepository } from '#infrastructure/adapters/persistence/postgres/drizzle-provider.repository.js';
 import {
   mapTopEscortBabes,
   TOPESCORTBABES_SOURCE,

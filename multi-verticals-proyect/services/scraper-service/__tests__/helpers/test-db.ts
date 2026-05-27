@@ -15,7 +15,7 @@ import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
-import * as schema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
+import * as schema from '#infrastructure/adapters/persistence/postgres/schema/scraper.schema.js';
 
 export interface TestDb {
   readonly container: StartedPostgreSqlContainer;

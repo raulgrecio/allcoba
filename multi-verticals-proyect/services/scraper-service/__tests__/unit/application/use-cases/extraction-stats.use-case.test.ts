@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
-import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
+import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/memory/in-memory-provider.repository.js';
 
 const makeProvider = (overrides: Record<string, unknown> = {}) => ({
   id: 'test:1',

@@ -4,7 +4,7 @@ import type { ExternalRef } from '#domain/canonical/external-ref.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/memory/in-memory-scraped-entity.repository.js';
 
 const makeRef = (source: string, sourceId: string): ExternalRef => ({ source, sourceId });
 

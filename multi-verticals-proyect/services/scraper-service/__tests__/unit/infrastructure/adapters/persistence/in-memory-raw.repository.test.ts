@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import type { RawPayloadRecord } from '#application/ports/raw-payload.port.js';
-import { InMemoryRawPayloadRepository } from '#infrastructure/adapters/persistence/raw/in-memory-raw.repository.js';
+import { InMemoryRawPayloadRepository } from '#infrastructure/adapters/persistence/memory/in-memory-raw.repository.js';
 
 const makeRecord = (overrides: Partial<RawPayloadRecord> = {}): RawPayloadRecord => ({
   source: 'erosguia',

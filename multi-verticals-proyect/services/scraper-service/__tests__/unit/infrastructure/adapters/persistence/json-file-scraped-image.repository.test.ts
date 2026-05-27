@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json-file-scraped-image.repository.js';
+import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json/json-file-scraped-image.repository.js';
 
 describe('JsonFileScrapedImageRepository', () => {
   const basePath = '__data/temp/test-scraped-images';

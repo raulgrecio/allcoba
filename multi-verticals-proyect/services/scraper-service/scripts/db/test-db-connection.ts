@@ -1,7 +1,7 @@
 import { logger } from '@allcoba/kernel';
 
 import { asConfidence } from '#domain/canonical/confidence.js';
-import { PostgresProviderRepository } from '#infrastructure/adapters/persistence/postgres-provider.repository.js';
+import { PostgresProviderRepository } from '#infrastructure/adapters/persistence/postgres/postgres-provider.repository.js';
 
 async function testConnection() {
   logger().info('Testing PostgreSQL Connection...');

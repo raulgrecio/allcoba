@@ -2,7 +2,7 @@ import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { eq } from 'drizzle-orm';
 
 import type { ScrapedImageRepositoryPort } from '#application/ports/scraped-image-repository.port.js';
-import { scrapedImages } from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
+import { scrapedImages } from '#infrastructure/adapters/persistence/postgres/schema/scraper.schema.js';
 
 export class DrizzleScrapedImageRepository implements ScrapedImageRepositoryPort {
   constructor(private readonly db: PostgresJsDatabase<Record<string, never>>) {}

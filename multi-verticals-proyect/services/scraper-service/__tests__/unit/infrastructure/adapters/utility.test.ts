@@ -12,7 +12,7 @@ import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 import { asConfidence, Confidence } from '#domain/canonical/confidence.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
-import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/in-memory-provider.repository.js';
+import { InMemoryProviderRepository } from '#infrastructure/adapters/persistence/memory/in-memory-provider.repository.js';
 import { resolveCountryCode } from '#infrastructure/utils/country-resolver.js';
 
 // ── NullTaxonomyResolver ──────────────────────────────────────────────────────

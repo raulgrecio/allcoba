@@ -7,7 +7,7 @@ if (!config.databaseUrl) {
 }
 
 export default defineConfig({
-  schema: './src/infrastructure/adapters/persistence/schema/scraper.schema.ts',
+  schema: './src/infrastructure/adapters/persistence/postgres/schema/scraper.schema.ts',
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {

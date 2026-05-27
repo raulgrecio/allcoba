@@ -22,7 +22,7 @@ import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
 import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
 import { asConfidence } from '#domain/canonical/confidence.js';
-import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/in-memory-scraped-entity.repository.js';
+import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/memory/in-memory-scraped-entity.repository.js';
 
 // ── minimal source stub ───────────────────────────────────────────────────────
 

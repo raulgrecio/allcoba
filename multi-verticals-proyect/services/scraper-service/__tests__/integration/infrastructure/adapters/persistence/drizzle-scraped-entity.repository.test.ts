@@ -15,8 +15,8 @@ import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
 import { asConfidence } from '#domain/canonical/confidence.js';
-import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/drizzle-scraped-entity.repository.js';
-import * as schema from '#infrastructure/adapters/persistence/schema/scraper.schema.js';
+import { DrizzleScrapedEntityRepository } from '#infrastructure/adapters/persistence/postgres/drizzle-scraped-entity.repository.js';
+import * as schema from '#infrastructure/adapters/persistence/postgres/schema/scraper.schema.js';
 
 import type { TestDb } from '../../../../helpers/test-db.js';
 import { setupTestDb, truncateAll } from '../../../../helpers/test-db.js';
