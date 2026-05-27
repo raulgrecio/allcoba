@@ -161,4 +161,63 @@ describe('ScrapeUrlUseCase', () => {
       'No se resolvió un pipeline v2',
     );
   });
+
+  it('saves raw html when saveRawHtml is true', async () => {
+    const pipeline = makePipeline();
+    const strategy = makeStrategy();
+    const storage = makeStorage();
+    const useCase = new ScrapeUrlUseCase(
+      makeSourceResolver(pipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
+      makeStrategiesMap('dating', strategy),
+      storage,
+      { saveRawHtml: true },
+    );
+
+    await useCase.execute('https://example.com/profile/my-slug');
+
+    expect(storage.upload).toHaveBeenCalledOnce();
+  });
+
+  it('catches raw html saving error gracefully', async () => {
+    const pipeline = makePipeline();
+    const strategy = makeStrategy();
+    const storage = makeStorage();
+    storage.upload = vi.fn().mockRejectedValue(new Error('Upload failed'));
+    const useCase = new ScrapeUrlUseCase(
+      makeSourceResolver(pipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
+      makeStrategiesMap('dating', strategy),
+      storage,
+      { saveRawHtml: true },
+    );
+
+    // should complete without throwing
+    await expect(useCase.execute('https://example.com/profile/my-slug')).resolves.not.toThrow();
+    expect(storage.upload).toHaveBeenCalledOnce();
+  });
+
+  it('falls back to unknown when slug is empty', async () => {
+    const pipeline = makePipeline();
+    const strategy = makeStrategy();
+    const storage = makeStorage();
+    const useCase = new ScrapeUrlUseCase(
+      makeSourceResolver(pipeline),
+      makeCrawler(),
+      makeTaxonomyResolver(),
+      makeStrategiesMap('dating', strategy),
+      storage,
+      { saveRawHtml: true },
+    );
+
+    await useCase.execute('https://example.com/');
+
+    expect(storage.upload).toHaveBeenCalledWith(
+      expect.any(Buffer),
+      expect.stringContaining('profiles/test-pipeline_unknown_'),
+      'text/html',
+    );
+  });
 });

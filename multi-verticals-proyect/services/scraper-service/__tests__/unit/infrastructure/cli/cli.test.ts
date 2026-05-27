@@ -72,12 +72,34 @@ describe('CrawlerLifecycle', () => {
     expect(c2.close).toHaveBeenCalledOnce();
     expect(c1.close).not.toHaveBeenCalled();
   });
+
+  it('triggers shutdown on process SIGTERM and SIGINT', async () => {
+    const handlers: Record<string, () => void> = {};
+    const spy = vi.spyOn(process, 'on').mockImplementation((event: unknown, handler: unknown) => {
+      handlers[event as string] = handler as () => void;
+      return process;
+    });
+
+    const lifecycle = new CrawlerLifecycle();
+    const shutdownSpy = vi.spyOn(lifecycle, 'shutdown').mockResolvedValue(undefined);
+
+    expect(handlers['SIGTERM']).toBeDefined();
+    expect(handlers['SIGINT']).toBeDefined();
+
+    handlers['SIGTERM']!();
+    expect(shutdownSpy).toHaveBeenCalled();
+
+    shutdownSpy.mockClear();
+    handlers['SIGINT']!();
+    expect(shutdownSpy).toHaveBeenCalled();
+
+    spy.mockRestore();
+  });
 });
 
 // ============================================================================
 // formatStatsReport
 // ============================================================================
-
 const makeResult = (overrides: {
   source?: string;
   total?: number;
@@ -107,6 +129,7 @@ const makeResult = (overrides: {
 });
 
 describe('formatStatsReport', () => {
+
   it('includes source name in output', () => {
     const result = makeResult({ source: 'eurogirlsescort' });
     const report = formatStatsReport(result, null, 20);

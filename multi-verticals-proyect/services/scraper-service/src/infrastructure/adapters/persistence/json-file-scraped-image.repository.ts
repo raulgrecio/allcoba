@@ -14,6 +14,7 @@ interface ScrapedImageRecord {
 export class JsonFileScrapedImageRepository implements ScrapedImageRepositoryPort {
   private readonly filePath: string;
   private cache: Set<string> | null = null;
+  private loadPromise: Promise<Set<string>> | null = null;
   private writeQueue: Promise<void> = Promise.resolve();
 
   constructor({ basePath = '__data/storage' }: { basePath?: string } = {}) {
@@ -22,15 +23,20 @@ export class JsonFileScrapedImageRepository implements ScrapedImageRepositoryPor
 
   private async load(): Promise<Set<string>> {
     if (this.cache) return this.cache;
-    try {
-      await fs.mkdir(path.dirname(this.filePath), { recursive: true });
-      const content = await fs.readFile(this.filePath, 'utf-8');
-      const records: ScrapedImageRecord[] = JSON.parse(content);
-      this.cache = new Set(records.map((r) => r.urlHash));
-    } catch {
-      this.cache = new Set();
+    if (!this.loadPromise) {
+      this.loadPromise = (async () => {
+        try {
+          await fs.mkdir(path.dirname(this.filePath), { recursive: true });
+          const content = await fs.readFile(this.filePath, 'utf-8');
+          const records: ScrapedImageRecord[] = JSON.parse(content);
+          this.cache = new Set(records.map((r) => r.urlHash));
+        } catch {
+          this.cache = new Set();
+        }
+        return this.cache;
+      })();
     }
-    return this.cache;
+    return this.loadPromise;
   }
 
   private async appendRecord(record: ScrapedImageRecord): Promise<void> {

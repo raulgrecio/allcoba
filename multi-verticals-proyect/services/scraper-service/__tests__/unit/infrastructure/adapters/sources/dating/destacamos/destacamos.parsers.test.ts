@@ -23,6 +23,10 @@ describe('parseSourceIdFromUrl', () => {
   it('extracts id from ?id= query param', () => {
     expect(parseSourceIdFromUrl('https://www.destacamos.net/details.html?id=92345')).toBe('92345');
   });
+
+  it('falls back to last path segment digits', () => {
+    expect(parseSourceIdFromUrl('https://www.destacamos.net/escorts/92345/')).toBe('92345');
+  });
 });
 
 describe('slugifyDestacamos', () => {
@@ -82,7 +86,17 @@ describe('extractDestacamosWhatsappPhone', () => {
     expect(extractDestacamosWhatsappPhone('https://wa.me/34612345678')).toBe('+34612345678');
   });
 
-  it('returns undefined for falsy', () => {
+  it('extracts from ?phone= param', () => {
+    expect(
+      extractDestacamosWhatsappPhone('https://api.whatsapp.com/send?phone=34612345678'),
+    ).toBe('+34612345678');
+  });
+
+  it('returns undefined for null', () => {
     expect(extractDestacamosWhatsappPhone(null)).toBeUndefined();
+  });
+
+  it('returns undefined when no phone found', () => {
+    expect(extractDestacamosWhatsappPhone('https://wa.me/')).toBeUndefined();
   });
 });

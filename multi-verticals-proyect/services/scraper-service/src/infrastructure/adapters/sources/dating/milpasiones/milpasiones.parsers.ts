@@ -52,5 +52,6 @@ export const parseNicknameFromTitle = (title: string | undefined | null): string
   if (!title) return '';
   const withoutPhone = title.replace(/^\d{9,}\s*/, '').trim();
   // First word before space or comma
-  return (withoutPhone.split(/[\s,]+/)[0] ?? withoutPhone).trim();
+  const parts = withoutPhone.split(/[\s,]+/);
+  return (parts[0] || '').trim();
 };

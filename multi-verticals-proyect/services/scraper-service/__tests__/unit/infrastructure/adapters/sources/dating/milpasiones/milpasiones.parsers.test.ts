@@ -20,6 +20,10 @@ describe('parseSourceIdFromUrl', () => {
       '99999',
     );
   });
+
+  it('falls back to last path segment digits when no _id', () => {
+    expect(parseSourceIdFromUrl('https://milpasiones.com/escorts/madrid/9876')).toBe('9876');
+  });
 });
 
 describe('parsePhoneFromUrl', () => {
@@ -42,6 +46,10 @@ describe('slugifyMilpasiones', () => {
     expect(slugifyMilpasiones(null)).toBeUndefined();
     expect(slugifyMilpasiones('')).toBeUndefined();
   });
+
+  it('returns undefined for non-alphanumeric values that become empty', () => {
+    expect(slugifyMilpasiones('!!!')).toBeUndefined();
+  });
 });
 
 describe('parseNicknameFromTitle', () => {
@@ -60,3 +68,10 @@ describe('parseNicknameFromTitle', () => {
     expect(parseNicknameFromTitle('')).toBe('');
   });
 });
+
+describe('parseSourceIdFromUrl — additional edge cases', () => {
+  it('handles empty URL filename pop fallback safely', () => {
+    expect(parseSourceIdFromUrl('')).toBe('');
+  });
+});
+

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { extractLoquosex } from '#infrastructure/adapters/sources/dating/loquosex/loquosex.extractor.js';
 import { mapLoquosex } from '#infrastructure/adapters/sources/dating/loquosex/loquosex.mapper.js';
+import { LoquosexPipeline } from '#infrastructure/adapters/sources/dating/loquosex/loquosex.pipeline.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { listHtmlFixtures, loadHtmlFixture } from './helpers/load-fixtures.js';
@@ -75,4 +76,36 @@ describe('loquosex pipeline — all fixtures round-trip', () => {
       expect(sp.externalRefs[0]?.source).toBe('loquosex');
     });
   }
+});
+
+describe('LoquosexPipeline class methods', () => {
+  const pipeline = new LoquosexPipeline();
+
+  it('identifier is loquosex', () => {
+    expect(pipeline.identifier).toBe('loquosex');
+  });
+
+  it('canHandle loquosex.com URLs', () => {
+    expect(pipeline.canHandle('https://loquosex.com/perfil-123.html/')).toBe(true);
+    expect(pipeline.canHandle('https://other.com/page')).toBe(false);
+  });
+
+  it('isProfileUrl \u2014 .html without /page/ is a profile', () => {
+    expect(pipeline.isProfileUrl('https://loquosex.com/ven-a-conocerme-677684329.html/')).toBe(
+      true,
+    );
+  });
+
+  it('isProfileUrl \u2014 /page/ URL is not a profile', () => {
+    expect(pipeline.isProfileUrl('https://loquosex.com/page/2.html')).toBe(false);
+  });
+
+  it('isProfileUrl \u2014 URL without .html is not a profile', () => {
+    expect(pipeline.isProfileUrl('https://loquosex.com/escorts/madrid/')).toBe(false);
+  });
+
+  it('getCrawlerOptions includes cookie selectors', () => {
+    const opts = pipeline.getCrawlerOptions('https://loquosex.com/escorts/');
+    expect(opts.cookieSelectors).toContain('#cn-accept-cookie');
+  });
 });

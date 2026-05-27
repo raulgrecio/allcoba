@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { extractMadrid69 } from '#infrastructure/adapters/sources/dating/madrid69/madrid69.extractor.js';
 import {
@@ -54,6 +54,23 @@ describe('Madrid69Pipeline class methods', () => {
     const opts = pipeline.getCrawlerOptions('https://www.madrid69.com/escorts/madrid');
     expect(opts.waitUntil).toBe('networkidle');
     expect(opts.captureNetwork).toBe(true);
+  });
+
+  it('getCrawlerOptions — listing URL onBeforeCapture calls waitForSelector', async () => {
+    const opts = pipeline.getCrawlerOptions('https://www.madrid69.com/escorts/madrid');
+    const mockPage = { waitForSelector: vi.fn().mockResolvedValue(null) };
+    await opts.onBeforeCapture!(mockPage as any);
+    expect(mockPage.waitForSelector).toHaveBeenCalledWith(
+      'a[href*="citas-chicas-"]',
+      expect.objectContaining({ timeout: 15000 }),
+    );
+  });
+
+  it('getCrawlerOptions — profile URL onBeforeCapture returns early (no waitForSelector)', async () => {
+    const opts = pipeline.getCrawlerOptions('https://www.madrid69.com/citas-chicas-madrid-1-ana');
+    const mockPage = { waitForSelector: vi.fn() };
+    await opts.onBeforeCapture!(mockPage as any);
+    expect(mockPage.waitForSelector).not.toHaveBeenCalled();
   });
 
   it('extract — without networkResponses works (no apiJson)', () => {

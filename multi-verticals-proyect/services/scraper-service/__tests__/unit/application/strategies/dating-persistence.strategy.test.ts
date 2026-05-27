@@ -282,4 +282,95 @@ describe('DatingPersistenceStrategy.persist', () => {
     expect(imageHasher.generateHash).toHaveBeenCalledTimes(2);
     vi.unstubAllGlobals();
   });
+
+  it('handles scraped provider with no phone number', async () => {
+    const repo = makeRepo([]);
+    const strategy = new DatingPersistenceStrategy(
+      repo,
+      new ConsolidationService(),
+      makeImageHasher(),
+      makeStorage(),
+      makeImageRepo(),
+    );
+    const scraped = buildProvider({ phoneNumber: undefined });
+    const result = await strategy.persist(scraped, CTX);
+
+    expect(result.action).toBe('CREATE');
+    expect(repo.create).toHaveBeenCalledOnce();
+  });
+
+  it('skips image processing if hasUrl returns true', async () => {
+    const repo = makeRepo([]);
+    const imageRepo = makeImageRepo();
+    imageRepo.hasUrl = vi.fn().mockResolvedValue(true);
+    const storage = makeStorage();
+    const strategy = new DatingPersistenceStrategy(
+      repo,
+      new ConsolidationService(),
+      makeImageHasher(),
+      storage,
+      imageRepo,
+    );
+
+    const scraped = buildProvider({
+      photos: [
+        {
+          id: '1',
+          url: 'https://src.com/img.jpg',
+          isPrimary: true,
+          isVerified: false,
+          order: 0,
+        },
+      ],
+    });
+    await strategy.persist(scraped, CTX);
+
+    expect(storage.upload).not.toHaveBeenCalled();
+  });
+
+  it('returns action directly if consolidation action is MERGE but target is undefined', async () => {
+    const repo = makeRepo([]);
+    const fakeConsolidation = {
+      consolidate: vi.fn().mockReturnValue({
+        action: 'MERGE',
+        target: undefined,
+        confidence: 0.8,
+        signals: [],
+      }),
+    };
+    const strategy = new DatingPersistenceStrategy(
+      repo,
+      fakeConsolidation as unknown as ConsolidationService,
+      makeImageHasher(),
+      makeStorage(),
+      makeImageRepo(),
+    );
+    const scraped = buildProvider();
+    const result = await strategy.persist(scraped, CTX);
+
+    expect(result.action).toBe('MERGE');
+    expect(repo.updateById).not.toHaveBeenCalled();
+  });
+
+  it('handles IGNORE consolidation action', async () => {
+    const repo = makeRepo([]);
+    const fakeConsolidation = {
+      consolidate: vi.fn().mockReturnValue({
+        action: 'IGNORE',
+        confidence: 0,
+        signals: [],
+      }),
+    };
+    const strategy = new DatingPersistenceStrategy(
+      repo,
+      fakeConsolidation as unknown as ConsolidationService,
+      makeImageHasher(),
+      makeStorage(),
+      makeImageRepo(),
+    );
+    const scraped = buildProvider();
+    const result = await strategy.persist(scraped, CTX);
+
+    expect(result.action).toBe('IGNORE');
+  });
 });

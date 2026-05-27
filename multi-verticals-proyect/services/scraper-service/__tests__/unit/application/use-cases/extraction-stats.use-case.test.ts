@@ -157,4 +157,58 @@ describe('ExtractionStatsUseCase.execute', () => {
     expect(sources).toHaveLength(1);
     expect(sources[0]!.source).toBe('mislios');
   });
+
+  it('covers sourceOf and field extractor fallbacks for incomplete providers', () => {
+    // 1. sourceOf: externalRefs empty, fallback to metadata.source
+    const p1 = makeProvider({
+      externalRefs: [],
+      metadata: { source: 'meta-source' },
+    });
+    // 2. sourceOf: externalRefs empty, metadata empty, fallback to unknown
+    const p2 = makeProvider({
+      externalRefs: [],
+      metadata: {},
+      contactOptions: undefined,
+      links: undefined,
+      photos: undefined,
+      aboutMe: undefined,
+      personalDetails: undefined,
+      attributes: undefined,
+      badges: undefined,
+    });
+
+    const { sources } = uc.compute([p1, p2] as unknown as ScrapedProvider[], null, 20);
+    expect(sources.map((s) => s.source)).toContain('meta-source');
+    expect(sources.map((s) => s.source)).toContain('unknown');
+
+    const unknownSrc = sources.find((s) => s.source === 'unknown')!;
+    expect(unknownSrc.fields['whatsapp']!.rate).toBe(0);
+    expect(unknownSrc.fields['telegram']!.rate).toBe(0);
+    expect(unknownSrc.fields['photos']!.rate).toBe(0);
+    expect(unknownSrc.fields['bio']!.rate).toBe(0);
+    expect(unknownSrc.fields['age']!.rate).toBe(0);
+    expect(unknownSrc.fields['nationality']!.rate).toBe(0);
+    expect(unknownSrc.fields['services']!.rate).toBe(0);
+    expect(unknownSrc.fields['isVerified']!.rate).toBe(0);
+    expect(unknownSrc.fields['isVip']!.rate).toBe(0);
+  });
+
+  it('covers telegram link match branch', () => {
+    const p = makeProvider({
+      contactOptions: [],
+      links: { telegram: 'https://t.me/test' },
+    });
+    const { sources } = uc.compute([p] as unknown as ScrapedProvider[], null, 20);
+    expect(sources[0]!.fields['telegram']!.rate).toBe(100);
+  });
+
+  it('covers baseline field missing or other source branches', () => {
+    const p = makeProvider({ photos: [] }); // 0%
+    const baseline = {
+      otherSource: { photos: 90 },
+      ardienteplacer: {}, // missing field photos
+    };
+    const { regressions } = uc.compute([p as unknown as ScrapedProvider], baseline, 20);
+    expect(regressions).toHaveLength(0);
+  });
 });

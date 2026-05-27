@@ -101,3 +101,41 @@ describe('extractGemidos — service artifact filter', () => {
     expect(slugs).not.toContain('oral-');
   });
 });
+
+describe('extractGemidos — additional branch coverage', () => {
+  it('handles getTagValue early returns and empty text content', () => {
+    const html = `<html><body>
+      <h1 class="pub-title">Ana</h1>
+      <span class="pub-tags-item"><small>Nacionalidad</small>Colombiana</span>
+      <span class="pub-tags-item"><small>Nacionalidad</small>Venezolana</span>
+      <span class="pub-tags-item"><small>Piel</small></span>
+    </body></html>`;
+    const p = extractGemidos(html, 'https://gemidos.tv/anuncio/ana/');
+    expect(p.params.nationality).toBe('Colombiana');
+    expect(p.params.ethnicity).toBeUndefined();
+  });
+
+  it('handles empty services, missing classes, falsy location tags, and break statement in address strong loop', () => {
+    const html = `<html><body>
+      <h1 class="pub-title">Ana</h1>
+      <div class="pub-services">
+        <a class="pub-tags-item"></a>
+        <a class="pub-tags-item" href="test-service">Valid Label</a>
+      </div>
+      <div class="pub-location"><span class="pub-location-tag"></span></div>
+      <div class="pub-map-label">
+        <strong></strong>
+        <strong>Madrid, Spain</strong>
+        <strong>Barcelona</strong>
+      </div>
+    </body></html>`;
+    const p = extractGemidos(html, 'https://gemidos.tv/anuncio/ana/');
+    expect(p.params.services).toBeDefined();
+    expect(p.params.services![0]?.label).toBe('Valid Label');
+    expect(p.params.services![0]?.category).toBe('services');
+    expect(p.params.locationTags).toBeUndefined();
+    expect(p.params.address).toBe('Madrid, Spain');
+  });
+});
+
+

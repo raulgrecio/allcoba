@@ -86,3 +86,38 @@ describe('milescorts extractor — all fixtures parse without throwing', () => {
     });
   }
 });
+
+describe('milescorts extractor — additional branch coverage', () => {
+  it('handles missing params, no bio, no whatsapp, and phone fallback', () => {
+    const html = `<html><body>
+      <h1>Mia</h1>
+      <a href="tel:600999888">Call Mia</a>
+    </body></html>`;
+    const payload = extractMilescorts(html, 'https://www.milescorts.es/396681.htm');
+    expect(payload.sourceId).toBe('396681');
+    expect(payload.phone).toBe('600999888');
+    expect(payload.bio).toBeUndefined();
+    expect(payload.whatsappPhone).toBeUndefined();
+    expect(payload.params.city).toBeUndefined();
+    expect(payload.params.age).toBeUndefined();
+    expect(payload.params.nationality).toBeUndefined();
+  });
+
+  it('handles phone tel link with no digits, duplicate images, and image alt', () => {
+    const html = `<html><body>
+      <h1>Mia</h1>
+      <a href="tel:abc">Call Mia</a>
+      <div id="fotos-anuncio">
+        <img src="img1.jpg" alt="Photo 1" />
+        <img data-original="img1.jpg" />
+        <img data-src="img2.jpg" />
+      </div>
+    </body></html>`;
+    const payload = extractMilescorts(html, 'https://www.milescorts.es/396681.htm');
+    expect(payload.phone).toBeUndefined();
+    expect(payload.photos).toHaveLength(2);
+    expect(payload.photos[0]!.alt).toBe('Photo 1');
+    expect(payload.photos[1]!.alt).toBeUndefined();
+  });
+});
+

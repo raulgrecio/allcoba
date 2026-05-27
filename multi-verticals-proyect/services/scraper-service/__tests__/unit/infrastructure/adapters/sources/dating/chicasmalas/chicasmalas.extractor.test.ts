@@ -79,3 +79,64 @@ describe('extractChicasmalas — minimal HTML', () => {
     expect(p.services).toBeUndefined();
   });
 });
+
+describe('extractChicasmalas — additional branch coverage', () => {
+  it('handles various height inputs and edge cases', () => {
+    const html = `<html><body>
+      <div class="elementor-widget-heading"><h2 class="elementor-heading-title">Altura.</h2></div>
+      <div class="elementor-widget-text-editor">165</div>
+    </body></html>`;
+    const p = extractChicasmalas(html, SOURCE_URL);
+    expect(p.heightCm).toBe(165);
+  });
+
+  it('handles invalid or non-numeric height', () => {
+    const html = `<html><body>
+      <div class="elementor-widget-heading"><h2 class="elementor-heading-title">Altura.</h2></div>
+      <div class="elementor-widget-text-editor">abc</div>
+    </body></html>`;
+    const p = extractChicasmalas(html, SOURCE_URL);
+    expect(p.heightCm).toBeUndefined();
+  });
+
+  it('handles zero or negative height', () => {
+    const html = `<html><body>
+      <div class="elementor-widget-heading"><h2 class="elementor-heading-title">Altura.</h2></div>
+      <div class="elementor-widget-text-editor">0</div>
+    </body></html>`;
+    const p = extractChicasmalas(html, SOURCE_URL);
+    expect(p.heightCm).toBeUndefined();
+  });
+
+
+  it('handles consecutive elementor headings or empty text-editors', () => {
+    const html = `<html><body>
+      <div class="elementor-widget-heading"><h2 class="elementor-heading-title">Edad.</h2></div>
+      <div class="elementor-widget-heading"><h2 class="elementor-heading-title">Nacionalidad.</h2></div>
+      <div class="elementor-widget-text-editor"></div>
+      <div class="elementor-widget-text-editor">Colombiana</div>
+    </body></html>`;
+    const p = extractChicasmalas(html, SOURCE_URL);
+    expect(p.age).toBeUndefined();
+    expect(p.nationality).toBeUndefined();
+  });
+
+  it('extracts multiple tel links and handles early return inside each loop', () => {
+    const html = `<html><body>
+      <a href="tel:600111222">Phone 1</a>
+      <a href="tel://600333444">Phone 2</a>
+      <a href="tel:invalid">Phone 3</a>
+    </body></html>`;
+    const p = extractChicasmalas(html, SOURCE_URL);
+    expect(p.phone).toBe('600111222');
+  });
+
+  it('falls back to wa.me links for WhatsApp phone extraction', () => {
+    const html = `<html><body>
+      <a href="https://wa.me/34600555666?text=hola">WhatsApp</a>
+    </body></html>`;
+    const p = extractChicasmalas(html, SOURCE_URL);
+    expect(p.whatsappPhone).toBe('600555666');
+  });
+});
+

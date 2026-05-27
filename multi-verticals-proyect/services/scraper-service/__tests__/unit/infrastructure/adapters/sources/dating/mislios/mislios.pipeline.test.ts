@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { extractMislios } from '#infrastructure/adapters/sources/dating/mislios/mislios.extractor.js';
 import {
@@ -50,6 +50,16 @@ describe('MisliosPipeline class methods', () => {
     const opts = pipeline.getCrawlerOptions(listingUrl);
     expect(opts.waitUntil).toBe('networkidle');
     expect(typeof opts.onBeforeCapture).toBe('function');
+  });
+
+  it('getCrawlerOptions — listing URL onBeforeCapture calls waitForSelector', async () => {
+    const listingUrl = 'https://mislios.com/escorts/madrid/';
+    const opts = pipeline.getCrawlerOptions(listingUrl);
+    const mockPage = { waitForSelector: vi.fn().mockResolvedValue(null) };
+    await opts.onBeforeCapture!(mockPage as any);
+    expect(mockPage.waitForSelector).toHaveBeenCalledWith('a[href*="/escorts/"]', {
+      timeout: 15000,
+    });
   });
 });
 

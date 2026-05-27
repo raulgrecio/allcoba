@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { extractMilescorts } from '#infrastructure/adapters/sources/dating/milescorts/milescorts.extractor.js';
 import { mapMilescorts } from '#infrastructure/adapters/sources/dating/milescorts/milescorts.mapper.js';
+import { MilescortsPipeline } from '#infrastructure/adapters/sources/dating/milescorts/milescorts.pipeline.js';
 
 import { FakeTaxonomyResolver } from './helpers/fake-taxonomy-resolver.js';
 import { listHtmlFixtures, loadHtmlFixture } from './helpers/load-fixtures.js';
@@ -69,4 +70,41 @@ describe('milescorts pipeline — all fixtures round-trip', () => {
       expect(sp.externalRefs[0]?.source).toBe('milescorts');
     });
   }
+});
+
+describe('MilescortsPipeline class methods', () => {
+  const pipeline = new MilescortsPipeline();
+
+  it('identifier is milescorts', () => {
+    expect(pipeline.identifier).toBe('milescorts');
+  });
+
+  it('canHandle milescorts.es URLs', () => {
+    expect(pipeline.canHandle('https://www.milescorts.es/escorts-y-putas/madrid/')).toBe(true);
+    expect(pipeline.canHandle('https://other.com')).toBe(false);
+  });
+
+  it('isProfileUrl \u2014 .htm + /escorts-y-putas/ is a profile', () => {
+    expect(
+      pipeline.isProfileUrl(
+        'https://www.milescorts.es/escorts-y-putas/madrid-ciudad/631594827-escort-396681.htm',
+      ),
+    ).toBe(true);
+  });
+
+  it('isProfileUrl \u2014 listing page is not a profile', () => {
+    expect(
+      pipeline.isProfileUrl('https://www.milescorts.es/escorts-y-putas/madrid-ciudad/'),
+    ).toBe(false);
+  });
+
+  it('isProfileUrl \u2014 .htm without /escorts-y-putas/ is not a profile', () => {
+    expect(pipeline.isProfileUrl('https://www.milescorts.es/otras/396681.htm')).toBe(false);
+  });
+
+  it('getCrawlerOptions includes cookie and age-gate selectors', () => {
+    const opts = pipeline.getCrawlerOptions('https://www.milescorts.es/escorts-y-putas/');
+    expect(opts.cookieSelectors).toContain('#cn-accept-cookie');
+    expect(opts.ageGateSelectors).toContain('a.btn-success:contains("ENTRAR")');
+  });
 });
