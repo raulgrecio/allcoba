@@ -7,7 +7,7 @@
  * produce cuando analiza marcas de agua complejas o de baja resolución.
  */
 
-import { BRAND_DICTIONARY } from '../../src/infrastructure/utils/regex-patterns.js';
+import { BRAND_DICTIONARY } from '#infrastructure/utils/regex-patterns.js';
 
 const mockOcrOutputs = [
   {

@@ -6,12 +6,14 @@ import { ProcessInternalUploadUseCase } from '../application/use-cases/process-i
 import { ProcessScraperImageUseCase } from '../application/use-cases/process-scraper-image.use-case.js';
 import { ImagePipelineAdapter } from '../infrastructure/adapters/images/image-pipeline.adapter.js';
 import { PgBossQueueAdapter } from '../infrastructure/adapters/queue/pg-boss.adapter.js';
+import { LocalStorageAdapter } from '../infrastructure/adapters/storage/local-storage.adapter.js';
 import { config } from '../infrastructure/config/env.js';
 
 export class Container {
   private static instance: Container;
 
   public readonly imagePipeline = new ImagePipelineAdapter();
+  public readonly storage = new LocalStorageAdapter();
   public readonly processScraperImageUseCase = new ProcessScraperImageUseCase(this.imagePipeline);
   public readonly processInternalUploadUseCase = new ProcessInternalUploadUseCase(
     this.imagePipeline,
@@ -36,24 +38,76 @@ export class Container {
    * Esto implementa la comunicación de Fase 2 (Cola directa scraper-media).
    */
   public async startQueue(): Promise<void> {
-    if (!this.queue) return;
+    const queue = this.queue;
+    if (!queue) return;
 
-    await this.queue.start();
+    await queue.start();
 
-    // Nos suscribimos a la tarea de procesamiento asíncrono 'process-provider-images' (Scraper)
-    await this.queue.subscribe(
-      JOB_NAMES.PROCESS_PROVIDER_IMAGES,
-      async (payload: { imageUrl: string; sourceName?: string }) => {
-        logger().info({ imageUrl: payload.imageUrl }, 'Processing background queue media task');
+    // Nos suscribimos a la tarea de procesamiento asíncrono 'process-media' (Scraper)
+    await queue.subscribe(
+      JOB_NAMES.PROCESS_MEDIA,
+      async (payload: {
+        providerId: string;
+        imageUrls: string[];
+        source: string;
+        vertical: string;
+      }) => {
+        logger().info(
+          { providerId: payload.providerId, imageCount: payload.imageUrls.length },
+          'Processing background queue media task',
+        );
 
-        const result = await this.processScraperImageUseCase.execute({
-          imageUrl: payload.imageUrl,
-          sourceName: payload.sourceName,
+        const processedImages: Array<{ originalUrl: string; storedUrl: string; hash: string }> = [];
+
+        for (let i = 0; i < payload.imageUrls.length; i++) {
+          const imageUrl = payload.imageUrls[i]!;
+          try {
+            const result = await this.processScraperImageUseCase.execute({
+              imageUrl,
+              sourceName: payload.source,
+            });
+
+            if (result.status === 'ok' && result.normalizedBuffer) {
+              const slug = payload.providerId.replace(/[^a-z0-9]/gi, '_');
+              const fileName = `images/${payload.source}/${slug}/${String(i).padStart(3, '0')}.webp`;
+
+              const storedUrl = await this.storage.upload(
+                result.normalizedBuffer,
+                fileName,
+                'image/webp',
+              );
+
+              const hash = result.hashes.phash || result.hashes.sha256;
+              processedImages.push({
+                originalUrl: imageUrl,
+                storedUrl,
+                hash,
+              });
+            } else {
+              logger().warn(
+                { imageUrl, reason: result.rejectReason },
+                'Image rejected by media-service pipeline',
+              );
+            }
+          } catch (err) {
+            logger().error(
+              { imageUrl, error: err },
+              'Failed to process scraper image in queue worker',
+            );
+          }
+        }
+
+        // Publicamos el evento de finalización para que el scraper consolide los datos
+        await queue.publish(JOB_NAMES.PROVIDER_IMAGES_PROCESSED, {
+          providerId: payload.providerId,
+          vertical: payload.vertical,
+          images: processedImages,
         });
 
-        if (result.status === 'rejected') {
-          throw new Error(`Queue scraper image processing rejected: ${result.rejectReason}`);
-        }
+        logger().info(
+          { providerId: payload.providerId, processedCount: processedImages.length },
+          'Background media task finished and scraper notified',
+        );
       },
     );
   }

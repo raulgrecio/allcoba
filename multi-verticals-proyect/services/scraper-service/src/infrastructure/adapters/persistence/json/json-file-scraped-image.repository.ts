@@ -56,6 +56,11 @@ export class JsonFileScrapedImageRepository implements ScrapedImageRepositoryPor
     return seen.has(urlHash);
   }
 
+  async findSeenUrls(urlHashes: string[]): Promise<string[]> {
+    const seen = await this.load();
+    return urlHashes.filter((hash) => seen.has(hash));
+  }
+
   async markSeen(
     urlHash: string,
     originalUrl: string,

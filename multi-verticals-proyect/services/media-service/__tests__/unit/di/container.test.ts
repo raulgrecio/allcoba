@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import type { ProcessedImageResult } from '#domain/canonical/processed-image-result.js';
 import { Container } from '#di/container.js';
 import { PgBossQueueAdapter } from '#infrastructure/adapters/queue/pg-boss.adapter.js';
 
@@ -7,6 +8,7 @@ const mockQueue = {
   start: vi.fn(),
   stop: vi.fn(),
   subscribe: vi.fn(),
+  publish: vi.fn(),
 };
 
 vi.mock('#infrastructure/adapters/queue/pg-boss.adapter.js', () => {
@@ -70,21 +72,23 @@ describe('Container DI', () => {
 
     const container = Container.getInstance();
 
-    // Mock del caso de uso de imagen
+    // Mock del caso de uso de imagen y almacenamiento
     const mockExecute = vi.spyOn(container.processScraperImageUseCase, 'execute');
+    const mockUpload = vi
+      .spyOn(container.storage, 'upload')
+      .mockResolvedValue('file:///path/to/img.webp');
 
     await container.startQueue();
 
     expect(mockQueue.start).toHaveBeenCalled();
-    expect(mockQueue.subscribe).toHaveBeenCalledWith(
-      'process-provider-images',
-      expect.any(Function),
-    );
+    expect(mockQueue.subscribe).toHaveBeenCalledWith('process-media', expect.any(Function));
 
     // Extraer callback del subscribe y probar flujo exitoso
     const subscribeCallback = mockQueue.subscribe.mock.calls[0]![1] as (payload: {
-      imageUrl: string;
-      sourceName?: string;
+      providerId: string;
+      imageUrls: string[];
+      source: string;
+      vertical: string;
     }) => Promise<void>;
 
     mockExecute.mockResolvedValue({
@@ -93,25 +97,40 @@ describe('Container DI', () => {
       url: 'http://pic.jpg',
       hashes: { sha256: 'sha-val', phash: 'phash-val' },
       metadata: { format: 'webp', width: 200, height: 200, size: 2000 },
-    } as unknown as Awaited<ReturnType<typeof mockExecute>>);
+      normalizedBuffer: Buffer.from('processed-webp'),
+    } as unknown as ProcessedImageResult);
 
     await expect(
-      subscribeCallback({ imageUrl: 'https://pic.jpg', sourceName: 'test-src' }),
+      subscribeCallback({
+        providerId: 'provider-123',
+        imageUrls: ['https://pic.jpg'],
+        source: 'test-src',
+        vertical: 'dating',
+      }),
     ).resolves.not.toThrow();
+
     expect(mockExecute).toHaveBeenCalledWith({
       imageUrl: 'https://pic.jpg',
       sourceName: 'test-src',
     });
 
-    // Probar flujo cuando la imagen es rechazada
-    mockExecute.mockResolvedValue({
-      status: 'rejected',
-      rejectReason: 'NSFW content detected',
-    } as unknown as Awaited<ReturnType<typeof mockExecute>>);
-
-    await expect(subscribeCallback({ imageUrl: 'https://pic.jpg' })).rejects.toThrow(
-      'Queue scraper image processing rejected: NSFW content detected',
+    expect(mockUpload).toHaveBeenCalledWith(
+      expect.any(Buffer),
+      'images/test-src/provider_123/000.webp',
+      'image/webp',
     );
+
+    expect(mockQueue.publish).toHaveBeenCalledWith('provider-images-processed', {
+      providerId: 'provider-123',
+      vertical: 'dating',
+      images: [
+        {
+          originalUrl: 'https://pic.jpg',
+          storedUrl: 'file:///path/to/img.webp',
+          hash: 'phash-val',
+        },
+      ],
+    });
 
     // Detener la cola
     await container.stopQueue();

@@ -4,6 +4,7 @@ import { logger } from '@allcoba/kernel';
 import type { PersistenceStrategyPort } from '#application/ports/persistence-strategy.port.js';
 import type { QueuePort } from '#application/ports/queue.port.js';
 import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
+import type { ConsolidateProviderImagesPayload } from '#application/use-cases/consolidate-provider-images.use-case.js';
 import type { ProcessImagesJobPayload } from '#application/use-cases/process-images.use-case.js';
 import type { ScraperConfig } from '#application/use-cases/scrape-url.use-case.js';
 import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
@@ -14,6 +15,7 @@ import { CrawlerEngine } from '#application/ports/crawler.port.js';
 import { JOB_NAMES } from '#application/ports/queue.port.js';
 import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
 import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
+import { ConsolidateProviderImagesUseCase } from '#application/use-cases/consolidate-provider-images.use-case.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
 import { ExtractionStatsUseCase } from '#application/use-cases/extraction-stats.use-case.js';
 import { ProcessImagesUseCase } from '#application/use-cases/process-images.use-case.js';
@@ -22,7 +24,6 @@ import { ConsolidationService } from '#domain/services/canonical/consolidation.s
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { DrizzleTaxonomyResolver } from '#infrastructure/adapters/catalog/drizzle-taxonomy-resolver.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
-import { HttpMediaAdapter } from '#infrastructure/adapters/images/http-media.adapter.js';
 import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json/json-file-provider.repository.js';
 import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json/json-file-scraped-image.repository.js';
 import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/memory/in-memory-scraped-entity.repository.js';
@@ -89,22 +90,26 @@ export async function createScraperServices(config: ScraperConfig) {
     queue = new InMemoryQueueAdapter();
   }
 
-  const imagePipeline = new HttpMediaAdapter();
-
-  const processImagesUseCase = new ProcessImagesUseCase(
-    repository,
-    storage,
-    imageRepo,
-    imagePipeline,
-    {
-      maxImagesToProcess: config.maxImagesToProcess ?? 20,
-    },
-  );
+  const processImagesUseCase = new ProcessImagesUseCase(imageRepo, queue, {
+    maxImagesToProcess: config.maxImagesToProcess ?? 20,
+  });
 
   await queue.subscribe<ProcessImagesJobPayload>(
     JOB_NAMES.PROCESS_PROVIDER_IMAGES,
     async (payload) => {
       await processImagesUseCase.execute(payload);
+    },
+  );
+
+  const consolidateProviderImagesUseCase = new ConsolidateProviderImagesUseCase(
+    repository,
+    imageRepo,
+  );
+
+  await queue.subscribe<ConsolidateProviderImagesPayload>(
+    JOB_NAMES.PROVIDER_IMAGES_PROCESSED,
+    async (payload) => {
+      await consolidateProviderImagesUseCase.execute(payload);
     },
   );
 

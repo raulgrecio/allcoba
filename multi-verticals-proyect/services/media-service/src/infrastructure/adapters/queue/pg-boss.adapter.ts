@@ -23,6 +23,11 @@ export class PgBossQueueAdapter implements QueuePort {
     this.log.info('pg-boss media queue consumer started');
   }
 
+  async publish<T>(name: JobName, data: T): Promise<string | null> {
+    const id = await this.boss.send(name, data as object);
+    return id || null;
+  }
+
   async subscribe<T>(name: JobName, handler: (data: T) => Promise<void>): Promise<void> {
     // pg-boss tipa el callback de work() de forma distinta entre versiones (como un array Job<unknown>[]).
     // Para evitar errores de tipo al acceder a propiedades individuales y dar soporte a cualquier versión,
