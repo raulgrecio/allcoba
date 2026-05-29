@@ -27,6 +27,9 @@ logs/
 .next/
 nuxt/
 
+#Graphify
+graphify-out/
+
 # Archives in root
 *.zip
 
