@@ -1,0 +1,748 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "6546",
+      "country_id": "226",
+      "city_escaped": "las-rozas-de-madrid",
+      "url_segment": "las-rozas-de-madrid",
+      "distance": "9.725616832004661",
+      "name": "Las Rozas de Madrid",
+      "user_count": "3"
+    },
+    {
+      "id": "6676",
+      "country_id": "226",
+      "city_escaped": "san-sebastian-de-los-reyes",
+      "url_segment": "san-sebastian-de-los-reyes",
+      "distance": "10.184571957287227",
+      "name": "San Sebastián de los Reyes",
+      "user_count": "1"
+    },
+    {
+      "id": "5024",
+      "country_id": "226",
+      "city_escaped": "toledo",
+      "url_segment": "toledo",
+      "distance": "41.99767927611181",
+      "name": "Toledo",
+      "user_count": "1"
+    },
+    {
+      "id": "8491",
+      "country_id": "226",
+      "city_escaped": "avila",
+      "url_segment": "avila",
+      "distance": "53.17996343202064",
+      "name": "Ávila",
+      "user_count": "1"
+    },
+    {
+      "id": "3476",
+      "country_id": "226",
+      "city_escaped": "salamanca-es",
+      "url_segment": "salamanca-es",
+      "distance": "108.47857494707354",
+      "name": "Salamanca",
+      "user_count": "1"
+    },
+    {
+      "id": "3386",
+      "country_id": "226",
+      "city_escaped": "logrono",
+      "url_segment": "logrono",
+      "distance": "155.66468007513515",
+      "name": "Logroño",
+      "user_count": "2"
+    },
+    {
+      "id": "973",
+      "country_id": "226",
+      "city_escaped": "zaragoza-es",
+      "url_segment": "zaragoza-es",
+      "distance": "169.31416350785844",
+      "name": "Zaragoza",
+      "user_count": "2"
+    },
+    {
+      "id": "2220",
+      "country_id": "226",
+      "city_escaped": "vitoria-gasteiz",
+      "url_segment": "vitoria-gasteiz",
+      "distance": "176.10336395043484",
+      "name": "Vitoria",
+      "user_count": "1"
+    },
+    {
+      "id": "1828",
+      "country_id": "226",
+      "city_escaped": "cordoba-es",
+      "url_segment": "cordoba-es",
+      "distance": "184.32784022406315",
+      "name": "Córdoba",
+      "user_count": "1"
+    },
+    {
+      "id": "854",
+      "country_id": "226",
+      "city_escaped": "valencia",
+      "url_segment": "valencia",
+      "distance": "189.8153021700758",
+      "name": "Valencia",
+      "user_count": "13"
+    },
+    {
+      "id": "3036",
+      "country_id": "226",
+      "city_escaped": "castellon-de-la-plana",
+      "url_segment": "castellon-de-la-plana",
+      "distance": "197.33101335669016",
+      "name": "Castellón de la Plana",
+      "user_count": "1"
+    },
+    {
+      "id": "1670",
+      "country_id": "226",
+      "city_escaped": "bilbao",
+      "url_segment": "bilbao",
+      "distance": "200.27558476078528",
+      "name": "Bilbao",
+      "user_count": "4"
+    },
+    {
+      "id": "10693",
+      "country_id": "226",
+      "city_escaped": "ecija",
+      "url_segment": "ecija",
+      "distance": "212.85173994865173",
+      "name": "Écija",
+      "user_count": "1"
+    },
+    {
+      "id": "1371",
+      "country_id": "226",
+      "city_escaped": "murcia-es",
+      "url_segment": "murcia-es",
+      "distance": "219.2072048950711",
+      "name": "Murcia",
+      "user_count": "3"
+    },
+    {
+      "id": "2369",
+      "country_id": "226",
+      "city_escaped": "granada-es",
+      "url_segment": "granada-es",
+      "distance": "223.87822135647775",
+      "name": "Granada",
+      "user_count": "1"
+    },
+    {
+      "id": "8009",
+      "country_id": "226",
+      "city_escaped": "irun",
+      "url_segment": "irun",
+      "distance": "223.9010416313929",
+      "name": "Irún",
+      "user_count": "1"
+    },
+    {
+      "id": "1739",
+      "country_id": "226",
+      "city_escaped": "alicante",
+      "url_segment": "alicante",
+      "distance": "226.27309824986972",
+      "name": "Alicante",
+      "user_count": "18"
+    },
+    {
+      "id": "2507",
+      "country_id": "226",
+      "city_escaped": "oviedo",
+      "url_segment": "oviedo",
+      "distance": "229.77886178760767",
+      "name": "Oviedo",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4103714,
+  "agencyId": 87807,
+  "nickname": "Vanessa",
+  "age": "22",
+  "baseCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "es",
+      "name": "España",
+      "subdomain": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "currentCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "minimumPrice": "Desde 200 €",
+  "photosCount": 3,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "no activo desde hace un tiempo",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Vanessa es una espectacular acompañante de 22 años. Su elegancia natural y su calidez hacen de cada cita una experiencia llena de complicidad, discreción y placer refinado. Su melena morena enmarca un rostro de rasgos finos, realzado por unos intensos ojos negros llenos de vida y misterio. Su busto natural y su figura bien definida son prueba de su dedicación al cuidado personal.<br />\nEs la perfecta combinación de belleza, clase y sensualidad, ideal para quienes buscan algo más que un simple encuentro.",
+    "original": "Vanessa es una espectacular acompañante de 22 años. Su elegancia natural y su calidez hacen de cada cita una experiencia llena de complicidad, discreción y placer refinado. Su melena morena enmarca un rostro de rasgos finos, realzado por unos intensos ojos negros llenos de vida y misterio. Su busto natural y su figura bien definida son prueba de su dedicación al cuidado personal.<br />\nEs la perfecta combinación de belleza, clase y sensualidad, ideal para quienes buscan algo más que un simple encuentro.",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "200",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios <b>en mi piso</b> y <b>a domicilio o en hotel</b>. Las tarifas a domicilio pueden variar.",
+  "priceLabelType": "lower",
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=380&wm=1&s=a7047982525f7d38d822314c786fd69c",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=380&wm=1&s=a7047982525f7d38d822314c786fd69c 380w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=480&wm=1&s=a21b98cf6a15eee14772373f4d64dd7d 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=782&wm=1&s=e8a6f4c2c9f7bed788d9a80b45e92cc5 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=1023&wm=1&s=35bf24583b0f4647b665ba9d2c01350b 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=1920&wm=1&s=5ef18bb3bfa47c46eb9a83eb0c2e78ee",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=480&wm=1&s=a21b98cf6a15eee14772373f4d64dd7d 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=782&wm=1&s=e8a6f4c2c9f7bed788d9a80b45e92cc5 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=1023&wm=1&s=35bf24583b0f4647b665ba9d2c01350b 1023w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2eba9f.webp?fit=crop&h=0&w=1920&wm=1&s=5ef18bb3bfa47c46eb9a83eb0c2e78ee 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 5 meses",
+      "uploaded_on": "hace 5 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=380&wm=1&s=2ab6ef9c0573912cdd9db6b6aad788c1",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=380&wm=1&s=2ab6ef9c0573912cdd9db6b6aad788c1 380w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=480&wm=1&s=73b70270121fc8683a42b02717ff32cd 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=782&wm=1&s=bc13aab9555ad1fcabc62ecb4dd9f1a9 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=1023&wm=1&s=1640cbb294c15dff4ac1c4e3aff64730 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=1920&wm=1&s=9d5d2a0ff8ea0ad5852b8efbffe74ac0",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=480&wm=1&s=73b70270121fc8683a42b02717ff32cd 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=782&wm=1&s=bc13aab9555ad1fcabc62ecb4dd9f1a9 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=1023&wm=1&s=1640cbb294c15dff4ac1c4e3aff64730 1023w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd328c32.webp?fit=crop&h=0&w=1920&wm=1&s=9d5d2a0ff8ea0ad5852b8efbffe74ac0 1920w",
+      "width": 1281,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 5 meses",
+      "uploaded_on": "hace 5 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=380&wm=1&s=11ef87b24004d22ce180ab5a29d3ea6b",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=380&wm=1&s=11ef87b24004d22ce180ab5a29d3ea6b 380w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=480&wm=1&s=1cd5b302cbd66cb83576ee346c173a43 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=782&wm=1&s=b3094e327dc259be3d7610f7d13de331 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=1023&wm=1&s=e1cf364ac64494c4625c0fbac7cac174 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=1920&wm=1&s=cc31380fa14a0ac253fd48931586640a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=480&wm=1&s=1cd5b302cbd66cb83576ee346c173a43 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=782&wm=1&s=b3094e327dc259be3d7610f7d13de331 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=1023&wm=1&s=e1cf364ac64494c4625c0fbac7cac174 1023w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd389eca.webp?fit=crop&h=0&w=1920&wm=1&s=cc31380fa14a0ac253fd48931586640a 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 5 meses",
+      "uploaded_on": "hace 5 meses"
+    }
+  ],
+  "galleryImgAlt": "Vanessa, 22 - Chica elegante, sensual y discreta, perfecta compañía.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/spain/escorts\" title=\"Escorts en España\">España</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts\" title=\"Escorts en Madrid\">Madrid</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/madrid/escorts/venezuelan-nationality\" title=\"Escorts venezolana en Madrid\">venezolana</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/madrid/escorts/latina-ethnic\" title=\"Escorts latina en Madrid\">latina</a>",
+    "meetingWith": "encuentro con una mujer, mujeres, un hombre y una pareja",
+    "meetingPlace": "dirección profesional, <a href=\"https://topescortbabes.com/es/madrid/escorts/outcall\" title=\"Escorts a domicilio en Madrid\">a domicilio</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts/incall\" title=\"Escorts en su piso en Madrid\">mi piso</a>",
+    "age": "<a href=\"https://topescortbabes.com/es/madrid/escorts/college_girl-age\" title=\"Universitaria escorts en Madrid\">22</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/madrid/escorts/short-height\" title=\"Escorts bajas en Madrid\">155cm / 5'1\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/madrid/escorts/under_50-weight\" title=\"Escorts de menos de 50 kg en Madrid\">48kg / 106lbs</a>",
+    "bust": "101",
+    "hip": "97",
+    "waist": "65",
+    "hair": "<a href=\"https://topescortbabes.com/es/madrid/escorts/black-hair\" title=\"Escorts de pelo negro en Madrid\">pelo negro</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/madrid/escorts/grey-eyes\" title=\"Escorts de ojos grises en Madrid\">ojos grises</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/madrid/escorts/bisexual-sexuality\" title=\"Escorts bisexuales en Madrid\">Bisexual</a>",
+    "languages": "habla español y inglés",
+    "drink": "cócteles",
+    "music": "Toda la música",
+    "hobby": "Bailar y la naturaleza"
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "image",
+    "path": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=0&w=782&wm=1&s=7cfa91f42106f81822acefd4ecb9214c",
+    "fallback": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=0&w=782&wm=1&s=7cfa91f42106f81822acefd4ecb9214c",
+    "path_srcset": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=0&w=480&wm=1&s=0ff594f1c0f1f78edca83f550b4a8628 480w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=0&w=782&wm=1&s=7cfa91f42106f81822acefd4ecb9214c 782w, https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=0&w=1023&wm=1&s=7628f13aeac41cb22033b62633e8e551 1023w",
+    "orientation": "portrait",
+    "width": 1000,
+    "height": 1499,
+    "small_image": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=110&w=110&s=824a4705e16a7302031f063061e04785",
+    "verification_level": 1,
+    "verification_text": "<b>Parecía similar</b>",
+    "verification_at": "hace 5 meses",
+    "uploaded_on": "hace 5 meses"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 03 febrero, 2026",
+  "aiTitle": "Chica elegante, sensual y discreta, perfecta compañía.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4103714"
+    }
+  ],
+  "spokenLanguage": "habla español y inglés",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "PEdLUFFSV11cXGdk",
+  "encodedTelegram": "Jip2KCMrMzkpMDlHNw==",
+  "contactOptions": [
+    "Whatsapp",
+    "Telegram",
+    "SMS",
+    "Calls"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": true,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4103714,
+    "pic": 4,
+    "vid": 0,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 226,
+    "ci": 102,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "1.9mil vistas, 30 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/madrid/escorts",
+      "text": "Más escorts en Madrid"
+    }
+  ],
+  "trackHash": "4380088f-2fyg2-d93f11",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714",
+  "metaTitle": "Vanessa - Chica elegante, sensual y discreta, perfecta compañía.",
+  "metaDescription": "Vanessa es una espectacular acompañante de 22 años. Su elegancia natural y su calidez hacen de cada cita una experiencia llena de complicidad, discreción y plac…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.webp?fit=crop&h=0&w=782&wm=1&s=7cfa91f42106f81822acefd4ecb9214c",
+  "logoTitle": "Escorts en España",
+  "preloadImages": [],
+  "country": {
+    "id": "226",
+    "name": "España",
+    "seo_name": "España",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "locationName": "Madrid",
+  "locationUrl": "madrid",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "9360",
+      "country_id": "226",
+      "city_escaped": "adeje",
+      "name": "Adeje",
+      "user_count": "70"
+    },
+    {
+      "id": "158",
+      "country_id": "226",
+      "city_escaped": "barcelona",
+      "name": "Barcelona",
+      "user_count": "171"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "name": "Ibiza",
+      "user_count": "27"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "name": "Mallorca",
+      "user_count": "20"
+    },
+    {
+      "id": "2588",
+      "country_id": "226",
+      "city_escaped": "santa-cruz",
+      "name": "Santa Cruz",
+      "user_count": "17"
+    },
+    {
+      "id": "17452",
+      "country_id": "226",
+      "city_escaped": "tenerife",
+      "name": "Tenerife",
+      "user_count": "37"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "España",
+        "schemaText": "",
+        "title": "Escorts y putas en España",
+        "url": "https://topescortbabes.com/es/spain/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "Madrid",
+        "schemaText": "",
+        "title": "Escorts y putas en Madrid",
+        "url": "https://topescortbabes.com/es/madrid/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Vanessa",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con Vanessa?",
+      "content": "<p>Puedes reservar una cita con Vanessa de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp, Telegram.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla Vanessa?",
+      "content": "Vanessa habla habla español y inglés.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con Vanessa?",
+      "content": "Vanessa se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de Vanessa son reales y verificadas?",
+      "content": "Todas las fotos de Vanessa han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 5 meses.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#person",
+        "name": "Vanessa",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=514233460557af09ba527820f414d4dd",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "description": "Vanessa es una espectacular acompañante de 22 años. Su elegancia natural y su calidez hacen de cada cita una experiencia llena de complicidad, discreción y placer refinado. Su melena morena enmarca un rostro de rasgos finos, realzado por unos intensos ojos negros llenos de vida y misterio. Su busto natural y su figura bien definida son prueba de su dedicación al cuidado personal.<br />\nEs la perfecta combinación de belleza, clase y sensualidad, ideal para quienes buscan algo más que un simple encuentro.",
+        "nationality": {
+          "@type": "Country",
+          "name": "Venezuela"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "155",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "48",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          },
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "200",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-14",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#organization",
+        "name": "Vanessa",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=514233460557af09ba527820f414d4dd",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#service",
+        "name": "Vanessa Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#person"
+        },
+        "url": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/3/714/Vanessa--4103714-69372fd2a0b04.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=514233460557af09ba527820f414d4dd",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "200",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "España",
+              "@id": "https://topescortbabes.com/es/spain/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "Madrid",
+              "@id": "https://topescortbabes.com/es/madrid/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Vanessa",
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Vanessa_4103714"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con Vanessa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con Vanessa de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp, Telegram.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla Vanessa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vanessa habla habla español y inglés."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con Vanessa?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Vanessa se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de Vanessa son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de Vanessa han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 5 meses."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts Madrid",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en Madrid"
+}

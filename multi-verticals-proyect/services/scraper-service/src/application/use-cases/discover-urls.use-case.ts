@@ -1,23 +1,43 @@
+import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 
-import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import type { CrawlerPort } from '#application/ports/crawler.port.js';
+import type { ScrapedEntityRepositoryPort } from '#application/ports/scraped-entity-repository.port.js';
 import type { SourceResolverPort } from '#application/ports/source-resolver.port.js';
-import { ExternalId } from '#domain/value-objects/external-id.vo.js';
+import type { StoragePort } from '#application/ports/storage.port.js';
+import type { HasExternalRefs } from '#domain/canonical/external-ref.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
 
-import type { ScrapeUrlUseCase } from './scrape-url.use-case.js';
+import type { ScraperConfig, ScrapeUrlUseCase } from './scrape-url.use-case.js';
 
 export class DiscoverUrlsUseCase {
-  private readonly logger = logger().child({ component: DiscoverUrlsUseCase.name });
+  private readonly logger = logger().child({ component: 'DiscoverUrlsUseCase' });
 
   constructor(
     private readonly sourceResolver: SourceResolverPort,
-    private readonly repository: ProviderRepositoryPort,
     private readonly scrapeUrlUseCase: ScrapeUrlUseCase,
+    private readonly crawler: CrawlerPort,
+    private readonly entityRepos: Map<Vertical, ScrapedEntityRepositoryPort<HasExternalRefs>>,
+    private readonly storage: StoragePort,
+    private readonly config: ScraperConfig,
   ) {}
+
+  /** Guarda el HTML del listado en raw/listings/ cuando --save-html está activo. */
+  private async saveListingHtml(identifier: string, url: string, html: string): Promise<void> {
+    if (!this.config.saveRawHtml) return;
+    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+    const fileName = `raw/listings/${identifier}_${ts}.html`;
+    const cleanHtml = html.replace(/\u2028/g, '\n').replace(/\u2029/g, '\n');
+    try {
+      await this.storage.upload(Buffer.from(cleanHtml), fileName, 'text/html');
+      this.logger.info({ url, fileName }, 'Listing HTML guardado');
+    } catch {
+      this.logger.warn({ url }, 'No se pudo guardar el HTML del listado');
+    }
+  }
 
   async execute(listUrl: string, limit?: number, skip?: number, headless?: boolean): Promise<void> {
     const source = await this.sourceResolver.resolve(listUrl);
-    // Ya no usamos el singleton, usamos la instancia inyectada
 
     let processedCount = 0;
     let skippedCount = 0;
@@ -33,11 +53,21 @@ export class DiscoverUrlsUseCase {
       this.logger.info({ url: currentUrl }, 'Extracting list page');
 
       try {
-        const listResult = await source.fetchHtml(currentUrl, {
-          waitUntil: 'domcontentloaded',
-          skipInteractions: true,
-          headless: headless,
-        });
+        const crawlerOptions = isDatingPipelinePort(source)
+          ? source.getCrawlerOptions(currentUrl, {
+              waitUntil: 'domcontentloaded',
+              skipInteractions: true,
+              headless,
+            })
+          : {
+              ...source.getCrawlerOptions(currentUrl, { skipInteractions: true }),
+              waitUntil: 'domcontentloaded' as const,
+              headless,
+            };
+
+        const listResult = await this.crawler.fetch(currentUrl, crawlerOptions);
+
+        await this.saveListingHtml(source.identifier, currentUrl, listResult.html);
 
         const profileLinks = source.extractProfileLinks(listResult.html, currentUrl);
         const uniqueLinks = [...new Set(profileLinks)].filter((link) => !processedUrls.has(link));
@@ -64,13 +94,13 @@ export class DiscoverUrlsUseCase {
 
           try {
             const slug = new URL(url).pathname.split('/').filter(Boolean).pop() ?? '';
-            const externalIdResult = ExternalId.create(source.identifier, slug);
-            if (externalIdResult.success) {
-              const existing = await this.repository.find({
-                externalId: externalIdResult.value,
-                vertical: source.defaultVertical,
-              });
-              if (existing.length > 0) {
+            if (slug) {
+              const alreadyPersisted = await this.isAlreadyPersisted(
+                source.identifier,
+                slug,
+                source.defaultVertical,
+              );
+              if (alreadyPersisted) {
                 this.logger.info({ url }, 'Already in DB, skipping');
                 processedUrls.add(url);
                 continue;
@@ -85,21 +115,32 @@ export class DiscoverUrlsUseCase {
             processedUrls.add(url);
             processedCount++;
 
-            // Respectful delay between 3-8 seconds
             const delay = Math.floor(Math.random() * 3000) + 5000;
             await new Promise((res) => setTimeout(res, delay));
-          } catch (err: any) {
-            this.logger.error({ url, err: err.message }, 'Error processing profile');
+          } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
+            this.logger.error({ url, err: message }, 'Error processing profile');
           }
         }
 
         currentUrl = source.extractNextPageUrl(listResult.html, currentUrl);
-      } catch (err: any) {
-        this.logger.error({ err: err.message, url: currentUrl }, 'Error processing list page');
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        this.logger.error({ err: message, url: currentUrl }, 'Error processing list page');
         break;
       }
     }
 
     this.logger.info({ processedCount }, 'URL discovery finished successfully');
+  }
+
+  private async isAlreadyPersisted(
+    sourceId: string,
+    slug: string,
+    vertical: Vertical,
+  ): Promise<boolean> {
+    const repo = this.entityRepos.get(vertical);
+    if (!repo) return false;
+    return (await repo.findByExternalRef({ source: sourceId, sourceId: slug })) !== null;
   }
 }

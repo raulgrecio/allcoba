@@ -16,7 +16,20 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [],
+    "ignoredBuiltDependencies": [
+      "cpu-features",
+      "esbuild",
+      "msw",
+      "protobufjs",
+      "sharp",
+      "ssh2",
+      "unrs-resolver"
+    ]
+  },
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",

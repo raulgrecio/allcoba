@@ -262,7 +262,7 @@ const JOBS = {
   'score-updated': { userHash, newScore },
 
   // scraper-service → media-service
-  'moderate-scraped-image': { imageUrl, providerId, vertical },
+  'process-provider-images': { providerId, imageUrls, source, vertical },
 };
 ```
 

@@ -43,10 +43,11 @@ export async function injectTurnstileToken(page: Page, token: string): Promise<v
     const cfContainer = document.querySelector('.cf-turnstile');
     const callbackName = cfContainer?.getAttribute('data-callback');
 
-    if (callbackName && (window as any)[callbackName]) {
-      (window as any)[callbackName](t);
-    } else if ((window as any).cfCallback) {
-      (window as any).cfCallback(t);
+    const w = window as unknown as Record<string, ((token: string) => void) | undefined>;
+    if (callbackName && w[callbackName]) {
+      w[callbackName]!(t);
+    } else if (w.cfCallback) {
+      w.cfCallback(t);
     }
   }, token);
 }

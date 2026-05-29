@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import type { BrowserContext, Page } from 'playwright-core';
 
 import { logger } from '@allcoba/kernel';
 
@@ -16,7 +17,7 @@ export abstract class BaseCrawler implements CrawlerPort {
   protected readonly robotsChecker = new RobotsChecker();
   protected readonly semaphore: Semaphore;
   protected cachedOutboundIp?: string;
-  protected readonly domainContexts = new Map<string, any>();
+  protected readonly domainContexts = new Map<string, BrowserContext>();
 
   protected static readonly USER_AGENTS = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
@@ -70,7 +71,7 @@ export abstract class BaseCrawler implements CrawlerPort {
     return this.cachedOutboundIp;
   }
 
-  protected async handleSecurity(page: any, options: CrawlerOptions): Promise<void> {
+  protected async handleSecurity(page: Page, options: CrawlerOptions): Promise<void> {
     const content = await page.content();
     const hasCF =
       content.includes('challenges.cloudflare.com') ||
@@ -95,7 +96,7 @@ export abstract class BaseCrawler implements CrawlerPort {
     await handleCloudflareChallenge(page, { headless: options.headless });
   }
 
-  protected async handleCookies(page: any, selectors?: string[]): Promise<void> {
+  protected async handleCookies(page: Page, selectors?: string[]): Promise<void> {
     if (!selectors || selectors.length === 0) return;
     for (const selector of selectors) {
       try {
@@ -116,7 +117,7 @@ export abstract class BaseCrawler implements CrawlerPort {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  protected async simulateHumanScroll(page: any): Promise<void> {
+  protected async simulateHumanScroll(page: Page): Promise<void> {
     await page.evaluate(async () => {
       const scrollHeight = document.body.scrollHeight;
       const step = 200;

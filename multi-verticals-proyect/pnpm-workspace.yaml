@@ -2,18 +2,17 @@ packages:
   - 'packages/*'
   - 'services/*'
   - 'apps/*'
+
 allowBuilds:
-  '"': true
-  '[': true
-  ']': true
-  b: true
-  d: true
-  e: true
-  esbuild: true
-  i: true
-  l: true
-  msw: true
-  s: true
-  sharp: true
-  u: true
-  unrs-resolver: true
+  cpu-features: set this to true or false
+  esbuild: set this to true or false
+  msw: set this to true or false
+  protobufjs: set this to true or false
+  sharp: set this to true or false
+  ssh2: set this to true or false
+  tesseract.js: set this to true or false
+  unrs-resolver: set this to true or false
+
+# Disable pnpm 11 auto-rerun of `install` before every script — it would
+# re-emit ERR_PNPM_IGNORED_BUILDS and crash turbo. We trust the lockfile.
+verifyDepsBeforeRun: false

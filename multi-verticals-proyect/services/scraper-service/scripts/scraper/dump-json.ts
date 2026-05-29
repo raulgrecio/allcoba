@@ -21,7 +21,7 @@ if (match && match[1]) {
   const scriptMatch = html.match(
     /window\.profileData\s*=\s*(\{[\s\S]*?\}|\[[\s\S]*?\]);\s*var _req/,
   );
-  if (scriptMatch) {
+  if (scriptMatch && scriptMatch[1]) {
     fs.writeFileSync('scratch/topescortbabes_lera.json', scriptMatch[1]);
     console.log('Saved to scratch/topescortbabes_lera.json (2nd method)');
   } else {

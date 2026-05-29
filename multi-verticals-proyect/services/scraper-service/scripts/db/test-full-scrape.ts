@@ -1,6 +1,6 @@
 import { logger } from '@allcoba/kernel';
 
-import { createScraperServices } from '../../src/infrastructure/di/container.js';
+import { createScraperServices } from '#infrastructure/di/container.js';
 
 async function main() {
   const log = logger().child({ script: 'test-full-scrape' });
@@ -12,7 +12,7 @@ async function main() {
   log.info({ url }, 'Starting full scrape test with NuevoLoquo');
 
   // Inicializamos servicios con configuración por defecto (headless: true)
-  const services = createScraperServices({
+  const services = await createScraperServices({
     headless: true,
     saveRawHtml: false,
     skipRobots: true,

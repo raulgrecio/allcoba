@@ -1,0 +1,775 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "6546",
+      "country_id": "226",
+      "city_escaped": "las-rozas-de-madrid",
+      "url_segment": "las-rozas-de-madrid",
+      "distance": "9.725616832004661",
+      "name": "Las Rozas de Madrid",
+      "user_count": "3"
+    },
+    {
+      "id": "6676",
+      "country_id": "226",
+      "city_escaped": "san-sebastian-de-los-reyes",
+      "url_segment": "san-sebastian-de-los-reyes",
+      "distance": "10.184571957287227",
+      "name": "San Sebastián de los Reyes",
+      "user_count": "1"
+    },
+    {
+      "id": "5024",
+      "country_id": "226",
+      "city_escaped": "toledo",
+      "url_segment": "toledo",
+      "distance": "41.99767927611181",
+      "name": "Toledo",
+      "user_count": "1"
+    },
+    {
+      "id": "8491",
+      "country_id": "226",
+      "city_escaped": "avila",
+      "url_segment": "avila",
+      "distance": "53.17996343202064",
+      "name": "Ávila",
+      "user_count": "1"
+    },
+    {
+      "id": "3476",
+      "country_id": "226",
+      "city_escaped": "salamanca-es",
+      "url_segment": "salamanca-es",
+      "distance": "108.47857494707354",
+      "name": "Salamanca",
+      "user_count": "1"
+    },
+    {
+      "id": "3386",
+      "country_id": "226",
+      "city_escaped": "logrono",
+      "url_segment": "logrono",
+      "distance": "155.66468007513515",
+      "name": "Logroño",
+      "user_count": "2"
+    },
+    {
+      "id": "973",
+      "country_id": "226",
+      "city_escaped": "zaragoza-es",
+      "url_segment": "zaragoza-es",
+      "distance": "169.31416350785844",
+      "name": "Zaragoza",
+      "user_count": "2"
+    },
+    {
+      "id": "2220",
+      "country_id": "226",
+      "city_escaped": "vitoria-gasteiz",
+      "url_segment": "vitoria-gasteiz",
+      "distance": "176.10336395043484",
+      "name": "Vitoria",
+      "user_count": "1"
+    },
+    {
+      "id": "1828",
+      "country_id": "226",
+      "city_escaped": "cordoba-es",
+      "url_segment": "cordoba-es",
+      "distance": "184.32784022406315",
+      "name": "Córdoba",
+      "user_count": "1"
+    },
+    {
+      "id": "854",
+      "country_id": "226",
+      "city_escaped": "valencia",
+      "url_segment": "valencia",
+      "distance": "189.8153021700758",
+      "name": "Valencia",
+      "user_count": "13"
+    },
+    {
+      "id": "3036",
+      "country_id": "226",
+      "city_escaped": "castellon-de-la-plana",
+      "url_segment": "castellon-de-la-plana",
+      "distance": "197.33101335669016",
+      "name": "Castellón de la Plana",
+      "user_count": "1"
+    },
+    {
+      "id": "1670",
+      "country_id": "226",
+      "city_escaped": "bilbao",
+      "url_segment": "bilbao",
+      "distance": "200.27558476078528",
+      "name": "Bilbao",
+      "user_count": "4"
+    },
+    {
+      "id": "10693",
+      "country_id": "226",
+      "city_escaped": "ecija",
+      "url_segment": "ecija",
+      "distance": "212.85173994865173",
+      "name": "Écija",
+      "user_count": "1"
+    },
+    {
+      "id": "1371",
+      "country_id": "226",
+      "city_escaped": "murcia-es",
+      "url_segment": "murcia-es",
+      "distance": "219.2072048950711",
+      "name": "Murcia",
+      "user_count": "3"
+    },
+    {
+      "id": "2369",
+      "country_id": "226",
+      "city_escaped": "granada-es",
+      "url_segment": "granada-es",
+      "distance": "223.87822135647775",
+      "name": "Granada",
+      "user_count": "1"
+    },
+    {
+      "id": "8009",
+      "country_id": "226",
+      "city_escaped": "irun",
+      "url_segment": "irun",
+      "distance": "223.9010416313929",
+      "name": "Irún",
+      "user_count": "1"
+    },
+    {
+      "id": "1739",
+      "country_id": "226",
+      "city_escaped": "alicante",
+      "url_segment": "alicante",
+      "distance": "226.27309824986972",
+      "name": "Alicante",
+      "user_count": "18"
+    },
+    {
+      "id": "2507",
+      "country_id": "226",
+      "city_escaped": "oviedo",
+      "url_segment": "oviedo",
+      "distance": "229.77886178760767",
+      "name": "Oviedo",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4106022,
+  "agencyId": 427192,
+  "nickname": "Alexandra",
+  "age": "24",
+  "baseCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "es",
+      "name": "España",
+      "subdomain": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "currentCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "minimumPrice": "Desde 150 €",
+  "photosCount": 4,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": true,
+  "lastActive": "no activo desde hace un tiempo",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Alexandra es una chica colombiana con cabello negro y ojos oscuros, que reflejan una profundidad cautivadora. Su presencia irradia una mezcla de gracia y determinación, y su sonrisa contagiosa ilumina cualquier habitación en la que entre. Su estilo único y su personalidad vibrante hacen que sea fácil recordarla después de conocerla.",
+    "original": "Alexandra es una chica colombiana con cabello negro y ojos oscuros, que reflejan una profundidad cautivadora. Su presencia irradia una mezcla de gracia y determinación, y su sonrisa contagiosa ilumina cualquier habitación en la que entre. Su estilo único y su personalidad vibrante hacen que sea fácil recordarla después de conocerla.",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "150",
+      "currency": "EUR"
+    },
+    {
+      "label": "24 horas",
+      "price": "3000",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios <b>en mi piso</b> y <b>a domicilio o en hotel</b>. Las tarifas a domicilio pueden variar.",
+  "priceLabelType": "lower",
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=380&wm=1&s=b3e5033088ff3bdee055de0f0d17def2",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=380&wm=1&s=b3e5033088ff3bdee055de0f0d17def2 380w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=480&wm=1&s=194f0e7a17f219c357fbf554ea307c92 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=782&wm=1&s=987d3d6f38cd1e2ef401d397da1d55db 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=1023&wm=1&s=bbaed544abd09584b4306d1425ef058f 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=1920&wm=1&s=30e7ec80116d98a90c0bc4f88e51a28f",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=480&wm=1&s=194f0e7a17f219c357fbf554ea307c92 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=782&wm=1&s=987d3d6f38cd1e2ef401d397da1d55db 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=1023&wm=1&s=bbaed544abd09584b4306d1425ef058f 1023w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e5632c.webp?fit=crop&h=0&w=1920&wm=1&s=30e7ec80116d98a90c0bc4f88e51a28f 1920w",
+      "width": 1920,
+      "height": 1279,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 3 meses",
+      "uploaded_on": "hace 3 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=380&wm=1&s=7e5678409b95302ea63bd698dfbc0345",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=380&wm=1&s=7e5678409b95302ea63bd698dfbc0345 380w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=480&wm=1&s=a71d40a9133a96a354b0b101b9a2be72 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=782&wm=1&s=17a7a023f8bf440f7e01253383a5f65e 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=1023&wm=1&s=99ee2caa122d8676a3fbbf615f2acae8 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=1920&wm=1&s=809db12341e06dbf5445e9af2ae8338a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=480&wm=1&s=a71d40a9133a96a354b0b101b9a2be72 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=782&wm=1&s=17a7a023f8bf440f7e01253383a5f65e 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=1023&wm=1&s=99ee2caa122d8676a3fbbf615f2acae8 1023w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e299d5.webp?fit=crop&h=0&w=1920&wm=1&s=809db12341e06dbf5445e9af2ae8338a 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 3 meses",
+      "uploaded_on": "hace 3 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=380&wm=1&s=b9eed19bbd4124ee1a445437490b3625",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=380&wm=1&s=b9eed19bbd4124ee1a445437490b3625 380w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=480&wm=1&s=f386976b9b0b73824c6923c8bffd5cac 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=782&wm=1&s=1560b4dfa178441685a6874a9c045dd4 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=1023&wm=1&s=bb069c65ae605e1156897ca604c6dd67 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=1920&wm=1&s=0ad76028779eaf7e81be105fa4aef90d",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=480&wm=1&s=f386976b9b0b73824c6923c8bffd5cac 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=782&wm=1&s=1560b4dfa178441685a6874a9c045dd4 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=1023&wm=1&s=bb069c65ae605e1156897ca604c6dd67 1023w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e37e60.webp?fit=crop&h=0&w=1920&wm=1&s=0ad76028779eaf7e81be105fa4aef90d 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 3 meses",
+      "uploaded_on": "hace 3 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=380&wm=1&s=3960ccdad4e7c6e9a1a9abc41bc6e464",
+      "srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=380&wm=1&s=3960ccdad4e7c6e9a1a9abc41bc6e464 380w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=480&wm=1&s=6d58f28fb31189e7aa504b1278084371 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=782&wm=1&s=c0d1580f19af34cbe1d866135d5d1120 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=1023&wm=1&s=b4bd60a96983458c6d95d5c5fb26d438 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=1920&wm=1&s=d4d6570e9204553e378f47d58366a539",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=480&wm=1&s=6d58f28fb31189e7aa504b1278084371 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=782&wm=1&s=c0d1580f19af34cbe1d866135d5d1120 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=1023&wm=1&s=b4bd60a96983458c6d95d5c5fb26d438 1023w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975413e58248.webp?fit=crop&h=0&w=1920&wm=1&s=d4d6570e9204553e378f47d58366a539 1920w",
+      "width": 1279,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 3 meses",
+      "uploaded_on": "hace 3 meses"
+    }
+  ],
+  "galleryImgAlt": "Alexandra, 24 - Chica colombiana, sonrisa contagiosa, presencia cautivadora.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/spain/escorts\" title=\"Escorts en España\">España</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts\" title=\"Escorts en Madrid\">Madrid</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/madrid/escorts/colombian-nationality\" title=\"Escorts colombiana en Madrid\">colombiana</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/madrid/escorts/latina-ethnic\" title=\"Escorts latina en Madrid\">latina</a>",
+    "meetingWith": "encuentro con una mujer, mujeres, un hombre y una pareja",
+    "meetingPlace": "<a href=\"https://topescortbabes.com/es/madrid/escorts/incall\" title=\"Escorts en su piso en Madrid\">mi piso</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts/outcall\" title=\"Escorts a domicilio en Madrid\">a domicilio</a>, dirección profesional",
+    "age": "<a href=\"https://topescortbabes.com/es/madrid/escorts/college_girl-age\" title=\"Universitaria escorts en Madrid\">24</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/madrid/escorts/short-height\" title=\"Escorts bajas en Madrid\">160cm / 5'3\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/madrid/escorts/under_50-weight\" title=\"Escorts de menos de 50 kg en Madrid\">48kg / 106lbs</a>",
+    "bust": "100",
+    "hip": "101",
+    "waist": "58",
+    "hair": "<a href=\"https://topescortbabes.com/es/madrid/escorts/black-hair\" title=\"Escorts de pelo negro en Madrid\">pelo negro</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/madrid/escorts/other-eyes\" title=\"Escorts de otros colores de ojos en Madrid\">otro color de ojos</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/madrid/escorts/bisexual-sexuality\" title=\"Escorts bisexuales en Madrid\">Bisexual</a>",
+    "languages": "habla inglés y español",
+    "drink": "cócteles",
+    "music": "Toda la música",
+    "hobby": "Bailar y la naturaleza"
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "image",
+    "path": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=0&w=782&wm=1&s=068624b062a062f249ec9040c9b0cc80",
+    "fallback": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=0&w=782&wm=1&s=068624b062a062f249ec9040c9b0cc80",
+    "path_srcset": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=0&w=480&wm=1&s=558353ae1c444c4fd3d264b6406f9891 480w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=0&w=782&wm=1&s=068624b062a062f249ec9040c9b0cc80 782w, https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=0&w=1023&wm=1&s=f574b10c0129ce97a914d8036773c95e 1023w",
+    "orientation": "portrait",
+    "width": 1066,
+    "height": 1600,
+    "small_image": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=110&w=110&s=9ad50e902343c52301df84ff41a35237",
+    "verification_level": 1,
+    "verification_text": "<b>Parecía similar</b>",
+    "verification_at": "hace 3 meses",
+    "uploaded_on": "hace 3 meses"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 09 marzo, 2026",
+  "aiTitle": "Chica colombiana, sonrisa contagiosa, presencia cautivadora.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4106022"
+    }
+  ],
+  "spokenLanguage": "habla inglés y español",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "RE9TWFhcXWNoZG1x",
+  "encodedTelegram": "",
+  "contactOptions": [
+    "Whatsapp",
+    "SMS",
+    "Calls"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": true,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4106022,
+    "pic": 5,
+    "vid": 0,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 226,
+    "ci": 102,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "970 vistas, 6 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/madrid/escorts",
+      "text": "Más escorts en Madrid"
+    }
+  ],
+  "trackHash": "28af4c5e-2g086-1a9288",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022",
+  "metaTitle": "Alexandra - Chica colombiana, sonrisa contagiosa, presencia cautivadora.",
+  "metaDescription": "Alexandra es una chica colombiana con cabello negro y ojos oscuros, que reflejan una profundidad cautivadora. Su presencia irradia una mezcla de gracia y determ…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.webp?fit=crop&h=0&w=782&wm=1&s=068624b062a062f249ec9040c9b0cc80",
+  "logoTitle": "Escorts en España",
+  "preloadImages": [],
+  "country": {
+    "id": "226",
+    "name": "España",
+    "seo_name": "España",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "locationName": "Madrid",
+  "locationUrl": "madrid",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "9360",
+      "country_id": "226",
+      "city_escaped": "adeje",
+      "name": "Adeje",
+      "user_count": "70"
+    },
+    {
+      "id": "158",
+      "country_id": "226",
+      "city_escaped": "barcelona",
+      "name": "Barcelona",
+      "user_count": "171"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "name": "Ibiza",
+      "user_count": "27"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "name": "Mallorca",
+      "user_count": "20"
+    },
+    {
+      "id": "2588",
+      "country_id": "226",
+      "city_escaped": "santa-cruz",
+      "name": "Santa Cruz",
+      "user_count": "17"
+    },
+    {
+      "id": "17452",
+      "country_id": "226",
+      "city_escaped": "tenerife",
+      "name": "Tenerife",
+      "user_count": "37"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "España",
+        "schemaText": "",
+        "title": "Escorts y putas en España",
+        "url": "https://topescortbabes.com/es/spain/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "Madrid",
+        "schemaText": "",
+        "title": "Escorts y putas en Madrid",
+        "url": "https://topescortbabes.com/es/madrid/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Alexandra",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con Alexandra?",
+      "content": "<p>Puedes reservar una cita con Alexandra de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla Alexandra?",
+      "content": "Alexandra habla habla inglés y español.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con Alexandra?",
+      "content": "Alexandra se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de Alexandra son reales y verificadas?",
+      "content": "Todas las fotos de Alexandra han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 3 meses.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#person",
+        "name": "Alexandra",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=798341c825e8b35711093ef1c8505977",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "description": "Alexandra es una chica colombiana con cabello negro y ojos oscuros, que reflejan una profundidad cautivadora. Su presencia irradia una mezcla de gracia y determinación, y su sonrisa contagiosa ilumina cualquier habitación en la que entre. Su estilo único y su personalidad vibrante hacen que sea fácil recordarla después de conocerla.",
+        "nationality": {
+          "@type": "Country",
+          "name": "Colombia"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "160",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "48",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "150",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-14",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#organization",
+        "name": "Alexandra",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=798341c825e8b35711093ef1c8505977",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#service",
+        "name": "Alexandra Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#person"
+        },
+        "url": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/410/6/22/Alexandra--4106022-6975411462c25.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=798341c825e8b35711093ef1c8505977",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "150",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "24 horas",
+            "price": "3000",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "España",
+              "@id": "https://topescortbabes.com/es/spain/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "Madrid",
+              "@id": "https://topescortbabes.com/es/madrid/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Alexandra",
+              "@id": "https://topescortbabes.com/es/madrid/escorts/Alexandra_4106022"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con Alexandra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con Alexandra de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla Alexandra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Alexandra habla habla inglés y español."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con Alexandra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Alexandra se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de Alexandra son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de Alexandra han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 3 meses."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts Madrid",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en Madrid"
+}

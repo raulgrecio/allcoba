@@ -27,3 +27,5 @@ logs/
 .next/
 nuxt/
 
+# Tesseract OCR language data cache
+*.traineddata

@@ -1,0 +1,792 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "6546",
+      "country_id": "226",
+      "city_escaped": "las-rozas-de-madrid",
+      "url_segment": "las-rozas-de-madrid",
+      "distance": "9.725616832004661",
+      "name": "Las Rozas de Madrid",
+      "user_count": "3"
+    },
+    {
+      "id": "6676",
+      "country_id": "226",
+      "city_escaped": "san-sebastian-de-los-reyes",
+      "url_segment": "san-sebastian-de-los-reyes",
+      "distance": "10.184571957287227",
+      "name": "San Sebastián de los Reyes",
+      "user_count": "1"
+    },
+    {
+      "id": "5024",
+      "country_id": "226",
+      "city_escaped": "toledo",
+      "url_segment": "toledo",
+      "distance": "41.99767927611181",
+      "name": "Toledo",
+      "user_count": "1"
+    },
+    {
+      "id": "8491",
+      "country_id": "226",
+      "city_escaped": "avila",
+      "url_segment": "avila",
+      "distance": "53.17996343202064",
+      "name": "Ávila",
+      "user_count": "1"
+    },
+    {
+      "id": "3476",
+      "country_id": "226",
+      "city_escaped": "salamanca-es",
+      "url_segment": "salamanca-es",
+      "distance": "108.47857494707354",
+      "name": "Salamanca",
+      "user_count": "1"
+    },
+    {
+      "id": "3386",
+      "country_id": "226",
+      "city_escaped": "logrono",
+      "url_segment": "logrono",
+      "distance": "155.66468007513515",
+      "name": "Logroño",
+      "user_count": "2"
+    },
+    {
+      "id": "973",
+      "country_id": "226",
+      "city_escaped": "zaragoza-es",
+      "url_segment": "zaragoza-es",
+      "distance": "169.31416350785844",
+      "name": "Zaragoza",
+      "user_count": "2"
+    },
+    {
+      "id": "2220",
+      "country_id": "226",
+      "city_escaped": "vitoria-gasteiz",
+      "url_segment": "vitoria-gasteiz",
+      "distance": "176.10336395043484",
+      "name": "Vitoria",
+      "user_count": "1"
+    },
+    {
+      "id": "1828",
+      "country_id": "226",
+      "city_escaped": "cordoba-es",
+      "url_segment": "cordoba-es",
+      "distance": "184.32784022406315",
+      "name": "Córdoba",
+      "user_count": "1"
+    },
+    {
+      "id": "854",
+      "country_id": "226",
+      "city_escaped": "valencia",
+      "url_segment": "valencia",
+      "distance": "189.8153021700758",
+      "name": "Valencia",
+      "user_count": "13"
+    },
+    {
+      "id": "3036",
+      "country_id": "226",
+      "city_escaped": "castellon-de-la-plana",
+      "url_segment": "castellon-de-la-plana",
+      "distance": "197.33101335669016",
+      "name": "Castellón de la Plana",
+      "user_count": "1"
+    },
+    {
+      "id": "1670",
+      "country_id": "226",
+      "city_escaped": "bilbao",
+      "url_segment": "bilbao",
+      "distance": "200.27558476078528",
+      "name": "Bilbao",
+      "user_count": "4"
+    },
+    {
+      "id": "10693",
+      "country_id": "226",
+      "city_escaped": "ecija",
+      "url_segment": "ecija",
+      "distance": "212.85173994865173",
+      "name": "Écija",
+      "user_count": "1"
+    },
+    {
+      "id": "1371",
+      "country_id": "226",
+      "city_escaped": "murcia-es",
+      "url_segment": "murcia-es",
+      "distance": "219.2072048950711",
+      "name": "Murcia",
+      "user_count": "3"
+    },
+    {
+      "id": "2369",
+      "country_id": "226",
+      "city_escaped": "granada-es",
+      "url_segment": "granada-es",
+      "distance": "223.87822135647775",
+      "name": "Granada",
+      "user_count": "1"
+    },
+    {
+      "id": "8009",
+      "country_id": "226",
+      "city_escaped": "irun",
+      "url_segment": "irun",
+      "distance": "223.9010416313929",
+      "name": "Irún",
+      "user_count": "1"
+    },
+    {
+      "id": "1739",
+      "country_id": "226",
+      "city_escaped": "alicante",
+      "url_segment": "alicante",
+      "distance": "226.27309824986972",
+      "name": "Alicante",
+      "user_count": "18"
+    },
+    {
+      "id": "2507",
+      "country_id": "226",
+      "city_escaped": "oviedo",
+      "url_segment": "oviedo",
+      "distance": "229.77886178760767",
+      "name": "Oviedo",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 3181297,
+  "agencyId": 427192,
+  "nickname": "kasandra",
+  "age": "24",
+  "baseCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "es",
+      "name": "España",
+      "subdomain": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "currentCity": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "minimumPrice": "Desde 220 €",
+  "photosCount": 6,
+  "reviewsCount": 0,
+  "reviewsRating": 0,
+  "reviewEnabled": false,
+  "lastActive": "no activo desde hace un tiempo",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Kasandra, deportes, gym y fiesta! con un apartamento exclusivo, puede ir a domicilio y  muy sensual e inteligente disponible 24/7 para mas información en nuestra pagina oficial. llama a nuestra agencia para mas detalles",
+    "original": "Kasandra, deportes, gym y fiesta! con un apartamento exclusivo, puede ir a domicilio y  muy sensual e inteligente disponible 24/7 para mas información en nuestra pagina oficial. llama a nuestra agencia para mas detalles",
+    "original_language": "es"
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "220",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios <b>en mi piso</b> y <b>a domicilio o en hotel</b>. Las tarifas a domicilio pueden variar.",
+  "priceLabelType": null,
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=380&wm=1&s=75b8b12255df477dd8332c861a0fa1ec",
+      "srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=380&wm=1&s=75b8b12255df477dd8332c861a0fa1ec 380w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=480&wm=1&s=87031571c14502427357ea055c30919e 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=782&wm=1&s=2bab35efe67531f735a04fbbaef36834 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=1023&wm=1&s=feb418291df48a47d80c84010b03b363 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=1920&wm=1&s=6fbf7f614d9de741cea46ef3a44c47c3",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=480&wm=1&s=87031571c14502427357ea055c30919e 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=782&wm=1&s=2bab35efe67531f735a04fbbaef36834 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=1023&wm=1&s=feb418291df48a47d80c84010b03b363 1023w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05cdbeb.webp?fit=crop&h=0&w=1920&wm=1&s=6fbf7f614d9de741cea46ef3a44c47c3 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": -1,
+      "verification_text": "<b>Foto verificada</b>",
+      "verification_at": "hace 41 meses",
+      "uploaded_on": "hace 41 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=380&wm=1&s=9013487c8cc4fab1973766f763df4ddc",
+      "srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=380&wm=1&s=9013487c8cc4fab1973766f763df4ddc 380w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=480&wm=1&s=bc1f8706ac90076e326cf82dfe797fef 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=782&wm=1&s=d3f5f39a640ffb3582fa138cb9a187be 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=1023&wm=1&s=20579f12ddc468c4e87b2108d1061b13 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=1920&wm=1&s=3a2f38155b25b057d4a86f1193f5edc5",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=480&wm=1&s=bc1f8706ac90076e326cf82dfe797fef 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=782&wm=1&s=d3f5f39a640ffb3582fa138cb9a187be 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=1023&wm=1&s=20579f12ddc468c4e87b2108d1061b13 1023w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c6930.webp?fit=crop&h=0&w=1920&wm=1&s=3a2f38155b25b057d4a86f1193f5edc5 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": -1,
+      "verification_text": "<b>Foto verificada</b>",
+      "verification_at": "hace 41 meses",
+      "uploaded_on": "hace 41 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=380&wm=1&s=7f732124479852eec649098f4066041a",
+      "srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=380&wm=1&s=7f732124479852eec649098f4066041a 380w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=480&wm=1&s=ec32e04472db92b15cf473567155c12d 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=782&wm=1&s=82366545606a648120a2fe4f917aa4a7 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=1023&wm=1&s=e83360ec1f4e3775175af5c492bee72a 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=1920&wm=1&s=e26116c1ca76d29d2db8fd7c42952050",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=480&wm=1&s=ec32e04472db92b15cf473567155c12d 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=782&wm=1&s=82366545606a648120a2fe4f917aa4a7 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=1023&wm=1&s=e83360ec1f4e3775175af5c492bee72a 1023w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933e05c5c83.webp?fit=crop&h=0&w=1920&wm=1&s=e26116c1ca76d29d2db8fd7c42952050 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": -1,
+      "verification_text": "<b>Foto verificada</b>",
+      "verification_at": "hace 41 meses",
+      "uploaded_on": "hace 41 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=380&wm=1&s=a093b8d5be8fe38d15d196331b82d022",
+      "srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=380&wm=1&s=a093b8d5be8fe38d15d196331b82d022 380w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=480&wm=1&s=120757d047a6545772255a2728ca690b 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=782&wm=1&s=b168d862b47efba824da98b07abe28a6 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=1023&wm=1&s=c7f67cbb683604c10c5f5db702a414c5 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=1920&wm=1&s=13d2ce56993155933b7cd648f1fc8fb7",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=480&wm=1&s=120757d047a6545772255a2728ca690b 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=782&wm=1&s=b168d862b47efba824da98b07abe28a6 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=1023&wm=1&s=c7f67cbb683604c10c5f5db702a414c5 1023w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54c9a0a.webp?fit=crop&h=0&w=1920&wm=1&s=13d2ce56993155933b7cd648f1fc8fb7 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": -1,
+      "verification_text": "<b>Foto verificada</b>",
+      "verification_at": "hace 41 meses",
+      "uploaded_on": "hace 41 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=380&wm=1&s=c16fe8d0df6d15407f5f6b5f4bc926e5",
+      "srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=380&wm=1&s=c16fe8d0df6d15407f5f6b5f4bc926e5 380w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=480&wm=1&s=87c3b16f8c309360132947b484fe2707 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=782&wm=1&s=31725b2ef513a461df19c9683d04393d 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=1023&wm=1&s=b80c241dc4198c63fe08f89360b0a71e 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=1920&wm=1&s=13e9879ee61cff2e9d00ccba7c5a925a",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=480&wm=1&s=87c3b16f8c309360132947b484fe2707 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=782&wm=1&s=31725b2ef513a461df19c9683d04393d 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=1023&wm=1&s=b80c241dc4198c63fe08f89360b0a71e 1023w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d5499762.webp?fit=crop&h=0&w=1920&wm=1&s=13e9879ee61cff2e9d00ccba7c5a925a 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": -1,
+      "verification_text": "<b>Foto verificada</b>",
+      "verification_at": "hace 41 meses",
+      "uploaded_on": "hace 41 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=380&wm=1&s=cb5ebb1d6423b4fb7173be4dbf2163b7",
+      "srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=380&wm=1&s=cb5ebb1d6423b4fb7173be4dbf2163b7 380w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=480&wm=1&s=39d2f1d0e0bcfa3cfaf8e794bf55aa1a 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=782&wm=1&s=48adec8496d850424a7c1d9a26641d41 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=1023&wm=1&s=70f573e525e7fb98c035b3c6a2951757 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=1920&wm=1&s=ae25266b659b884165d699152f7231fd",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=480&wm=1&s=39d2f1d0e0bcfa3cfaf8e794bf55aa1a 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=782&wm=1&s=48adec8496d850424a7c1d9a26641d41 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=1023&wm=1&s=70f573e525e7fb98c035b3c6a2951757 1023w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933d54dc6b1.webp?fit=crop&h=0&w=1920&wm=1&s=ae25266b659b884165d699152f7231fd 1920w",
+      "width": 1280,
+      "height": 1920,
+      "verification_level": -1,
+      "verification_text": "<b>Foto verificada</b>",
+      "verification_at": "hace 41 meses",
+      "uploaded_on": "hace 41 meses"
+    }
+  ],
+  "galleryImgAlt": "kasandra, 24 - Deportista sensual, gym y fiesta. Disponible 24/7.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/spain/escorts\" title=\"Escorts en España\">España</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts\" title=\"Escorts en Madrid\">Madrid</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/madrid/escorts/brazilian-nationality\" title=\"Escorts brasileña en Madrid\">brasileña</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/madrid/escorts/latina-ethnic\" title=\"Escorts latina en Madrid\">latina</a>",
+    "meetingWith": "encuentro con una mujer, un hombre y una pareja",
+    "meetingPlace": "<a href=\"https://topescortbabes.com/es/madrid/escorts/incall\" title=\"Escorts en su piso en Madrid\">mi piso</a>, <a href=\"https://topescortbabes.com/es/madrid/escorts/outcall\" title=\"Escorts a domicilio en Madrid\">a domicilio</a>",
+    "age": "<a href=\"https://topescortbabes.com/es/madrid/escorts/college_girl-age\" title=\"Universitaria escorts en Madrid\">24</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/madrid/escorts/medium-height\" title=\"Escorts de altura media en Madrid\">163cm / 5'4\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/madrid/escorts/50_60-weight\" title=\"Escorts que pesan 50-60 kg en Madrid\">57kg / 126lbs</a>",
+    "bust": "98",
+    "hip": "97",
+    "waist": "60",
+    "hair": "<a href=\"https://topescortbabes.com/es/madrid/escorts/black-hair\" title=\"Escorts de pelo negro en Madrid\">pelo negro</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/madrid/escorts/brown-eyes\" title=\"Escorts de ojos marrones en Madrid\">ojos marrones</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/madrid/escorts/bisexual-sexuality\" title=\"Escorts bisexuales en Madrid\">Bisexual</a>",
+    "languages": "habla inglés, portugués y español",
+    "drink": "",
+    "music": "",
+    "hobby": "gimnasio"
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [],
+  "mainMedia": {
+    "type": "image",
+    "path": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=0&w=782&wm=1&s=54a81fdceff1202d0123afb0540d01c8",
+    "fallback": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=0&w=782&wm=1&s=54a81fdceff1202d0123afb0540d01c8",
+    "path_srcset": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=0&w=480&wm=1&s=e7c4547c69f534c0d6d6652c4eac64c3 480w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=0&w=782&wm=1&s=54a81fdceff1202d0123afb0540d01c8 782w, https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=0&w=1023&wm=1&s=9d7f8f7a43e21b744a3f6b39c0eb3c3b 1023w",
+    "orientation": "portrait",
+    "width": 853,
+    "height": 1280,
+    "small_image": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=110&w=110&s=8ac52147968b92915bdb285ad1a79ae7",
+    "verification_level": -1,
+    "verification_text": "<b>Foto verificada</b>",
+    "verification_at": "hace 41 meses",
+    "uploaded_on": "hace 41 meses"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 21 abril, 2023",
+  "aiTitle": "Deportista sensual, gym y fiesta. Disponible 24/7.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/3181297"
+    }
+  ],
+  "spokenLanguage": "habla inglés, portugués y español",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "MDs/RERISU9UUFld",
+  "encodedTelegram": "",
+  "contactOptions": [
+    "Whatsapp",
+    "SMS",
+    "Calls"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": true,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 3181297,
+    "pic": 7,
+    "vid": 0,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 226,
+    "ci": 102,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "4.2mil vistas, 191 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/madrid/escorts",
+      "text": "Más escorts en Madrid"
+    },
+    {
+      "link": "https://topescortbabes.com/es/madrid/erotic-massage",
+      "text": "Más masajistas sexy en Madrid"
+    }
+  ],
+  "trackHash": "91438981-1w6pd-5daa34",
+  "reviewsOverall": {
+    "count": 0,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": false
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297",
+  "metaTitle": "kasandra - Deportista sensual, gym y fiesta. Disponible 24/7.",
+  "metaDescription": "Kasandra, deportes, gym y fiesta! con un apartamento exclusivo, puede ir a domicilio y  muy sensual e inteligente disponible 24/7 para mas información en nuestr…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.webp?fit=crop&h=0&w=782&wm=1&s=54a81fdceff1202d0123afb0540d01c8",
+  "logoTitle": "Escorts en España",
+  "preloadImages": [],
+  "country": {
+    "id": "226",
+    "name": "España",
+    "seo_name": "España",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "102",
+    "name": "Madrid",
+    "url_segment": "madrid",
+    "country": {
+      "id": "226",
+      "iso2": "ES",
+      "name": "España",
+      "url_segment": "spain"
+    },
+    "lat": "40.4167",
+    "lng": "-3.7167"
+  },
+  "locationName": "Madrid",
+  "locationUrl": "madrid",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "9360",
+      "country_id": "226",
+      "city_escaped": "adeje",
+      "name": "Adeje",
+      "user_count": "70"
+    },
+    {
+      "id": "158",
+      "country_id": "226",
+      "city_escaped": "barcelona",
+      "name": "Barcelona",
+      "user_count": "171"
+    },
+    {
+      "id": "5685",
+      "country_id": "226",
+      "city_escaped": "ibiza",
+      "name": "Ibiza",
+      "user_count": "27"
+    },
+    {
+      "id": "17455",
+      "country_id": "226",
+      "city_escaped": "mallorca",
+      "name": "Mallorca",
+      "user_count": "20"
+    },
+    {
+      "id": "2588",
+      "country_id": "226",
+      "city_escaped": "santa-cruz",
+      "name": "Santa Cruz",
+      "user_count": "17"
+    },
+    {
+      "id": "17452",
+      "country_id": "226",
+      "city_escaped": "tenerife",
+      "name": "Tenerife",
+      "user_count": "37"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "España",
+        "schemaText": "",
+        "title": "Escorts y putas en España",
+        "url": "https://topescortbabes.com/es/spain/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "Madrid",
+        "schemaText": "",
+        "title": "Escorts y putas en Madrid",
+        "url": "https://topescortbabes.com/es/madrid/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Kasandra",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con kasandra?",
+      "content": "<p>Puedes reservar una cita con kasandra de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla kasandra?",
+      "content": "kasandra habla habla inglés, portugués y español.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con kasandra?",
+      "content": "kasandra se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de kasandra son reales y verificadas?",
+      "content": "Todas las fotos de kasandra han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 3 años.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#person",
+        "name": "kasandra",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=58014a3f2cc089ade048d3a8bc4a8987",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "description": "Kasandra, deportes, gym y fiesta! con un apartamento exclusivo, puede ir a domicilio y  muy sensual e inteligente disponible 24/7 para mas información en nuestra pagina oficial. llama a nuestra agencia para mas detalles",
+        "nationality": {
+          "@type": "Country",
+          "name": "Brazil"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "163",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "57",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en"
+          },
+          {
+            "@type": "Language",
+            "name": "Portuguese",
+            "alternateName": "pt"
+          },
+          {
+            "@type": "Language",
+            "name": "Spanish",
+            "alternateName": "es"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "220",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-14",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#organization",
+        "name": "kasandra",
+        "url": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=58014a3f2cc089ade048d3a8bc4a8987",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#service",
+        "name": "kasandra Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#person"
+        },
+        "url": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/318/1/297/kasandra--3181297-63933c2f5014e.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=58014a3f2cc089ade048d3a8bc4a8987",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "Madrid",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.4167",
+            "longitude": "-3.7167"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "220",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-14",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297#person"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "España",
+              "@id": "https://topescortbabes.com/es/spain/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "Madrid",
+              "@id": "https://topescortbabes.com/es/madrid/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Kasandra",
+              "@id": "https://topescortbabes.com/es/madrid/escorts/kasandra_3181297"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con kasandra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con kasandra de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar a través de las siguientes opciones de contacto telefónico: llamada telefónica, SMS, WhatsApp.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla kasandra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "kasandra habla habla inglés, portugués y español."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con kasandra?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "kasandra se encuentra actualmente en Madrid. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de kasandra son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de kasandra han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 3 años."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts Madrid",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en Madrid"
+}

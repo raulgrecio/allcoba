@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      graphify:
+        specifier: ^1.0.0
+        version: 1.0.0
+
+packages:
+
+  graphify@1.0.0:
+    resolution: {integrity: sha512-3jJK8doNVNJeYCOXXHkcQfwNPP9MEox4PWHblCwSbL9+9pyrf+3nP2XKnQOW89H7ym4acLxQwaktDlveVLGWAA==}
+
+snapshots:
+
+  graphify@1.0.0: {}

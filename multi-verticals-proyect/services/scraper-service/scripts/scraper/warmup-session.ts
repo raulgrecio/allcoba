@@ -27,8 +27,8 @@ async function main() {
 
     // Mantenemos abierto hasta que el usuario decida (60 segundos de margen)
     await new Promise((r) => setTimeout(r, 120000));
-  } catch (err: any) {
-    console.log(`Finalizado o error: ${err.message}`);
+  } catch (err: unknown) {
+    console.log(`Finalizado o error: ${err instanceof Error ? err.message : String(err)}`);
   } finally {
     await context.close();
     console.log(`✅ Sesión guardada en: ${profilePath}`);

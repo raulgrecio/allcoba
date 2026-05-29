@@ -16,8 +16,11 @@ export class LocalStorageAdapter implements StoragePort {
     try {
       await fs.mkdir(this.storageDir, { recursive: true });
       logger().info({ dir: this.storageDir }, 'Directorio de almacenamiento local inicializado');
-    } catch (error: any) {
-      logger().error({ error: error.message }, 'Error creando directorio de almacenamiento');
+    } catch (error) {
+      logger().error(
+        { error: error instanceof Error ? error.message : String(error) },
+        'Error creando directorio de almacenamiento',
+      );
     }
   }
 
@@ -38,7 +41,7 @@ export class LocalStorageAdapter implements StoragePort {
     const filePath = path.join(this.storageDir, fileName);
     try {
       await fs.unlink(filePath);
-    } catch (error) {
+    } catch {
       // Ignorar si no existe
     }
   }

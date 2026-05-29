@@ -78,8 +78,10 @@ export class CapsolverAdapter implements CaptchaSolver {
 
       logger().info('Token inyectado. Esperando a que Cloudflare nos deje pasar...');
       return true;
-    } catch (error: any) {
-      logger().error(`Error en CapsolverAdapter: ${error.message}`);
+    } catch (error) {
+      logger().error(
+        `Error en CapsolverAdapter: ${error instanceof Error ? error.message : String(error)}`,
+      );
       return false;
     }
   }

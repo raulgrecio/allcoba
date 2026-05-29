@@ -1,0 +1,1023 @@
+{
+  "active": true,
+  "category": "escorts",
+  "internalLinks": [
+    {
+      "id": "5892",
+      "country_id": "82",
+      "city_escaped": "charenton-le-pont",
+      "url_segment": "charenton-le-pont",
+      "distance": "3.177451079335443",
+      "name": "Charenton-le-Pont",
+      "user_count": "1"
+    },
+    {
+      "id": "5003",
+      "country_id": "82",
+      "city_escaped": "clichy",
+      "url_segment": "clichy",
+      "distance": "3.903562821082465",
+      "name": "Clichy",
+      "user_count": "2"
+    },
+    {
+      "id": "4886",
+      "country_id": "82",
+      "city_escaped": "levallois-perret",
+      "url_segment": "levallois-perret",
+      "distance": "3.970087727257894",
+      "name": "Levallois-Perret",
+      "user_count": "1"
+    },
+    {
+      "id": "4849",
+      "country_id": "82",
+      "city_escaped": "aubervilliers",
+      "url_segment": "aubervilliers",
+      "distance": "4.148709508710331",
+      "name": "Aubervilliers",
+      "user_count": "1"
+    },
+    {
+      "id": "4043",
+      "country_id": "82",
+      "city_escaped": "montreuil",
+      "url_segment": "montreuil",
+      "distance": "4.166958364374688",
+      "name": "Montreuil",
+      "user_count": "1"
+    },
+    {
+      "id": "5560",
+      "country_id": "82",
+      "city_escaped": "alfortville",
+      "url_segment": "alfortville",
+      "distance": "4.833505360877483",
+      "name": "Alfortville",
+      "user_count": "3"
+    },
+    {
+      "id": "5731",
+      "country_id": "82",
+      "city_escaped": "noisy-le-sec",
+      "url_segment": "noisy-le-sec",
+      "distance": "5.000554306953023",
+      "name": "Noisy-le-Sec",
+      "user_count": "1"
+    },
+    {
+      "id": "5404",
+      "country_id": "82",
+      "city_escaped": "maisons-alfort",
+      "url_segment": "maisons-alfort",
+      "distance": "5.244091543634015",
+      "name": "Maisons-Alfort",
+      "user_count": "2"
+    },
+    {
+      "id": "3601",
+      "country_id": "82",
+      "city_escaped": "boulogne-billancourt",
+      "url_segment": "boulogne-billancourt",
+      "distance": "5.274216637513684",
+      "name": "Boulogne-Billancourt",
+      "user_count": "4"
+    },
+    {
+      "id": "4557",
+      "country_id": "82",
+      "city_escaped": "courbevoic",
+      "url_segment": "courbevoic",
+      "distance": "5.326714499912934",
+      "name": "Courbevoic",
+      "user_count": "1"
+    },
+    {
+      "id": "5494",
+      "country_id": "82",
+      "city_escaped": "bobigny",
+      "url_segment": "bobigny",
+      "distance": "5.45131228977101",
+      "name": "Bobigny",
+      "user_count": "2"
+    },
+    {
+      "id": "4096",
+      "country_id": "82",
+      "city_escaped": "saint-denis-fr",
+      "url_segment": "saint-denis-fr",
+      "distance": "5.459445465726269",
+      "name": "Saint-Denis",
+      "user_count": "3"
+    },
+    {
+      "id": "5533",
+      "country_id": "82",
+      "city_escaped": "puteaux",
+      "url_segment": "puteaux",
+      "distance": "5.509853532256313",
+      "name": "Puteaux",
+      "user_count": "5"
+    },
+    {
+      "id": "5760",
+      "country_id": "82",
+      "city_escaped": "gennevilliers",
+      "url_segment": "gennevilliers",
+      "distance": "5.805637622334316",
+      "name": "Gennevilliers",
+      "user_count": "1"
+    },
+    {
+      "id": "5711",
+      "country_id": "82",
+      "city_escaped": "rosny-sous-bois",
+      "url_segment": "rosny-sous-bois",
+      "distance": "6.000290193409878",
+      "name": "Rosny-sous-Bois",
+      "user_count": "1"
+    },
+    {
+      "id": "5482",
+      "country_id": "82",
+      "city_escaped": "suresnes",
+      "url_segment": "suresnes",
+      "distance": "6.080091345807337",
+      "name": "Suresnes",
+      "user_count": "1"
+    },
+    {
+      "id": "4877",
+      "country_id": "82",
+      "city_escaped": "colombes",
+      "url_segment": "colombes",
+      "distance": "6.48471914561849",
+      "name": "Colombes",
+      "user_count": "1"
+    },
+    {
+      "id": "5098",
+      "country_id": "82",
+      "city_escaped": "drancy",
+      "url_segment": "drancy",
+      "distance": "6.740904463147947",
+      "name": "Drancy",
+      "user_count": "4"
+    }
+  ],
+  "ipCountry": {
+    "id": "226",
+    "name": "Spain",
+    "iso2": "ES",
+    "code": "ESP",
+    "new_seo": "0",
+    "shortname": "Madrid",
+    "subdomain": "spain",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "188",
+    "conversion_rate": "1",
+    "nationality_id": "168",
+    "default_language": "es",
+    "region": "Europe",
+    "sub_region": "Southern Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"FR\", \"GI\", \"MA\", \"PT\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "id": 4073003,
+  "agencyId": 0,
+  "nickname": "jeuneronde",
+  "age": "24",
+  "baseCity": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "fr",
+      "name": "Francia",
+      "subdomain": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "currentCity": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "FR",
+      "name": "Francia",
+      "url_segment": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "minimumPrice": "Desde 200 €",
+  "photosCount": 4,
+  "reviewsCount": 5,
+  "reviewsRating": 8.8,
+  "reviewEnabled": true,
+  "lastActive": "no activo desde hace un tiempo",
+  "topTourText": null,
+  "aboutMe": {
+    "content": "Coucou 😘, moi c'est Leila, j'ai 24 ans 🎂.<br />\nJe suis une jolie fille avec des courbes gracieuses 🍑, 100% naturelles de la tête aux pieds 👣, toujours souriante 😄 et de bonne humeur 🌞, très accueillante 🤗.<br />\nJe suis une fille belle et pulpeuse 💋 à la peau douce ✨, très propre 🧼 et très sensuelle 🔥.<br />\n<br />\nJe suis métisse (quarteron) 🌺 pour ceux qui connaissent le terme.<br />\nJe reçois 🏡 et je me déplace aussi 🚗.<br />\n<br />\nJe suis très exigeante niveau hygiène 🚿, car j'y accorde beaucoup d'importance, c'est la première chose que je priorise ✅.<br />\n<br />\nJ'accepte aussi les couples 👩‍❤️‍👨 pour des trios 🔥 ainsi que 2 hommes, mais pas plus ❌.<br />\nJe n'aime surtout pas perdre mon temps ⏳, je suis là pour de l'argent 💸 et non pour discuter avec ceux qui aiment blablater pour rien 🙄.",
+    "original": "Coucou 😘, moi c'est Leila, j'ai 24 ans 🎂.<br />\nJe suis une jolie fille avec des courbes gracieuses 🍑, 100% naturelles de la tête aux pieds 👣, toujours souriante 😄 et de bonne humeur 🌞, très accueillante 🤗.<br />\nJe suis une fille belle et pulpeuse 💋 à la peau douce ✨, très propre 🧼 et très sensuelle 🔥.<br />\n<br />\nJe suis métisse (quarteron) 🌺 pour ceux qui connaissent le terme.<br />\nJe reçois 🏡 et je me déplace aussi 🚗.<br />\n<br />\nJe suis très exigeante niveau hygiène 🚿, car j'y accorde beaucoup d'importance, c'est la première chose que je priorise ✅.<br />\n<br />\nJ'accepte aussi les couples 👩‍❤️‍👨 pour des trios 🔥 ainsi que 2 hommes, mais pas plus ❌.<br />\nJe n'aime surtout pas perdre mon temps ⏳, je suis là pour de l'argent 💸 et non pour discuter avec ceux qui aiment blablater pour rien 🙄.",
+    "original_language": ""
+  },
+  "prices": [
+    {
+      "label": "1 hora",
+      "price": "200",
+      "currency": "EUR"
+    },
+    {
+      "label": "2 horas",
+      "price": "300",
+      "currency": "EUR"
+    },
+    {
+      "label": "12 horas",
+      "price": "500",
+      "currency": "EUR"
+    },
+    {
+      "label": "24 horas",
+      "price": "1000",
+      "currency": "EUR"
+    }
+  ],
+  "serviceText": "Ofrezco servicios <b>en mi piso</b> y <b>a domicilio o en hotel</b>. Las tarifas a domicilio pueden variar.",
+  "priceLabelType": "lower",
+  "tours": [],
+  "photos": [
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=380&wm=1&s=37c607fe94558abb9fc12f1b84f3eeb1",
+      "srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=380&wm=1&s=37c607fe94558abb9fc12f1b84f3eeb1 380w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=480&wm=1&s=6f6104c8a0cb4dc1170a8ffe4cf40238 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=782&wm=1&s=7060bbe8a08481a77880e69250341958 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=1023&wm=1&s=15c8828700e01426393217510712c820 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=1920&wm=1&s=32c1d0f4034632b4eb4107ab48079c68",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=480&wm=1&s=6f6104c8a0cb4dc1170a8ffe4cf40238 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=782&wm=1&s=7060bbe8a08481a77880e69250341958 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=1023&wm=1&s=15c8828700e01426393217510712c820 1023w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e204e4ad.webp?fit=crop&h=0&w=1920&wm=1&s=32c1d0f4034632b4eb4107ab48079c68 1920w",
+      "width": 1070,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 16 meses",
+      "uploaded_on": "hace 16 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=380&wm=1&s=d395e37d4b3c4b1b0025a3e0a30e2820",
+      "srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=380&wm=1&s=d395e37d4b3c4b1b0025a3e0a30e2820 380w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=480&wm=1&s=f28a2aaa8fbe0d96608b0dfd6450745d 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=782&wm=1&s=1d3ab35ae1862c3a94e8c06b88a48fbe 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=1023&wm=1&s=ce4948485a57fbb4b2190ddea9ca43cb 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=1920&wm=1&s=3f9a145cc3d49f0da945f774b2261236",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=480&wm=1&s=f28a2aaa8fbe0d96608b0dfd6450745d 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=782&wm=1&s=1d3ab35ae1862c3a94e8c06b88a48fbe 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=1023&wm=1&s=ce4948485a57fbb4b2190ddea9ca43cb 1023w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e2059b0b.webp?fit=crop&h=0&w=1920&wm=1&s=3f9a145cc3d49f0da945f774b2261236 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 16 meses",
+      "uploaded_on": "hace 16 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=380&wm=1&s=4db26416f1ece4fd2996cbd0ebc6c5ad",
+      "srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=380&wm=1&s=4db26416f1ece4fd2996cbd0ebc6c5ad 380w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=480&wm=1&s=facdb57cf41a2b35cc986f23c77379d4 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=782&wm=1&s=c5e4dad5e6e9258e3b68a7050db97692 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=1023&wm=1&s=f2a1b5b199f6164e18765618bfe5c605 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=1920&wm=1&s=6ca0fe12054f18c0bbda34567b90e720",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=480&wm=1&s=facdb57cf41a2b35cc986f23c77379d4 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=782&wm=1&s=c5e4dad5e6e9258e3b68a7050db97692 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=1023&wm=1&s=f2a1b5b199f6164e18765618bfe5c605 1023w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e200b90e.webp?fit=crop&h=0&w=1920&wm=1&s=6ca0fe12054f18c0bbda34567b90e720 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 16 meses",
+      "uploaded_on": "hace 16 meses"
+    },
+    {
+      "thumbnail": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=380&wm=1&s=f672b09d10c77ee9df0ca1bb94191065",
+      "srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=380&wm=1&s=f672b09d10c77ee9df0ca1bb94191065 380w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=480&wm=1&s=824000e17dc863617f6f8445c1c63c1b 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=782&wm=1&s=9382244b0b40793d0af99f8aeeb3d0e1 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=1023&wm=1&s=da4478b089ac38ea8d42cb249d587591 1023w",
+      "path": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=1920&wm=1&s=6c42abd3e28e4f5d129ac8f19ccc381b",
+      "path_srcset": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=480&wm=1&s=824000e17dc863617f6f8445c1c63c1b 480w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=782&wm=1&s=9382244b0b40793d0af99f8aeeb3d0e1 782w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=1023&wm=1&s=da4478b089ac38ea8d42cb249d587591 1023w, https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=1920&wm=1&s=6c42abd3e28e4f5d129ac8f19ccc381b 1920w",
+      "width": 1440,
+      "height": 1920,
+      "verification_level": 1,
+      "verification_text": "<b>Parecía similar</b>",
+      "verification_at": "hace 16 meses",
+      "uploaded_on": "hace 16 meses"
+    }
+  ],
+  "galleryImgAlt": "jeuneronde, 24 - Chica sensual, trios, accueil, déplacements.",
+  "personalDetails": {
+    "location": "<a href=\"https://topescortbabes.com/es/france/escorts\" title=\"Escorts en Francia\">Francia</a>, <a href=\"https://topescortbabes.com/es/paris/escorts\" title=\"Escorts en París\">París</a>",
+    "nationality": "<a href=\"https://topescortbabes.com/es/paris/escorts/french-nationality\" title=\"Escorts francesa en París\">francesa</a>",
+    "ethnic": "<a href=\"https://topescortbabes.com/es/paris/escorts/caucasian-ethnic\" title=\"Escorts blanco en París\">blanco</a>",
+    "meetingWith": "encuentro con una mujer, mujeres, un hombre, hombres, una pareja y parejas",
+    "meetingPlace": "<a href=\"https://topescortbabes.com/es/paris/escorts/incall\" title=\"Escorts en su piso en París\">mi piso</a>, <a href=\"https://topescortbabes.com/es/paris/escorts/outcall\" title=\"Escorts a domicilio en París\">a domicilio</a>",
+    "age": "<a href=\"https://topescortbabes.com/es/paris/escorts/college_girl-age\" title=\"Universitaria escorts en París\">24</a>",
+    "height": "<a href=\"https://topescortbabes.com/es/paris/escorts/medium-height\" title=\"Escorts de altura media en París\">168cm / 5'6\"</a>",
+    "weight": "<a href=\"https://topescortbabes.com/es/paris/escorts/71_80-weight\" title=\"Escorts que pesan 71-80 kg en París\">80kg / 176lbs</a>",
+    "bust": "55",
+    "hip": "63",
+    "waist": "56",
+    "hair": "<a href=\"https://topescortbabes.com/es/paris/escorts/brunette-hair\" title=\"Escorts de cabello morena en París\">pelo castaño</a>",
+    "eyes": "<a href=\"https://topescortbabes.com/es/paris/escorts/brown-eyes\" title=\"Escorts de ojos marrones en París\">ojos marrones</a>",
+    "orientation": "<a href=\"https://topescortbabes.com/es/paris/escorts/heterosexual-sexuality\" title=\"Escorts heterosexuales en París\">Heterosexual</a>",
+    "languages": "habla francés",
+    "drink": "",
+    "music": "",
+    "hobby": ""
+  },
+  "links": {
+    "website": null
+  },
+  "reviews": [
+    {
+      "id": "68657",
+      "review": null,
+      "review_original": "Coucou ma douce Leila, vraiment merci pour la soirée, d'hier. Très belle expérience avec une ronde comme j'aime. Je ne me passe pas des vidéos que nous avions enregistré. Prochainement je serai avec ma femme pour un plan à trois. Je t'embrasse",
+      "review_language": "",
+      "review_language_text": null,
+      "nickname": "Bernard",
+      "meet_city": "Paris",
+      "iso2": "fr",
+      "ratings": null,
+      "review_date": "hace 1 año",
+      "average_rating": 9,
+      "meeting_place": null,
+      "meet_again": null,
+      "meet_good": true,
+      "liked": false,
+      "liked_count": 0,
+      "contact_text": null,
+      "appearance_text": null,
+      "attitude_text": null,
+      "experience_text": null,
+      "satisfaction_text": null
+    },
+    {
+      "id": "68587",
+      "review": null,
+      "review_original": "C'est tellement satisfaisante quand elle suce mmm, avec sa chatte si mielleuse, mais prochainement je paierai plus pour bénéficier de ton cul. J'imagine même pas le gout. ",
+      "review_language": "",
+      "review_language_text": null,
+      "nickname": "partrick72",
+      "meet_city": "Paris",
+      "iso2": "fr",
+      "ratings": null,
+      "review_date": "hace 1 año",
+      "average_rating": 8,
+      "meeting_place": null,
+      "meet_again": null,
+      "meet_good": true,
+      "liked": false,
+      "liked_count": 0,
+      "contact_text": null,
+      "appearance_text": null,
+      "attitude_text": null,
+      "experience_text": null,
+      "satisfaction_text": null
+    },
+    {
+      "id": "68561",
+      "review": null,
+      "review_original": " Je pense que Jeuneronde la va très bien comme pseudo, et c'est tellement ce qu'elle représente. Très naturelle et très douce. Sa chatte n'en parlons pas. Très propre et sa c'est tellement rare avec le escort.",
+      "review_language": "",
+      "review_language_text": null,
+      "nickname": "Guillaume",
+      "meet_city": "Paris",
+      "iso2": "fr",
+      "ratings": null,
+      "review_date": "hace 1 año",
+      "average_rating": 9,
+      "meeting_place": null,
+      "meet_again": null,
+      "meet_good": true,
+      "liked": false,
+      "liked_count": 0,
+      "contact_text": null,
+      "appearance_text": null,
+      "attitude_text": null,
+      "experience_text": null,
+      "satisfaction_text": null
+    },
+    {
+      "id": "68551",
+      "review": null,
+      "review_original": "Tout simplement wow cette fille, son gros cul est tout simplement extraordinaire. Très propre, très respectueuses et surtout très accueillante. ",
+      "review_language": "",
+      "review_language_text": null,
+      "nickname": "Marc",
+      "meet_city": "Brest",
+      "iso2": "fr",
+      "ratings": null,
+      "review_date": "hace 1 año",
+      "average_rating": 9,
+      "meeting_place": null,
+      "meet_again": null,
+      "meet_good": true,
+      "liked": false,
+      "liked_count": 0,
+      "contact_text": null,
+      "appearance_text": null,
+      "attitude_text": null,
+      "experience_text": null,
+      "satisfaction_text": null
+    },
+    {
+      "id": "68542",
+      "review": null,
+      "review_original": "Je pense que son pseudo en dis tellement, avec des courbe naturelle et une chatte vraiment délicieuse, je pense encore a ses mouille Leila. ⭐⭐⭐⭐⭐",
+      "review_language": "",
+      "review_language_text": null,
+      "nickname": "Yoann",
+      "meet_city": "Paris",
+      "iso2": "fr",
+      "ratings": null,
+      "review_date": "hace 1 año",
+      "average_rating": 9,
+      "meeting_place": null,
+      "meet_again": null,
+      "meet_good": true,
+      "liked": false,
+      "liked_count": 0,
+      "contact_text": null,
+      "appearance_text": null,
+      "attitude_text": null,
+      "experience_text": null,
+      "satisfaction_text": null
+    }
+  ],
+  "mainMedia": {
+    "type": "video",
+    "path": "https://topescortbabes.com/es/video/get-url/dmlkZW9fZHJvcGxldF9wcm9maWxlLzMwLzMvNDA3MzAwMy90ZWIvZjQ2MDI2ZGFmNDQwNzQ4YjlmMWZiY2QyMjRkZWNjNjRiMDg0MjhmMC9mdWxsLm1wNA==",
+    "poster": "https://img.topescortbabes.com/videos/profile/30/3/4073003/teb/f46026daf440748b9f1fbcd224decc64b08428f0/full_2.jpg?o=png&wm=1",
+    "fallback": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=575&wm=1&s=44bf3f70fbaefcc0a99c6d645227bcf3",
+    "orientation": "landscape",
+    "width": "848",
+    "height": "784",
+    "small_image": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=110&w=110&s=60f48130843f61aeca2d9f68922e0863"
+  },
+  "badges": {
+    "verified": true,
+    "trans": false,
+    "vip": false,
+    "pornstar": false
+  },
+  "updatedAt": "Actualizado el 08 junio, 2025",
+  "aiTitle": "Chica sensual, trios, accueil, déplacements.",
+  "otherPlatforms": [
+    {
+      "name": "Real Escorts",
+      "url": "https://escortreal.es/4073003"
+    },
+    {
+      "name": "Paris Escort Girls",
+      "url": "https://parisescortgirls.fr/4073003"
+    }
+  ],
+  "spokenLanguage": "habla francés",
+  "phoneNumber": null,
+  "encodedPhoneNumber": "MT1ARkZKUVJWV1teYg==",
+  "encodedTelegram": "",
+  "contactOptions": [
+    "Whatsapp"
+  ],
+  "humanVerified": false,
+  "meetingPlaces": {
+    "incall": true,
+    "outcall": true
+  },
+  "previousProfileId": 0,
+  "nextProfileId": 0,
+  "statisticsData": {
+    "id": 4073003,
+    "pic": 5,
+    "vid": 1,
+    "vip": 1,
+    "ver": 1,
+    "tour": 0,
+    "co": 82,
+    "ci": 35,
+    "ab": 0
+  },
+  "nextReportRemaining": 0,
+  "nextReviewRemaining": 0,
+  "statisticsText": "3.9mil vistas, 305 interacciones",
+  "isAboundedProfile": false,
+  "saved": false,
+  "moreLinks": [
+    {
+      "link": "https://topescortbabes.com/es/paris/escorts",
+      "text": "Más escorts en París"
+    },
+    {
+      "link": "https://topescortbabes.com/es/paris/erotic-massage",
+      "text": "Más masajistas sexy en París"
+    }
+  ],
+  "trackHash": "e3913dee-2faqz-f9a39e",
+  "reviewsOverall": {
+    "count": 5,
+    "tags": [],
+    "average_ratings": null,
+    "meet_again_percentage": null,
+    "new_reviews_count": 0,
+    "has_old_review": true
+  },
+  "ratingDistributions": null,
+  "isOwner": false,
+  "canonical": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003",
+  "metaTitle": "jeuneronde - Chica sensual, trios, accueil, déplacements.",
+  "metaDescription": "Coucou 😘, moi c'est Leila, j'ai 24 ans 🎂.\nJe suis une jolie fille avec des courbes gracieuses 🍑, 100% naturelles de la tête aux pieds 👣, toujours souriante 😄 et…",
+  "metaImage": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.webp?fit=crop&h=0&w=575&wm=1&s=44bf3f70fbaefcc0a99c6d645227bcf3",
+  "logoTitle": "Escorts en Francia",
+  "preloadImages": [],
+  "country": {
+    "id": "82",
+    "name": "Francia",
+    "seo_name": "Francia",
+    "iso2": "FR",
+    "code": "FRA",
+    "new_seo": "0",
+    "shortname": "Paris",
+    "subdomain": "france",
+    "currency_code": "EUR",
+    "currency_name": "Euro",
+    "currency_symbol": "€",
+    "currency_nl": "EUR",
+    "vxs_id": "76",
+    "conversion_rate": "1",
+    "nationality_id": "65",
+    "default_language": "fr",
+    "region": "Europe",
+    "sub_region": "Western Europe",
+    "intermediate_region": "",
+    "neighboring_countries": "[\"AD\", \"BE\", \"DE\", \"IT\", \"LU\", \"MC\", \"ES\", \"CH\"]",
+    "updated_at": "0000-00-00 00:00:00",
+    "created_at": "0000-00-00 00:00:00",
+    "reg_blacklist": "0"
+  },
+  "city": {
+    "id": "35",
+    "name": "París",
+    "url_segment": "paris",
+    "country": {
+      "id": "82",
+      "iso2": "FR",
+      "name": "Francia",
+      "url_segment": "france"
+    },
+    "lat": "48.8566",
+    "lng": "2.3522"
+  },
+  "locationName": "París",
+  "locationUrl": "paris",
+  "hideAgenciesLink": false,
+  "topCitiesForSearch": [
+    {
+      "id": "5164",
+      "country_id": "82",
+      "city_escaped": "cannes",
+      "name": "Cannes",
+      "user_count": "23"
+    },
+    {
+      "id": "2004",
+      "country_id": "82",
+      "city_escaped": "strasbourg",
+      "name": "Estrasburgo",
+      "user_count": "13"
+    },
+    {
+      "id": "1207",
+      "country_id": "82",
+      "city_escaped": "lyon",
+      "name": "Lyon",
+      "user_count": "25"
+    },
+    {
+      "id": "806",
+      "country_id": "82",
+      "city_escaped": "marseille",
+      "name": "Marsella",
+      "user_count": "15"
+    },
+    {
+      "id": "1963",
+      "country_id": "82",
+      "city_escaped": "montpellier",
+      "name": "Montpellier",
+      "user_count": "11"
+    },
+    {
+      "id": "1712",
+      "country_id": "82",
+      "city_escaped": "nice",
+      "name": "Niza",
+      "user_count": "17"
+    }
+  ],
+  "breadcrumb": {
+    "schema": [],
+    "elements": [
+      {
+        "text": "Escorts",
+        "schemaText": "",
+        "title": "Mejores escorts y putas del mundo",
+        "url": "https://topescortbabes.com/es/escorts",
+        "analyticsName": "Breadcrumb Click - Category",
+        "tag": ""
+      },
+      {
+        "text": "Francia",
+        "schemaText": "",
+        "title": "Escorts y putas en Francia",
+        "url": "https://topescortbabes.com/es/france/escorts",
+        "analyticsName": "Breadcrumb Click - Country",
+        "tag": ""
+      },
+      {
+        "text": "París",
+        "schemaText": "",
+        "title": "Escorts y putas en París",
+        "url": "https://topescortbabes.com/es/paris/escorts",
+        "analyticsName": "Breadcrumb Click - City",
+        "tag": ""
+      },
+      {
+        "text": "Jeuneronde",
+        "schemaText": "",
+        "title": "",
+        "url": "",
+        "analyticsName": "",
+        "tag": ""
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "title": "¿Cómo puedo reservar una cita con jeuneronde?",
+      "content": "<p>Puedes reservar una cita con jeuneronde de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar vía WhatsApp.</li></ul>",
+      "key": "how_can_book"
+    },
+    {
+      "title": "¿Qué idiomas habla jeuneronde?",
+      "content": "jeuneronde habla habla francés.",
+      "key": "what_languages_spoken"
+    },
+    {
+      "title": "¿Dónde puedo encontrarme con jeuneronde?",
+      "content": "jeuneronde se encuentra actualmente en París. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad.",
+      "key": "where_can_meet"
+    },
+    {
+      "title": "¿Las fotos de jeuneronde son reales y verificadas?",
+      "content": "Todas las fotos de jeuneronde han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 1 año.",
+      "key": "photos_verified"
+    }
+  ],
+  "is404Mode": false,
+  "is404ProfileMode": false,
+  "pageSchema": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#person",
+        "name": "jeuneronde",
+        "jobTitle": "Escort",
+        "gender": "Female",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=eec2458a5ab6f51000461e5646e0d0a9",
+          "width": 360,
+          "height": 540
+        },
+        "worksFor": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+        },
+        "workLocation": {
+          "@type": "City",
+          "name": "París",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "48.8566",
+            "longitude": "2.3522"
+          }
+        },
+        "description": "Coucou 😘, moi c'est Leila, j'ai 24 ans 🎂.<br />\nJe suis une jolie fille avec des courbes gracieuses 🍑, 100% naturelles de la tête aux pieds 👣, toujours souriante 😄 et de bonne humeur 🌞, très accueillante 🤗.<br />\nJe suis une fille belle et pulpeuse 💋 à la peau douce ✨, très propre 🧼 et très sensuelle 🔥.<br />\n<br />\nJe suis métisse (quarteron) 🌺 pour ceux qui connaissent le terme.<br />\nJe reçois 🏡 et je me déplace aussi 🚗.<br />\n<br />\nJe suis très exigeante niveau hygiène 🚿, car j'y accorde beaucoup d'importance, c'est la première chose que je priorise ✅.<br />\n<br />\nJ'accepte aussi les couples 👩‍❤️‍👨 pour des trios 🔥 ainsi que 2 hommes, mais pas plus ❌.<br />\nJe n'aime surtout pas perdre mon temps ⏳, je suis là pour de l'argent 💸 et non pour discuter avec ceux qui aiment blablater pour rien 🙄.",
+        "nationality": {
+          "@type": "Country",
+          "name": "France"
+        },
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": "168",
+          "unitText": "cm"
+        },
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": "80",
+          "unitText": "kg"
+        },
+        "knowsLanguage": [
+          {
+            "@type": "Language",
+            "name": "French",
+            "alternateName": "fr"
+          }
+        ],
+        "makesOffer": {
+          "@type": "Offer",
+          "description": "1 hora",
+          "price": "200",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": "2026-05-16",
+          "itemOffered": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#service"
+          }
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization",
+        "name": "jeuneronde",
+        "url": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=eec2458a5ab6f51000461e5646e0d0a9",
+          "width": 360,
+          "height": 540
+        }
+      },
+      {
+        "@type": "Service",
+        "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#service",
+        "name": "jeuneronde Escort Service",
+        "serviceType": "Escort Service",
+        "provider": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#person"
+        },
+        "url": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://imagehost.topescortbabes.com/girls/407/3/3/jeuneronde--4073003-67787e1750fad.jpg?fit=crop&h=540&q=75&w=360&wm=1&s=eec2458a5ab6f51000461e5646e0d0a9",
+          "width": 360,
+          "height": 540
+        },
+        "areaServed": {
+          "@type": "City",
+          "name": "París",
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "48.8566",
+            "longitude": "2.3522"
+          }
+        },
+        "offers": [
+          {
+            "@type": "Offer",
+            "description": "1 hora",
+            "price": "200",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "2 horas",
+            "price": "300",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "12 horas",
+            "price": "500",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#service"
+            }
+          },
+          {
+            "@type": "Offer",
+            "description": "24 horas",
+            "price": "1000",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock",
+            "priceValidUntil": "2026-05-16",
+            "itemOffered": {
+              "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#service"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "url": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003",
+        "mainEntity": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#person"
+        }
+      },
+      [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Bernard"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": 10,
+            "worstRating": 1,
+            "ratingValue": 9
+          },
+          "dateCreated": "2025-01-21",
+          "itemReviewed": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+          },
+          "reviewBody": "Coucou ma douce Leila, vraiment merci pour la soirée, d'hier. Très belle expérience avec une ronde comme j'aime. Je ne me passe pas des vidéos que nous avions enregistré. Prochainement je serai avec ma femme pour un plan à trois. Je t'embrasse"
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "partrick72"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": 10,
+            "worstRating": 1,
+            "ratingValue": 8
+          },
+          "dateCreated": "2025-01-12",
+          "itemReviewed": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+          },
+          "reviewBody": "C'est tellement satisfaisante quand elle suce mmm, avec sa chatte si mielleuse, mais prochainement je paierai plus pour bénéficier de ton cul. J'imagine même pas le gout. "
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Guillaume"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": 10,
+            "worstRating": 1,
+            "ratingValue": 9
+          },
+          "dateCreated": "2025-01-10",
+          "itemReviewed": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+          },
+          "reviewBody": " Je pense que Jeuneronde la va très bien comme pseudo, et c'est tellement ce qu'elle représente. Très naturelle et très douce. Sa chatte n'en parlons pas. Très propre et sa c'est tellement rare avec le escort."
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Marc"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": 10,
+            "worstRating": 1,
+            "ratingValue": 9
+          },
+          "dateCreated": "2025-01-09",
+          "itemReviewed": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+          },
+          "reviewBody": "Tout simplement wow cette fille, son gros cul est tout simplement extraordinaire. Très propre, très respectueuses et surtout très accueillante. "
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Yoann"
+          },
+          "reviewRating": {
+            "@type": "Rating",
+            "bestRating": 10,
+            "worstRating": 1,
+            "ratingValue": 9
+          },
+          "dateCreated": "2025-01-08",
+          "itemReviewed": {
+            "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+          },
+          "reviewBody": "Je pense que son pseudo en dis tellement, avec des courbe naturelle et une chatte vraiment délicieuse, je pense encore a ses mouille Leila. ⭐⭐⭐⭐⭐"
+        }
+      ],
+      {
+        "@type": "AggregateRating",
+        "bestRating": 10,
+        "worstRating": 1,
+        "ratingValue": 8.8,
+        "ratingCount": 5,
+        "reviewCount": 5,
+        "itemReviewed": {
+          "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003#organization"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://topescortbabes.com/es",
+              "name": "Inicio"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "name": "Escorts",
+              "@id": "https://topescortbabes.com/es/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "name": "Francia",
+              "@id": "https://topescortbabes.com/es/france/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "name": "París",
+              "@id": "https://topescortbabes.com/es/paris/escorts"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "name": "Jeuneronde",
+              "@id": "https://topescortbabes.com/es/paris/escorts/jeuneronde_4073003"
+            }
+          }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cómo puedo reservar una cita con jeuneronde?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "<p>Puedes reservar una cita con jeuneronde de dos maneras:</p><ul><li>Enviar un mensaje secreto directamente en la plataforma.</li><li>Contactar vía WhatsApp.</li></ul>"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué idiomas habla jeuneronde?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "jeuneronde habla habla francés."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde puedo encontrarme con jeuneronde?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "jeuneronde se encuentra actualmente en París. No está viajando por el momento, pero no dudes en enviarle un mensaje si deseas encontrarte con ella en tu ciudad."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Las fotos de jeuneronde son reales y verificadas?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Todas las fotos de jeuneronde han sido verificadas por el equipo de seguridad y control de calidad de TopEscortBabes. La última foto fue verificada y autenticada hace 1 año."
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "reviewPageLink": "escort-reviews",
+  "reviewPageFooterText": "Reseñas de escorts París",
+  "reviewPageHeaderTitle": "Opiniones sobre escorts en París"
+}

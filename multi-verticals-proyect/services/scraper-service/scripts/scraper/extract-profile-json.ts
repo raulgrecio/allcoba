@@ -44,7 +44,7 @@ async function main() {
   for (const file of files) {
     const filePath = path.join(RAW_DIR, file);
     const stats = fs.statSync(filePath);
-    
+
     if (stats.size < 1000) continue;
 
     const html = fs.readFileSync(filePath, 'utf-8');
@@ -52,11 +52,11 @@ async function main() {
 
     // Extraer solo window.profileData (Contiene TODO: datos internos + schema SEO)
     const profileMatch = html.match(/window\.profileData\s*=\s*/);
-    
+
     if (profileMatch && profileMatch.index !== undefined) {
       const startOfJson = profileMatch.index + profileMatch[0].length;
       const jsonContent = extractBalancedJson(html.substring(startOfJson));
-      
+
       if (jsonContent) {
         try {
           const data = JSON.parse(jsonContent);
@@ -64,8 +64,10 @@ async function main() {
           const outputPath = path.join(absoluteTargetDir, `${baseName}.json`);
           fs.writeFileSync(outputPath, JSON.stringify(data, null, 2));
           extractedCount++;
-        } catch (err: any) {
-          console.error(`❌ Error parseando profileData en ${file}: ${err.message}`);
+        } catch (err: unknown) {
+          console.error(
+            `❌ Error parseando profileData en ${file}: ${err instanceof Error ? err.message : String(err)}`,
+          );
         }
       }
     }

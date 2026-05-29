@@ -1,12 +1,14 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
-
-import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js';
+import { isDatingPipelinePort } from '#application/ports/dating-pipeline.port.js';
+import { isScrapingPipelinePort } from '#application/ports/scraping-pipeline.port.js';
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
+import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
 import { ZyteProxyAdapter } from '#infrastructure/adapters/proxy/zyte-proxy.adapter.js';
+import { SourceRegistry } from '#infrastructure/adapters/sources/source.registry.js';
 import { config } from '#infrastructure/config/env.js';
+import { CrawlerDispatcher } from '#infrastructure/crawler/crawler-dispatcher.js';
 
 async function main() {
   const [url, filePath] = process.argv.slice(2);
@@ -23,7 +25,7 @@ async function main() {
   }
 
   const html = fs.readFileSync(absolutePath, 'utf-8');
-  
+
   const captchaSolver = new CapsolverAdapter(config.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(config.zyteApiKey || '');
   const crawler = new CrawlerDispatcher(captchaSolver, proxyProvider);
@@ -35,8 +37,14 @@ async function main() {
   console.log(`Source file: ${absolutePath}\n`);
 
   try {
-    const result = await adapter.extract(url, { html });
-    console.log(JSON.stringify(result.data, null, 2));
+    if (isDatingPipelinePort(adapter) || isScrapingPipelinePort(adapter)) {
+      const payload = adapter.extract(html, url);
+      const scraped = await adapter.map(payload, new NullTaxonomyResolver());
+      console.log(JSON.stringify(scraped, null, 2));
+    } else {
+      console.error('No se resolvió un pipeline v2 para esta URL');
+      process.exit(1);
+    }
   } catch (error) {
     console.error('Extraction failed:', error);
     process.exit(1);

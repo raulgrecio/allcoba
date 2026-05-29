@@ -1,0 +1,13 @@
+export interface ScrapedImageRepositoryPort {
+  /** Returns true if the URL (identified by sha256 hash) was already downloaded. */
+  hasUrl(urlHash: string): Promise<boolean>;
+  /** Returns the list of hashes that have already been seen/downloaded out of the provided list. */
+  findSeenUrls(urlHashes: string[]): Promise<string[]>;
+  /** Records that a URL was downloaded and enqueued for processing. */
+  markSeen(
+    urlHash: string,
+    originalUrl: string,
+    providerId: string,
+    vertical: string,
+  ): Promise<void>;
+}

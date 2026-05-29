@@ -1,8 +1,8 @@
-import PgBoss from 'pg-boss';
+import { PgBoss } from 'pg-boss';
 
 import { logger } from '@allcoba/kernel';
 
-import type { JobOptions, QueuePort } from '#application/ports/queue.port.js';
+import type { JobName, JobOptions, QueuePort } from '#application/ports/queue.port.js';
 
 export class PgBossQueueAdapter implements QueuePort {
   private boss: PgBoss;
@@ -10,7 +10,7 @@ export class PgBossQueueAdapter implements QueuePort {
   constructor(databaseUrl: string) {
     this.boss = new PgBoss(databaseUrl);
 
-    this.boss.on('error', (error) => {
+    this.boss.on('error', (error: unknown) => {
       logger().error({ error }, 'Error en pg-boss');
     });
   }
@@ -20,12 +20,12 @@ export class PgBossQueueAdapter implements QueuePort {
     logger().info('pg-boss adapter started');
   }
 
-  async publish<T = any>(name: string, data: T, options?: JobOptions): Promise<string | null> {
+  async publish<T = unknown>(name: JobName, data: T, options?: JobOptions): Promise<string | null> {
     try {
-      const id = await this.boss.send(name, data as any, {
+      const id = await this.boss.send(name, data as object, {
         priority: options?.priority,
         retryLimit: options?.retryLimit,
-        startAfter: options?.startAfter as any,
+        startAfter: options?.startAfter,
       });
       return id;
     } catch (error) {
@@ -34,7 +34,9 @@ export class PgBossQueueAdapter implements QueuePort {
     }
   }
 
-  async subscribe<T = any>(name: string, handler: (data: T) => Promise<void>): Promise<void> {
+  async subscribe<T = unknown>(name: JobName, handler: (data: T) => Promise<void>): Promise<void> {
+    // pg-boss tipa el callback de work() de forma distinta entre versiones.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await this.boss.work(name, async (job: any) => {
       try {
         await handler(job.data as T);
@@ -45,8 +47,8 @@ export class PgBossQueueAdapter implements QueuePort {
     });
   }
 
-  async schedule<T = any>(name: string, cron: string, data: T): Promise<void> {
-    await this.boss.schedule(name, cron, data as any);
+  async schedule<T = unknown>(name: JobName, cron: string, data: T): Promise<void> {
+    await this.boss.schedule(name, cron, data as object);
   }
 
   async stop(): Promise<void> {

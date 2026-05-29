@@ -1,5 +1,5 @@
-import { ProxyStrategy } from '#application/ports/crawler.port.js';
 import type { ProxyConfig, ProxyProvider } from '#application/ports/proxy-provider.port.js';
+import { ProxyStrategy } from '#application/ports/crawler.port.js';
 
 export class ZyteProxyAdapter implements ProxyProvider {
   constructor(private readonly apiKey: string) {}
