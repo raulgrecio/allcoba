@@ -15,6 +15,7 @@ export * from './domain/price.js';
 export * from './domain/profile.js';
 export * from './domain/listing.js';
 export * from './domain/property.js';
+export * from './domain/queue.js';
 export * from './domain/review.js';
 export * from './domain/vehicle.js';
 export * from './errors.js';

@@ -1,11 +1,15 @@
 import { logger } from '@allcoba/kernel';
 
-import type { JobOptions, QueuePort } from '#application/ports/queue.port.js';
+import type { JobName, JobOptions, QueuePort } from '#application/ports/queue.port.js';
 
 export class InMemoryQueueAdapter implements QueuePort {
-  private readonly subscribers = new Map<string, Array<(data: unknown) => Promise<void>>>();
+  private readonly subscribers = new Map<JobName, Array<(data: unknown) => Promise<void>>>();
 
-  async publish<T = unknown>(name: string, data: T, _options?: JobOptions): Promise<string | null> {
+  async publish<T = unknown>(
+    name: JobName,
+    data: T,
+    _options?: JobOptions,
+  ): Promise<string | null> {
     const jobId = Math.random().toString(36).substring(2, 11);
     logger().debug({ jobName: name, jobId }, 'Publishing job in-memory');
 
@@ -24,7 +28,7 @@ export class InMemoryQueueAdapter implements QueuePort {
     return jobId;
   }
 
-  async subscribe<T = unknown>(name: string, handler: (data: T) => Promise<void>): Promise<void> {
+  async subscribe<T = unknown>(name: JobName, handler: (data: T) => Promise<void>): Promise<void> {
     if (!this.subscribers.has(name)) {
       this.subscribers.set(name, []);
     }
@@ -32,7 +36,7 @@ export class InMemoryQueueAdapter implements QueuePort {
     logger().debug({ jobName: name }, 'Subscribed to in-memory job');
   }
 
-  async schedule<T = unknown>(name: string, _cron: string, data: T): Promise<void> {
+  async schedule<T = unknown>(name: JobName, _cron: string, data: T): Promise<void> {
     logger().debug({ jobName: name }, 'Scheduling in-memory job (simulated)');
     await this.publish(name, data);
   }

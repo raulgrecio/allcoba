@@ -11,6 +11,7 @@ import type { ScrapedListing } from '#domain/canonical/scraped-listing.js';
 import type { ScrapedProperty } from '#domain/canonical/scraped-property.js';
 import type { ScrapedVehicle } from '#domain/canonical/scraped-vehicle.js';
 import { CrawlerEngine } from '#application/ports/crawler.port.js';
+import { JOB_NAMES } from '#application/ports/queue.port.js';
 import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
 import { OverwritePersistenceStrategy } from '#application/strategies/overwrite-persistence.strategy.js';
 import { DiscoverUrlsUseCase } from '#application/use-cases/discover-urls.use-case.js';
@@ -100,9 +101,12 @@ export async function createScraperServices(config: ScraperConfig) {
     },
   );
 
-  await queue.subscribe<ProcessImagesJobPayload>('process-provider-images', async (payload) => {
-    await processImagesUseCase.execute(payload);
-  });
+  await queue.subscribe<ProcessImagesJobPayload>(
+    JOB_NAMES.PROCESS_PROVIDER_IMAGES,
+    async (payload) => {
+      await processImagesUseCase.execute(payload);
+    },
+  );
 
   const captchaSolver = new CapsolverAdapter(globalConfig.capsolverApiKey || '');
   const proxyProvider = new ZyteProxyAdapter(globalConfig.zyteApiKey || '');

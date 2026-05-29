@@ -29,6 +29,7 @@ import type { QueuePort } from '#application/ports/queue.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { ScrapedProvider } from '#domain/canonical/scraped-provider.js';
 import type { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
+import { JOB_NAMES } from '#application/ports/queue.port.js';
 import { mergeProvider } from '#domain/services/canonical/merge-provider.js';
 
 export interface DatingPersistenceConfig {
@@ -140,7 +141,7 @@ export class DatingPersistenceStrategy implements PersistenceStrategyPort<Scrape
           { providerId: result.entityId, imageCount: imageUrls.length },
           'Publishing image processing job to background queue',
         );
-        await this.queue.publish('process-provider-images', {
+        await this.queue.publish(JOB_NAMES.PROCESS_PROVIDER_IMAGES, {
           providerId: result.entityId,
           imageUrls,
           source: ctx.source,

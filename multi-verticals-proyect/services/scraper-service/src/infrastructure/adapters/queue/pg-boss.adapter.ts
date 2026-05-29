@@ -2,7 +2,7 @@ import { PgBoss } from 'pg-boss';
 
 import { logger } from '@allcoba/kernel';
 
-import type { JobOptions, QueuePort } from '#application/ports/queue.port.js';
+import type { JobName, JobOptions, QueuePort } from '#application/ports/queue.port.js';
 
 export class PgBossQueueAdapter implements QueuePort {
   private boss: PgBoss;
@@ -20,7 +20,7 @@ export class PgBossQueueAdapter implements QueuePort {
     logger().info('pg-boss adapter started');
   }
 
-  async publish<T = unknown>(name: string, data: T, options?: JobOptions): Promise<string | null> {
+  async publish<T = unknown>(name: JobName, data: T, options?: JobOptions): Promise<string | null> {
     try {
       const id = await this.boss.send(name, data as object, {
         priority: options?.priority,
@@ -34,7 +34,7 @@ export class PgBossQueueAdapter implements QueuePort {
     }
   }
 
-  async subscribe<T = unknown>(name: string, handler: (data: T) => Promise<void>): Promise<void> {
+  async subscribe<T = unknown>(name: JobName, handler: (data: T) => Promise<void>): Promise<void> {
     // pg-boss tipa el callback de work() de forma distinta entre versiones.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await this.boss.work(name, async (job: any) => {
@@ -47,7 +47,7 @@ export class PgBossQueueAdapter implements QueuePort {
     });
   }
 
-  async schedule<T = unknown>(name: string, cron: string, data: T): Promise<void> {
+  async schedule<T = unknown>(name: JobName, cron: string, data: T): Promise<void> {
     await this.boss.schedule(name, cron, data as object);
   }
 

@@ -2,6 +2,7 @@ import fastify from 'fastify';
 
 import { logger } from '@allcoba/kernel';
 
+import { Container } from './di/container.js';
 import { config } from './infrastructure/config/env.js';
 import { mediaRoutes } from './infrastructure/http/media.routes.js';
 
@@ -30,6 +31,10 @@ async function main() {
   // Register media routes
   await server.register(mediaRoutes);
 
+  // Initialize and start queue consumer if enabled (Phase 2)
+  const container = Container.getInstance();
+  await container.startQueue();
+
   const port = config.port;
   const host = '0.0.0.0';
 
@@ -44,6 +49,7 @@ async function main() {
   // Graceful shutdown
   const shutdown = async () => {
     log.info('Stopping media-service server...');
+    await container.stopQueue();
     await server.close();
     process.exit(0);
   };

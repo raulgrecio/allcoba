@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { QueuePort } from '#application/ports/queue.port.js';
+import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
+import { JOB_NAMES } from '#application/ports/queue.port.js';
 import { DatingPersistenceStrategy } from '#application/strategies/dating-persistence.strategy.js';
 import { ConsolidationService } from '#domain/services/canonical/consolidation.service.js';
 
@@ -55,19 +56,17 @@ describe('DatingPersistenceStrategy.persist', () => {
   it('CREATE on no candidates and publishes job', async () => {
     const repo = makeRepo([]);
     const queue = makeQueue();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      queue,
-    );
+    const strategy = new DatingPersistenceStrategy(repo, new ConsolidationService(), queue);
     const scraped = buildProvider({
-      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     const result = await strategy.persist(scraped, CTX);
 
     expect(result.action).toBe('CREATE');
     expect(repo.create).toHaveBeenCalledOnce();
-    expect(queue.publish).toHaveBeenCalledWith('process-provider-images', {
+    expect(queue.publish).toHaveBeenCalledWith(JOB_NAMES.PROCESS_PROVIDER_IMAGES, {
       providerId: scraped.id,
       imageUrls: ['https://src.com/img.jpg'],
       source: CTX.source,
@@ -80,20 +79,18 @@ describe('DatingPersistenceStrategy.persist', () => {
     const existing = buildProvider({ externalRefs: [REF], images: [] });
     const repo = makeRepo([existing]);
     const queue = makeQueue();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      queue,
-    );
+    const strategy = new DatingPersistenceStrategy(repo, new ConsolidationService(), queue);
     const scraped = buildProvider({
       externalRefs: [REF],
-      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     const result = await strategy.persist(scraped, CTX);
 
     expect(result.action).toBe('MERGE');
     expect(repo.updateById).toHaveBeenCalledOnce();
-    expect(queue.publish).toHaveBeenCalledWith('process-provider-images', {
+    expect(queue.publish).toHaveBeenCalledWith(JOB_NAMES.PROCESS_PROVIDER_IMAGES, {
       providerId: existing.id,
       imageUrls: ['https://src.com/img.jpg'],
       source: CTX.source,
@@ -107,14 +104,12 @@ describe('DatingPersistenceStrategy.persist', () => {
     const b = buildProvider({ externalRefs: [REF] });
     const repo = makeRepo([a, b]);
     const queue = makeQueue();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      queue,
-    );
+    const strategy = new DatingPersistenceStrategy(repo, new ConsolidationService(), queue);
     const scraped = buildProvider({
       externalRefs: [REF],
-      photos: [{ id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 }],
+      photos: [
+        { id: '1', url: 'https://src.com/img.jpg', isPrimary: true, isVerified: false, order: 0 },
+      ],
     });
     const result = await strategy.persist(scraped, CTX);
 
@@ -124,11 +119,7 @@ describe('DatingPersistenceStrategy.persist', () => {
 
   it('handles scraped provider with no phone number', async () => {
     const repo = makeRepo([]);
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      makeQueue(),
-    );
+    const strategy = new DatingPersistenceStrategy(repo, new ConsolidationService(), makeQueue());
     const scraped = buildProvider({ phoneNumber: undefined });
     const result = await strategy.persist(scraped, CTX);
 
@@ -181,11 +172,7 @@ describe('DatingPersistenceStrategy.persist', () => {
   it('does not publish job if no photos are present', async () => {
     const repo = makeRepo([]);
     const queue = makeQueue();
-    const strategy = new DatingPersistenceStrategy(
-      repo,
-      new ConsolidationService(),
-      queue,
-    );
+    const strategy = new DatingPersistenceStrategy(repo, new ConsolidationService(), queue);
     const scraped = buildProvider({ photos: [] });
     const result = await strategy.persist(scraped, CTX);
 
