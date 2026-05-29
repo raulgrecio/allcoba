@@ -36,6 +36,9 @@ external/
 # Claude
 .claude/
 
+# Tesseract OCR language data cache
+*.traineddata
+
 # Graphify
 graphify-out/
 # graphify-out/manifest.json    # mtime-based, breaks after git clone

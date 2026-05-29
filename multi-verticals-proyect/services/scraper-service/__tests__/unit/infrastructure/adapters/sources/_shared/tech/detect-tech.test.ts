@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { detectTech } from '../../../../../../../src/infrastructure/adapters/sources/_shared/tech/detect-tech.js';
+import { detectTech } from '#infrastructure/adapters/sources/_shared/tech/detect-tech.js';
 
 describe('detectTech', () => {
   it('detects WordPress via /wp-content/', () => {

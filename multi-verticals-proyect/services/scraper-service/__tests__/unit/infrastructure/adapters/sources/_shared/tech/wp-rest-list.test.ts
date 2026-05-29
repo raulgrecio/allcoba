@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   wpRestLinks,
   wpRestList,
-} from '../../../../../../../src/infrastructure/adapters/sources/_shared/tech/wp-rest-list.js';
+} from '#infrastructure/adapters/sources/_shared/tech/wp-rest-list.js';
 
 const ITEMS = [
   { id: 1, link: 'https://chicasmalas.es/anuncios/ana/', title: { rendered: 'Ana' } },

@@ -4,7 +4,7 @@ import type { Vertical } from '@allcoba/shared-types';
 import { logger } from '@allcoba/kernel';
 import { asImageHash, asProviderId } from '@allcoba/shared-types';
 
-import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
+import type { ImagePipelinePort } from '#application/ports/image-pipeline.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { ScrapedImageRepositoryPort } from '#application/ports/scraped-image-repository.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
@@ -33,9 +33,9 @@ export class ProcessImagesUseCase {
 
   constructor(
     private readonly repo: ProviderRepositoryPort,
-    private readonly imageHasher: ImageHasherPort,
     private readonly storage: StoragePort,
     private readonly imageRepo: ScrapedImageRepositoryPort,
+    private readonly imagePipeline: ImagePipelinePort,
     config: ProcessImagesConfig = {},
   ) {
     this.cfg = { ...DEFAULT_CONFIG, ...config };
@@ -119,11 +119,18 @@ export class ProcessImagesUseCase {
 
           let buffer = Buffer.from((await response.arrayBuffer()) as ArrayBuffer) as Buffer;
 
-          // Apply image treatments (resizing, watermarking, filters, etc.)
-          buffer = await this.applyTreatments(buffer, { imgUrl, externalId });
+          const pipelineResult = await this.imagePipeline.process(buffer, imgUrl, source);
+          if (pipelineResult.status === 'rejected') {
+            this.log.warn(
+              { imgUrl, reason: pipelineResult.rejectReason },
+              'Image rejected by processing pipeline — skip and mark seen',
+            );
+            await this.imageRepo.markSeen(urlHash, imgUrl, externalId, vertical);
+            return null;
+          }
 
-          const rawHash = await this.imageHasher.generateHash(buffer);
-          const hash = asImageHash(rawHash);
+          buffer = pipelineResult.normalizedBuffer || buffer;
+          const hash = asImageHash(pipelineResult.hashes.phash || pipelineResult.hashes.sha256);
 
           const existing = await this.repo.find({ vertical, imageHash: hash });
           if (existing.length > 0) {
@@ -137,8 +144,8 @@ export class ProcessImagesUseCase {
           const slug = externalId.replace(/[^a-z0-9]/gi, '_');
           const storedUrl = await this.storage.upload(
             buffer,
-            `images/${source}/${slug}/${String(i).padStart(3, '0')}.jpg`,
-            'image/jpeg',
+            `images/${source}/${slug}/${String(i).padStart(3, '0')}.webp`,
+            'image/webp',
           );
 
           await this.imageRepo.markSeen(urlHash, imgUrl, externalId, vertical);
@@ -151,20 +158,5 @@ export class ProcessImagesUseCase {
     );
 
     return results.filter((r): r is ProfileImage => r !== null);
-  }
-
-  /**
-   * Applies any necessary image treatments (e.g. watermarking, cropping, filters, resizing).
-   * Currently returns the buffer unchanged, but is ready for future modifications.
-   */
-  private async applyTreatments(
-    buffer: Buffer,
-    _ctx: { imgUrl: string; externalId: string },
-  ): Promise<Buffer> {
-    this.log.debug({ imgUrl: _ctx.imgUrl }, 'Applying treatments to image');
-    // TODO: Add image treatments here (e.g., using sharp or another library)
-    // Example:
-    // const processed = await sharp(buffer).resize(800, 800).toBuffer();
-    return buffer;
   }
 }

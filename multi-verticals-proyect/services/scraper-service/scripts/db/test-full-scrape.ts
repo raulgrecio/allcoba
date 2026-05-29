@@ -1,6 +1,6 @@
 import { logger } from '@allcoba/kernel';
 
-import { createScraperServices } from '../../src/infrastructure/di/container.js';
+import { createScraperServices } from '#infrastructure/di/container.js';
 
 async function main() {
   const log = logger().child({ script: 'test-full-scrape' });

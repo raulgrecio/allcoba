@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseNextData } from '../../../../../../../src/infrastructure/adapters/sources/_shared/tech/parse-next-data.js';
+import { parseNextData } from '#infrastructure/adapters/sources/_shared/tech/parse-next-data.js';
 
 describe('parseNextData', () => {
   it('extracts __NEXT_DATA__ from Pages Router HTML', () => {

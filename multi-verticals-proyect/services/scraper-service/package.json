@@ -36,7 +36,6 @@
     "playwright-core": "^1.60.0",
     "postgres": "^3.4.9",
     "robots-parser": "^3.0.1",
-    "sharp": "^0.34.5",
     "zod": "^4.4.3"
   },
   "devDependencies": {

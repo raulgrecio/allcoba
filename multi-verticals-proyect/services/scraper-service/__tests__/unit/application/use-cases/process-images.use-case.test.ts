@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { asImageHash, asProviderId } from '@allcoba/shared-types';
 
-import type { ImageHasherPort } from '#application/ports/image-hasher.port.js';
+import type { ImagePipelinePort } from '#application/ports/image-pipeline.port.js';
 import type { ProviderRepositoryPort } from '#application/ports/repository.port.js';
 import type { ScrapedImageRepositoryPort } from '#application/ports/scraped-image-repository.port.js';
 import type { StoragePort } from '#application/ports/storage.port.js';
@@ -36,13 +36,43 @@ const makeRepo = (candidates: ReturnType<typeof buildProvider>[] = []): FakeRepo
     updateById: vi.fn().mockResolvedValue(undefined),
   }) as unknown as FakeRepo;
 
-type FakeImageHasher = ImageHasherPort & { generateHash: ReturnType<typeof vi.fn> };
+type FakeImagePipeline = ImagePipelinePort & { process: ReturnType<typeof vi.fn> };
 
-const makeImageHasher = (): FakeImageHasher =>
+const makeImagePipeline = (): FakeImagePipeline =>
   ({
-    generateHash: vi.fn().mockResolvedValue('abc123hash'),
-    calculateDistance: vi.fn().mockReturnValue(0),
-  }) as unknown as FakeImageHasher;
+    process: vi.fn().mockResolvedValue({
+      status: 'ok',
+      hashes: {
+        sha256: 'sha256hash',
+        phash: 'abc123hash',
+      },
+      metadata: {
+        format: 'webp',
+        width: 100,
+        height: 100,
+        size: 1000,
+      },
+      ocrText: '',
+      stegoText: '',
+      detected: {
+        phones: [],
+        emails: [],
+        urls: [],
+        brands: [],
+      },
+      flags: {
+        isNSFWCandidate: false,
+        hasSensitiveData: false,
+        hasText: false,
+      },
+      adapterAssessment: {
+        hasInjectedInfo: false,
+        injectedInfoTypes: [],
+        injectedInfoDetails: [],
+      },
+      normalizedBuffer: Buffer.from('normalized'),
+    }),
+  }) as unknown as FakeImagePipeline;
 
 type FakeStorage = StoragePort & {
   upload: ReturnType<typeof vi.fn>;
@@ -72,9 +102,9 @@ describe('ProcessImagesUseCase', () => {
     const repo = makeRepo();
     const useCase = new ProcessImagesUseCase(
       repo,
-      makeImageHasher(),
       makeStorage(),
       makeImageRepo(),
+      makeImagePipeline(),
     );
 
     await useCase.execute(PAYLOAD);
@@ -88,9 +118,9 @@ describe('ProcessImagesUseCase', () => {
     repo.findById.mockResolvedValue(provider);
     const useCase = new ProcessImagesUseCase(
       repo,
-      makeImageHasher(),
       makeStorage(),
       makeImageRepo(),
+      makeImagePipeline(),
     );
 
     await useCase.execute(PAYLOAD);
@@ -102,12 +132,7 @@ describe('ProcessImagesUseCase', () => {
     const repo = makeRepo();
     repo.findById.mockResolvedValue(provider);
     const storage = makeStorage();
-    const useCase = new ProcessImagesUseCase(
-      repo,
-      makeImageHasher(),
-      storage,
-      makeImageRepo(),
-    );
+    const useCase = new ProcessImagesUseCase(repo, storage, makeImageRepo(), makeImagePipeline());
 
     vi.stubGlobal(
       'fetch',
@@ -131,12 +156,7 @@ describe('ProcessImagesUseCase', () => {
     const storage = makeStorage();
     const imageRepo = makeImageRepo();
     imageRepo.hasUrl.mockResolvedValue(true);
-    const useCase = new ProcessImagesUseCase(
-      repo,
-      makeImageHasher(),
-      storage,
-      imageRepo,
-    );
+    const useCase = new ProcessImagesUseCase(repo, storage, imageRepo, makeImagePipeline());
 
     await useCase.execute(PAYLOAD);
 
@@ -162,12 +182,7 @@ describe('ProcessImagesUseCase', () => {
 
     const storage = makeStorage();
     const imageRepo = makeImageRepo();
-    const useCase = new ProcessImagesUseCase(
-      repo,
-      makeImageHasher(),
-      storage,
-      imageRepo,
-    );
+    const useCase = new ProcessImagesUseCase(repo, storage, imageRepo, makeImagePipeline());
 
     vi.stubGlobal(
       'fetch',
@@ -191,9 +206,9 @@ describe('ProcessImagesUseCase', () => {
     repo.findById.mockResolvedValue(provider);
     const useCase = new ProcessImagesUseCase(
       repo,
-      makeImageHasher(),
       makeStorage(),
       makeImageRepo(),
+      makeImagePipeline(),
     );
 
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network failure')));
@@ -210,9 +225,9 @@ describe('ProcessImagesUseCase', () => {
     repo.findById.mockResolvedValue(provider);
     const useCase = new ProcessImagesUseCase(
       repo,
-      makeImageHasher(),
       makeStorage(),
       makeImageRepo(),
+      makeImagePipeline(),
     );
 
     vi.stubGlobal(

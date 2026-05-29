@@ -1,0 +1,36 @@
+{
+  "name": "@allcoba/media-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "cli": "tsx src/index.ts",
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@allcoba/kernel": "workspace:*",
+    "@allcoba/shared-types": "workspace:*",
+    "fastify": "^5.2.1",
+    "pg-boss": "^12.18.2",
+    "pino": "^10.3.1",
+    "postgres": "^3.4.9",
+    "sharp": "^0.34.5",
+    "tesseract.js": "^7.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@vitest/coverage-v8": "^4.1.7",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
+  }
+}

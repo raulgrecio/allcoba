@@ -21,7 +21,7 @@ import { ConsolidationService } from '#domain/services/canonical/consolidation.s
 import { CapsolverAdapter } from '#infrastructure/adapters/captcha/capsolver.adapter.js';
 import { DrizzleTaxonomyResolver } from '#infrastructure/adapters/catalog/drizzle-taxonomy-resolver.js';
 import { NullTaxonomyResolver } from '#infrastructure/adapters/catalog/null-taxonomy-resolver.js';
-import { SharpHasherAdapter } from '#infrastructure/adapters/images/sharp-hasher.adapter.js';
+import { HttpMediaAdapter } from '#infrastructure/adapters/images/http-media.adapter.js';
 import { JsonFileProviderRepository } from '#infrastructure/adapters/persistence/json/json-file-provider.repository.js';
 import { JsonFileScrapedImageRepository } from '#infrastructure/adapters/persistence/json/json-file-scraped-image.repository.js';
 import { InMemoryScrapedEntityRepository } from '#infrastructure/adapters/persistence/memory/in-memory-scraped-entity.repository.js';
@@ -63,7 +63,6 @@ export async function createScraperServices(config: ScraperConfig) {
   await ensureDatabaseReady(repository);
 
   const consolidationService = new ConsolidationService();
-  const imageHasher = new SharpHasherAdapter();
   const storage = new LocalStorageAdapter();
 
   let imageRepo;
@@ -89,11 +88,13 @@ export async function createScraperServices(config: ScraperConfig) {
     queue = new InMemoryQueueAdapter();
   }
 
+  const imagePipeline = new HttpMediaAdapter();
+
   const processImagesUseCase = new ProcessImagesUseCase(
     repository,
-    imageHasher,
     storage,
     imageRepo,
+    imagePipeline,
     {
       maxImagesToProcess: config.maxImagesToProcess ?? 20,
     },
